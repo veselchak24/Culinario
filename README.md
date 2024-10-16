@@ -1,5 +1,9 @@
 <h1 align=center>Culinario</h1>
 
+<div align=center>
+  <img alt="Logo" src=https://github.com/user-attachments/assets/0f75a2ab-df9b-48b9-a722-f2021df5451b>
+</div>
+
 ## О проекте
 
 Culinario – мобильное приложение для помощи в приготовлении блюд, путём подбора рецептов по запросу пользователя
