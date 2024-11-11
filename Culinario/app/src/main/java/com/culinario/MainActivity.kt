@@ -11,12 +11,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.culinario.backend.LocalRecipeSaver
+import com.culinario.backend.RecipeSaver
+import com.culinario.mvp.models.Recipe
 import com.culinario.ui.theme.CulinarioTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val saver = RecipeSaver();
+        saver.SaveRecipe(Recipe("Pasta", 777, 123, 0), LocalRecipeSaver())
+
         setContent {
             CulinarioTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -32,8 +39,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+
     Text(
-        text = "Hello $name!",
+        text = "ass",
         modifier = modifier
     )
 }
