@@ -1,4 +1,4 @@
-package com.culinario
+package com.culinario.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
