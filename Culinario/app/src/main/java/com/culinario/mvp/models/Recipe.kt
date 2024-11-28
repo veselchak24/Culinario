@@ -1,11 +1,13 @@
 package com.culinario.mvp.models
 
-import com.culinario.backend.IOnDeserialize
-import com.culinario.backend.IOnSerialize
-import kotlinx.serialization.Serializable
+import com.culinario.backend.interfaces.IOnDeserialize
+import com.culinario.backend.interfaces.IOnSerialize
 
-@Serializable
-data class Recipe(var name: String, var likes: Int, var comments: Int, var eachOtherField: Int) : IOnSerialize, IOnDeserialize {
+/**
+ * Временный класс, который будет уничтожен
+ */
+data class Recipe(var name: String, var likes: Int, var comments: Int, var eachOtherField: Int) : IOnSerialize,
+    IOnDeserialize {
     override fun onSerialize() {
         println("Serialized >>> ${toString()}")
     }

@@ -1,10 +1,10 @@
 package com.culinario.backend
 
-import com.culinario.mvp.models.Recipe
+import android.content.Context
+import com.culinario.backend.interfaces.ISaver
 
 class CloudRecipeSaver : ISaver {
-
-    override fun save(dataToSave: Recipe) {
-        print("Placeholder of cloud saving :0")
+    override fun save(dataToSave: Any, context: Context): String {
+        throw NotImplementedError("This code is not implemented yet")
     }
 }
