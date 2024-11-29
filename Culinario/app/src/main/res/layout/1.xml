@@ -1,0 +1,18 @@
+<figma file="Culinario">
+<Page name="Page 1" imageid="0:1">
+  <Frame name="home(category)" imageid="93:2">
+    <TextNode>
+      <base>Десерты</base>
+      <string page="Page 1" frame="home(category)" nodeid="129:5" transform="1,0,355.51397705078125,0,1,-255"><font val="Comfortaa:Bold"/>Десерты</string>
+    </TextNode>
+    <TextNode>
+      <base>Супы и борщи</base>
+      <string page="Page 1" frame="home(category)" nodeid="93:13" transform="1,0,348.44158935546875,0,1,-419"><font val="Comfortaa:Bold"/>Супы и борщи</string>
+    </TextNode>
+    <TextNode>
+      <base>culinario</base>
+      <string page="Page 1" frame="home(category)" nodeid="93:5" transform="1,0,238,0,1,-517"><font val="Meddon:Regular"/>culinario</string>
+    </TextNode>
+  </Frame>
+</Page>
+</figma>
