@@ -5,6 +5,7 @@ import com.culinario.backend.interfaces.ILoader
 import com.culinario.backend.interfaces.ISaver
 import com.culinario.mvp.models.Recipe
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 /**
  *Класс локального сохранения рецепта
@@ -14,7 +15,10 @@ class LocalRecipeSaverLoader : ISaver, ILoader {
     val fileName = "test.json"
 
     override fun save(dataToSave: Any, context: Context): String {
-        val jsonData = Gson().toJson(dataToSave)
+        val gson = GsonBuilder().setPrettyPrinting().create();
+
+        val jsonData = gson.toJson(dataToSave)
+        println(jsonData)
 
         saveDataToFile(jsonData, fileName, context)
 
