@@ -1,0 +1,14 @@
+<figma file="Culinario">
+    <TextNode>
+      <base>Десерты</base>
+      <string page="undefined" frame="home(category)" nodeid="129:5" transform="1,0,355.51397705078125,0,1,-255">Десерты</string>
+    </TextNode>
+    <TextNode>
+      <base>Супы и борщи</base>
+      <string page="undefined" frame="home(category)" nodeid="93:13" transform="1,0,348.44158935546875,0,1,-419">Супы и борщи</string>
+    </TextNode>
+    <TextNode>
+      <base>culinario</base>
+      <string page="undefined" frame="home(category)" nodeid="93:5" transform="1,0,238,0,1,-517">culinario</string>
+    </TextNode>
+</figma>
