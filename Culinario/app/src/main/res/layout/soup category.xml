@@ -1,0 +1,30 @@
+<figma file="Culinario">
+    <TextNode>
+      <base>Виктория</base>
+      <string page="undefined" frame="soup category" nodeid="99:96" transform="1,0,607,0,1,-18">Виктория</string>
+    </TextNode>
+    <TextNode>
+      <base>Постный борщ со свеклой</base>
+      <string page="undefined" frame="soup category" nodeid="99:97" transform="1,0,607,0,1,-50">Постный борщ со свеклой</string>
+    </TextNode>
+    <TextNode>
+      <base>User1234</base>
+      <string page="undefined" frame="soup category" nodeid="99:112" transform="1,0,795,0,1,-251">User1234</string>
+    </TextNode>
+    <TextNode>
+      <base>Сырный суп</base>
+      <string page="undefined" frame="soup category" nodeid="99:113" transform="1,0,795,0,1,-280">Сырный суп</string>
+    </TextNode>
+    <TextNode>
+      <base>Анастасия</base>
+      <string page="undefined" frame="soup category" nodeid="99:117" transform="1,0,608,0,1,-251">Анастасия</string>
+    </TextNode>
+    <TextNode>
+      <base>Суп-лапша с курицей</base>
+      <string page="undefined" frame="soup category" nodeid="99:118" transform="1,0,608,0,1,-279">Суп-лапша с курицей</string>
+    </TextNode>
+    <TextNode>
+      <base>culinario</base>
+      <string page="undefined" frame="soup category" nodeid="99:56" transform="1,0,671,0,1,-517">culinario</string>
+    </TextNode>
+</figma>

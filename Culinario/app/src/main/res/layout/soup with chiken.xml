@@ -1,0 +1,78 @@
+<figma file="Culinario">
+<Page name="Page 1" imageid="0:1">
+  <Frame name="soup with chiken" imageid="117:61">
+    <TextNode>
+      <base>Суп-лапша с курицей</base>
+      <string page="Page 1" frame="soup with chiken" nodeid="117:91" transform="1,0,1042,0,1,-181">Суп-лапша с курицей</string>
+    </TextNode>
+    <TextNode>
+      <base>Время приготовления: 30 мин</base>
+      <string page="Page 1" frame="soup with chiken" nodeid="117:94" transform="1,0,1042,0,1,-88">Время приготовления: 30 мин</string>
+    </TextNode>
+    <TextNode>
+      <base>Кол-во порций: 2</base>
+      <string page="Page 1" frame="soup with chiken" nodeid="117:100" transform="1,0,1042,0,1,-63">Кол-во порций: 2</string>
+    </TextNode>
+    <TextNode>
+      <base>Яичная лапша  100 г<br id="n"/>Репчатый лук  1 штука<br id="n"/>Морковь 1 штука<br id="n"/>Куриное яйцо 2 штуки<br id="n"/>Лавровый лист 3 штуки<br id="n"/>Черный перец горошком по вкусу<br id="n"/>Петрушка по вкусу<br id="n"/>Зеленый лук по вкусу<br id="n"/>Растительное масло 2 столовые ложки<br id="n"/>Курица 1⅕ штуки</base>
+      <string page="Page 1" frame="soup with chiken" nodeid="117:107" transform="1,0,1043,0,1,-4">Яичная лапша  100 г<br id="n"/>Репчатый лук  1 штука<br id="n"/>Морковь 1 штука<br id="n"/>Куриное яйцо 2 штуки<br id="n"/>Лавровый лист 3 штуки<br id="n"/>Черный перец горошком по вкусу<br id="n"/>Петрушка по вкусу<br id="n"/>Зеленый лук по вкусу<br id="n"/>Растительное масло 2 столовые ложки<br id="n"/>Курица 1⅕ штуки</string>
+    </TextNode>
+    <TextNode>
+      <base>Сложность блюда: 3/10</base>
+      <string page="Page 1" frame="soup with chiken" nodeid="117:106" transform="1,0,1042,0,1,-38">Сложность блюда: 3/10</string>
+    </TextNode>
+    <TextNode>
+      <base>Половину курицы помыть, разрезать на две части и положить в глубокую кастрюлю.<br id="n"/>В кастрюлю с курицей налить два литра холодной воды и варить на медленном огне 1,5 часа.<br id="n"/>За час до готовности добавить соль, лавровый лист и перец горошком.<br id="n"/>Пока варится бульон, мелко нарезать репчатый лук, натереть на крупной терке морковь и обжарить с растительным маслом на среднем <br id="n"/>Яйцо отварить.<br id="n"/>Готовую курицу достать из кастрюли и разделить на кусочки.<br id="n"/>В бульон добавить обжаренный лук и морковь.<br id="n"/>Затем добавить лапшу и варить еще пять минут.<br id="n"/>Готовый суп разлить по тарелкам, положить несколько кусочков курицы, сверху половину яйца, украсить листьями петрушки и зеленым луком.</base>
+      <string page="Page 1" frame="soup with chiken" nodeid="117:108" transform="1,0,1042,0,1,189">Половину курицы помыть, разрезать на две части и положить в глубокую кастрюлю.<br id="n"/>В кастрюлю с курицей налить два литра холодной воды и варить на медленном огне 1,5 часа.<br id="n"/>За час до готовности добавить соль, лавровый лист и перец горошком.<br id="n"/>Пока варится бульон, мелко нарезать репчатый лук, натереть на крупной терке морковь и обжарить с растительным маслом на среднем <br id="n"/>Яйцо отварить.<br id="n"/>Готовую курицу достать из кастрюли и разделить на кусочки.<br id="n"/>В бульон добавить обжаренный лук и морковь.<br id="n"/>Затем добавить лапшу и варить еще пять минут.<br id="n"/>Готовый суп разлить по тарелкам, положить несколько кусочков курицы, сверху половину яйца, украсить листьями петрушки и зеленым луком.</string>
+    </TextNode>
+    <TextNode>
+      <base>Анастасия</base>
+      <string page="Page 1" frame="soup with chiken" nodeid="117:92" transform="1,0,1042,0,1,-125">Анастасия</string>
+    </TextNode>
+  </Frame>
+  <Frame name="soup category" imageid="99:53">
+    <TextNode>
+      <base>Виктория</base>
+      <string page="Page 1" frame="soup category" nodeid="99:96" transform="1,0,607,0,1,-18">Виктория</string>
+    </TextNode>
+    <TextNode>
+      <base>Постный борщ со свеклой</base>
+      <string page="Page 1" frame="soup category" nodeid="99:97" transform="1,0,607,0,1,-50">Постный борщ со свеклой</string>
+    </TextNode>
+    <TextNode>
+      <base>User1234</base>
+      <string page="Page 1" frame="soup category" nodeid="99:112" transform="1,0,795,0,1,-251">User1234</string>
+    </TextNode>
+    <TextNode>
+      <base>Сырный суп</base>
+      <string page="Page 1" frame="soup category" nodeid="99:113" transform="1,0,795,0,1,-280">Сырный суп</string>
+    </TextNode>
+    <TextNode>
+      <base>Анастасия</base>
+      <string page="Page 1" frame="soup category" nodeid="99:117" transform="1,0,608,0,1,-251">Анастасия</string>
+    </TextNode>
+    <TextNode>
+      <base>Суп-лапша с курицей</base>
+      <string page="Page 1" frame="soup category" nodeid="99:118" transform="1,0,608,0,1,-279">Суп-лапша с курицей</string>
+    </TextNode>
+    <TextNode>
+      <base>culinario</base>
+      <string page="Page 1" frame="soup category" nodeid="99:56" transform="1,0,671,0,1,-517">culinario</string>
+    </TextNode>
+  </Frame>
+  <Frame name="home(category)" imageid="93:2">
+    <TextNode>
+      <base>Десерты</base>
+      <string page="Page 1" frame="home(category)" nodeid="129:5" transform="1,0,355.51397705078125,0,1,-255">Десерты</string>
+    </TextNode>
+    <TextNode>
+      <base>Супы и борщи</base>
+      <string page="Page 1" frame="home(category)" nodeid="93:13" transform="1,0,348.44158935546875,0,1,-419">Супы и борщи</string>
+    </TextNode>
+    <TextNode>
+      <base>culinario</base>
+      <string page="Page 1" frame="home(category)" nodeid="93:5" transform="1,0,238,0,1,-517">culinario</string>
+    </TextNode>
+  </Frame>
+</Page>
+</figma>
