@@ -13,6 +13,7 @@ import com.culinario.backend.interfaces.IOnSerialize
  * @param[ingredients] список ингредиентов.
  * @param[steps] step-by-step приготовление.
  * @param[recipeType] тип рецепта.
+ * @param[difficulty] сложность рецепта.
  * @param[otherCharacteristics] другие свойства рецепта.
  */
 class Recipe (
@@ -24,6 +25,7 @@ class Recipe (
     val cookingSpeed: Int, // Скорость приготовления в минутах
     val steps: List<String>,
     val recipeType: RecipeType,
+    val difficulty: Difficulty,
     var otherCharacteristics: Map<String, Any> = emptyMap()
 ) : IOnSerialize, IOnDeserialize {
 

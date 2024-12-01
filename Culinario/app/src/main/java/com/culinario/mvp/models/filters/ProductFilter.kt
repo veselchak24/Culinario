@@ -13,13 +13,15 @@ class ProductFilter(private val ingredients: List<String>, private val matchAll:
     override fun apply(recipes: List<Recipe>): List<Recipe> {
         require(recipes.isNotEmpty()) { "Recipe list cannot be empty." }
 
-        return recipes.filter { recipe ->
-            val recipeIngredients = recipe.ingredients
-            if (matchAll) {
-                ingredients.all { ingredient -> recipeIngredients.contains(ingredient) }
-            } else {
-                ingredients.any { ingredient -> recipeIngredients.contains(ingredient) }
-            }
-        }
+        throw NotImplementedError("")
+
+//        return recipes.filter { recipe ->
+//            val recipeIngredients = recipe.ingredients
+//            if (matchAll) {
+//                ingredients.all { ingredient -> recipeIngredients.contains(ingredient) }
+//            } else {
+//                ingredients.any { ingredient -> recipeIngredients.contains(ingredient) }
+//            }
+//        }
     }
 }
