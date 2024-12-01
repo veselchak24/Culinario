@@ -21,6 +21,7 @@ class Recipe (
     val imageUrl: String,
     val author: Author,
     val ingredients: List<Ingredient>,
+    val cookingSpeed: Int, // Скорость приготовления в минутах
     val steps: List<String>,
     val recipeType: RecipeType,
     var otherCharacteristics: Map<String, Any> = emptyMap()

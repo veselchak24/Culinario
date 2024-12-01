@@ -16,6 +16,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/backend/LocalRecipeSaverLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/backend/LocalRecipeSaverLoader.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/resipe.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/maiIn/java/com/culinario/mvp/models/filters/CookingTimeFilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/filters/CookingTimeFilter.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,11 +32,24 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -93,7 +107,7 @@
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.language.Kotlin.scripting"
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="P:\Project PD 2 course\Culinario\Culinario\app\src\main\java\com\culinario\mvp\views" />
