@@ -32,7 +32,12 @@ class MainActivity : ComponentActivity() {
                             MainPage(modifier = Modifier.padding(innerPadding), navController)
                         }
                         composable("RecipePage") {
-                            RecipePage(LocalRecipeSaverLoader().load("test.json", context) as Recipe, Modifier.padding(innerPadding))
+                            RecipePage(
+                                LocalRecipeSaverLoader().load(
+                                    "test.json",
+                                    context
+                                ) as Recipe, Modifier.padding(innerPadding)
+                            )
                         }
                     }
                 }
@@ -40,4 +45,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
