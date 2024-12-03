@@ -32,7 +32,6 @@ import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
-import com.google.gson.Gson
 
 @Composable
 fun MainPage(modifier: Modifier = Modifier, navController: NavController) {
