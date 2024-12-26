@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,8 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -60,20 +58,36 @@ fun RecipePage(recipe: Recipe, modifier: Modifier = Modifier) {
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetTonalElevation = 10.dp,
+        sheetDragHandle = {
+            Box (Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(MaterialTheme.colorScheme.background)
+            ) {
+                Box(Modifier
+                    .width(30.dp)
+                    .height(4.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(MaterialTheme.colorScheme.primary)
+                    .align(Alignment.Center)
+                ) { }
+            }
+        },
         sheetPeekHeight = screenHeight / 2 + 150.dp,
 
         sheetContent = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .clipToBounds(),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Column (
                     Modifier
                         .background(MaterialTheme.colorScheme.background)
                         .fillMaxWidth()
-                        .padding(start = 30.dp, top = 30.dp, end = 30.dp, bottom = 30.dp),
+                        .padding(start = 30.dp, top = 10.dp, end = 30.dp, bottom = 30.dp),
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     Text(

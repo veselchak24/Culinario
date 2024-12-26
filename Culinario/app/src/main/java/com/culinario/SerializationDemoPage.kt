@@ -124,6 +124,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavController) {
                 cookingSpeed = 100,
                 difficulty = Difficulty.MEDIUM
             )
+
             RecipeSaverLoader().saveRecipe(recipe, LocalRecipeSaverLoader(), context)
         }) {
             Text(text = "Save data")
