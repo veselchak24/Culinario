@@ -1,4 +1,4 @@
-package com.culinario
+package com.culinario.pages
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.culinario.R
 import com.culinario.mvp.models.Recipe
 
 @OptIn(ExperimentalMaterial3Api::class)

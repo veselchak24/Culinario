@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="Default">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-12-03T17:13:32.882592500Z">
+        <DropdownSelection timestamp="2025-01-06T22:44:04.228651700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\delhi\.android\avd\Pixel_Fold_API_35.avd" />
@@ -12,6 +12,9 @@
           </Target>
         </DropdownSelection>
         <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="RecipeCard">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>
