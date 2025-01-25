@@ -34,16 +34,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignUpPage(
+fun signUpPage(
     modifier: Modifier,
     coroutineScope: CoroutineScope,
     pagerState: PagerState,
-    signInPageIndex: Int = 0,
-    mainScreen: @Composable () -> Unit
-) {
-    var goToMainScreen by remember { mutableStateOf(false) }
+    signInPageIndex: Int = 0
+): Boolean {
+    var loginSuccess by remember { mutableStateOf(false) }
 
-    val birthDay by remember { mutableDoubleStateOf(0.0)  }
+    val birthDay by remember { mutableDoubleStateOf(0.0) }
 
     var nicknameText by remember { mutableStateOf("") }
     var emailText by remember { mutableStateOf("") }
@@ -52,12 +51,12 @@ fun SignUpPage(
 
     val context = LocalContext.current
 
-    if (goToMainScreen)
-        mainScreen()
+//    if (loginSuccess)
+//        return true
 
     Scaffold (
         modifier = modifier
-    ){ innerPadding ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -144,9 +143,8 @@ fun SignUpPage(
                         // TODO: создание объекта пользователя
                         context.openFileOutput(PROFILE_JSON_FILE_NAME, Context.MODE_PRIVATE).use {
                             it.write(0)
-                            goToMainScreen = true
+                            loginSuccess = true
                         }
-
                     }
                 ) {
                     Text("Sign Up")
@@ -188,4 +186,6 @@ fun SignUpPage(
             }
         }
     }
+
+    return loginSuccess
 }
