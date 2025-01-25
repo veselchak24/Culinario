@@ -4,16 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import com.culinario.screens.LoginScreen
@@ -81,17 +76,5 @@ class MainActivity : ComponentActivity() {
         }
 
         return navController
-    }
-
-    @Composable
-    fun GayFunc(onClick: () -> Unit) {
-        Column {
-            Text("Gay func")
-            Button(
-                onClick = onClick
-            ) {
-                Text("Press to go to home page")
-            }
-        }
     }
 }
