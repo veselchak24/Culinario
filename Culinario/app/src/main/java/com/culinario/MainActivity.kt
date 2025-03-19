@@ -20,7 +20,7 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 @Serializable
-data class GAY(val name: String, val age:Int)
+data class Test(val name: String, val age:Int)
 
 @Serializable
 object SignIn
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        println(Json.encodeToString<GAY>(GAY("NIKITKA", 21)))
+        println(Json.encodeToString<Test>(Test("TEST", 21)))
 
         setContent {
             CulinarioTheme {
