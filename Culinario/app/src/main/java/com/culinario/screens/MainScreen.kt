@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,17 +18,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.culinario.R
-import com.culinario.backend.LocalRecipeSaverLoader
-import com.culinario.backend.LocalRecipesHandler
-import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.RecipeRepositoryImpl
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
+import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 
 @Composable
@@ -39,7 +34,8 @@ fun MainScreen() {
     val navItems = arrayOf(
         NavItem("Home", Icons.Default.Home),
         NavItem("Saved", Icons.Default.Favorite),
-        NavItem("Account", Icons.Default.AccountCircle)
+        NavItem("Account", Icons.Default.AccountCircle),
+        NavItem("Recipe", Icons.Default.Info)
     )
 
     Scaffold(
@@ -64,25 +60,6 @@ fun MainScreen() {
             }
         }
     ) { innerPadding ->
-
-        val navController = rememberNavController()
-        val context = LocalContext.current
-
-        NavHost(navController = navController, startDestination = "Main") {
-            composable("Main") {
-                SerializationDemoPage(modifier = Modifier.padding(innerPadding), navController)
-            }
-            composable("RecipePage") {
-                RecipePage(
-                    LocalRecipeSaverLoader(R.string.json_save_file_name.toString()).load(
-                        "",
-                        context
-                    ) as Recipe,
-                    Modifier.padding(innerPadding)
-                )
-            }
-        }
-
         ContentScreen(Modifier.padding(innerPadding), selectedIndex)
     }
 }
@@ -92,18 +69,10 @@ fun ContentScreen(
     modifier: Modifier,
     selectedPageIndex: Int
 ) {
-    LocalRecipesHandler.UpdateLocalRecipes(LocalContext.current)
-
-    LocalRecipesHandler.GetLocalRecipes(LocalContext.current).forEach {
-            item -> println(item.cookingSpeed)
-    }
-
     when (selectedPageIndex) {
         0 -> SerializationDemoPage(modifier)
         1 -> FavoriteRecipesPage()
-        2 -> RecipePage(
-            LocalRecipesHandler.GetLocalRecipes(LocalContext.current).first(),
-            modifier
-        )
+        2 -> UserPage(modifier)
+        3 -> RecipePage(RecipeRepositoryImpl().getAllRecipes().first())
     }
 }

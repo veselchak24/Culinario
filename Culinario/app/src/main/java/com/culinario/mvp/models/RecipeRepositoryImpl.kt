@@ -1,7 +1,6 @@
 package com.culinario.mvp.models
 
 class RecipeRepositoryImpl : RecipeRepository {
-
     // Статический список рецептов для имитации базы данных
     private val recipes = listOf(
         Recipe(

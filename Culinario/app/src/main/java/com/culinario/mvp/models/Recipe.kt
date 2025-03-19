@@ -2,8 +2,6 @@ package com.culinario.mvp.models
 
 import com.culinario.backend.interfaces.IOnDeserialize
 import com.culinario.backend.interfaces.IOnSerialize
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
 
 /**
  * Модель данных рецепта.
@@ -18,7 +16,6 @@ import kotlinx.serialization.Serializable
  * @param[difficulty] сложность рецепта.
  * @param[otherCharacteristics] другие свойства рецепта.
  */
-
 class Recipe (
     val name: String,
     val description: String,

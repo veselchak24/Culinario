@@ -31,8 +31,6 @@ import com.culinario.controls.RecipeCard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteRecipesPage() {
-    LocalRecipesHandler.UpdateLocalRecipes(LocalContext.current)
-
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold (
@@ -54,7 +52,6 @@ fun FavoriteRecipesPage() {
             )
         }
     ) { innerPadding ->
-
         if (LocalRecipesHandler.GetLocalRecipesCount() > 0) {
             GridOfFavorite(Modifier.padding(innerPadding))
         }
