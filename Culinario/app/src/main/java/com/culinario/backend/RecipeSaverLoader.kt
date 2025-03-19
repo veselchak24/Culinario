@@ -15,7 +15,7 @@ class RecipeSaverLoader {
      * @param [context] Используется для передачи контекста, который позволяет взаимодействовать
      * с системой.
      **/
-    fun saveRecipe(recipe: Recipe, saver: ISaver, context: Context) {
+    fun saveRecipes(recipe: Recipe, saver: ISaver, context: Context) {
         saver.save(recipe, context)
         recipe.onSerialize()
     }
@@ -27,7 +27,7 @@ class RecipeSaverLoader {
      * @param [loader] объект, исполняющий выгрузку Json строки в объект.
      * @param [context] Используется для передачи контекста, который позволяет взаимодействовать с системой.
      */
-    fun loadRecipe(filePath: String, loader: ILoader, context: Context): Recipe {
+    fun loadRecipes(filePath: String, loader: ILoader, context: Context): Recipe {
         val recipe: Recipe = loader.load(filePath, context) as Recipe
         recipe.onDeserialize()
 
