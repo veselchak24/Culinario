@@ -15,12 +15,7 @@ import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.File
-
-@Serializable
-data class Test(val name: String, val age:Int)
 
 @Serializable
 object SignIn
@@ -32,8 +27,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        println(Json.encodeToString<Test>(Test("TEST", 21)))
 
         setContent {
             CulinarioTheme {

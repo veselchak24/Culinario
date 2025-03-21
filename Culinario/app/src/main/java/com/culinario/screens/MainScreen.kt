@@ -1,8 +1,8 @@
 package com.culinario.screens
 
+import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -27,18 +27,20 @@ import com.culinario.ui.other.NavItem
 
 @Composable
 fun MainScreen() {
+    //UserPage(Modifier)
+
     var selectedIndex by remember {
         mutableIntStateOf(0)
     }
 
-    val navItems = arrayOf(
+    val navItems = arrayOf (
         NavItem("Home", Icons.Default.Home),
         NavItem("Saved", Icons.Default.Favorite),
         NavItem("Account", Icons.Default.AccountCircle),
         NavItem("Recipe", Icons.Default.Info)
     )
 
-    Scaffold(
+    Scaffold (
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             NavigationBar {
@@ -63,6 +65,8 @@ fun MainScreen() {
         ContentScreen(Modifier.padding(innerPadding), selectedIndex)
     }
 }
+
+
 
 @Composable
 fun ContentScreen(
