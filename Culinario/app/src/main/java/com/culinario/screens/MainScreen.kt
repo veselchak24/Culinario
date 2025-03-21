@@ -10,7 +10,7 @@ import com.culinario.pages.UserPage
 
 @Composable
 fun MainScreen() {
-    UserPage()
+    FavoriteRecipesPage()
 }
 
 @Composable
