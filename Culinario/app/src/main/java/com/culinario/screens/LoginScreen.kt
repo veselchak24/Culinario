@@ -1,6 +1,6 @@
 package com.culinario.screens
 
-import com.culinario.pages.signInPage
+import com.culinario.pages.SignInPage
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,7 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.culinario.pages.signUpPage
+import com.culinario.pages.SignUpPage
 
 @Composable
 fun LoginScreen(onLogin: () -> Unit) {
@@ -54,7 +54,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                     when (page) {
                         5 -> {
                             if (
-                                signInPage(
+                                SignInPage(
                                     modifier = Modifier
                                         .padding(innerPadding)
                                 )
@@ -65,7 +65,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                         }
                         6 -> {
                             if (
-                                signUpPage (
+                                SignUpPage (
                                     Modifier
                                         .padding(innerPadding),
                                     coroutineScope,

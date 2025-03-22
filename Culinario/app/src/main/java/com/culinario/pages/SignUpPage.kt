@@ -1,5 +1,6 @@
 package com.culinario.pages
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,8 +34,9 @@ import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@SuppressLint("ComposableNaming")
 @Composable
-fun signUpPage(
+fun SignUpPage(
     modifier: Modifier,
     coroutineScope: CoroutineScope,
     pagerState: PagerState,

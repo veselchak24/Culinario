@@ -1,5 +1,6 @@
 package com.culinario.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
@@ -13,10 +14,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+@SuppressLint("ComposableNaming")
 @Composable
-fun signInPage(
-    modifier: Modifier
-) : Boolean {
+fun SignInPage(modifier: Modifier) : Boolean {
     var isSignIn by remember { mutableStateOf(false) }
 
     Column(

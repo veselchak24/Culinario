@@ -1,11 +1,9 @@
 package com.culinario.pages
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
@@ -38,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -141,7 +137,7 @@ fun RecipePage(recipe: Recipe, modifier: Modifier = Modifier) {
                         Text(text = "Тип блюда: ${recipe.recipeType}")
                     }
 
-                    MyCarousel(Modifier)
+                    ImageCarousel(Modifier)
 
                     Card(
                         colors = CardDefaults.cardColors(
@@ -249,7 +245,7 @@ fun IconAndText(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyCarousel(modifier: Modifier) {
+fun ImageCarousel(modifier: Modifier) {
     val carouselState = rememberCarouselState { 3 }
 
     Box(

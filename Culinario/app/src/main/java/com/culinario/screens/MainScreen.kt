@@ -1,10 +1,9 @@
 package com.culinario.screens
 
-import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -21,17 +20,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.culinario.mvp.models.RecipeRepositoryImpl
 import com.culinario.pages.FavoriteRecipesPage
-import com.culinario.pages.Test
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
-import com.culinario.pages.TestComposable
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 
 @Composable
 fun MainScreen() {
-    //UserPage(Modifier)
-
     var selectedIndex by remember {
         mutableIntStateOf(0)
     }
@@ -40,8 +35,7 @@ fun MainScreen() {
         NavItem("Home", Icons.Default.Home),
         NavItem("Saved", Icons.Default.Favorite),
         NavItem("Account", Icons.Default.AccountCircle),
-        NavItem("Recipe", Icons.Default.Info),
-        NavItem("Test", Icons.Default.Build)
+        NavItem("Recipe", Icons.Default.Info)
     )
 
     Scaffold (
@@ -83,10 +77,9 @@ fun ContentScreen(
         2 -> UserPage (
             modifier = modifier,
             composable = Array<@Composable () -> Unit>(2) {
-                @Composable { Test() }
+                @Composable {  }
             }
         )
         3 -> RecipePage(RecipeRepositoryImpl().getAllRecipes().first())
-        4 -> TestComposable()
     }
 }
