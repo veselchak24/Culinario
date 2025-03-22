@@ -21,16 +21,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.culinario.R
 import com.culinario.backend.LocalRecipesHandler
 import com.culinario.controls.RecipeCard
+import com.culinario.mvp.models.Recipe
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteRecipesPage() {
+fun FavoriteRecipesPage(recipes: Array<Recipe>) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold (
@@ -52,8 +52,8 @@ fun FavoriteRecipesPage() {
             )
         }
     ) { innerPadding ->
-        if (LocalRecipesHandler.GetLocalRecipesCount() > 0) {
-            GridOfFavorite(Modifier.padding(innerPadding))
+        if (recipes.isNotEmpty()) {
+            GridOfFavorite(recipes, Modifier.padding(innerPadding))
         }
         else {
             EmptyPage()
@@ -89,7 +89,7 @@ fun EmptyPage() {
 }
 
 @Composable
-fun GridOfFavorite(modifier: Modifier) {
+fun GridOfFavorite(recipes: Array<Recipe>, modifier: Modifier) {
     LazyVerticalGrid (
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
@@ -97,9 +97,9 @@ fun GridOfFavorite(modifier: Modifier) {
             .padding(bottom = 75.dp),
         contentPadding = PaddingValues(10.dp)
     ) {
-        items(LocalRecipesHandler.GetLocalRecipesCount()) {
-            LocalRecipesHandler.GetLocalRecipes(LocalContext.current).forEach {
-                    item -> RecipeCard(item, Modifier.padding(5.dp))
+        items (recipes.count()) {
+            recipes.forEach { recipe ->
+                RecipeCard(recipe, Modifier.padding(5.dp))
             }
         }
     }

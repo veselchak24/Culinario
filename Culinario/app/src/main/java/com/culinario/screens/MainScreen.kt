@@ -24,7 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.culinario.controls.RecipeCard
-import com.culinario.mvp.models.RecipeRepositoryImpl
+import com.culinario.mvp.models.RecipeRepository
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
@@ -32,7 +32,7 @@ import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 
 @Composable
-fun MainScreen() {
+fun MainScreen(repository: RecipeRepository) {
     var selectedIndex by remember {
         mutableIntStateOf(0)
     }
@@ -66,7 +66,11 @@ fun MainScreen() {
             }
         }
     ) { innerPadding ->
-        ContentScreen(Modifier.padding(innerPadding), selectedIndex)
+        ContentScreen(
+            modifier = Modifier.padding(innerPadding),
+            selectedPageIndex = selectedIndex,
+            repository = repository
+        )
     }
 }
 
@@ -75,26 +79,27 @@ fun MainScreen() {
 @Composable
 fun ContentScreen(
     modifier: Modifier,
-    selectedPageIndex: Int
+    selectedPageIndex: Int,
+    repository: RecipeRepository
 ) {
-    val firstRecipe = RecipeRepositoryImpl().getAllRecipes().first()
+    val recipes = repository.getAllRecipes()
 
     when (selectedPageIndex) {
         0 -> SerializationDemoPage(modifier)
-        1 -> FavoriteRecipesPage()
+        1 -> FavoriteRecipesPage(recipes.toTypedArray())
         2 -> UserPage (
             modifier = modifier,
             composable = Array<@Composable () -> Unit>(1) {
                 @Composable {
                     Column {
                         repeat(3) {
-                            RecipeCard(firstRecipe, Modifier.fillMaxWidth())
+                            RecipeCard(recipes.first(), Modifier.fillMaxWidth())
                             Spacer(Modifier.height(10.dp))
                         }
                     }
                 }
             }
         )
-        3 -> RecipePage(RecipeRepositoryImpl().getAllRecipes().first())
+        3 -> RecipePage(recipes.first())
     }
 }
