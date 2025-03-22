@@ -8,6 +8,7 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -58,54 +59,15 @@ fun UserPage(modifier: Modifier = Modifier, composable: Array<@Composable () -> 
                 .verticalScroll (scrollState)
         ) {
             UserHeader()
-
             Spacer(Modifier.height(25.dp))
 
             UserAbout()
-
             Spacer(Modifier.height(65.dp))
 
-            Column (
-                modifier = Modifier
-                    .padding(start = 50.dp, end = 50.dp)
-                    .fillMaxWidth()
-                    .weight(.5f)
-            ) {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Stat (
-                        header = "Лайки",
-                        value = "123"
-                    )
-                    Stat (
-                        header = "Рецепты",
-                        value = "6"
-                    )
-                    Stat (
-                        header = "Просмотры",
-                        value = "9k"
-                    )
-                }
-            }
+            UserStats()
+            Spacer(Modifier.height(75.dp))
 
-            Column (
-                Modifier
-                    .padding(start = 35.dp, top = 35.dp, end = 35.dp)
-                    .padding(top = 40.dp)
-            ) {
-                composable.forEach { composable ->
-                    composable()
-                }
-            }
-
-            Text (
-                text = "Activity",
-                fontWeight = FontWeight(700),
-                fontSize = 18.sp,
-                modifier = Modifier
-                    .padding(start = 35.dp, end = 35.dp)
-            )
+            UserActivity(composable)
         }
     }
 }
@@ -212,10 +174,7 @@ fun UserAbout() {
             containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
-        Box (
-            modifier = Modifier
-                .padding(top = 75.dp)
-        ){
+        Column {
             Text (
                 text = stringResource(R.string.placeholder_nickname),
                 fontWeight = FontWeight(900),
@@ -237,6 +196,53 @@ fun UserAbout() {
             ) {
                 Text("Подписаться")
             }
+        }
+    }
+}
+
+@Composable
+private fun ColumnScope.UserStats() {
+    Column(
+        modifier = Modifier
+            .padding(start = 50.dp, end = 50.dp)
+            .fillMaxWidth()
+            .weight(.5f)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Stat(
+                header = "Лайки",
+                value = "123"
+            )
+            Stat(
+                header = "Рецепты",
+                value = "6"
+            )
+            Stat(
+                header = "Просмотры",
+                value = "9k"
+            )
+        }
+    }
+}
+
+@Composable
+private fun UserActivity(composable: Array<@Composable () -> Unit>) {
+    Text(
+        text = "Activity",
+        fontWeight = FontWeight(700),
+        fontSize = 18.sp,
+        modifier = Modifier
+            .padding(start = 35.dp, end = 35.dp)
+    )
+
+    Column(
+        Modifier
+            .padding(start = 35.dp, top = 35.dp, end = 35.dp)
+    ) {
+        composable.forEach { composable ->
+            composable()
         }
     }
 }
