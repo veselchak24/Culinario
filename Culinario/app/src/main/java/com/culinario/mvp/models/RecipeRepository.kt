@@ -1,5 +1,7 @@
 package com.culinario.mvp.models
-// Интерфейс RecipeRepository определяет методы для работы с рецептами.
+/**
+*Интерфейс RecipeRepository определяет методы для работы с рецептами.
+**/
 interface RecipeRepository {
     // Получает список всех рецептов.
     fun getAllRecipes(): List<Recipe>
