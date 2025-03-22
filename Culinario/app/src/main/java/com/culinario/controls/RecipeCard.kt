@@ -57,7 +57,7 @@ fun RecipeCard(recipe: Recipe? = null, modifier: Modifier) {
                 .clickable {
                     isClick = true
                 }
-        ){
+        ) {
             Image(
                 modifier = Modifier
                     .weight(0.7f),
@@ -87,21 +87,12 @@ fun RecipeCard(recipe: Recipe? = null, modifier: Modifier) {
                             .size(15.dp)
                             .align(Alignment.CenterVertically)
                     )
-
                     Text(
                         modifier = Modifier.padding(start = 3.dp),
                         text = recipe?.author?.name ?: "Автор",
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1
-                    )
-
-                    Text(
-                        text = R.string.lorem_ipsum.toString(),
-                        maxLines = 2,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier
                     )
                 }
             }

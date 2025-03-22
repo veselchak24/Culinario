@@ -52,10 +52,9 @@ fun UserPage(modifier: Modifier = Modifier, composable: Array<@Composable () -> 
     val scrollState = rememberScrollState()
 
     Scaffold { _ ->
-
         Box (
-            modifier = Modifier
-                .verticalScroll (scrollState)
+            modifier = modifier
+                .verticalScroll(scrollState)
         ) {
             BackgroundImage()
 
@@ -212,7 +211,7 @@ fun UserStats() {
         )
         Stat(
             header = stringResource(R.string.recipes),
-            value = "6"
+            value = "3"
         )
         Stat(
             header = stringResource(R.string.watches),

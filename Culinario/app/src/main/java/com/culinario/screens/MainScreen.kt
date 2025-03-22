@@ -1,6 +1,10 @@
 package com.culinario.screens
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -18,6 +22,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.RecipeRepositoryImpl
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.RecipePage
@@ -71,13 +77,22 @@ fun ContentScreen(
     modifier: Modifier,
     selectedPageIndex: Int
 ) {
+    val firstRecipe = RecipeRepositoryImpl().getAllRecipes().first()
+
     when (selectedPageIndex) {
         0 -> SerializationDemoPage(modifier)
         1 -> FavoriteRecipesPage()
         2 -> UserPage (
             modifier = modifier,
-            composable = Array<@Composable () -> Unit>(2) {
-                @Composable {  }
+            composable = Array<@Composable () -> Unit>(1) {
+                @Composable {
+                    Column {
+                        repeat(3) {
+                            RecipeCard(firstRecipe, Modifier.fillMaxWidth())
+                            Spacer(Modifier.height(10.dp))
+                        }
+                    }
+                }
             }
         )
         3 -> RecipePage(RecipeRepositoryImpl().getAllRecipes().first())
