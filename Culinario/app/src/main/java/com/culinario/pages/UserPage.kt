@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +45,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import com.culinario.R
 
@@ -54,22 +56,48 @@ fun UserPage(modifier: Modifier = Modifier, composable: Array<@Composable () -> 
     val scrollState = rememberScrollState()
 
     Scaffold { _ ->
-        Column (
+
+        Box (
             modifier = Modifier
                 .verticalScroll (scrollState)
         ) {
-            UserHeader()
-            Spacer(Modifier.height(25.dp))
+            BackgroundImage()
 
-            UserAbout()
-            Spacer(Modifier.height(65.dp))
+            Column {
+                UserHeader()
+                Spacer(Modifier.height(20.dp))
 
-            UserStats()
-            Spacer(Modifier.height(75.dp))
+                UserAbout()
+                Spacer(Modifier.height(20.dp))
 
-            UserActivity(composable)
+                UserStats()
+                Spacer(Modifier.height(20.dp))
+
+                UserActivity(composable)
+            }
         }
     }
+}
+
+@Composable
+private fun BackgroundImage() {
+    Image(
+        contentDescription = "userBackground",
+        painter = painterResource(R.drawable.user_background_placeholder),
+        modifier = Modifier
+            .height(300.dp)
+            .fillMaxSize()
+            .alpha(0.4f)
+            .clip(
+                RoundedCornerShape(
+                    topStart = 0.dp,
+                    topEnd = 0.dp,
+                    bottomStart = 35.dp,
+                    bottomEnd = 35.dp
+                )
+            ),
+        contentScale = ContentScale.Crop
+    )
 }
 
 @Composable
@@ -79,24 +107,6 @@ fun UserHeader() {
             .fillMaxWidth()
             .height(370.dp)
     ) {
-        Image(
-            contentDescription = "userBackground",
-            painter = painterResource(R.drawable.user_background_placeholder),
-            modifier = Modifier
-                .padding(bottom = 80.dp)
-                .fillMaxSize()
-                .alpha(0.4f)
-                .clip(
-                    RoundedCornerShape(
-                        topStart = 0.dp,
-                        topEnd = 0.dp,
-                        bottomStart = 35.dp,
-                        bottomEnd = 35.dp
-                    )
-                ),
-            contentScale = ContentScale.Crop
-        )
-
         Card(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 15.dp
@@ -117,7 +127,7 @@ fun UserHeader() {
                 Text(
                     text = stringResource(R.string.placeholder_nickname),
                     fontWeight = FontWeight(900),
-                    fontSize = 25.sp
+                    fontSize = 28.sp
                 )
 
                 Text(
@@ -163,88 +173,82 @@ fun UserHeader() {
 
 @Composable
 fun UserAbout() {
+    Header("About")
+    Spacer(Modifier.height(5.dp))
+
     Card (
         elevation = CardDefaults.cardElevation(
             defaultElevation = 15.dp
         ),
         modifier = Modifier
             .wrapContentHeight()
+            .fillMaxWidth()
             .padding(start = 25.dp, end = 25.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer
         )
     ) {
-        Column {
-            Text (
-                text = stringResource(R.string.placeholder_nickname),
-                fontWeight = FontWeight(900),
-                fontSize = 25.sp
-            )
-
-            Text (
-                text = "seregogy@gmail.com",
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight(200)
-            )
-
-            Button (
-                onClick = { },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 5.dp),
-                shape = RoundedCornerShape(5.dp)
-            ) {
-                Text("Подписаться")
-            }
-        }
-    }
-}
-
-@Composable
-private fun ColumnScope.UserStats() {
-    Column(
-        modifier = Modifier
-            .padding(start = 50.dp, end = 50.dp)
-            .fillMaxWidth()
-            .weight(.5f)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column (
+            modifier = Modifier
+                .padding(15.dp)
         ) {
-            Stat(
-                header = "Лайки",
-                value = "123"
-            )
-            Stat(
-                header = "Рецепты",
-                value = "6"
-            )
-            Stat(
-                header = "Просмотры",
-                value = "9k"
+            Text(
+                text = LoremIpsum().values.first(),
+                maxLines = 7
             )
         }
     }
 }
 
 @Composable
-private fun UserActivity(composable: Array<@Composable () -> Unit>) {
-    Text(
-        text = "Activity",
-        fontWeight = FontWeight(700),
-        fontSize = 18.sp,
+fun UserStats() {
+    Header("Stats")
+    Spacer(Modifier.height(5.dp))
+
+    Row(
         modifier = Modifier
-            .padding(start = 35.dp, end = 35.dp)
-    )
+            .padding(start = 25.dp, end = 25.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Stat(
+            header = stringResource(R.string.likes),
+            value = "123"
+        )
+        Stat(
+            header = stringResource(R.string.recipes),
+            value = "6"
+        )
+        Stat(
+            header = stringResource(R.string.watches),
+            value = "9k"
+        )
+    }
+}
+
+@Composable
+fun UserActivity(composable: Array<@Composable () -> Unit>) {
+    Header("Activity")
+    Spacer(Modifier.height(5.dp))
 
     Column(
         Modifier
-            .padding(start = 35.dp, top = 35.dp, end = 35.dp)
+            .padding(start = 25.dp, end = 25.dp)
     ) {
         composable.forEach { composable ->
             composable()
         }
     }
+}
+
+@Composable
+fun Header(text: String) {
+    Text(
+        text = text,
+        fontWeight = FontWeight(700),
+        fontSize = 18.sp,
+        modifier = Modifier
+            .padding(start = 35.dp, end = 35.dp)
+    )
 }
 
 @Composable
@@ -271,7 +275,8 @@ fun RowScope.Stat(header: String, value: String) {
         ) {
             Text(
                 text = value,
-                fontWeight = FontWeight(800)
+                fontWeight = FontWeight(800),
+                fontSize = 18.sp
             )
 
             Text(
