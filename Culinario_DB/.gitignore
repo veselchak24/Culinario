@@ -1,0 +1,53 @@
+﻿# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+[Bb]in/
+[Oo]bj/
+
+# Rider is a .NET IDE
+.idea/
+*.iml
+*.pidb
+*.userprefs
+*.sln.cache
+*.suo
+*.user
+*.ncrunch*
+*.resharper*
+_ReSharper*
+
+# Packages
+packages/
+*.nupkg
+
+# Logs
+*.log
+*.nlog
+
+# SQL Server files
+App_Data/*.mdf
+App_Data/*.ldf
+
+# Backup files
+*.bak
+*.cache
+*.swp
+*.swo
+
+# Other
+*.DS_Store
+*.bak
+*.cache
+*.swp
+*.swo
+
+#Data
+appsettings.Production.json
