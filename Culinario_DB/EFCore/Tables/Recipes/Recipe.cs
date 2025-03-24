@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Culinario_DB.EFCore.Tables;
 
 [Table("Recipe")]
-public class Recipe
+public class Recipe : ITable
 {
     /// <summary>
     /// Идентификатор рецепта

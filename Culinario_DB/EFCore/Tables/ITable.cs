@@ -2,11 +2,7 @@
 
 namespace Culinario_DB.EFCore.Tables;
 
-// <summary>
-// class for tables images
-// </summary>
-public class Image : ITable
+public interface ITable
 {
     [Key] public int Id { get; set; }
-    public required byte[] Data { get; set; }
 }

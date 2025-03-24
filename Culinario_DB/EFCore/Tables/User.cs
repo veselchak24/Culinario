@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Culinario_DB.EFCore.Tables;
 
 [Table("User")]
-public class User
+public class User : ITable
 {
     //Key - Ключ таблицы, Required - обязательное поле(not null)
     /// <summary>

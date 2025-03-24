@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Culinario_DB.EFCore.Tables;
 
 [Table("RecipeCategory")]
-public class RecipeCategory
+public class RecipeCategory :ITable
 {
     [Key] public int Id { get; set; }
 

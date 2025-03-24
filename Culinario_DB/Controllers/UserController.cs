@@ -4,22 +4,24 @@ using Culinario_DB.EFCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using Culinario_DB.EFCore.Supporting_Classes;
+
 namespace Culinario_DB.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ApiController(EfDataContext context) : ControllerBase
+public class UserController(EfDataContext context) : ControllerBase
 {
     private readonly DbHelper _dbHelper = new(context);
 
-    // GET api/GetUserById?id=5
-    [HttpGet("GetUserById")]
-    public IActionResult GetUser(int id)
-    {
-        var user = _dbHelper.GetUsers().FirstOrDefault(user => user!.Id == id, null);
-
-        return user == null ? NotFound() : Ok(JsonSerializer.Serialize(user));
-    }
+    // // GET api/GetUserById?id=
+    // [HttpGet("GetUserById")]
+    // public IActionResult GetUser(int id)
+    // {
+    //     var user = _dbHelper.GetUsers().FirstOrDefault(user => user!.Id == id, null);
+    //
+    //     return user == null ? NotFound() : Ok(JsonSerializer.Serialize(user));
+    // }
 
     // POST api/AddUser with JSON string in body: {json user}
     [HttpPost("AddUser")]
@@ -45,7 +47,7 @@ public class ApiController(EfDataContext context) : ControllerBase
         }
     }
 
-    // PUT apiUpdateUser with JSON string in body: {json user}
+    // PUT api/UpdateUser with JSON string in body: {json user}
     [HttpPut("UpdateUser")]
     public IActionResult Put([FromBody] string json)
     {
@@ -69,13 +71,13 @@ public class ApiController(EfDataContext context) : ControllerBase
         }
     }
 
-    // DELETE api/DeleteUser?id=5
+    // DELETE api/DeleteUser?id=
     [HttpDelete("DeleteUser")]
-    public IActionResult Delete(int id)
+    public IActionResult Delete(int id, bool isDeleteRecipes)
     {
         try
         {
-            var state = _dbHelper.DeleteUser(id);
+            var state = _dbHelper.DeleteUser(id, isDeleteRecipes);
 
             if (state != EntityState.Deleted)
                 return BadRequest($"Error adding user with EntityState Code: {state}");

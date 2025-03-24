@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Culinario_DB.EFCore.Tables;
 
 [Table("ProductCategory")]
-public class ProductCategory
+public class ProductCategory : ITable
 {
     [Key] public int Id { get; set; }
 

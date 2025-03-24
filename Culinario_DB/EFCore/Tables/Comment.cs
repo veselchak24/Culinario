@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Culinario_DB.EFCore.Tables;
 
 [Table("Comment")]
-public class Comment
+public class Comment : ITable
 {
     /// <summary>
     /// Уникальный идентификатор комментария
