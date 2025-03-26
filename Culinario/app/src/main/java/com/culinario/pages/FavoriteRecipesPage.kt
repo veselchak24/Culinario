@@ -16,8 +16,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,24 +35,33 @@ import com.culinario.mvp.models.Recipe
 fun FavoriteRecipesPage() {
     LocalRecipesHandler.UpdateLocalRecipes(LocalContext.current)
 
-    val searchQuery = remember { mutableStateOf("") }
+    // Состояние для хранения текста поиска
+    var textValue by remember { mutableStateOf("") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            // Добавляем отступ сверху для поисковой строки
+            // Поисковая строка с отступом сверху
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 55.dp) // Отступ сверху
             ) {
                 TextField(
-                    value = searchQuery.value,
-                    onValueChange = { searchQuery.value = it },
-                    placeholder = { Text("Поиск...") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal =20.dp) // Горизонтальный отступ
+                        .padding(horizontal = 20.dp), // Горизонтальный отступ
+                    value = textValue, // Текущее значение поиска
+                    onValueChange = { newValue ->
+                        println("Введенный текст: $newValue") // Логирование
+                        textValue = newValue
+                    },
+                    label = {
+                        Text("Поиск рецептов") // Заголовок TextField
+                    },
+                    placeholder = {
+                        Text("Введите название рецепта") // Подсказка
+                    }
                 )
             }
         }
@@ -61,10 +72,12 @@ fun FavoriteRecipesPage() {
                 .fillMaxSize()
         ) {
             val recipes = LocalRecipesHandler.GetLocalRecipes(LocalContext.current)
+            // Фильтрация рецептов по поисковому запросу
             val filteredRecipes = recipes.filter { recipe ->
-                recipe.name.contains(searchQuery.value, ignoreCase = true) // Предполагается, что у рецепта есть поле name
+                recipe.name.contains(textValue, ignoreCase = true) // Поиск по названию рецепта
             }
 
+            // Отображение списка рецептов или пустой страницы
             if (filteredRecipes.isNotEmpty()) {
                 GridOfFavorite(filteredRecipes, Modifier.padding(top = 8.dp))
             } else {
