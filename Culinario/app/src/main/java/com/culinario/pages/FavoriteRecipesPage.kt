@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.culinario.R
 import com.culinario.backend.LocalRecipesHandler
@@ -61,6 +62,7 @@ fun FavoriteRecipesPage(recipes: Array<Recipe>) {
     }
 }
 
+@Preview
 @Composable
 fun EmptyPage() {
     Box(
@@ -69,7 +71,8 @@ fun EmptyPage() {
     ) {
         Column (
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
                 painter = painterResource(R.drawable.baseline_heart_broken_24),
