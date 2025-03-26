@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
@@ -100,10 +101,9 @@ fun GridOfFavorite(recipes: Array<Recipe>, modifier: Modifier) {
             .padding(bottom = 75.dp),
         contentPadding = PaddingValues(10.dp)
     ) {
-        items (recipes.count()) {
-            recipes.forEach { recipe ->
-                RecipeCard(recipe, Modifier.padding(5.dp))
-            }
+        items(recipes) { recipe ->
+            println("$recipe, ${recipe.name}")
+            RecipeCard(recipe, Modifier.padding(5.dp))
         }
     }
 }
