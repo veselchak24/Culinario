@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import com.culinario.mvp.models.repository.RecipeRepositoryImpl
+import com.culinario.mvp.models.repository.UserRepositoryImpl
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
             CulinarioTheme {
                 Screens (
                     loginScreen = { LoginScreen(it) },
-                    homeScreen = { MainScreen(RecipeRepositoryImpl()) }
+                    homeScreen = { MainScreen(RecipeRepositoryImpl(), UserRepositoryImpl()) }
                 )
             }
         }

@@ -7,4 +7,6 @@
     <string name="recipes">Recipes</string>
     <string name="watches">Watches</string>
     <string name="enter_recipe_name_label">Имя рецепта</string>
+    <string name="about_ryan_gosling">Ryan Thomas Gosling (born November 12, 1980) is a Canadian actor, director, musician , singer and writer. He is known for his roles in The Notebook, in Half Nelson, The Big Short, La La Land, Blade Runner 2049 and Barbie. For his role in La La Land, he won a Golden Globe Award.</string>
+    <string name="subscribe_button_text">Subscribe</string>
 </resources>

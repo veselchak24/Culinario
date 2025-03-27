@@ -25,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.repository.RecipeRepository
+import com.culinario.mvp.models.repository.UserRepository
+import com.culinario.mvp.models.repository.UserRepositoryImpl
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
@@ -32,7 +34,7 @@ import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 
 @Composable
-fun MainScreen(repository: RecipeRepository) {
+fun MainScreen(repository: RecipeRepository, userRepository: UserRepository) {
     var selectedIndex by remember {
         mutableIntStateOf(0)
     }
@@ -66,34 +68,36 @@ fun MainScreen(repository: RecipeRepository) {
             }
         }
     ) { innerPadding ->
-        ContentScreen(
+        ContentScreen (
             modifier = Modifier.padding(innerPadding),
             selectedPageIndex = selectedIndex,
-            repository = repository
+            recipeRepository = repository,
+            userRepository = userRepository
         )
     }
 }
 
-
-
 @Composable
-fun ContentScreen(
+fun ContentScreen (
     modifier: Modifier,
     selectedPageIndex: Int,
-    repository: RecipeRepository
+    recipeRepository: RecipeRepository,
+    userRepository: UserRepository
 ) {
-    val recipes = repository.getAllRecipes()
+    val recipes = recipeRepository.getAllRecipes()
+    val user = userRepository.getProfile("1234")
 
     when (selectedPageIndex) {
         0 -> SerializationDemoPage(modifier)
-        1 -> FavoriteRecipesPage(modifier, repository.getAllRecipes().toTypedArray())
+        1 -> FavoriteRecipesPage(modifier, recipeRepository.getAllRecipes().toTypedArray())
         2 -> UserPage (
             modifier = modifier,
+            user,
             composable = Array<@Composable () -> Unit>(1) {
                 @Composable {
                     Column {
-                        repeat(3) {
-                            RecipeCard(recipes.first(), Modifier.fillMaxWidth())
+                        for (recipe in recipes) {
+                            RecipeCard(recipe, Modifier.fillMaxWidth())
                             Spacer(Modifier.height(10.dp))
                         }
                     }

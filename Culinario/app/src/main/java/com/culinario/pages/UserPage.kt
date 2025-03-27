@@ -39,16 +39,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.culinario.R
+import com.culinario.mvp.models.User
 
-@Preview
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun UserPage(modifier: Modifier = Modifier, composable: Array<@Composable () -> Unit> = arrayOf()) {
+fun UserPage(modifier: Modifier = Modifier, user: User, composable: Array<@Composable () -> Unit> = arrayOf()) {
     val scrollState = rememberScrollState()
 
     Scaffold { _ ->
@@ -59,13 +57,13 @@ fun UserPage(modifier: Modifier = Modifier, composable: Array<@Composable () -> 
             BackgroundImage()
 
             Column {
-                UserHeader()
+                UserHeader(user.Name, user.Email!!)
                 Spacer(Modifier.height(20.dp))
 
-                UserAbout()
+                UserAbout(user.About!!)
                 Spacer(Modifier.height(20.dp))
 
-                UserStats()
+                UserStats(user.LikesCount.toString(), user.RecipeCount.toString(), user.WatchCount.toString())
                 Spacer(Modifier.height(20.dp))
 
                 UserActivity(composable)
@@ -96,7 +94,7 @@ private fun BackgroundImage() {
 }
 
 @Composable
-fun UserHeader() {
+fun UserHeader(userName: String, userMail: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,13 +118,13 @@ fun UserHeader() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(R.string.placeholder_nickname),
+                    text = userName,
                     fontWeight = FontWeight(900),
                     fontSize = 28.sp
                 )
 
                 Text(
-                    text = "seregogy@gmail.com",
+                    text = userMail,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight(200)
                 )
@@ -138,12 +136,10 @@ fun UserHeader() {
                         .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 5.dp),
                     shape = RoundedCornerShape(5.dp)
                 ) {
-                    Text("Подписаться")
+                    Text(stringResource(R.string.subscribe_button_text))
                 }
             }
         }
-
-
 
         Box(
             modifier = Modifier
@@ -167,7 +163,7 @@ fun UserHeader() {
 }
 
 @Composable
-fun UserAbout() {
+fun UserAbout(about: String) {
     Header("About")
     Spacer(Modifier.height(5.dp))
 
@@ -188,7 +184,7 @@ fun UserAbout() {
                 .padding(15.dp)
         ) {
             Text(
-                text = LoremIpsum().values.first(),
+                text = about,
                 maxLines = 7
             )
         }
@@ -196,7 +192,7 @@ fun UserAbout() {
 }
 
 @Composable
-fun UserStats() {
+fun UserStats(likesCount: String, recipeCount: String, watchCount: String) {
     Header("Stats")
     Spacer(Modifier.height(5.dp))
 
@@ -207,15 +203,15 @@ fun UserStats() {
     ) {
         Stat(
             header = stringResource(R.string.likes),
-            value = "123"
+            value = likesCount
         )
         Stat(
             header = stringResource(R.string.recipes),
-            value = "3"
+            value = recipeCount
         )
         Stat(
             header = stringResource(R.string.watches),
-            value = "9k"
+            value = watchCount
         )
     }
 }
