@@ -10,6 +10,8 @@ interface RecipeRepository {
     // Получает список всех рецептов.
     fun getAllRecipes(): List<Recipe>
 
+    fun getRecipeById(id: String): Recipe
+
     // Ищет рецепты по заголовку (названию).
     fun searchRecipesByTitle(title: String): List<Recipe>
 

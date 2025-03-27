@@ -11,6 +11,7 @@ class RecipeRepositoryImpl : RecipeRepository {
     // Статический список рецептов для имитации базы данных
     private val recipes = listOf(
         Recipe(
+            id = "11111111",
             name = "Паста с томатным соусом",
             description = "Вкусная паста с домашним томатным соусом.",
             imageUrl = "url_to_image",
@@ -26,6 +27,7 @@ class RecipeRepositoryImpl : RecipeRepository {
             difficulty = Difficulty.EASY
         ),
         Recipe(
+            id = "11111112",
             name = "Шоколадный торт",
             description = "Нежный шоколадный торт с кремом.",
             imageUrl = "url_to_image",
@@ -45,6 +47,12 @@ class RecipeRepositoryImpl : RecipeRepository {
     override fun getAllRecipes(): List<Recipe> {
         // Возвращает весь список рецептов, как будто получаем их из базы данных
         return recipes
+    }
+
+    override fun getRecipeById(id: String): Recipe {
+        return recipes.first { recipe ->
+            recipe.id == id
+        }
     }
 
     override fun searchRecipesByTitle(title: String): List<Recipe> {

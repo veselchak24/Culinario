@@ -23,6 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.mvp.models.repository.UserRepository
@@ -34,7 +36,7 @@ import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 
 @Composable
-fun MainScreen(repository: RecipeRepository, userRepository: UserRepository) {
+fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, navController: NavController) {
     var selectedIndex by remember {
         mutableIntStateOf(0)
     }
@@ -72,7 +74,8 @@ fun MainScreen(repository: RecipeRepository, userRepository: UserRepository) {
             modifier = Modifier.padding(innerPadding),
             selectedPageIndex = selectedIndex,
             recipeRepository = repository,
-            userRepository = userRepository
+            userRepository = userRepository,
+            navController
         )
     }
 }
@@ -82,14 +85,15 @@ fun ContentScreen (
     modifier: Modifier,
     selectedPageIndex: Int,
     recipeRepository: RecipeRepository,
-    userRepository: UserRepository
+    userRepository: UserRepository,
+    navController: NavController
 ) {
     val recipes = recipeRepository.getAllRecipes()
     val user = userRepository.getProfile("1234")
 
     when (selectedPageIndex) {
         0 -> SerializationDemoPage(modifier)
-        1 -> FavoriteRecipesPage(modifier, recipeRepository.getAllRecipes().toTypedArray())
+        1 -> FavoriteRecipesPage(modifier, recipeRepository.getAllRecipes().toTypedArray(), navController)
         2 -> UserPage (
             modifier = modifier,
             user,
@@ -97,7 +101,7 @@ fun ContentScreen (
                 @Composable {
                     Column {
                         for (recipe in recipes) {
-                            RecipeCard(recipe, Modifier.fillMaxWidth())
+                            RecipeCard(recipe, Modifier.fillMaxWidth(), navController)
                             Spacer(Modifier.height(10.dp))
                         }
                     }

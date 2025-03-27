@@ -28,11 +28,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.mvp.models.Recipe
 
 @Composable
-fun RecipeCard(recipe: Recipe? = null, modifier: Modifier) {
+fun RecipeCard(recipe: Recipe? = null, modifier: Modifier, navController: NavController) {
+    var isClick by remember { mutableStateOf(false) }
+
+    if (isClick) {
+        navController.navigate("RecipePage/${recipe!!.id}")
+        isClick = false
+    }
+
     Card (
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -42,15 +50,6 @@ fun RecipeCard(recipe: Recipe? = null, modifier: Modifier) {
             .width(200.dp)
             .clip(RoundedCornerShape(15.dp))
     ) {
-        var isClick by remember {
-            mutableStateOf(false)
-        }
-
-        if(isClick) {
-            //TODO: "прикрутить сюда переход на страницу рецептов"
-            //RecipePage(recipe!!, modifier)
-        }
-
         Column (
             modifier = Modifier
                 .fillMaxSize()

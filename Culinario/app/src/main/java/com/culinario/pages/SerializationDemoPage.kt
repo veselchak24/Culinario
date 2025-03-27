@@ -131,6 +131,7 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
                     email = authorEmail)
 
                 val recipe = Recipe(
+                    id = "11",
                     name = recipeName,
                     description = "empty",
                     imageUrl = "https://google.com",

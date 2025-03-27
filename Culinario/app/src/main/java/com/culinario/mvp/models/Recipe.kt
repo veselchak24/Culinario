@@ -6,23 +6,26 @@ import com.culinario.backend.interfaces.IOnSerialize
 /**
  * Модель данных рецепта.
  *
+ * @param[id] идентификатор рецепта
  * @param[name] название рецепта.
  * @param[description] описание рецепта.
  * @param[imageUrl] ссылка на изображение.
  * @param[author] автор рецепта.
  * @param[ingredients] список ингредиентов.
+ * @param[cookingSpeed] скорость приготовления (в минутах)
  * @param[steps] step-by-step приготовление.
  * @param[recipeType] тип рецепта.
  * @param[difficulty] сложность рецепта.
  * @param[otherCharacteristics] другие свойства рецепта.
  */
 class Recipe (
+    val id: String,
     val name: String,
     val description: String,
     val imageUrl: String,
     val author: Author,
     val ingredients: List<Ingredient>,
-    val cookingSpeed: Int, // Скорость приготовления в минутах
+    val cookingSpeed: Int,
     val steps: List<String>,
     val recipeType: RecipeType,
     val difficulty: Difficulty,
