@@ -1,4 +1,11 @@
-package com.culinario.mvp.models
+package com.culinario.mvp.models.repository
+
+import com.culinario.mvp.models.Author
+import com.culinario.mvp.models.Difficulty
+import com.culinario.mvp.models.Ingredient
+import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.RecipeType
+import com.culinario.mvp.models.Unit
 
 class RecipeRepositoryImpl : RecipeRepository {
     // Статический список рецептов для имитации базы данных

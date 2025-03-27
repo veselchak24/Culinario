@@ -9,50 +9,43 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.culinario.R
-import com.culinario.backend.LocalRecipesHandler
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteRecipesPage() {
-    LocalRecipesHandler.UpdateLocalRecipes(LocalContext.current)
+fun FavoriteRecipesPage(modifier: Modifier, recipes: Array<Recipe>) {
+    var searchQuery by remember { mutableStateOf("") }
 
-    val searchQuery = remember { mutableStateOf("") }
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
+    Scaffold (
+        modifier = modifier.fillMaxSize(),
         topBar = {
-            // Добавляем отступ сверху для поисковой строки
-            Column(
+            TextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                label = { Text(stringResource(R.string.enter_recipe_name_label)) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 55.dp) // Отступ сверху
-            ) {
-                TextField(
-                    value = searchQuery.value,
-                    onValueChange = { searchQuery.value = it },
-                    placeholder = { Text("Поиск...") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal =20.dp) // Горизонтальный отступ
-                )
-            }
+                    .padding(vertical = 10.dp)
+                    .padding(horizontal = 20.dp)
+            )
         }
     ) { innerPadding ->
         Column(
@@ -60,9 +53,8 @@ fun FavoriteRecipesPage() {
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            val recipes = LocalRecipesHandler.GetLocalRecipes(LocalContext.current)
             val filteredRecipes = recipes.filter { recipe ->
-                recipe.name.contains(searchQuery.value, ignoreCase = true) // Предполагается, что у рецепта есть поле name
+                recipe.name.contains(searchQuery, ignoreCase = true)
             }
 
             if (filteredRecipes.isNotEmpty()) {
@@ -74,6 +66,7 @@ fun FavoriteRecipesPage() {
     }
 }
 
+@Preview
 @Composable
 fun EmptyPage() {
     Box(
@@ -82,7 +75,8 @@ fun EmptyPage() {
     ) {
         Column(
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
                 painter = painterResource(R.drawable.baseline_heart_broken_24),
@@ -110,8 +104,8 @@ fun GridOfFavorite(recipes: List<Recipe>, modifier: Modifier) {
             .padding(bottom = 75.dp),
         contentPadding = PaddingValues(10.dp)
     ) {
-        items(recipes.size) { index ->
-            RecipeCard(recipes[index], Modifier.padding(5.dp))
+        items(recipes) { recipe ->
+            RecipeCard(recipe, Modifier.padding(5.dp))
         }
     }
 }

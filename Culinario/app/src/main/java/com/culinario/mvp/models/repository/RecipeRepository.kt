@@ -1,4 +1,8 @@
-package com.culinario.mvp.models
+package com.culinario.mvp.models.repository
+
+import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.RecipeType
+
 /**
 *Интерфейс RecipeRepository определяет методы для работы с рецептами.
 **/

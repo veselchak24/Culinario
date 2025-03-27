@@ -1,12 +1,9 @@
-package com.culinario.mvp.models
+package com.culinario.mvp.models.repository
 
-class UserRepository(
-    val id: String = "",
-    val username: String = "",
-    val email: String = "",
-    private var passwordHash: String = ""
-) {
-    // Основные методы пользователя
+interface UserRepository {
+    fun getProfile(id: String) {
+
+    }
 
     fun authenticate(password: String): Boolean {
         TODO("Реализовать проверку пароля")
@@ -26,15 +23,5 @@ class UserRepository(
 
     fun updateProfile(newData: Map<String, Any>): Boolean {
         TODO("Реализовать обновление профиля")
-    }
-
-    companion object {
-        fun create(username: String, email: String, password: String): UserRepository {
-            TODO("Реализовать фабричный метод создания")
-        }
-    }
-
-    override fun toString(): String {
-        return "User(id='$id', username='$username', email='$email')"
     }
 }

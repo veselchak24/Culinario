@@ -6,4 +6,5 @@
     <string name="likes">Likes</string>
     <string name="recipes">Recipes</string>
     <string name="watches">Watches</string>
+    <string name="enter_recipe_name_label">Имя рецепта</string>
 </resources>

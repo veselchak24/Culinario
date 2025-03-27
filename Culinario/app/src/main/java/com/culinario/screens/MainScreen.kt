@@ -24,7 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.culinario.controls.RecipeCard
-import com.culinario.mvp.models.RecipeRepository
+import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
@@ -86,7 +86,7 @@ fun ContentScreen(
 
     when (selectedPageIndex) {
         0 -> SerializationDemoPage(modifier)
-        1 -> FavoriteRecipesPage(recipes.toTypedArray())
+        1 -> FavoriteRecipesPage(modifier, repository.getAllRecipes().toTypedArray())
         2 -> UserPage (
             modifier = modifier,
             composable = Array<@Composable () -> Unit>(1) {
