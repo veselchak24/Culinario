@@ -44,8 +44,7 @@ fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, nav
     val navItems = arrayOf (
         NavItem("Home", Icons.Default.Home),
         NavItem("Saved", Icons.Default.Favorite),
-        NavItem("Account", Icons.Default.AccountCircle),
-        NavItem("Recipe", Icons.Default.Info)
+        NavItem("Account", Icons.Default.AccountCircle)
     )
 
     Scaffold (
@@ -108,6 +107,5 @@ fun ContentScreen (
                 }
             }
         )
-        3 -> RecipePage(recipes.first())
     }
 }
