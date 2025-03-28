@@ -46,7 +46,7 @@ import com.culinario.mvp.models.User
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun UserPage(modifier: Modifier = Modifier, user: User, composable: Array<@Composable () -> Unit> = arrayOf()) {
+fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Composable () -> Unit> = arrayOf()) {
     val scrollState = rememberScrollState()
 
     Scaffold { _ ->
@@ -56,17 +56,16 @@ fun UserPage(modifier: Modifier = Modifier, user: User, composable: Array<@Compo
         ) {
             BackgroundImage()
 
-            Column {
+            Column (
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
                 UserHeader(user.Name, user.Email!!)
-                Spacer(Modifier.height(20.dp))
 
                 UserAbout(user.About!!)
-                Spacer(Modifier.height(20.dp))
 
                 UserStats(user.LikesCount.toString(), user.RecipeCount.toString(), user.WatchCount.toString())
-                Spacer(Modifier.height(20.dp))
 
-                UserActivity(composable)
+                UserActivity(userActivity)
             }
         }
     }
@@ -164,75 +163,78 @@ fun UserHeader(userName: String, userMail: String) {
 
 @Composable
 fun UserAbout(about: String) {
-    Header("About")
-    Spacer(Modifier.height(5.dp))
+    Column {
+        Header(stringResource(R.string.user_page_header_about))
 
-    Card (
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 15.dp
-        ),
-        modifier = Modifier
-            .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(start = 25.dp, end = 25.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        )
-    ) {
-        Column (
+        Card (
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 15.dp
+            ),
             modifier = Modifier
-                .padding(15.dp)
-        ) {
-            Text(
-                text = about,
-                maxLines = 7
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(start = 25.dp, end = 25.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
+        ) {
+            Column (
+                modifier = Modifier
+                    .padding(15.dp)
+            ) {
+                Text(
+                    text = about,
+                    maxLines = 7
+                )
+            }
         }
     }
 }
 
 @Composable
 fun UserStats(likesCount: String, recipeCount: String, watchCount: String) {
-    Header("Stats")
-    Spacer(Modifier.height(5.dp))
+    Column {
+        Header(stringResource(R.string.user_page_header_stats))
 
-    Row(
-        modifier = Modifier
-            .padding(start = 25.dp, end = 25.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Stat(
-            header = stringResource(R.string.likes),
-            value = likesCount
-        )
-        Stat(
-            header = stringResource(R.string.recipes),
-            value = recipeCount
-        )
-        Stat(
-            header = stringResource(R.string.watches),
-            value = watchCount
-        )
-    }
-}
-
-@Composable
-fun UserActivity(composable: Array<@Composable () -> Unit>) {
-    Header("Activity")
-    Spacer(Modifier.height(5.dp))
-
-    Column(
-        Modifier
-            .padding(start = 25.dp, end = 25.dp)
-    ) {
-        composable.forEach { composable ->
-            composable()
+        Row(
+            modifier = Modifier
+                .padding(start = 25.dp, end = 25.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Stat(
+                header = stringResource(R.string.likes),
+                value = likesCount
+            )
+            Stat(
+                header = stringResource(R.string.recipes),
+                value = recipeCount
+            )
+            Stat(
+                header = stringResource(R.string.watches),
+                value = watchCount
+            )
         }
     }
 }
 
 @Composable
-fun Header(text: String) {
+fun UserActivity(composable: Array<@Composable () -> Unit>) {
+    Column {
+        Header(stringResource(R.string.user_page_header_activity))
+
+        Column(
+            Modifier
+                .padding(start = 25.dp, end = 25.dp)
+        ) {
+            composable.forEach { composable ->
+                composable()
+            }
+        }
+    }
+}
+
+@Composable
+public fun Header(text: String) {
     Text(
         text = text,
         fontWeight = FontWeight(700),
@@ -247,7 +249,7 @@ fun RowScope.Stat(header: String, value: String) {
     Card (
         modifier = Modifier
             .weight(1f)
-            .padding(5.dp)
+            .padding(horizontal = 5.dp)
             .aspectRatio(1f),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 15.dp

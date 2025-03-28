@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,13 +23,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.mvp.models.repository.UserRepository
-import com.culinario.mvp.models.repository.UserRepositoryImpl
 import com.culinario.pages.FavoriteRecipesPage
-import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
@@ -96,7 +92,7 @@ fun ContentScreen (
         2 -> UserPage (
             modifier = modifier,
             user,
-            composable = Array<@Composable () -> Unit>(1) {
+            userActivity = Array<@Composable () -> Unit>(1) {
                 @Composable {
                     Column {
                         for (recipe in recipes) {
