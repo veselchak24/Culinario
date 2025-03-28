@@ -9,20 +9,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,11 +43,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.culinario.R
+import com.culinario.controls.Header
 import com.culinario.mvp.models.Recipe
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,9 +80,9 @@ fun RecipePage(recipe: Recipe, modifier: Modifier = Modifier) {
                         .padding(top = 10.dp, bottom = 50.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    Description()
+                    Description(recipe)
                     QuickStats(recipe)
-                    ImageCarousel(Modifier)
+                    ImageCarousel(recipe)
                     Ingredients(recipe)
                     Steps(recipe)
                 }
@@ -174,82 +171,79 @@ private fun SheetHeader(recipe: Recipe) {
 }
 
 @Composable
-private fun Description() {
+private fun Description(recipe: Recipe) {
     Column {
         Header(stringResource(R.string.recipe_page_header_description))
 
-        Card (
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 15.dp
-            ),
+        Text (
             modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
-            )
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(5.dp),
-                text = LoremIpsum().values.first(),
-                fontWeight = FontWeight.Light
-            )
-        }
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp),
+            text = recipe.description,
+            fontWeight = FontWeight.Light
+        )
     }
 }
 
 @Composable
 private fun QuickStats(recipe: Recipe) {
-    Column(
-        Modifier.padding(start = 5.dp)
-    ) {
-        Text(text = "Время приготовления ~${recipe.cookingSpeed}мин")
-        Text(text = "Сложность блюда: ${recipe.difficulty}")
-        Text(text = "Тип блюда: ${recipe.recipeType}")
+    Column {
+        Header(stringResource(R.string.recipe_page_header_summary))
+
+        Card {
+            Column (
+                Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(20.dp)
+            ) {
+                Text(text = "Время приготовления ~${recipe.cookingSpeed}мин", fontWeight = FontWeight.Light)
+                Text(text = "Сложность блюда: ${recipe.difficulty}", fontWeight = FontWeight.Light)
+                Text(text = "Тип блюда: ${recipe.recipeType}", fontWeight = FontWeight.Light)
+            }
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageCarousel(modifier: Modifier) {
+fun ImageCarousel(recipe: Recipe) {
     val carouselState = rememberCarouselState { 3 }
 
-    Box(
-        modifier = Modifier.height(250.dp),
-        contentAlignment = Alignment.Center
-    ) {
+    Column {
+        Header(stringResource(R.string.recipe_page_header_pictures))
 
-        HorizontalMultiBrowseCarousel(
-            state = carouselState,
-            preferredItemWidth = 300.dp,
-            itemSpacing = 10.dp,
-            modifier = modifier
-        ) { page ->
-            Box (
-                modifier = Modifier.width(300.dp)
-            ){
+        Box(
+            modifier = Modifier.height(250.dp),
+            contentAlignment = Alignment.Center
+        ) {
+
+            HorizontalMultiBrowseCarousel (
+                state = carouselState,
+                preferredItemWidth = 300.dp,
+                itemSpacing = 10.dp
+            ) { page ->
                 Box (
-                    modifier = Modifier
-                        .maskClip(RoundedCornerShape(16.dp))
+                    modifier = Modifier.width(300.dp)
                 ) {
-                    Image(painter = painterResource(
-                        id = when (page) {
-                            0 -> R.drawable.pasta
-                            1 -> R.drawable.pasta2
-                            else -> R.drawable.pasta3
-                        }),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
+                    Box (
                         modifier = Modifier
-                            .fillMaxSize()
-
-                    )
-
-                    Text(
-                        text = "test",
-                        textAlign = TextAlign.Center
-                    )
+                            .maskClip(RoundedCornerShape(16.dp))
+                    ) {
+                        Image (
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            painter = painterResource (
+                                id = when (page) {
+                                    0 -> R.drawable.pasta
+                                    1 -> R.drawable.pasta2
+                                    else -> R.drawable.pasta3
+                                }
+                            ),
+                            contentDescription = "recipe image",
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
             }
         }
@@ -258,30 +252,19 @@ fun ImageCarousel(modifier: Modifier) {
 
 @Composable
 private fun Ingredients(recipe: Recipe) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .clip(RoundedCornerShape(16.dp))
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(15.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "Ингредиенты:",
+    Column {
+        Header(stringResource(R.string.recipe_page_header_ingredients))
+
+        Card {
+            Column(
                 modifier = Modifier
-                    .padding(end = 10.dp),
-                style = MaterialTheme.typography.headlineSmall
-            )
-
-            Spacer(Modifier.height(10.dp))
-
-            recipe.ingredients.forEach { ingredient ->
-                Text(text = ingredient.name)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(15.dp)
+            ) {
+                recipe.ingredients.forEach { ingredient ->
+                    Text(text = ingredient.name)
+                }
             }
         }
     }
@@ -289,30 +272,19 @@ private fun Ingredients(recipe: Recipe) {
 
 @Composable
 private fun Steps(recipe: Recipe) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .clip(RoundedCornerShape(16.dp))
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(15.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "Шаги приготовления:",
+    Column {
+        Header(stringResource(R.string.recipe_page_header_steps))
+
+        Card {
+            Column(
                 modifier = Modifier
-                    .padding(end = 10.dp),
-                style = MaterialTheme.typography.headlineSmall
-            )
-
-            Spacer(Modifier.height(10.dp))
-
-            recipe.steps.forEach { step ->
-                Text(text = step)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(15.dp)
+            ) {
+                recipe.steps.forEach { step ->
+                    Text(text = step)
+                }
             }
         }
     }

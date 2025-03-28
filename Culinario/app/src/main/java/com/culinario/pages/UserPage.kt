@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.RecipeCreatePage
+import com.culinario.controls.Header
 import com.culinario.mvp.models.User
 
 @Composable
@@ -243,16 +244,7 @@ fun UserActivity(composable: Array<@Composable () -> Unit>) {
     }
 }
 
-@Composable
-fun Header(text: String) {
-    Text(
-        text = text,
-        fontWeight = FontWeight(700),
-        fontSize = 18.sp,
-        modifier = Modifier
-            .padding(start = 35.dp, end = 35.dp)
-    )
-}
+
 
 @Composable
 fun RowScope.Stat(header: String, value: String) {
