@@ -27,6 +27,7 @@ import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.mvp.models.repository.UserRepository
 import com.culinario.pages.FavoriteRecipesPage
+import com.culinario.pages.HomePage
 import com.culinario.pages.SerializationDemoPage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
@@ -87,7 +88,7 @@ fun ContentScreen (
     val user = userRepository.getProfile("1234")
 
     when (selectedPageIndex) {
-        0 -> SerializationDemoPage(modifier)
+        0 -> HomePage()
         1 -> FavoriteRecipesPage(modifier, recipeRepository.getAllRecipes().toTypedArray(), navController)
         2 -> UserPage (
             modifier = modifier,
@@ -101,7 +102,8 @@ fun ContentScreen (
                         }
                     }
                 }
-            }
+            },
+            navController
         )
     }
 }

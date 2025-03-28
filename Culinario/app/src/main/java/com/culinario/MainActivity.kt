@@ -20,6 +20,7 @@ import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.mvp.models.repository.RecipeRepositoryImpl
 import com.culinario.mvp.models.repository.UserRepositoryImpl
 import com.culinario.pages.RecipePage
+import com.culinario.pages.SerializationDemoPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
@@ -35,6 +36,9 @@ object Home
 
 @Serializable
 object RecipePage
+
+@Serializable
+object RecipeCreatePage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +88,9 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 RecipePage(recipeRepository.getRecipeById(it.arguments!!.getString("recipeID")!!), Modifier)
+            }
+            composable<RecipeCreatePage> {
+                SerializationDemoPage(Modifier)
             }
             composable<Home> {
                 home(navController)

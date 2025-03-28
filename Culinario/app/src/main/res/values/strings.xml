@@ -12,4 +12,5 @@
     <string name="user_page_header_activity">Activity</string>
     <string name="user_page_header_stats">Stats</string>
     <string name="user_page_header_about">About</string>
+    <string name="recipe_create_header">Create recipe</string>
 </resources>

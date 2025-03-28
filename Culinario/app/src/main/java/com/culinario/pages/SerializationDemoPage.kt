@@ -25,9 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.culinario.R
 import com.culinario.backend.LocalRecipesHandler
 import com.culinario.mvp.models.Author
 import com.culinario.mvp.models.Difficulty
@@ -43,43 +45,42 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
         rememberTopAppBarState()
     )
 
+    val context = LocalContext.current
+    val debugText = remember { mutableStateOf("") }
+
+    var recipeName by remember { mutableStateOf("") }
+    var authorName by remember { mutableStateOf("") }
+    var authorEmail by remember { mutableStateOf("") }
+
+    var ingredients by remember { mutableStateOf("") }
+    var steps by remember { mutableStateOf("") }
+
     Scaffold (
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-        LargeTopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background,
-                titleContentColor = MaterialTheme.colorScheme.onBackground,
-            ),
-            title = {
-                Text(
-                    text = "Рецепты",
-                    style = MaterialTheme.typography.headlineLarge,
-                    maxLines = 1
-                )
-            },
-            scrollBehavior = scrollBehavior
-        )
-
-    }) { padding ->
-
-        val context = LocalContext.current
-        val debugText = remember { mutableStateOf("") }
-
-        var recipeName by remember { mutableStateOf("") }
-        var authorName by remember { mutableStateOf("") }
-        var authorEmail by remember { mutableStateOf("") }
-
-        var ingredients by remember { mutableStateOf("") }
-        var steps by remember { mutableStateOf("") }
-
-
+            LargeTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text(
+                        text = stringResource(R.string.recipe_create_header),
+                        style = MaterialTheme.typography.headlineLarge,
+                        maxLines = 1
+                    )
+                },
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { padding ->
         Column (
             modifier = modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(padding)
-                .padding(bottom = 150.dp),
+                .padding(vertical = 50.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

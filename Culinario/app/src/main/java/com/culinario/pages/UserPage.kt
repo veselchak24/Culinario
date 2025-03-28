@@ -41,12 +41,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.culinario.R
+import com.culinario.RecipeCreatePage
 import com.culinario.mvp.models.User
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Composable () -> Unit> = arrayOf()) {
+fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Composable () -> Unit> = arrayOf(), navController: NavController) {
     val scrollState = rememberScrollState()
 
     Scaffold { _ ->
@@ -66,6 +68,21 @@ fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Com
                 UserStats(user.LikesCount.toString(), user.RecipeCount.toString(), user.WatchCount.toString())
 
                 UserActivity(userActivity)
+
+                Button (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 25.dp)
+                        .padding(bottom = 20.dp),
+                    content = {
+                        Text(
+                            text = "Create new recipe"
+                        )
+                    },
+                    onClick = {
+                        navController.navigate(route = RecipeCreatePage)
+                    }
+                )
             }
         }
     }
