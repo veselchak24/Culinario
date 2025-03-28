@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,8 +79,9 @@ fun RecipePage(recipe: Recipe, modifier: Modifier = Modifier) {
                 Column (
                     Modifier
                         .fillMaxWidth()
-                        .padding(start = 30.dp, top = 10.dp, end = 30.dp, bottom = 150.dp),
-                    verticalArrangement = Arrangement.spacedBy(15.dp)
+                        .padding(horizontal = 25.dp)
+                        .padding(top = 10.dp, bottom = 50.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     Description()
                     QuickStats(recipe)
@@ -172,12 +175,28 @@ private fun SheetHeader(recipe: Recipe) {
 
 @Composable
 private fun Description() {
-    Text(
-        modifier = Modifier
-            .padding(5.dp),
-        text = stringResource(R.string.lorem_ipsum),
-        fontWeight = FontWeight.Light
-    )
+    Column {
+        Header(stringResource(R.string.recipe_page_header_description))
+
+        Card (
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 15.dp
+            ),
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
+            )
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(5.dp),
+                text = LoremIpsum().values.first(),
+                fontWeight = FontWeight.Light
+            )
+        }
+    }
 }
 
 @Composable

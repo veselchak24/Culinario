@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -59,6 +58,8 @@ fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Com
             BackgroundImage()
 
             Column (
+                Modifier
+                    .padding(horizontal = 25.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 UserHeader(user.Name, user.Email!!)
@@ -72,7 +73,6 @@ fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Com
                 Button (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 25.dp)
                         .padding(bottom = 20.dp),
                     content = {
                         Text(
@@ -122,8 +122,7 @@ fun UserHeader(userName: String, userMail: String) {
             ),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .wrapContentHeight()
-                .padding(start = 25.dp, end = 25.dp),
+                .wrapContentHeight(),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
@@ -189,8 +188,7 @@ fun UserAbout(about: String) {
             ),
             modifier = Modifier
                 .wrapContentHeight()
-                .fillMaxWidth()
-                .padding(start = 25.dp, end = 25.dp),
+                .fillMaxWidth(),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
@@ -213,21 +211,19 @@ fun UserStats(likesCount: String, recipeCount: String, watchCount: String) {
     Column {
         Header(stringResource(R.string.user_page_header_stats))
 
-        Row(
-            modifier = Modifier
-                .padding(start = 25.dp, end = 25.dp),
+        Row (
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Stat(
-                header = stringResource(R.string.likes),
+                header = stringResource(R.string.user_page_header_likes),
                 value = likesCount
             )
             Stat(
-                header = stringResource(R.string.recipes),
+                header = stringResource(R.string.user_page_header_recipes_count),
                 value = recipeCount
             )
             Stat(
-                header = stringResource(R.string.watches),
+                header = stringResource(R.string.user_page_header_watches_count),
                 value = watchCount
             )
         }
@@ -239,10 +235,7 @@ fun UserActivity(composable: Array<@Composable () -> Unit>) {
     Column {
         Header(stringResource(R.string.user_page_header_activity))
 
-        Column(
-            Modifier
-                .padding(start = 25.dp, end = 25.dp)
-        ) {
+        Column {
             composable.forEach { composable ->
                 composable()
             }
@@ -251,7 +244,7 @@ fun UserActivity(composable: Array<@Composable () -> Unit>) {
 }
 
 @Composable
-public fun Header(text: String) {
+fun Header(text: String) {
     Text(
         text = text,
         fontWeight = FontWeight(700),
