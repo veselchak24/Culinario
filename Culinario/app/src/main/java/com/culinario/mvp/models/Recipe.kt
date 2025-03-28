@@ -7,10 +7,10 @@ import com.culinario.backend.interfaces.IOnSerialize
  * Модель данных рецепта.
  *
  * @param[id] идентификатор рецепта
+ * @param[userId] id владельца рецепта.
  * @param[name] название рецепта.
  * @param[description] описание рецепта.
  * @param[imageUrl] ссылка на изображение.
- * @param[author] автор рецепта.
  * @param[ingredients] список ингредиентов.
  * @param[cookingSpeed] скорость приготовления (в минутах)
  * @param[steps] step-by-step приготовление.
@@ -20,10 +20,10 @@ import com.culinario.backend.interfaces.IOnSerialize
  */
 class Recipe (
     val id: String,
+    val userId: String,
     val name: String,
     val description: String,
     val imageUrl: String,
-    val author: Author,
     val ingredients: List<Ingredient>,
     val cookingSpeed: Int,
     val steps: List<String>,

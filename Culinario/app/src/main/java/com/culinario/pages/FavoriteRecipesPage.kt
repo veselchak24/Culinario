@@ -27,13 +27,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import com.culinario.R
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.repository.UserRepository
 
 @Composable
-fun FavoriteRecipesPage(modifier: Modifier, recipes: Array<Recipe>, navController: NavController) {
+fun FavoriteRecipesPage(modifier: Modifier, recipes: Array<Recipe>, userRepository: UserRepository, navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
 
     Scaffold (
@@ -60,7 +60,7 @@ fun FavoriteRecipesPage(modifier: Modifier, recipes: Array<Recipe>, navControlle
             }
 
             if (filteredRecipes.isNotEmpty()) {
-                GridOfFavorite(filteredRecipes, Modifier.padding(top = 8.dp), navController)
+                GridOfFavorite(filteredRecipes,  userRepository, Modifier.padding(top = 8.dp), navController)
             } else {
                 EmptyPage()
             }
@@ -98,7 +98,7 @@ fun EmptyPage() {
 }
 
 @Composable
-fun GridOfFavorite(recipes: List<Recipe>, modifier: Modifier, navController: NavController) {
+fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, modifier: Modifier, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
@@ -107,7 +107,7 @@ fun GridOfFavorite(recipes: List<Recipe>, modifier: Modifier, navController: Nav
         contentPadding = PaddingValues(10.dp)
     ) {
         items(recipes) { recipe ->
-            RecipeCard(recipe, Modifier.padding(5.dp), navController)
+            RecipeCard(recipe, userRepository, Modifier.padding(5.dp), navController)
         }
     }
 }

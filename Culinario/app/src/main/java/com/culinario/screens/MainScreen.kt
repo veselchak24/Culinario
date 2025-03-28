@@ -85,11 +85,12 @@ fun ContentScreen (
     navController: NavController
 ) {
     val recipes = recipeRepository.getAllRecipes()
-    val user = userRepository.getProfile("1234")
+    val user = userRepository.getProfile("85t6ir7f12v")
+    println(user.Name)
 
     when (selectedPageIndex) {
         0 -> HomePage()
-        1 -> FavoriteRecipesPage(modifier, recipeRepository.getAllRecipes().toTypedArray(), navController)
+        1 -> FavoriteRecipesPage(modifier, recipeRepository.getAllRecipes().toTypedArray(), userRepository, navController)
         2 -> UserPage (
             modifier = modifier,
             user,
@@ -97,7 +98,7 @@ fun ContentScreen (
                 @Composable {
                     Column {
                         for (recipe in recipes) {
-                            RecipeCard(recipe, Modifier.fillMaxWidth(), navController)
+                            RecipeCard(recipe, userRepository, Modifier.fillMaxWidth(), navController)
                             Spacer(Modifier.height(10.dp))
                         }
                     }

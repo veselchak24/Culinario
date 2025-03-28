@@ -18,6 +18,7 @@ import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.mvp.models.repository.RecipeRepositoryImpl
+import com.culinario.mvp.models.repository.UserRepository
 import com.culinario.mvp.models.repository.UserRepositoryImpl
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
@@ -69,12 +70,13 @@ class MainActivity : ComponentActivity() {
             startDestination = SignIn,
             signIn = loginScreen,
             home = homeScreen,
-            RecipeRepositoryImpl()
+            RecipeRepositoryImpl(),
+            UserRepositoryImpl()
         )
     }
 
     @Composable
-    fun initNavController(startDestination: Any, signIn: @Composable (() -> Unit) -> Unit, home: @Composable (NavController) -> Unit, recipeRepository: RecipeRepository): NavController {
+    fun initNavController(startDestination: Any, signIn: @Composable (() -> Unit) -> Unit, home: @Composable (NavController) -> Unit, recipeRepository: RecipeRepository, userRepository: UserRepository): NavController {
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = startDestination) {
@@ -87,10 +89,13 @@ class MainActivity : ComponentActivity() {
                 route = "RecipePage/{recipeID}",
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
-                RecipePage(recipeRepository.getRecipeById(it.arguments!!.getString("recipeID")!!), Modifier)
+                RecipePage(recipeRepository.getRecipeById(it.arguments!!.getString("recipeID")!!), userRepository, Modifier)
             }
-            composable<RecipeCreatePage> {
-                SerializationDemoPage(Modifier)
+            composable (
+                route = "RecipeCreatePage/{userId}",
+                arguments = listOf(navArgument("userId") { type = NavType.StringType })
+            ) {
+                SerializationDemoPage(Modifier, navController, it.arguments!!.getString("userId")!!)
             }
             composable<Home> {
                 home(navController)

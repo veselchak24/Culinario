@@ -49,10 +49,12 @@ import androidx.compose.ui.unit.sp
 import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.User
+import com.culinario.mvp.models.repository.UserRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipePage(recipe: Recipe, modifier: Modifier = Modifier) {
+fun RecipePage(recipe: Recipe, userRepository: UserRepository, modifier: Modifier = Modifier) {
     val sheetPeekHeight = LocalConfiguration.current.screenHeightDp.dp
     val scaffoldState = rememberBottomSheetScaffoldState()
 
@@ -71,7 +73,7 @@ fun RecipePage(recipe: Recipe, modifier: Modifier = Modifier) {
                     .clipToBounds(),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                SheetHeader(recipe)
+                SheetHeader(recipe, userRepository.getProfile(recipe.userId))
 
                 Column (
                     Modifier
@@ -135,7 +137,7 @@ private fun SheetDragHandler() {
 }
 
 @Composable
-private fun SheetHeader(recipe: Recipe) {
+private fun SheetHeader(recipe: Recipe, user: User) {
     Column(
         Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -157,12 +159,12 @@ private fun SheetHeader(recipe: Recipe) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            IconAndText(recipe.author.name, R.drawable.round_person_outline_24, 18, 16)
+            IconAndText(user.Name, R.drawable.round_person_outline_24, 18, 16)
 
             VerticalDivider(thickness = 1.dp, modifier = Modifier.padding(vertical = 3.dp))
 
             Text(
-                text = recipe.author.email ?: "artur-pirozhkoff",
+                text = user.Email!!,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )

@@ -1,6 +1,5 @@
 package com.culinario.mvp.models.repository
 
-import com.culinario.mvp.models.Author
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.Recipe
@@ -8,14 +7,13 @@ import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 
 class RecipeRepositoryImpl : RecipeRepository {
-    // Статический список рецептов для имитации базы данных
     private val recipes = listOf(
         Recipe(
             id = "11111111",
+            userId = "WaAWgH3212",
             name = "Паста с томатным соусом",
             description = "Вкусная паста с домашним томатным соусом.",
             imageUrl = "url_to_image",
-            author = Author(name = "Иван Иванов"),
             ingredients = listOf(
                 Ingredient(name = "Паста", quantity = 200.0, unit = Unit.GRAMS),
                 Ingredient(name = "Томаты", quantity = 300.0, unit = Unit.GRAMS),
@@ -28,10 +26,10 @@ class RecipeRepositoryImpl : RecipeRepository {
         ),
         Recipe(
             id = "11111112",
+            userId = "24DR1EFAwd",
             name = "Шоколадный торт",
             description = "Нежный шоколадный торт с кремом.",
             imageUrl = "url_to_image",
-            author = Author(name = "Мария Петрова"),
             ingredients = listOf(
                 Ingredient(name = "Мука", quantity = 250.0, unit = Unit.GRAMS),
                 Ingredient(name = "Шоколад", quantity = 100.0, unit = Unit.GRAMS),

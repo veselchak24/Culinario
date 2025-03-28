@@ -31,9 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.repository.UserRepository
 
 @Composable
-fun RecipeCard(recipe: Recipe? = null, modifier: Modifier, navController: NavController) {
+fun RecipeCard(recipe: Recipe? = null, userRepository: UserRepository, modifier: Modifier, navController: NavController) {
     var isClick by remember { mutableStateOf(false) }
 
     if (isClick) {
@@ -88,7 +89,7 @@ fun RecipeCard(recipe: Recipe? = null, modifier: Modifier, navController: NavCon
                     )
                     Text(
                         modifier = Modifier.padding(start = 3.dp),
-                        text = recipe?.author?.name ?: "Автор",
+                        text = userRepository.getProfile(recipe!!.userId).Name,
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1

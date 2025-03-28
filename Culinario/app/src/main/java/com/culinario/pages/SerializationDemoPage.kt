@@ -1,5 +1,11 @@
 package com.culinario.pages
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -40,7 +48,7 @@ import com.culinario.mvp.models.Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavController? = null) {
+fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavController? = null, userId: String) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
         rememberTopAppBarState()
     )
@@ -55,12 +63,26 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
     var ingredients by remember { mutableStateOf("") }
     var steps by remember { mutableStateOf("") }
 
+    var isImageResolve by remember { mutableStateOf(false) }
+
+    var bitmap: Bitmap? = null
+
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+
+        val inputSteam = context.contentResolver.openInputStream(uri)
+        bitmap = BitmapFactory.decodeStream(inputSteam)
+        inputSteam?.close()
+        isImageResolve = true
+        println("selected image $uri")
+    }
+
     Scaffold (
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors (
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
@@ -84,27 +106,17 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            if (bitmap != null) {
+                Image (
+                    bitmap = bitmap!!.asImageBitmap(),
+                    contentDescription = ""
+                )
+            }
+
             TextField(
                 value = recipeName,
                 label = { Text("Имя рецепта") },
                 onValueChange = { recipeName = it }
-            )
-
-            Text(
-                text = "Автор",
-                textAlign = TextAlign.Left
-            )
-
-            TextField(
-                value = authorName,
-                label = { Text("Имя") },
-                onValueChange = { authorName = it }
-            )
-
-            TextField(
-                value = authorEmail,
-                label = { Text("E-mail") },
-                onValueChange = { authorEmail = it }
             )
 
             Text(
@@ -124,19 +136,26 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
                 onValueChange = { steps = it }
             )
 
+            Button (
+                onClick = {
+                    launcher.launch(PickVisualMediaRequest())
+                },
+                content = {
+                    Text (
+                        text = "Pick image"
+                    )
+                }
+            )
+
             Button(onClick = {
                 debugText.value = "объект сохранён"
 
-                val author = Author(
-                    name = authorName,
-                    email = authorEmail)
-
                 val recipe = Recipe(
                     id = "11",
+                    userId = "85t6ir7f12v",
                     name = recipeName,
                     description = "empty",
                     imageUrl = "https://google.com",
-                    author = author,
                     ingredients = ingredients
                         .split(",")
                         .map { x -> Ingredient(x, 1.0, Unit.CUPS) }

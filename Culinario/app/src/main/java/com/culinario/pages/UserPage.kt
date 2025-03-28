@@ -81,7 +81,7 @@ fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Com
                         )
                     },
                     onClick = {
-                        navController.navigate(route = RecipeCreatePage)
+                        navController.navigate(route = "RecipeCreatePage/${user.Id}")
                     }
                 )
             }
