@@ -1,11 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+
+    kotlin("plugin.serialization") version "2.1.0"
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "com.culinario"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.culinario"
@@ -63,6 +67,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,4 +76,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(platform(libs.androidx.compose.bom.v20241001))
+
+    implementation(libs.gson)
+    implementation(libs.kotlinx.serialization.json)
 }

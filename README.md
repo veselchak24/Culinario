@@ -8,6 +8,15 @@
 
 Culinario – мобильное приложение для помощи в приготовлении блюд, путём подбора рецептов по запросу пользователя
 
+## Дизайн
+
+Наш прототип дизайна выполнен в [Figma](https://www.figma.com/design/WBQQRtPkpEqyYMuUqj4vl8/Culinario)
+
+![image](https://github.com/user-attachments/assets/5ed2cd65-bd1a-4f1f-bbe0-61ad389cbea5)
+![image](https://github.com/user-attachments/assets/8c4b9f34-b652-405c-a238-cc3c92350999)
+![image](https://github.com/user-attachments/assets/06577a64-60f5-4b33-9a08-439a46bc11e3)
+
+
 ## Основной функционал
 
 - Поиск рецептов по названию блюд
@@ -44,10 +53,10 @@ Culinario – мобильное приложение для помощи в п�
 </div>
 
 ## Команда
-* [Анопка Артём](https://github.com/veselchak24) - Тимлид команды
-* [Тарасов Артём](https://github.com/TarasovArtem2005)
-* [Грошева Юлия](https://github.com/yuliya-grosheva)
-* [Сергей Бельчиков](https://github.com/RePti-LoiD)
-* [Анастасия Переверзева](https://github.com/Anastasia2306)
-* [Щетиков Евгений](https://github.com/evgenious6)
-* [Ермилов Владислав](https://github.com/Shijeroo)
+* [Анопка Артём](https://github.com/veselchak24) - Тимлид команды, fullstack разработчик
+* [Тарасов Артём](https://github.com/TarasovArtem2005) - разработчик ИИ камеры
+* [Грошева Юлия](https://github.com/yuliya-grosheva) - backend-разработчик
+* [Сергей Бельчиков](https://github.com/RePti-LoiD) - backend-разработчик
+* [Анастасия Переверзева](https://github.com/Anastasia2306) - backend-разработчик
+* [Щетиков Евгений](https://github.com/evgenious6) - backend-разработчик
+* [Ермилов Владислав](https://github.com/Shijeroo) - дизайнер + frontend-разработчик
