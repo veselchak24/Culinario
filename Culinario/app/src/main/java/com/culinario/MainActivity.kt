@@ -45,8 +45,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CulinarioTheme {
-                SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
-
                 Screens (
                     loginScreen = { LoginScreen(it) },
                     homeScreen = { MainScreen(LocalSaveRecipeRepository(LocalContext.current), LocalSaveUserRepository(LocalContext.current), it) }
@@ -57,6 +55,8 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Screens(loginScreen: @Composable (onClick: () -> Unit) -> Unit, homeScreen: @Composable (NavController) -> Unit) {
+        SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
+
         initNavController (
             startDestination = SignIn,
             signIn = loginScreen,

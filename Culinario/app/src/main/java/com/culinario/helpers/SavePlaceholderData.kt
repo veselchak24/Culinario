@@ -15,16 +15,20 @@ class SavePlaceholderData (
 ) {
     fun saveIfFilesNotExists() {
         val recipesFile = File(context.applicationContext.filesDir, RECIPE_JSON_FILE_NAME)
-        val userFile = File(context.applicationContext.filesDir, PROFILE_JSON_FILE_NAME)
+        val usersFile = File(context.applicationContext.filesDir, PROFILE_JSON_FILE_NAME)
 
         if (!recipesFile.exists()) {
             recipesFile.createNewFile()
             recipesFile.writeText(GsonBuilder().setPrettyPrinting().create().toJson(recipeRepository.getAllRecipes()))
+
+            println("recipes saved in $recipesFile")
         }
 
-        if (!userFile.exists()) {
-            userFile.createNewFile()
-            userFile.writeText(GsonBuilder().setPrettyPrinting().create().toJson(userRepository.getAllUsers()))
+        if (!usersFile.exists()) {
+            usersFile.createNewFile()
+            usersFile.writeText(GsonBuilder().setPrettyPrinting().create().toJson(userRepository.getAllUsers()))
+
+            println("users saved in $usersFile")
         }
     }
 }
