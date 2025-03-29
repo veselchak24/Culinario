@@ -25,7 +25,7 @@ import com.culinario.pages.SignUpPage
 
 @Composable
 fun LoginScreen(onLogin: () -> Unit) {
-    LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getProfile("85t6ir7f12v"))
+    LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getUserById("85t6ir7f12v"))
 
     Scaffold { innerPadding ->
         val pagerState = rememberPagerState (

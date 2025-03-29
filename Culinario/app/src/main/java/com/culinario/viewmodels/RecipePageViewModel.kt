@@ -3,6 +3,7 @@ package com.culinario.viewmodels
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import com.culinario.R
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
@@ -33,8 +34,8 @@ class RecipePageViewModel (
             )
         else
             UriImageLoader (
-                uri = recipe.recipeImageResources.recipeBackgroundImageUri,
-                uris = recipe.recipeImageResources.recipePicturesUri,
+                uri = Uri.parse(recipe.recipeImageResources.recipeBackgroundImageUri),
+                uris = recipe.recipeImageResources.recipePicturesUri?.map { Uri.parse(it) }?.toTypedArray(),
                 context = context
             )
     }
@@ -44,7 +45,7 @@ class RecipePageViewModel (
     }
 
     fun getUserOwner(): User {
-        return userRepository.getProfile(getRecipe().userId)
+        return userRepository.getUserById(getRecipe().userId)
     }
 
     fun getBackgroundBitmap(): Bitmap {

@@ -4,7 +4,7 @@ import com.culinario.backend.ABOUT_RYAN_GOSLING
 import com.culinario.mvp.models.User
 
 class UserRepositoryImpl : UserRepository {
-    private val users = arrayOf (
+    private val users = mutableListOf (
         User(
             "85t6ir7f12v",
             "Ryan Gosling",
@@ -28,12 +28,24 @@ class UserRepositoryImpl : UserRepository {
         )
     )
 
-    override fun getProfile(id: String): User {
+    override fun addUser(user: User) {
+        users.add(user)
+    }
+
+    override fun commit() {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserById(id: String): User {
         println(id)
 
         return users.first { user ->
             user.Id == id
         }
+    }
+
+    override fun getAllUsers(): List<User> {
+        return users
     }
 
     override fun authenticate(password: String): Boolean {

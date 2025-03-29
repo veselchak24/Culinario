@@ -11,7 +11,7 @@ class UserPageViewModel (
     val recipeRepository: RecipeRepository
 ) {
     fun getUser(): User {
-        return userRepository.getProfile(userId)
+        return userRepository.getUserById(userId)
     }
 
     fun getUserRecipes(): List<Recipe> {

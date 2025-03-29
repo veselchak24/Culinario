@@ -4,7 +4,11 @@ import android.content.Context
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import com.culinario.mvp.models.User
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.io.File
+import java.lang.reflect.Type
+
 
 class LocalSaveUserRepository (
     private val context: Context
@@ -13,22 +17,28 @@ class LocalSaveUserRepository (
     private var users = mutableListOf<User>()
 
     init {
-        if (!file.exists()) {
-            file.createNewFile()
-            file.writeText("[ ]")
-        }
+        val listType: Type = TypeToken.getParameterized(MutableList::class.java, User::class.java).type
+        users = Gson().fromJson(file.readText(),listType)
+
+        println(users)
     }
 
-    fun addUser(user: User) {
+    override fun addUser(user: User) {
         users.add(user)
-
-        file.writeText(Gson().toJson(users))
     }
 
-    override fun getProfile(id: String): User {
+    override fun commit() {
+        file.writeText(GsonBuilder().setPrettyPrinting().create().toJson(users))
+    }
+
+    override fun getUserById(id: String): User {
         return users.first {
             it.Id == id
         }
+    }
+
+    override fun getAllUsers(): List<User> {
+        return users
     }
 
     override fun authenticate(password: String): Boolean {

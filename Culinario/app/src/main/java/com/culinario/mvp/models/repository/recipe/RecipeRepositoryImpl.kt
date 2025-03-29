@@ -10,7 +10,7 @@ import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 
 class RecipeRepositoryImpl : RecipeRepository {
-    private val recipes = listOf (
+    private val recipes = mutableListOf (
         Recipe (
             id = "11111111",
             userId = "WaAWgH3212",
@@ -61,8 +61,15 @@ class RecipeRepositoryImpl : RecipeRepository {
         )
     )
 
+    override fun addRecipe(recipe: Recipe) {
+        recipes.add(recipe)
+    }
+
+    override fun commit() {
+
+    }
+
     override fun getAllRecipes(): List<Recipe> {
-        // Возвращает весь список рецептов, как будто получаем их из базы данных
         return recipes
     }
 
@@ -73,12 +80,10 @@ class RecipeRepositoryImpl : RecipeRepository {
     }
 
     override fun searchRecipesByTitle(title: String): List<Recipe> {
-        // Ищет рецепты по заголовку, как будто выполняем запрос к базе данных
         return recipes.filter { it.name.contains(title, ignoreCase = true) }
     }
 
     override fun searchRecipesByIngredients(ingredients: List<String>): List<Recipe> {
-        // Ищет рецепты по списку ингредиентов
         return recipes.filter { recipe ->
             ingredients.all { ingredient ->
                 recipe.ingredients.any { it.name.equals(ingredient, ignoreCase = true) }
@@ -87,19 +92,17 @@ class RecipeRepositoryImpl : RecipeRepository {
     }
 
     override fun searchRecipesByCookingSpeed(maxSpeed: Int): List<Recipe> {
-        // Ищет рецепты по времени приготовления
         return recipes.filter { it.cookingSpeed <= maxSpeed }
     }
 
     override fun searchRecipesByType(type: RecipeType): List<Recipe> {
-        // Ищет рецепты по типу
         return recipes.filter { it.recipeType == type }
     }
 
     override fun searchRecipesByMealTime(mealTime: String): List<Recipe> {
-        // Ищет рецепты по времени приема пищи
-        return recipes.filter { recipe ->
-            recipe.otherCharacteristics["mealTime"]?.toString()?.equals(mealTime, ignoreCase = true) == true
-        }
+        throw NotImplementedError()
+//        return recipes.filter { recipe ->
+//            recipe.otherCharacteristics["mealTime"]?.toString()?.equals(mealTime, ignoreCase = true) == true
+//        }
     }
 }

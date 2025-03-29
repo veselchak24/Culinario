@@ -1,5 +1,6 @@
 package com.culinario.pages
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -48,6 +49,7 @@ import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 
+@SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavController? = null, userId: String) {
@@ -166,7 +168,6 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
                         .toList(),
                     steps = steps.split(",").map { x -> x.trim() },
                     recipeType = RecipeType.QUICK,
-                    otherCharacteristics = emptyMap(),
                     cookingSpeed = 100,
                     difficulty = Difficulty.MEDIUM,
                     otherInfo = OtherInfo(100, 20)

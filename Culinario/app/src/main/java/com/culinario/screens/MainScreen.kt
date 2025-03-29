@@ -17,7 +17,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.pages.FavoriteRecipesPage
@@ -79,6 +81,8 @@ fun ContentScreen (
     navController: NavController
 ) {
     val userPageViewModel = UserPageViewModel("85t6ir7f12v", userRepository, recipeRepository)
+
+    SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
 
     when (selectedPageIndex) {
         0 -> HomePage()
