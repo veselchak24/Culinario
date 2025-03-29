@@ -1,10 +1,9 @@
 package com.culinario.pages
 
+import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,7 +26,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
@@ -37,7 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -66,6 +64,9 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
     val recipe = recipePageViewModel.getRecipe()
     val user = recipePageViewModel.getUserOwner()
 
+    val backgroundBitmap = recipePageViewModel.getBackgroundBitmap()
+    val carouselViewBitmaps = recipePageViewModel.getArrayBitmaps()
+
     BottomSheetScaffold (
         scaffoldState = scaffoldState,
         sheetTonalElevation = 10.dp,
@@ -92,19 +93,20 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
                 ) {
                     Description(recipe)
                     QuickStats(recipe)
-                    ImageCarousel(recipe)
+                    ImageCarousel(carouselViewBitmaps)
                     Ingredients(recipe)
                     Steps(recipe)
                 }
             }
         }
     ) { innerPadding ->
-        BackgroundImage(innerPadding, modifier, sheetPeekHeight)
+        BackgroundImage(backgroundBitmap, innerPadding, modifier, sheetPeekHeight)
     }
 }
 
 @Composable
-private fun BackgroundImage(
+private fun BackgroundImage (
+    bitmap: Bitmap,
     innerPadding: PaddingValues,
     modifier: Modifier,
     sheetPeekHeight: Dp
@@ -113,9 +115,8 @@ private fun BackgroundImage(
         modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
         verticalArrangement = Arrangement.Center
     ) {
-
         Image(
-            painter = painterResource(R.drawable.recipe_page_bg),
+            bitmap = bitmap.asImageBitmap(),
             modifier = modifier
                 .fillMaxWidth()
                 .height(sheetPeekHeight / 2),
@@ -210,8 +211,8 @@ private fun QuickStats(recipe: Recipe) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageCarousel(recipe: Recipe) {
-    val carouselState = rememberCarouselState { 3 }
+fun ImageCarousel(bitmaps: Array<Bitmap>) {
+    val carouselState = rememberCarouselState { bitmaps.size }
 
     Column {
         Header(stringResource(R.string.recipe_page_header_pictures))
@@ -236,13 +237,7 @@ fun ImageCarousel(recipe: Recipe) {
                         Image (
                             modifier = Modifier
                                 .fillMaxSize(),
-                            painter = painterResource (
-                                id = when (page) {
-                                    0 -> R.drawable.pasta
-                                    1 -> R.drawable.pasta2
-                                    else -> R.drawable.pasta3
-                                }
-                            ),
+                            bitmap = bitmaps[page].asImageBitmap(),
                             contentDescription = "recipe image",
                             contentScale = ContentScale.Crop
                         )

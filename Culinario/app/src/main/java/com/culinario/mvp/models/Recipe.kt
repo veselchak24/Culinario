@@ -1,5 +1,6 @@
 package com.culinario.mvp.models
 
+import android.net.Uri
 import com.culinario.backend.interfaces.IOnDeserialize
 import com.culinario.backend.interfaces.IOnSerialize
 
@@ -10,7 +11,7 @@ import com.culinario.backend.interfaces.IOnSerialize
  * @param[userId] id владельца рецепта.
  * @param[name] название рецепта.
  * @param[description] описание рецепта.
- * @param[imageUrl] ссылка на изображение.
+ * @param[recipeImageResources] Ресурсы изображений для рецептов.
  * @param[ingredients] список ингредиентов.
  * @param[cookingSpeed] скорость приготовления (в минутах)
  * @param[steps] step-by-step приготовление.
@@ -23,7 +24,7 @@ class Recipe (
     val userId: String,
     val name: String,
     val description: String,
-    val imageUrl: String,
+    val recipeImageResources: RecipeImageResources,
     val ingredients: List<Ingredient>,
     val cookingSpeed: Int,
     val steps: List<String>,
@@ -95,3 +96,15 @@ enum class RecipeType {
 enum class Difficulty {
     EASY, MEDIUM, HARD
 }
+
+/**
+ *@param[recipePicturesResources] временное решение для плейсхолдера
+ *@param[recipeBackgroundImageResources] временное решение для плейсхолдера
+ */
+data class RecipeImageResources (
+    var recipeBackgroundImageUri: Uri? = null,
+    var recipePicturesUri: Array<Uri>? = null,
+
+    var recipeBackgroundImageResources: Int? = null,
+    var recipePicturesResources: Array<Int>? = null
+)

@@ -1,20 +1,29 @@
 package com.culinario.mvp.models.repository
 
+import com.culinario.R
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 
 class RecipeRepositoryImpl : RecipeRepository {
-    private val recipes = listOf(
-        Recipe(
+    private val recipes = listOf (
+        Recipe (
             id = "11111111",
             userId = "WaAWgH3212",
             name = "Паста с томатным соусом",
             description = "Вкусная паста с домашним томатным соусом.",
-            imageUrl = "url_to_image",
-            ingredients = listOf(
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageResources = R.drawable.recipe_page_bg,
+                recipePicturesResources = arrayOf(
+                    R.drawable.pasta,
+                    R.drawable.pasta2,
+                    R.drawable.pasta3
+                )
+            ),
+            ingredients = listOf (
                 Ingredient(name = "Паста", quantity = 200.0, unit = Unit.GRAMS),
                 Ingredient(name = "Томаты", quantity = 300.0, unit = Unit.GRAMS),
                 Ingredient(name = "Чеснок", quantity = 2.0, unit = Unit.PIECE)
@@ -29,7 +38,13 @@ class RecipeRepositoryImpl : RecipeRepository {
             userId = "24DR1EFAwd",
             name = "Шоколадный торт",
             description = "Нежный шоколадный торт с кремом.",
-            imageUrl = "url_to_image",
+            recipeImageResources = RecipeImageResources (
+                recipeBackgroundImageResources = R.drawable.chocolate_cake,
+                recipePicturesResources = arrayOf (
+                    R.drawable.chocolate_cake,
+                    R.drawable.chocolate_cake_3
+                )
+            ),
             ingredients = listOf(
                 Ingredient(name = "Мука", quantity = 250.0, unit = Unit.GRAMS),
                 Ingredient(name = "Шоколад", quantity = 100.0, unit = Unit.GRAMS),

@@ -43,6 +43,7 @@ import com.culinario.mvp.models.Author
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 
@@ -65,7 +66,7 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
 
     var isImageResolve by remember { mutableStateOf(false) }
 
-    var bitmap: Bitmap? = null
+    var bitmap: Bitmap? = BitmapFactory.decodeStream(context.resources.openRawResource(R.drawable.recipe_page_bg))
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
@@ -155,7 +156,9 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
                     userId = "85t6ir7f12v",
                     name = recipeName,
                     description = "empty",
-                    imageUrl = "https://google.com",
+                    recipeImageResources = RecipeImageResources (
+
+                    ),
                     ingredients = ingredients
                         .split(",")
                         .map { x -> Ingredient(x, 1.0, Unit.CUPS) }
@@ -172,7 +175,7 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
                 Text(text = "Save data")
             }
 
-            Text(
+            Text (
                 text = debugText.value,
                 modifier = modifier
                     .wrapContentSize()

@@ -1,10 +1,6 @@
 package com.culinario.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -21,14 +17,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.mvp.models.repository.UserRepository
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
-import com.culinario.pages.SerializationDemoPage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 import com.culinario.viewmodels.UserPageViewModel

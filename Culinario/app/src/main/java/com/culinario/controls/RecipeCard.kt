@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import com.culinario.viewmodels.RecipePageViewModel
 fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, navController: NavController) {
     val recipe = recipePageViewModel.getRecipe()
     val userOwner = recipePageViewModel.getUserOwner()
+    val bitmap = recipePageViewModel.getBackgroundBitmap()
 
     Card (
         colors = CardDefaults.cardColors(
@@ -52,7 +54,7 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
             Image(
                 modifier = Modifier
                     .weight(0.7f),
-                painter = painterResource(R.drawable.pasta),
+                bitmap = bitmap.asImageBitmap(),
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )

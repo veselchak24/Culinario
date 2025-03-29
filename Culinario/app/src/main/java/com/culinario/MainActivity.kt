@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
-                RecipePage(RecipePageViewModel(recipeId, recipeRepository, userRepository), Modifier, navController)
+                RecipePage(RecipePageViewModel(recipeId, recipeRepository, userRepository, LocalContext.current), Modifier, navController)
             }
             composable (
                 route = "RecipeCreatePage/{userId}",
@@ -106,7 +106,6 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("userId") { type = NavType.StringType } )
             ) {
                 val userId = it.arguments?.getString("userId")!!
-
                 UserPage(Modifier, UserPageViewModel(userId, userRepository, recipeRepository), navController)
             }
             composable<Home> {

@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -110,7 +111,7 @@ fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipe
         contentPadding = PaddingValues(10.dp)
     ) {
         items(recipes) { recipe ->
-            RecipeCard(RecipePageViewModel(recipe.id, recipeRepository, userRepository), Modifier.padding(5.dp), navController)
+            RecipeCard(RecipePageViewModel(recipe.id, recipeRepository, userRepository, LocalContext.current), Modifier.padding(5.dp), navController)
         }
     }
 }
