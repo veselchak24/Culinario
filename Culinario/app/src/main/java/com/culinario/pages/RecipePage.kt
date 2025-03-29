@@ -3,6 +3,7 @@ package com.culinario.pages
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,17 +47,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
-import com.culinario.mvp.models.repository.UserRepository
+import com.culinario.viewmodels.RecipePageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipePage(recipe: Recipe, userRepository: UserRepository, modifier: Modifier = Modifier) {
+fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Modifier, navController: NavController) {
     val sheetPeekHeight = LocalConfiguration.current.screenHeightDp.dp
     val scaffoldState = rememberBottomSheetScaffoldState()
+
+    val recipe = recipePageViewModel.getRecipe()
+    val user = recipePageViewModel.getUserOwner()
 
     BottomSheetScaffold (
         scaffoldState = scaffoldState,
@@ -73,7 +78,7 @@ fun RecipePage(recipe: Recipe, userRepository: UserRepository, modifier: Modifie
                     .clipToBounds(),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                SheetHeader(recipe, userRepository.getProfile(recipe.userId))
+                SheetHeader(recipe, user, navController)
 
                 Column (
                     Modifier
@@ -137,7 +142,7 @@ private fun SheetDragHandler() {
 }
 
 @Composable
-private fun SheetHeader(recipe: Recipe, user: User) {
+private fun SheetHeader(recipe: Recipe, user: User, navController: NavController) {
     Column(
         Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -159,7 +164,14 @@ private fun SheetHeader(recipe: Recipe, user: User) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            IconAndText(user.Name, R.drawable.round_person_outline_24, 18, 16)
+            IconAndText (
+                user.Name,
+                R.drawable.round_person_outline_24,
+                18,
+                16
+            ) {
+                navController.navigate("UserPage/${user.Id}")
+            }
 
             VerticalDivider(thickness = 1.dp, modifier = Modifier.padding(vertical = 3.dp))
 
@@ -299,7 +311,8 @@ fun IconAndText(
     @DrawableRes iconId: Int = R.drawable.round_access_time_24,
     textSize: Int = 18,
     iconSize: Int = 18,
-    textStyle: TextStyle = TextStyle()
+    textStyle: TextStyle = TextStyle(),
+    onTextClick: () -> Unit = { }
 ) {
     Row (
         verticalAlignment = Alignment.CenterVertically
@@ -313,7 +326,10 @@ fun IconAndText(
         Text(
             text = message,
             modifier = Modifier
-                .padding(start = 5.dp),
+                .padding(start = 5.dp)
+                .clickable {
+                    onTextClick()
+                },
             textAlign = TextAlign.Center,
             fontSize = textSize.sp,
             style = textStyle

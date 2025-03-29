@@ -31,6 +31,7 @@ import com.culinario.pages.HomePage
 import com.culinario.pages.SerializationDemoPage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
+import com.culinario.viewmodels.UserPageViewModel
 
 @Composable
 fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, navController: NavController) {
@@ -84,27 +85,11 @@ fun ContentScreen (
     userRepository: UserRepository,
     navController: NavController
 ) {
-    val recipes = recipeRepository.getAllRecipes()
-    val user = userRepository.getProfile("85t6ir7f12v")
-    println(user.Name)
+    val userPageViewModel = UserPageViewModel("85t6ir7f12v", userRepository, recipeRepository)
 
     when (selectedPageIndex) {
         0 -> HomePage()
-        1 -> FavoriteRecipesPage(modifier, recipeRepository.getAllRecipes().toTypedArray(), userRepository, navController)
-        2 -> UserPage (
-            modifier = modifier,
-            user,
-            userActivity = Array<@Composable () -> Unit>(1) {
-                @Composable {
-                    Column {
-                        for (recipe in recipes) {
-                            RecipeCard(recipe, userRepository, Modifier.fillMaxWidth(), navController)
-                            Spacer(Modifier.height(10.dp))
-                        }
-                    }
-                }
-            },
-            navController
-        )
+        1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
+        2 -> UserPage(modifier, userPageViewModel, navController)
     }
 }

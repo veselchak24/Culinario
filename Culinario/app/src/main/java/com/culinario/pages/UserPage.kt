@@ -42,14 +42,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.culinario.R
-import com.culinario.RecipeCreatePage
 import com.culinario.controls.Header
-import com.culinario.mvp.models.User
+import com.culinario.controls.RecipeCard
+import com.culinario.viewmodels.RecipePageViewModel
+import com.culinario.viewmodels.UserPageViewModel
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Composable () -> Unit> = arrayOf(), navController: NavController) {
+fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel, navController: NavController) {
     val scrollState = rememberScrollState()
+    val user = userPageViewModel.getUser()
+    val userRecipes = userPageViewModel.getUserRecipes()
 
     Scaffold { _ ->
         Box (
@@ -69,7 +72,13 @@ fun UserPage(modifier: Modifier = Modifier, user: User, userActivity: Array<@Com
 
                 UserStats(user.LikesCount.toString(), user.RecipeCount.toString(), user.WatchCount.toString())
 
-                UserActivity(userActivity)
+                UserActivity (
+                    userRecipes.map {
+                        @Composable {
+                            RecipeCard(RecipePageViewModel(it.id, userPageViewModel.recipeRepository, userPageViewModel.userRepository), Modifier, navController)
+                        }
+                    }
+                )
 
                 Button (
                     modifier = Modifier
@@ -232,7 +241,7 @@ fun UserStats(likesCount: String, recipeCount: String, watchCount: String) {
 }
 
 @Composable
-fun UserActivity(composable: Array<@Composable () -> Unit>) {
+fun UserActivity(composable: List<@Composable () -> Unit>) {
     Column {
         Header(stringResource(R.string.user_page_header_activity))
 

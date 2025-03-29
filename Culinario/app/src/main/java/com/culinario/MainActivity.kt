@@ -22,9 +22,12 @@ import com.culinario.mvp.models.repository.UserRepository
 import com.culinario.mvp.models.repository.UserRepositoryImpl
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
+import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
+import com.culinario.viewmodels.RecipePageViewModel
+import com.culinario.viewmodels.UserPageViewModel
 import kotlinx.serialization.Serializable
 import java.io.File
 import kotlin.reflect.typeOf
@@ -89,13 +92,22 @@ class MainActivity : ComponentActivity() {
                 route = "RecipePage/{recipeID}",
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
-                RecipePage(recipeRepository.getRecipeById(it.arguments!!.getString("recipeID")!!), userRepository, Modifier)
+                val recipeId = it.arguments?.getString("recipeID")!!
+                RecipePage(RecipePageViewModel(recipeId, recipeRepository, userRepository), Modifier, navController)
             }
             composable (
                 route = "RecipeCreatePage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })
             ) {
-                SerializationDemoPage(Modifier, navController, it.arguments!!.getString("userId")!!)
+                SerializationDemoPage(Modifier, navController, it.arguments?.getString("userId")!!)
+            }
+            composable (
+                route = "UserPage/{userId}",
+                arguments = listOf(navArgument("userId") { type = NavType.StringType } )
+            ) {
+                val userId = it.arguments?.getString("userId")!!
+
+                UserPage(Modifier, UserPageViewModel(userId, userRepository, recipeRepository), navController)
             }
             composable<Home> {
                 home(navController)

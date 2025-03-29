@@ -30,11 +30,14 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.repository.RecipeRepository
 import com.culinario.mvp.models.repository.UserRepository
+import com.culinario.viewmodels.RecipePageViewModel
 
 @Composable
-fun FavoriteRecipesPage(modifier: Modifier, recipes: Array<Recipe>, userRepository: UserRepository, navController: NavController) {
+fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier,  navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
+    val recipes = recipeRepository.getAllRecipes()
 
     Scaffold (
         modifier = modifier.fillMaxSize(),
@@ -60,7 +63,7 @@ fun FavoriteRecipesPage(modifier: Modifier, recipes: Array<Recipe>, userReposito
             }
 
             if (filteredRecipes.isNotEmpty()) {
-                GridOfFavorite(filteredRecipes,  userRepository, Modifier.padding(top = 8.dp), navController)
+                GridOfFavorite(filteredRecipes, userRepository, recipeRepository, Modifier.padding(top = 8.dp), navController)
             } else {
                 EmptyPage()
             }
@@ -98,7 +101,7 @@ fun EmptyPage() {
 }
 
 @Composable
-fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, modifier: Modifier, navController: NavController) {
+fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
@@ -107,7 +110,7 @@ fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, modifi
         contentPadding = PaddingValues(10.dp)
     ) {
         items(recipes) { recipe ->
-            RecipeCard(recipe, userRepository, Modifier.padding(5.dp), navController)
+            RecipeCard(RecipePageViewModel(recipe.id, recipeRepository, userRepository), Modifier.padding(5.dp), navController)
         }
     }
 }
