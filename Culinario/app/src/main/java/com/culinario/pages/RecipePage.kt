@@ -1,8 +1,10 @@
 package com.culinario.pages
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
@@ -24,8 +27,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -34,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -42,7 +46,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -159,27 +162,13 @@ private fun SheetHeader(recipe: Recipe, user: User, navController: NavController
 
         Row(
             modifier = Modifier
-                .height(IntrinsicSize.Min)
-                .padding(vertical = 15.dp),
+                .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            IconAndText (
-                user.Name,
-                R.drawable.round_person_outline_24,
-                18,
-                16
-            ) {
+            BasicUserData(user) {
                 navController.navigate("UserPage/${user.Id}")
             }
-
-            VerticalDivider(thickness = 1.dp, modifier = Modifier.padding(vertical = 3.dp))
-
-            Text(
-                text = user.Email!!,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
         }
     }
 }
@@ -320,19 +309,47 @@ fun IconAndText(
         Icon (
             painterResource(iconId),
             "icon",
-            modifier = Modifier.size(iconSize.dp + 5.dp, iconSize.dp + 5.dp)
+            modifier = Modifier
+                .size(iconSize.dp + 5.dp, iconSize.dp + 5.dp)
+
         )
 
         Text(
             text = message,
             modifier = Modifier
                 .padding(start = 5.dp)
+                .clip(RoundedCornerShape(5.dp))
                 .clickable {
                     onTextClick()
                 },
             textAlign = TextAlign.Center,
             fontSize = textSize.sp,
             style = textStyle
+        )
+    }
+}
+
+@Composable
+fun BasicUserData(user: User, onClick: () -> Unit) {
+    Row (
+        modifier = Modifier
+            .clip(RoundedCornerShape(5.dp))
+            .clickable {
+                onClick()
+            }
+            .padding(5.dp),
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image (
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(30.dp),
+            contentDescription = "user avatar",
+            painter = painterResource(R.drawable.user_avatar_placeholder)
+        )
+        Text (
+            text = user.Name
         )
     }
 }

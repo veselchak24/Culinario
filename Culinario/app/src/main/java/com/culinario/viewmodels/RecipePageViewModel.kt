@@ -7,8 +7,8 @@ import com.culinario.mvp.models.repository.UserRepository
 
 class RecipePageViewModel (
     private val recipeId: String,
-    private val recipeRepository: RecipeRepository,
-    private val userRepository: UserRepository
+    val recipeRepository: RecipeRepository,
+    val userRepository: UserRepository
 ) {
     fun getRecipe(): Recipe {
         return recipeRepository.getRecipeById(recipeId)

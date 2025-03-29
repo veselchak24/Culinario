@@ -31,12 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
+import com.culinario.controls.Header
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @SuppressLint("ComposableNaming")
 @Composable
-fun SignUpPage(
+fun SignUpPage (
     modifier: Modifier,
     coroutineScope: CoroutineScope,
     pagerState: PagerState,
@@ -52,9 +53,6 @@ fun SignUpPage(
     var repeatPasswordText by remember { mutableStateOf("") }
 
     val context = LocalContext.current
-
-//    if (loginSuccess)
-//        return true
 
     Scaffold (
         modifier = modifier
@@ -74,73 +72,75 @@ fun SignUpPage(
                 style = MaterialTheme.typography.titleMedium
             )
 
-            Text(
-                text = "Basic info",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(top = 25.dp)
-            )
+            Column (
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                TextField (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = nicknameText,
+                    onValueChange = { newText ->
+                        nicknameText = newText
+                    },
+                    label = {
+                        Text("Nick name")
+                    },
+                    maxLines = 1
+                )
 
-            TextField (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = nicknameText,
-                onValueChange = { newText ->
-                    nicknameText = newText
-                },
-                label = {
-                    Text("Nick name")
-                },
-                maxLines = 1
-            )
+                TextField (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = emailText,
+                    onValueChange = { newText ->
+                        emailText = newText
+                    },
+                    label = {
+                        Text("E-mail")
+                    },
+                    maxLines = 1
+                )
+            }
 
-            TextField (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = emailText,
-                onValueChange = { newText ->
-                    emailText = newText
-                },
-                label = {
-                    Text("E-mail")
-                },
-                maxLines = 1
-            )
+            Column {
+                Header("Password")
 
-            Text(
-                text = "Password",
-                style = MaterialTheme.typography.titleMedium
-            )
+                Column (
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    TextField (
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        value = passwordText,
+                        onValueChange = { newText ->
+                            passwordText = newText
+                        },
+                        label = {
+                            Text("Password")
+                        },
+                        maxLines = 1
+                    )
 
-            TextField (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = passwordText,
-                onValueChange = { newText ->
-                    passwordText = newText
-                },
-                label = {
-                    Text("Password")
-                },
-                maxLines = 1
-            )
-            TextField (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = repeatPasswordText,
-                onValueChange = { newText ->
-                    repeatPasswordText = newText
-                },
-                label = {
-                    Text("Repeat password")
-                },
-                maxLines = 1
-            )
+                    TextField (
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        value = repeatPasswordText,
+                        onValueChange = { newText ->
+                            repeatPasswordText = newText
+                        },
+                        label = {
+                            Text("Repeat password")
+                        },
+                        maxLines = 1
+                    )
+                }
+            }
 
             Row {
-                Button(
+                Button (
                     modifier = Modifier
-                        .fillMaxWidth(0.5f),
+                        .fillMaxWidth(0.7f),
+                    enabled = false,
                     onClick = {
                         // TODO: создание объекта пользователя
                         context.openFileOutput(PROFILE_JSON_FILE_NAME, Context.MODE_PRIVATE).use {

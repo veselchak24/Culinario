@@ -1,6 +1,7 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +17,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold (
         modifier = Modifier
@@ -35,8 +36,10 @@ fun HomePage() {
                 scrollBehavior = scrollBehavior
             )
         }
-    ) { _ ->
+    ) { innerPadding ->
         Text (
+            modifier = Modifier
+                .padding(innerPadding),
             text = "Hellow wrld"
         )
     }

@@ -28,11 +28,11 @@ fun LoginScreen(onLogin: () -> Unit) {
             pageCount = { 7 }
         )
 
-        var isReturn by remember { mutableStateOf(false) }
+        var close by remember { mutableStateOf(false) }
 
         val coroutineScope = rememberCoroutineScope()
 
-        if (isReturn)
+        if (close)
             return@Scaffold
 
         HorizontalPager (
@@ -54,13 +54,13 @@ fun LoginScreen(onLogin: () -> Unit) {
                     when (page) {
                         5 -> {
                             if (
-                                SignInPage(
+                                SignInPage (
                                     modifier = Modifier
                                         .padding(innerPadding)
                                 )
-                            ){
+                            ) {
                                 onLogin()
-                                isReturn = true
+                                close = true
                             }
                         }
                         6 -> {
@@ -74,7 +74,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                                 )
                             ) {
                                 onLogin()
-                                isReturn = true
+                                close = true
                             }
                         }
                         else -> {
