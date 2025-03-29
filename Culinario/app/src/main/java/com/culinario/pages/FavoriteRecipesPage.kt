@@ -31,12 +31,12 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.repository.RecipeRepository
-import com.culinario.mvp.models.repository.UserRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.viewmodels.RecipePageViewModel
 
 @Composable
-fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier,  navController: NavController) {
+fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
     val recipes = recipeRepository.getAllRecipes()
 

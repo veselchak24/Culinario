@@ -1,8 +1,9 @@
-package com.culinario.mvp.models.repository
+package com.culinario.mvp.models.repository.recipe
 
 import com.culinario.R
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
+import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
@@ -31,17 +32,19 @@ class RecipeRepositoryImpl : RecipeRepository {
             cookingSpeed = 30,
             steps = listOf("Сварить пасту", "Приготовить соус", "Смешать пасту с соусом"),
             recipeType = RecipeType.QUICK,
-            difficulty = Difficulty.EASY
+            difficulty = Difficulty.EASY,
+            otherInfo = OtherInfo(106, 2)
         ),
         Recipe(
             id = "11111112",
-            userId = "24DR1EFAwd",
+            userId = "WaAWgH3212",
             name = "Шоколадный торт",
             description = "Нежный шоколадный торт с кремом.",
             recipeImageResources = RecipeImageResources (
-                recipeBackgroundImageResources = R.drawable.chocolate_cake,
+                recipeBackgroundImageResources = R.drawable.chocolate_cake_2,
                 recipePicturesResources = arrayOf (
                     R.drawable.chocolate_cake,
+                    R.drawable.chocolate_cake_2,
                     R.drawable.chocolate_cake_3
                 )
             ),
@@ -53,7 +56,8 @@ class RecipeRepositoryImpl : RecipeRepository {
             cookingSpeed = 60,
             steps = listOf("Смешать ингредиенты", "Выпекать в духовке", "Остудить и подать"),
             recipeType = RecipeType.BAKING,
-            difficulty = Difficulty.MEDIUM
+            difficulty = Difficulty.MEDIUM,
+            otherInfo = OtherInfo(100, 5)
         )
     )
 

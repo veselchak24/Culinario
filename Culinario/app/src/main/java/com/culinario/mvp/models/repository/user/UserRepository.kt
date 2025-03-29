@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.repository
+package com.culinario.mvp.models.repository.user
 
 import com.culinario.mvp.models.User
 

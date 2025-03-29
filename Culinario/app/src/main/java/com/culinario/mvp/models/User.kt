@@ -5,9 +5,7 @@ data class User(
     private var _name: String,
     private var _email: String? = null,
     private var _about: String? = null,
-    private var _likesCount: Int,
-    private var _recipesCount: Int,
-    private var _watchCount: Int
+    private var _recipesId: List<String>? = null
 ) {
     val Id: String
         get() = this._id;
@@ -39,32 +37,8 @@ data class User(
             _about = value
         }
 
-    var LikesCount: Int
-        get() = this._likesCount
-        set(value) {
-            if (value < 0)
-                throw IllegalArgumentException("Invalid likes count")
-
-            _likesCount = value
-        }
-
-    var RecipeCount: Int
-        get() = _recipesCount
-        set(value) {
-            if (value < 0)
-                throw IllegalArgumentException("Invalid recipes count")
-
-            _recipesCount = value
-        }
-
-    var WatchCount: Int
-        get() = _watchCount
-        set(value) {
-            if (value < 0)
-                throw IllegalArgumentException("Invalid watch count")
-
-            _watchCount = value
-        }
+    val RecipesId: List<String>?
+        get() = _recipesId
 }
 
 private fun CheckEmail(email: String): Boolean =

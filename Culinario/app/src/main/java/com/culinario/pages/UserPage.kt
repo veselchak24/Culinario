@@ -55,6 +55,10 @@ fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel
     val user = userPageViewModel.getUser()
     val userRecipes = userPageViewModel.getUserRecipes()
 
+    val likesCount = userPageViewModel.likesCount().toString()
+    val recipeCount = userPageViewModel.recipeCount().toString()
+    val watchCount = userPageViewModel.watchesCount().toString()
+
     Scaffold { _ ->
         Box (
             modifier = modifier
@@ -71,12 +75,12 @@ fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel
 
                 UserAbout(user.About!!)
 
-                UserStats(user.LikesCount.toString(), user.RecipeCount.toString(), user.WatchCount.toString())
+                UserStats(likesCount, recipeCount, watchCount)
 
                 UserActivity (
                     userRecipes.map {
                         @Composable {
-                            RecipeCard(RecipePageViewModel(it.id, userPageViewModel.recipeRepository, userPageViewModel.userRepository, LocalContext.current), Modifier, navController)
+                            RecipeCard(RecipePageViewModel(it.id, userPageViewModel.recipeRepository, userPageViewModel.userRepository, LocalContext.current), Modifier.fillMaxWidth(), navController)
                         }
                     }
                 )
@@ -246,15 +250,15 @@ fun UserActivity(composable: List<@Composable () -> Unit>) {
     Column {
         Header(stringResource(R.string.user_page_header_activity))
 
-        Column {
+        Column (
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
             composable.forEach { composable ->
                 composable()
             }
         }
     }
 }
-
-
 
 @Composable
 fun RowScope.Stat(header: String, value: String) {

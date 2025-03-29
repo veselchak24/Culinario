@@ -18,8 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.culinario.mvp.models.repository.RecipeRepository
-import com.culinario.mvp.models.repository.UserRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage

@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.repository
+package com.culinario.mvp.models.repository.recipe
 
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType

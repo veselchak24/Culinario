@@ -8,18 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
-import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.repository.RecipeRepository
-import com.culinario.mvp.models.repository.RecipeRepositoryImpl
-import com.culinario.mvp.models.repository.UserRepository
-import com.culinario.mvp.models.repository.UserRepositoryImpl
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepositoryImpl
+import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.models.repository.user.UserRepositoryImpl
 import com.culinario.pages.RecipePage
 import com.culinario.pages.SerializationDemoPage
 import com.culinario.pages.UserPage
@@ -30,7 +28,6 @@ import com.culinario.viewmodels.RecipePageViewModel
 import com.culinario.viewmodels.UserPageViewModel
 import kotlinx.serialization.Serializable
 import java.io.File
-import kotlin.reflect.typeOf
 
 @Serializable
 object SignIn
@@ -51,8 +48,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CulinarioTheme {
-
-
                 Screens (
                     loginScreen = { LoginScreen(it) },
                     homeScreen = { navController -> MainScreen(RecipeRepositoryImpl(), UserRepositoryImpl(), navController) }

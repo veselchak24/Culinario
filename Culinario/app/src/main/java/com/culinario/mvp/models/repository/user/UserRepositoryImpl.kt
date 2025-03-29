@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.repository
+package com.culinario.mvp.models.repository.user
 
 import com.culinario.backend.ABOUT_RYAN_GOSLING
 import com.culinario.mvp.models.User
@@ -10,27 +10,21 @@ class UserRepositoryImpl : UserRepository {
             "Ryan Gosling",
             "user@culinario.ru",
             ABOUT_RYAN_GOSLING,
-            666,
-            2,
-            6000
+            listOf()
         ),
         User(
             "WaAWgH3212",
             "Валерий Альбертович",
             "valera@yandex.ru",
             "privet, ya Valera.",
-            5,
-            2,
-            100
+            listOf("11111111")
         ),
         User (
             "24DR1EFAwd",
             "Антон Павлович",
             "tosha2x2@gmail.com",
             "Tosha t2x2",
-            5,
-            2,
-            100
+            listOf("11111112")
         )
     )
 

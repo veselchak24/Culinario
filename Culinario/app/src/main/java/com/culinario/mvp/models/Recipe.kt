@@ -18,6 +18,7 @@ import com.culinario.backend.interfaces.IOnSerialize
  * @param[recipeType] тип рецепта.
  * @param[difficulty] сложность рецепта.
  * @param[otherCharacteristics] другие свойства рецепта.
+ * @param[otherInfo] дополнительная информация.
  */
 class Recipe (
     val id: String,
@@ -30,7 +31,8 @@ class Recipe (
     val steps: List<String>,
     val recipeType: RecipeType,
     val difficulty: Difficulty,
-    var otherCharacteristics: Map<String, Any> = emptyMap()
+    var otherCharacteristics: Map<String, Any> = emptyMap(),
+    var otherInfo: OtherInfo
 ) : IOnSerialize, IOnDeserialize {
 
     override fun onSerialize() {
@@ -108,3 +110,5 @@ data class RecipeImageResources (
     var recipeBackgroundImageResources: Int? = null,
     var recipePicturesResources: Array<Int>? = null
 )
+
+data class OtherInfo(val watches: Int, val likes: Int)

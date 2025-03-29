@@ -42,6 +42,7 @@ import com.culinario.backend.LocalRecipesHandler
 import com.culinario.mvp.models.Author
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
+import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
@@ -167,7 +168,8 @@ fun SerializationDemoPage(modifier: Modifier = Modifier, navController: NavContr
                     recipeType = RecipeType.QUICK,
                     otherCharacteristics = emptyMap(),
                     cookingSpeed = 100,
-                    difficulty = Difficulty.MEDIUM
+                    difficulty = Difficulty.MEDIUM,
+                    otherInfo = OtherInfo(100, 20)
                 )
 
                 LocalRecipesHandler.AddRecipe(recipe, context)
