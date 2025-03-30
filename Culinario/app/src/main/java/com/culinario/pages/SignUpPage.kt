@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -20,21 +20,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.culinario.backend.PROFILE_JSON_FILE_NAME
+import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
+import com.culinario.helpers.PreferencesManager
+import com.culinario.mvp.models.User
+import com.culinario.mvp.models.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.random.Random
+
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -42,11 +47,10 @@ fun SignUpPage (
     modifier: Modifier,
     coroutineScope: CoroutineScope,
     pagerState: PagerState,
+    userRepository: UserRepository,
     signInPageIndex: Int = 0
 ): Boolean {
     var loginSuccess by remember { mutableStateOf(false) }
-
-    val birthDay by remember { mutableDoubleStateOf(0.0) }
 
     var nicknameText by remember { mutableStateOf("") }
     var emailText by remember { mutableStateOf("") }
@@ -118,7 +122,9 @@ fun SignUpPage (
                     label = {
                         Text("Password")
                     },
-                    maxLines = 1
+                    maxLines = 1,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
 
                 TextField (
@@ -131,36 +137,26 @@ fun SignUpPage (
                     label = {
                         Text("Repeat password")
                     },
-                    maxLines = 1
+                    maxLines = 1,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
             }
 
-            Row {
-                Button (
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f),
-                    enabled = false,
-                    onClick = {
-                        // TODO: создание объекта пользователя
-                        context.openFileOutput(PROFILE_JSON_FILE_NAME, Context.MODE_PRIVATE).use {
-                            it.write(0)
-                            loginSuccess = true
-                        }
-                    }
-                ) {
-                    Text("Sign Up")
-                }
+            Button (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    val answer = validateUserData(emailText, passwordText, repeatPasswordText)
 
-                TextButton (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 15.dp),
-                    onClick = {
-                        // TODO: создание пустой учётной записи
-                    }
-                ) {
-                    Text("As guest")
+                    println("$answer: email validate: ${passwordText == repeatPasswordText}")
+                    if (answer.not()) return@Button
+
+                    saveUser(nicknameText, emailText, userRepository, context)
+                    loginSuccess = true
                 }
+            ) {
+                Text("Sign Up")
             }
         }
 
@@ -189,4 +185,32 @@ fun SignUpPage (
     }
 
     return loginSuccess
+}
+
+private fun saveUser (
+    nicknameText: String,
+    emailText: String,
+    userRepository: UserRepository,
+    context: Context
+) {
+    val id = Random.nextInt(1000000, 9999999).toString()
+    val newUser = User (
+        _id = id,
+        _name = nicknameText,
+        _email = emailText,
+        _about = "В разработке",
+        _recipesId = listOf()
+    )
+
+    PreferencesManager(context).saveData(PREFERENCES_LOCAL_USER_KEY, id)
+
+    userRepository.addUser(newUser)
+    userRepository.commit()
+}
+
+fun validateUserData(email: String, password: String, repeatPassword: String): Boolean {
+    if (password != repeatPassword) return false
+    //if (Regex("[A-Za-z0-9-_.]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,3}").matches(email).not()) return false
+
+    return true
 }

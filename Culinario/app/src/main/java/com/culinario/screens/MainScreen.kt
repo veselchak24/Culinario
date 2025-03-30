@@ -14,12 +14,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.culinario.SignIn
+import com.culinario.backend.DEFAULT_USER_ID
+import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
+import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import com.culinario.mvp.models.repository.user.UserRepository
@@ -81,7 +84,10 @@ fun ContentScreen (
     userRepository: UserRepository,
     navController: NavController
 ) {
-    val userPageViewModel = UserPageViewModel("85t6ir7f12v", userRepository, recipeRepository)
+    val preferencesManager = PreferencesManager(LocalContext.current)
+    val userId = preferencesManager.getData(PREFERENCES_LOCAL_USER_KEY, DEFAULT_USER_ID)
+
+    val userPageViewModel = UserPageViewModel(userId, userRepository, recipeRepository)
 
     SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
 

@@ -13,6 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
+import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.models.repository.recipe.LocalSaveRecipeRepository
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
@@ -43,9 +45,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CulinarioTheme {
+                val localUserRepository = LocalSaveUserRepository(LocalContext.current)
                 Screens (
-                    loginScreen = { LoginScreen(it) },
-                    homeScreen = { MainScreen(LocalSaveRecipeRepository(LocalContext.current), LocalSaveUserRepository(LocalContext.current), it) }
+                    loginScreen = { LoginScreen(it,  localUserRepository) },
+                    homeScreen = { MainScreen(LocalSaveRecipeRepository(LocalContext.current), localUserRepository, it) }
                 )
             }
         }
@@ -56,7 +59,7 @@ class MainActivity : ComponentActivity() {
         SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
 
         initNavController (
-            startDestination = SignIn,
+            startDestination = if (PreferencesManager(LocalContext.current).hasKey(PREFERENCES_LOCAL_USER_KEY)) Home else SignIn,
             signIn = loginScreen,
             home = homeScreen,
             LocalSaveRecipeRepository(LocalContext.current),

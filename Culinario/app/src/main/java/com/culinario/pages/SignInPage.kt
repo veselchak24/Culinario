@@ -35,7 +35,7 @@ fun SignInPage(modifier: Modifier) : Boolean {
         Button(
             onClick = { isSignIn = true }
         ) {
-            Text("Sign In")
+            Text("Sign In as guest")
         }
     }
 

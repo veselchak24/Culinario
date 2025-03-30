@@ -10,8 +10,13 @@ class PreferencesManager(context: Context) {
 
     fun saveData(key: String, value: String) {
         val editor = sharedPreferences.edit()
+
         editor.putString(key, value)
         editor.apply()
+    }
+
+    fun hasKey(key: String): Boolean {
+        return sharedPreferences.contains(key)
     }
 
     fun getData(key: String, defaultValue: String): String {

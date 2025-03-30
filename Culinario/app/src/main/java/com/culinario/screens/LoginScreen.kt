@@ -18,13 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.mvp.models.repository.user.UserRepositoryImpl
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 
 @Composable
-fun LoginScreen(onLogin: () -> Unit) {
+fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
     LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getUserById("85t6ir7f12v"))
 
     Scaffold { innerPadding ->
@@ -71,6 +73,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                                     .padding(innerPadding),
                                 coroutineScope,
                                 pagerState,
+                                userRepository,
                                 page - 1
                             )
                         ) {

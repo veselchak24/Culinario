@@ -267,8 +267,7 @@ private fun StepsAndIngredientsPage(
             },
             label = {
                 Text("Ingredients")
-            },
-            maxLines = 1
+            }
         )
 
         TextField (
