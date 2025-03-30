@@ -1,13 +1,9 @@
 package com.culinario
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,8 +20,8 @@ import com.culinario.mvp.models.repository.recipe.RecipeRepositoryImpl
 import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
 import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
-import com.culinario.pages.CreateRecipePage
 import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
@@ -39,21 +35,6 @@ object SignIn
 
 @Serializable
 object Home
-
-class PreferencesManager(context: Context) {
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("Preferences", Context.MODE_PRIVATE)
-
-    fun saveData(key: String, value: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(key, value)
-        editor.apply()
-    }
-
-    fun getData(key: String, defaultValue: String): String {
-        return sharedPreferences.getString(key, defaultValue) ?: defaultValue
-    }
-}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,7 +86,7 @@ class MainActivity : ComponentActivity() {
                 route = "RecipeCreatePage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })
             ) {
-                CreateRecipePage(Modifier, navController, it.arguments?.getString("userId")!!, recipeRepository)
+                RecipeCreatePage(Modifier, navController, it.arguments?.getString("userId")!!, recipeRepository)
             }
             composable (
                 route = "UserPage/{userId}",

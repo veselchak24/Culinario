@@ -29,8 +29,8 @@ fun LoginScreen(onLogin: () -> Unit) {
 
     Scaffold { innerPadding ->
         val pagerState = rememberPagerState (
-            initialPage = 6,
-            pageCount = { 7 }
+            initialPage = 1,
+            pageCount = { 2 }
         )
 
         var close by remember { mutableStateOf(false) }
@@ -49,47 +49,42 @@ fun LoginScreen(onLogin: () -> Unit) {
             Box (
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(start = 40.dp, end = 40.dp)
             ) {
-                Box (
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .padding(start = 40.dp, end = 40.dp)
-                        .align(Alignment.TopStart)
-                ) {
-                    when (page) {
-                        5 -> {
-                            if (
-                                SignInPage (
-                                    modifier = Modifier
-                                        .padding(innerPadding)
-                                )
-                            ) {
-                                onLogin()
-                                close = true
-                            }
-                        }
-                        6 -> {
-                            if (
-                                SignUpPage (
-                                    Modifier
-                                        .padding(innerPadding),
-                                    coroutineScope,
-                                    pagerState,
-                                    page - 1
-                                )
-                            ) {
-                                onLogin()
-                                close = true
-                            }
-                        }
-                        else -> {
-                            Text(
-                                text = "Presentation page №$page",
-                                style = MaterialTheme.typography.displayLarge,
+                when (page) {
+                    0 -> {
+                        if (
+                            SignInPage (
                                 modifier = Modifier
                                     .padding(innerPadding)
                             )
+                        ) {
+                            onLogin()
+                            close = true
                         }
+                    }
+                    1 -> {
+                        if (
+                            SignUpPage (
+                                Modifier
+                                    .padding(innerPadding),
+                                coroutineScope,
+                                pagerState,
+                                page - 1
+                            )
+                        ) {
+                            onLogin()
+                            close = true
+                        }
+                    }
+                    else -> {
+                        Text(
+                            text = "Presentation page №$page",
+                            style = MaterialTheme.typography.displayLarge,
+                            modifier = Modifier
+                                .padding(innerPadding)
+                        )
                     }
                 }
             }
