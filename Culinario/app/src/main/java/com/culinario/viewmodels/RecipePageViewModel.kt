@@ -26,7 +26,7 @@ class RecipePageViewModel (
         recipe = getRecipe()
 
         imageLoader =
-        if (recipe.recipeImageResources.recipePicturesResources != null)
+        if (recipe.recipeImageResources.recipeBackgroundImageResources != null)
             ResourceImageLoader (
                 imageResourceId = recipe.recipeImageResources.recipeBackgroundImageResources,
                 imageResourcesId = recipe.recipeImageResources.recipePicturesResources,

@@ -101,12 +101,12 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
             }
         }
     ) { innerPadding ->
-        BackgroundImage(backgroundBitmap, innerPadding, modifier, sheetPeekHeight)
+        BackgroundImageDrawer(backgroundBitmap, innerPadding, modifier, sheetPeekHeight)
     }
 }
 
 @Composable
-private fun BackgroundImage (
+private fun BackgroundImageDrawer (
     bitmap: Bitmap,
     innerPadding: PaddingValues,
     modifier: Modifier,

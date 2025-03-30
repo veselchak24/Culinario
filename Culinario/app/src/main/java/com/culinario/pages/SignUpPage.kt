@@ -2,7 +2,6 @@ package com.culinario.pages
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
-import com.culinario.controls.Header
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

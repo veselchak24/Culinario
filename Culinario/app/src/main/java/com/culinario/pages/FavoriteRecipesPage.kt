@@ -106,8 +106,7 @@ fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipe
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 75.dp),
+            .fillMaxWidth(),
         contentPadding = PaddingValues(10.dp)
     ) {
         items(recipes) { recipe ->

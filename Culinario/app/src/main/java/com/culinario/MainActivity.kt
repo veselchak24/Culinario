@@ -1,9 +1,13 @@
 package com.culinario
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,7 +17,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.models.repository.recipe.LocalSaveRecipeRepository
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
@@ -22,7 +25,7 @@ import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
 import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.mvp.models.repository.user.UserRepositoryImpl
 import com.culinario.pages.RecipePage
-import com.culinario.pages.SerializationDemoPage
+import com.culinario.pages.CreateRecipePage
 import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
@@ -30,13 +33,27 @@ import com.culinario.ui.theme.CulinarioTheme
 import com.culinario.viewmodels.RecipePageViewModel
 import com.culinario.viewmodels.UserPageViewModel
 import kotlinx.serialization.Serializable
-import java.io.File
 
 @Serializable
 object SignIn
 
 @Serializable
 object Home
+
+class PreferencesManager(context: Context) {
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("Preferences", Context.MODE_PRIVATE)
+
+    fun saveData(key: String, value: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    fun getData(key: String, defaultValue: String): String {
+        return sharedPreferences.getString(key, defaultValue) ?: defaultValue
+    }
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +78,7 @@ class MainActivity : ComponentActivity() {
             startDestination = SignIn,
             signIn = loginScreen,
             home = homeScreen,
-            RecipeRepositoryImpl(),
+            LocalSaveRecipeRepository(LocalContext.current),
             LocalSaveUserRepository(LocalContext.current)
         )
     }
@@ -74,6 +91,7 @@ class MainActivity : ComponentActivity() {
             composable<SignIn> {
                 signIn {
                     navController.navigate(route = Home)
+                    navController.clearBackStack<SignIn>()
                 }
             }
             composable (
@@ -87,7 +105,7 @@ class MainActivity : ComponentActivity() {
                 route = "RecipeCreatePage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })
             ) {
-                SerializationDemoPage(Modifier, navController, it.arguments?.getString("userId")!!)
+                CreateRecipePage(Modifier, navController, it.arguments?.getString("userId")!!, recipeRepository)
             }
             composable (
                 route = "UserPage/{userId}",

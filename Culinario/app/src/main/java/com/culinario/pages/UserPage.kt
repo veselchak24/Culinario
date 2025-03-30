@@ -64,7 +64,7 @@ fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel
             modifier = modifier
                 .verticalScroll(scrollState)
         ) {
-            BackgroundImage()
+            BackgroundImageDrawer()
 
             Column (
                 Modifier
@@ -104,7 +104,7 @@ fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel
 }
 
 @Composable
-private fun BackgroundImage() {
+private fun BackgroundImageDrawer() {
     Image(
         contentDescription = "userBackground",
         painter = painterResource(R.drawable.user_background_placeholder),
