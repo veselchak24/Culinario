@@ -14,9 +14,9 @@ Culinario – мобильное приложение для помощи в п�
 Наш __ТЕКУЩИЙ__ дизайн
 
 <div align=center>
-<img width=300 alt="Design Image" src=https://github.com/user-attachments/assets/3d1c81a5-cd49-44d1-811c-ea21d4ba8306>
-<img width=300 alt="Design Image" src=https://github.com/user-attachments/assets/665e22a6-b2d5-4d69-970a-47b0d6eefc3e>
-<img width=300 alt="Design Image" src=https://github.com/user-attachments/assets/a4550164-0780-4993-beb1-484258bec8c3>
+<img width=33% alt="Design Image" src=https://github.com/user-attachments/assets/3d1c81a5-cd49-44d1-811c-ea21d4ba8306>
+<img width=33% alt="Design Image" src=https://github.com/user-attachments/assets/665e22a6-b2d5-4d69-970a-47b0d6eefc3e>
+<img width=33% alt="Design Image" src=https://github.com/user-attachments/assets/a4550164-0780-4993-beb1-484258bec8c3>
 </div>
 
 ## Текущий функционал
@@ -49,10 +49,10 @@ Culinario – мобильное приложение для помощи в п�
 
 <div align=center>
   <a href="https://kotlinlang.org/">
-    <img align=center src="https://user-images.githubusercontent.com/63420603/154792502-5d96b5cd-79b6-4edb-b855-fdf674aa00ed.png" alt="Kotlin" height=300>
+    <img height=300 align=center src="https://user-images.githubusercontent.com/63420603/154792502-5d96b5cd-79b6-4edb-b855-fdf674aa00ed.png" alt="Kotlin">
   </a>  
   <a href="https://developer.android.com/studio">
-    <img align=center src="https://habrastorage.org/getpro/habr/post_images/7cd/975/a25/7cd975a258b183f96cbbf5e2696623d8.png" alt="Android Studio" height=200>
+    <img height=200 align=center src="https://habrastorage.org/getpro/habr/post_images/7cd/975/a25/7cd975a258b183f96cbbf5e2696623d8.png" alt="Android Studio">
   </a>
 </div>
 
