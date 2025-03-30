@@ -301,6 +301,7 @@ fun RowScope.Stat(header: String, value: String) {
             )
         }
     }
+}
 
 @Composable
 fun UserPage() {
