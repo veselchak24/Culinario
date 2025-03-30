@@ -6,9 +6,11 @@ com_crashlytics_export_strings.xml
 
 # Local configuration file (sdk path, etc)
 local.properties
+local.properties.txt
 
 # Gradle generated files
 .gradle/
+gradle
 
 # Signing files
 .signing/
