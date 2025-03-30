@@ -1,6 +1,5 @@
 package com.culinario.screens
 
-import com.culinario.pages.SignInPage
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,11 +16,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
+import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 
 @Composable
 fun LoginScreen(onLogin: () -> Unit) {
+    LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getUserById("85t6ir7f12v"))
+
     Scaffold { innerPadding ->
         val pagerState = rememberPagerState (
             initialPage = 6,

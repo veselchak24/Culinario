@@ -31,12 +31,12 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.repository.RecipeRepository
-import com.culinario.mvp.models.repository.UserRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.viewmodels.RecipePageViewModel
 
 @Composable
-fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier,  navController: NavController) {
+fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
     val recipes = recipeRepository.getAllRecipes()
 
@@ -106,8 +106,7 @@ fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipe
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 75.dp),
+            .fillMaxWidth(),
         contentPadding = PaddingValues(10.dp)
     ) {
         items(recipes) { recipe ->

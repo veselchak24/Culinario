@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.PagerState
@@ -31,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
-import com.culinario.controls.Header
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -102,38 +103,36 @@ fun SignUpPage (
                 )
             }
 
-            Column {
-                Header("Password")
+            Spacer(Modifier.height(10.dp))
 
-                Column (
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    TextField (
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        value = passwordText,
-                        onValueChange = { newText ->
-                            passwordText = newText
-                        },
-                        label = {
-                            Text("Password")
-                        },
-                        maxLines = 1
-                    )
+            Column (
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                TextField (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = passwordText,
+                    onValueChange = { newText ->
+                        passwordText = newText
+                    },
+                    label = {
+                        Text("Password")
+                    },
+                    maxLines = 1
+                )
 
-                    TextField (
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        value = repeatPasswordText,
-                        onValueChange = { newText ->
-                            repeatPasswordText = newText
-                        },
-                        label = {
-                            Text("Repeat password")
-                        },
-                        maxLines = 1
-                    )
-                }
+                TextField (
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    value = repeatPasswordText,
+                    onValueChange = { newText ->
+                        repeatPasswordText = newText
+                    },
+                    label = {
+                        Text("Repeat password")
+                    },
+                    maxLines = 1
+                )
             }
 
             Row {

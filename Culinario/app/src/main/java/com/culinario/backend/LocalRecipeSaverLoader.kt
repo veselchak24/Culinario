@@ -14,7 +14,7 @@ import java.io.File
 class LocalRecipeSaverLoader(private val fileName: String = RECIPE_JSON_FILE_NAME) : ISaver, ILoader {
 
     override fun save(dataToSave: Any, context: Context): String {
-        val gson = GsonBuilder().setPrettyPrinting().create();
+        val gson = GsonBuilder().setPrettyPrinting().create()
 
         val jsonData = gson.toJson(dataToSave)
         println(jsonData)

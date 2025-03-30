@@ -1,9 +1,15 @@
-package com.culinario.mvp.models.repository
+package com.culinario.mvp.models.repository.user
 
 import com.culinario.mvp.models.User
 
 interface UserRepository {
-    fun getProfile(id: String): User
+    fun addUser(user: User)
+
+    fun commit()
+
+    fun getUserById(id: String): User
+
+    fun getAllUsers(): List<User>
 
     fun authenticate(password: String): Boolean
 

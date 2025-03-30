@@ -15,11 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.culinario.mvp.models.repository.RecipeRepository
-import com.culinario.mvp.models.repository.UserRepository
+import com.culinario.helpers.SavePlaceholderData
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
@@ -28,7 +31,7 @@ import com.culinario.viewmodels.UserPageViewModel
 
 @Composable
 fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, navController: NavController) {
-    var selectedIndex by remember {
+    var selectedIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
 
@@ -79,6 +82,8 @@ fun ContentScreen (
     navController: NavController
 ) {
     val userPageViewModel = UserPageViewModel("85t6ir7f12v", userRepository, recipeRepository)
+
+    SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
 
     when (selectedPageIndex) {
         0 -> HomePage()

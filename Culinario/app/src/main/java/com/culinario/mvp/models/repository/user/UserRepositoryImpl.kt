@@ -1,45 +1,51 @@
-package com.culinario.mvp.models.repository
+package com.culinario.mvp.models.repository.user
 
 import com.culinario.backend.ABOUT_RYAN_GOSLING
 import com.culinario.mvp.models.User
 
 class UserRepositoryImpl : UserRepository {
-    private val users = arrayOf (
+    private val users = mutableListOf (
         User(
             "85t6ir7f12v",
             "Ryan Gosling",
             "user@culinario.ru",
             ABOUT_RYAN_GOSLING,
-            666,
-            2,
-            6000
+            listOf()
         ),
         User(
             "WaAWgH3212",
             "Валерий Альбертович",
             "valera@yandex.ru",
             "privet, ya Valera.",
-            5,
-            2,
-            100
+            listOf("11111111")
         ),
         User (
             "24DR1EFAwd",
             "Антон Павлович",
             "tosha2x2@gmail.com",
             "Tosha t2x2",
-            5,
-            2,
-            100
+            listOf("11111112")
         )
     )
 
-    override fun getProfile(id: String): User {
+    override fun addUser(user: User) {
+        users.add(user)
+    }
+
+    override fun commit() {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserById(id: String): User {
         println(id)
 
         return users.first { user ->
             user.Id == id
         }
+    }
+
+    override fun getAllUsers(): List<User> {
+        return users
     }
 
     override fun authenticate(password: String): Boolean {

@@ -33,6 +33,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asImageBitmap
@@ -100,26 +101,27 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
             }
         }
     ) { innerPadding ->
-        BackgroundImage(backgroundBitmap, innerPadding, modifier, sheetPeekHeight)
+        BackgroundImageDrawer(backgroundBitmap, innerPadding, modifier, sheetPeekHeight)
     }
 }
 
 @Composable
-private fun BackgroundImage (
+private fun BackgroundImageDrawer (
     bitmap: Bitmap,
     innerPadding: PaddingValues,
     modifier: Modifier,
     sheetPeekHeight: Dp
 ) {
-    Column(
+    Column (
         modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
         verticalArrangement = Arrangement.Center
     ) {
-        Image(
+        Image (
             bitmap = bitmap.asImageBitmap(),
             modifier = modifier
                 .fillMaxWidth()
-                .height(sheetPeekHeight / 2),
+                .height(sheetPeekHeight / 2)
+                .alpha(0.7f),
             contentScale = ContentScale.Crop,
             contentDescription = null
         )

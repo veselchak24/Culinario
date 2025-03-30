@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="Default">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-03-19T23:08:26.664273700Z">
+        <DropdownSelection timestamp="2025-03-29T15:49:05.826662100Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=R5CX533CH5K" />
@@ -12,9 +12,6 @@
           </Target>
         </DropdownSelection>
         <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="IconAndText">
-        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>
