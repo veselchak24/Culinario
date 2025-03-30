@@ -14,7 +14,7 @@ import java.io.File
 class LocalRecipeSaverLoader(private val fileName: String = RECIPE_JSON_FILE_NAME) : ISaver, ILoader {
 
     override fun save(dataToSave: Any, context: Context): String {
-        val gson = GsonBuilder().setPrettyPrinting().create();
+        val gson = GsonBuilder().setPrettyPrinting().create()
 
         val jsonData = gson.toJson(dataToSave)
         println(jsonData)
@@ -39,6 +39,8 @@ class LocalRecipeSaverLoader(private val fileName: String = RECIPE_JSON_FILE_NAM
         var jsonStr = ""
 
         val file = File(context.applicationContext.filesDir, RECIPE_JSON_FILE_NAME)
+
+        println("file ${context.applicationContext.filesDir}/$RECIPE_JSON_FILE_NAME exists: ${file.exists()}")
 
         if (!file.exists()) {
             context.openFileOutput(fileName, Context.MODE_PRIVATE).use { it.write("[ ]".toByteArray()) }

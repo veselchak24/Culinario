@@ -1,35 +1,39 @@
 package com.culinario.mvp.models
 
+import android.net.Uri
 import com.culinario.backend.interfaces.IOnDeserialize
 import com.culinario.backend.interfaces.IOnSerialize
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 /**
  * Модель данных рецепта.
  *
+ * @param[id] идентификатор рецепта
+ * @param[userId] id владельца рецепта.
  * @param[name] название рецепта.
  * @param[description] описание рецепта.
- * @param[imageUrl] ссылка на изображение.
- * @param[author] автор рецепта.
+ * @param[recipeImageResources] Ресурсы изображений для рецептов.
  * @param[ingredients] список ингредиентов.
+ * @param[cookingSpeed] скорость приготовления (в минутах)
  * @param[steps] step-by-step приготовление.
  * @param[recipeType] тип рецепта.
  * @param[difficulty] сложность рецепта.
  * @param[otherCharacteristics] другие свойства рецепта.
+ * @param[otherInfo] дополнительная информация.
  */
-
+@Serializable
 class Recipe (
+    val id: String,
+    val userId: String,
     val name: String,
     val description: String,
-    val imageUrl: String,
-    val author: Author,
+    val recipeImageResources: RecipeImageResources,
     val ingredients: List<Ingredient>,
-    val cookingSpeed: Int, // Скорость приготовления в минутах
+    val cookingSpeed: Int,
     val steps: List<String>,
     val recipeType: RecipeType,
     val difficulty: Difficulty,
-    var otherCharacteristics: Map<String, Any> = emptyMap()
+    var otherInfo: OtherInfo
 ) : IOnSerialize, IOnDeserialize {
 
     override fun onSerialize() {
@@ -53,6 +57,7 @@ data class Author(val name: String, val email: String? = null)
  * @property quantity количество продукта.
  * @property unit единица измерения.
  */
+@Serializable
 data class Ingredient (
     val name: String,
     val quantity: Double?,
@@ -95,3 +100,19 @@ enum class RecipeType {
 enum class Difficulty {
     EASY, MEDIUM, HARD
 }
+
+/**
+ *@param[recipePicturesResources] временное решение для плейсхолдера
+ *@param[recipeBackgroundImageResources] временное решение для плейсхолдера
+ */
+@Serializable
+data class RecipeImageResources (
+    var recipeBackgroundImageUri: String? = null,
+    var recipePicturesUri: Array<String>? = null,
+
+    var recipeBackgroundImageResources: Int? = null,
+    var recipePicturesResources: Array<Int>? = null
+)
+
+@Serializable
+data class OtherInfo(val watches: Int, val likes: Int)

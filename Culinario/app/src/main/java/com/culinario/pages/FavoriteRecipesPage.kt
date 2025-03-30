@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,46 +24,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.culinario.R
-import com.culinario.backend.LocalRecipesHandler
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.viewmodels.RecipePageViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteRecipesPage() {
-    LocalRecipesHandler.UpdateLocalRecipes(LocalContext.current)
+fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
+    var searchQuery by remember { mutableStateOf("") }
+    val recipes = recipeRepository.getAllRecipes()
 
-    // Состояние для хранения текста поиска
-    var textValue by remember { mutableStateOf("") }
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
+    Scaffold (
+        modifier = modifier.fillMaxSize(),
         topBar = {
-            // Поисковая строка с отступом сверху
-            Column(
+            TextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                label = { Text(stringResource(R.string.enter_recipe_name_label)) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 55.dp) // Отступ сверху
-            ) {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp), // Горизонтальный отступ
-                    value = textValue, // Текущее значение поиска
-                    onValueChange = { newValue ->
-                        println("Введенный текст: $newValue") // Логирование
-                        textValue = newValue
-                    },
-                    label = {
-                        Text("Поиск рецептов") // Заголовок TextField
-                    },
-                    placeholder = {
-                        Text("Введите название рецепта") // Подсказка
-                    }
-                )
-            }
+                    .padding(vertical = 10.dp)
+                    .padding(horizontal = 20.dp)
+            )
         }
     ) { innerPadding ->
         Column(
@@ -71,15 +59,12 @@ fun FavoriteRecipesPage() {
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            val recipes = LocalRecipesHandler.GetLocalRecipes(LocalContext.current)
-            // Фильтрация рецептов по поисковому запросу
             val filteredRecipes = recipes.filter { recipe ->
-                recipe.name.contains(textValue, ignoreCase = true) // Поиск по названию рецепта
+                recipe.name.contains(searchQuery, ignoreCase = true)
             }
 
-            // Отображение списка рецептов или пустой страницы
             if (filteredRecipes.isNotEmpty()) {
-                GridOfFavorite(filteredRecipes, Modifier.padding(top = 8.dp))
+                GridOfFavorite(filteredRecipes, userRepository, recipeRepository, Modifier.padding(top = 8.dp), navController)
             } else {
                 EmptyPage()
             }
@@ -87,6 +72,7 @@ fun FavoriteRecipesPage() {
     }
 }
 
+@Preview
 @Composable
 fun EmptyPage() {
     Box(
@@ -95,7 +81,8 @@ fun EmptyPage() {
     ) {
         Column(
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
                 painter = painterResource(R.drawable.baseline_heart_broken_24),
@@ -115,16 +102,15 @@ fun EmptyPage() {
 }
 
 @Composable
-fun GridOfFavorite(recipes: List<Recipe>, modifier: Modifier) {
+fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 75.dp),
+            .fillMaxWidth(),
         contentPadding = PaddingValues(10.dp)
     ) {
-        items(recipes.size) { index ->
-            RecipeCard(recipes[index], Modifier.padding(5.dp))
+        items(recipes) { recipe ->
+            RecipeCard(RecipePageViewModel(recipe.id, recipeRepository, userRepository, LocalContext.current), Modifier.padding(5.dp), navController)
         }
     }
 }

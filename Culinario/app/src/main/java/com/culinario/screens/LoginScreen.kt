@@ -1,6 +1,5 @@
 package com.culinario.screens
 
-import com.culinario.pages.signInPage
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,22 +16,30 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.culinario.pages.signUpPage
+import androidx.navigation.NavController
+import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+import com.culinario.pages.SignInPage
+import com.culinario.pages.SignUpPage
 
 @Composable
-fun LoginScreen(onLogin: () -> Unit) {
+fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
+    LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getUserById("85t6ir7f12v"))
+
     Scaffold { innerPadding ->
         val pagerState = rememberPagerState (
-            initialPage = 6,
-            pageCount = { 7 }
+            initialPage = 1,
+            pageCount = { 2 }
         )
 
-        var isReturn by remember { mutableStateOf(false) }
+        var close by remember { mutableStateOf(false) }
 
         val coroutineScope = rememberCoroutineScope()
 
-        if (isReturn)
+        if (close)
             return@Scaffold
 
         HorizontalPager (
@@ -44,47 +51,43 @@ fun LoginScreen(onLogin: () -> Unit) {
             Box (
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(start = 40.dp, end = 40.dp)
             ) {
-                Box (
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .padding(start = 40.dp, end = 40.dp)
-                        .align(Alignment.TopStart)
-                ) {
-                    when (page) {
-                        5 -> {
-                            if (
-                                signInPage(
-                                    modifier = Modifier
-                                        .padding(innerPadding)
-                                )
-                            ){
-                                onLogin()
-                                isReturn = true
-                            }
-                        }
-                        6 -> {
-                            if (
-                                signUpPage (
-                                    Modifier
-                                        .padding(innerPadding),
-                                    coroutineScope,
-                                    pagerState,
-                                    page - 1
-                                )
-                            ) {
-                                onLogin()
-                                isReturn = true
-                            }
-                        }
-                        else -> {
-                            Text(
-                                text = "Presentation page №$page",
-                                style = MaterialTheme.typography.displayLarge,
+                when (page) {
+                    0 -> {
+                        if (
+                            SignInPage (
                                 modifier = Modifier
                                     .padding(innerPadding)
                             )
+                        ) {
+                            onLogin()
+                            close = true
                         }
+                    }
+                    1 -> {
+                        if (
+                            SignUpPage (
+                                Modifier
+                                    .padding(innerPadding),
+                                coroutineScope,
+                                pagerState,
+                                userRepository,
+                                page - 1
+                            )
+                        ) {
+                            onLogin()
+                            close = true
+                        }
+                    }
+                    else -> {
+                        Text(
+                            text = "Presentation page №$page",
+                            style = MaterialTheme.typography.displayLarge,
+                            modifier = Modifier
+                                .padding(innerPadding)
+                        )
                     }
                 }
             }
