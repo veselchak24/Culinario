@@ -26,5 +26,5 @@ class UriImageLoader (
     }
 
     private fun loadImage(uri: Uri): Bitmap =
-        BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
+        BitmapFactory.decodeStream(context.openFileInput(uri.toString().split('/').last()))
 }

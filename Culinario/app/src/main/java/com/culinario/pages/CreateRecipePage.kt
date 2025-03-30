@@ -285,28 +285,17 @@ private fun saveRecipe(
     listImageResources: List<Bitmap>,
     context: Context
 ) {
-    //val stream: OutputStream = context.openFileOutput("test.png", MODE_PRIVATE)
-
     val saveHelper = RecipeSaveHelper(context)
 
-    saveHelper.saveBitmapToFile(headerImage)
-
-    File(context.applicationContext.filesDir, "header.png").createNewFile()
-    headerImage.compress(CompressFormat.PNG, 70, context.openFileOutput("header.png", MODE_PRIVATE))
-
-    //context.openFileInput(, )
-    //bitmap.compress(CompressFormat.PNG, 70, stream) // пишем битмап на PNG с качеством 70%
-    //stream.close()
-
-    /*val recipe = Recipe(
+    val recipe = Recipe(
         id = Random.nextInt(1000000, 9999999).toString(),
         userId = userId,
         name = recipeName,
         description = "empty",
         recipeImageResources = RecipeImageResources (
-            recipeBackgroundImageUri = headerImage.toString(),
+            recipeBackgroundImageUri = saveHelper.saveBitmapToFile(headerImage),
             recipePicturesUri = listImageResources.map {
-                it.toString()
+                saveHelper.saveBitmapToFile(it)
             }.toTypedArray()
         ),
         ingredients = ingredients
@@ -318,10 +307,10 @@ private fun saveRecipe(
         cookingSpeed = 100,
         difficulty = Difficulty.MEDIUM,
         otherInfo = OtherInfo(100, 20)
-    )*/
+    )
 
-    /*recipeRepository.addRecipe(recipe)
+    recipeRepository.addRecipe(recipe)
     recipeRepository.commit()
 
-    navController.popBackStack()*/
+    navController.popBackStack()
 }
