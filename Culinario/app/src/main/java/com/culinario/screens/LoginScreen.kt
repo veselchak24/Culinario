@@ -14,14 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
-import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+import com.culinario.mvp.presenters.user.LocalSaveUserRepository
+import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.presenters.user.UserRepositoryImpl
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 

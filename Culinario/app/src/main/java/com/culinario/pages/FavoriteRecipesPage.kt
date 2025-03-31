@@ -31,9 +31,9 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
-import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.viewmodels.RecipePageViewModel
+import com.culinario.mvp.presenters.recipe.RecipeRepository
+import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.views.RecipePageViewModel
 
 @Composable
 fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {

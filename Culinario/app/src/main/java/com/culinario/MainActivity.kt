@@ -1,6 +1,5 @@
 package com.culinario
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,20 +16,20 @@ import androidx.navigation.navArgument
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
-import com.culinario.mvp.models.repository.recipe.LocalSaveRecipeRepository
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
-import com.culinario.mvp.models.repository.recipe.RecipeRepositoryImpl
-import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
-import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+import com.culinario.mvp.presenters.recipe.LocalSaveRecipeRepository
+import com.culinario.mvp.presenters.recipe.RecipeRepository
+import com.culinario.mvp.presenters.recipe.RecipeRepositoryImpl
+import com.culinario.mvp.presenters.user.LocalSaveUserRepository
+import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.presenters.user.UserRepositoryImpl
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
-import com.culinario.viewmodels.RecipePageViewModel
-import com.culinario.viewmodels.UserPageViewModel
+import com.culinario.mvp.views.RecipePageViewModel
+import com.culinario.mvp.views.UserPageViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable
