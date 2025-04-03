@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.imageloader
+package com.culinario.helpers.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap

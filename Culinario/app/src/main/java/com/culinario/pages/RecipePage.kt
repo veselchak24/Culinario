@@ -54,7 +54,7 @@ import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
-import com.culinario.viewmodels.RecipePageViewModel
+import com.culinario.mvp.views.RecipePageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

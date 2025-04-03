@@ -19,18 +19,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.culinario.SignIn
 import com.culinario.backend.DEFAULT_USER_ID
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
-import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.presenters.recipe.RecipeRepository
+import com.culinario.mvp.presenters.user.UserRepository
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
-import com.culinario.viewmodels.UserPageViewModel
+import com.culinario.mvp.views.UserPageViewModel
 
 @Composable
 fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, navController: NavController) {
