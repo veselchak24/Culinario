@@ -1,6 +1,8 @@
-﻿using Culinario_DB.EFCore.Models;
+﻿using System.Security.Cryptography;
+using Culinario_DB.EFCore.Models;
 using Culinario_DB.EFCore.Tables;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using UserModel = Culinario_DB.EFCore.Models.UserModel;
 
 namespace Culinario_DB.EFCore.Supporting_Classes;
@@ -26,6 +28,11 @@ public partial class DbHelper
     //
     //     return userModels;
     // }
+
+    public EntityState ValidateUser(string hash)
+    {
+        throw new NotImplementedException();
+    }
 
     /// <summary>
     /// Добавляет нового пользователя в базу данных.

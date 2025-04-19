@@ -13,7 +13,7 @@ public partial class DbHelper
         _context = context;
     }
 
-    public static EntityState UpdateRangeObj<T, T1>(List<T>? objModelList, List<T1>? tableModelList,
+    private static EntityState UpdateRangeObj<T, T1>(List<T>? objModelList, List<T1>? tableModelList,
         Func<T, bool, EntityState> addFunction,
         Func<T, bool, bool, EntityState> updateFunction,
         Func<int, bool, EntityState> deleteFunction)
@@ -39,7 +39,7 @@ public partial class DbHelper
         return EntityState.Unchanged; // переделать
     }
     
-    public static EntityState UpdateObj<T, T1>(T? objModel, T1? tableModel,
+    private static EntityState UpdateObj<T, T1>(T? objModel, T1? tableModel,
         Func<T, bool, EntityState> addFunction,
         Func<T, bool, bool, EntityState> updateFunction,
         Func<int, bool, EntityState> deleteFunction)
