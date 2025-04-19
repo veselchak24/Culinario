@@ -53,7 +53,7 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.User
+import com.culinario.mvp.models.UserModel
 import com.culinario.mvp.views.RecipePageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -148,7 +148,7 @@ private fun SheetDragHandler() {
 }
 
 @Composable
-private fun SheetHeader(recipe: Recipe, user: User, navController: NavController) {
+private fun SheetHeader(recipe: Recipe, user: UserModel, navController: NavController) {
     Column(
         Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -327,7 +327,7 @@ fun IconAndText(
 }
 
 @Composable
-fun BasicUserData(user: User, onClick: () -> Unit) {
+fun BasicUserData(user: UserModel, onClick: () -> Unit) {
     Row (
         modifier = Modifier
             .clip(RoundedCornerShape(5.dp))

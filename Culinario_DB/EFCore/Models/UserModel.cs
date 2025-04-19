@@ -12,7 +12,7 @@ public class UserModel : IModel<Tables.User>
     /// <summary>
     /// Email пользователя
     /// </summary>
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
     /// <summary>
     /// Аватар пользователя

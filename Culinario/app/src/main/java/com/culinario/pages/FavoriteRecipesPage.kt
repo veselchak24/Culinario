@@ -32,11 +32,11 @@ import com.culinario.R
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.presenters.recipe.RecipeRepository
-import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.presenters.user.SelfUserPresenter
 import com.culinario.mvp.views.RecipePageViewModel
 
 @Composable
-fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
+fun FavoriteRecipesPage(selfUserPresenter: SelfUserPresenter, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
     val recipes = recipeRepository.getAllRecipes()
 
@@ -64,7 +64,7 @@ fun FavoriteRecipesPage(userRepository: UserRepository, recipeRepository: Recipe
             }
 
             if (filteredRecipes.isNotEmpty()) {
-                GridOfFavorite(filteredRecipes, userRepository, recipeRepository, Modifier.padding(top = 8.dp), navController)
+                GridOfFavorite(filteredRecipes, selfUserPresenter, recipeRepository, Modifier.padding(top = 8.dp), navController)
             } else {
                 EmptyPage()
             }
@@ -102,7 +102,7 @@ fun EmptyPage() {
 }
 
 @Composable
-fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
+fun GridOfFavorite(recipes: List<Recipe>, selfUserPresenter: SelfUserPresenter, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
@@ -110,7 +110,7 @@ fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipe
         contentPadding = PaddingValues(10.dp)
     ) {
         items(recipes) { recipe ->
-            RecipeCard(RecipePageViewModel(recipe.id, recipeRepository, userRepository, LocalContext.current), Modifier.padding(5.dp), navController)
+            RecipeCard(RecipePageViewModel(recipe.id, recipeRepository, selfUserPresenter, LocalContext.current), Modifier.padding(5.dp), navController)
         }
     }
 }

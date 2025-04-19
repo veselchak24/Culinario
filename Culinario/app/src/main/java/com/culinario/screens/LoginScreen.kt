@@ -17,15 +17,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.culinario.mvp.presenters.user.LocalSaveUserRepository
-import com.culinario.mvp.presenters.user.UserRepository
-import com.culinario.mvp.presenters.user.UserRepositoryImpl
+import com.culinario.mvp.presenters.user.SelfUserPresenter
+import com.culinario.mvp.presenters.user.SelfUserPresenterImpl
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 
 @Composable
-fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
-    LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getUserById("85t6ir7f12v"))
+fun LoginScreen(onLogin: () -> Unit, selfUserPresenter: SelfUserPresenter) {
+    LocalSaveUserRepository(LocalContext.current).addUser(SelfUserPresenterImpl().getUserById("85t6ir7f12v"))
 
     Scaffold { innerPadding ->
         val pagerState = rememberPagerState (
@@ -71,7 +70,7 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
                                     .padding(innerPadding),
                                 coroutineScope,
                                 pagerState,
-                                userRepository,
+                                selfUserPresenter,
                                 page - 1
                             )
                         ) {

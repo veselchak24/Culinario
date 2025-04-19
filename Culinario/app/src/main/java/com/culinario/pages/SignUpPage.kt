@@ -34,8 +34,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
-import com.culinario.mvp.models.User
-import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.models.UserModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -47,7 +46,7 @@ fun SignUpPage (
     modifier: Modifier,
     coroutineScope: CoroutineScope,
     pagerState: PagerState,
-    userRepository: UserRepository,
+    selfUserPresenter: com.culinario.mvp.presenters.user.SelfUserPresenter,
     signInPageIndex: Int = 0
 ): Boolean {
     var loginSuccess by remember { mutableStateOf(false) }
@@ -152,7 +151,7 @@ fun SignUpPage (
                     println("$answer: email validate: ${passwordText == repeatPasswordText}")
                     if (answer.not()) return@Button
 
-                    saveUser(nicknameText, emailText, userRepository, context)
+                    saveUser(nicknameText, emailText, selfUserPresenter, context)
                     loginSuccess = true
                 }
             ) {
@@ -190,11 +189,11 @@ fun SignUpPage (
 private fun saveUser (
     nicknameText: String,
     emailText: String,
-    userRepository: UserRepository,
+    selfUserPresenter: com.culinario.mvp.presenters.user.SelfUserPresenter,
     context: Context
 ) {
     val id = Random.nextInt(1000000, 9999999).toString()
-    val newUser = User (
+    val newUser = UserModel (
         id = id,
         name = nicknameText,
         email = emailText,
@@ -204,8 +203,8 @@ private fun saveUser (
 
     PreferencesManager(context).saveData(PREFERENCES_LOCAL_USER_KEY, id)
 
-    userRepository.addUser(newUser)
-    userRepository.commit()
+    selfUserPresenter.addUser(newUser)
+    selfUserPresenter.commit()
 }
 
 fun validateUserData(email: String, password: String, repeatPassword: String): Boolean {

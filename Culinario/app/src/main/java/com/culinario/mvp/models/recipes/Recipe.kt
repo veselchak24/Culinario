@@ -24,7 +24,7 @@ class Recipe(
     @Size(max = 100) var Name: String,
     @Size(max = 500) var Description: String,
     var Category: RecipeCategory,
-    var Image: RecipeImage?,
+    var Image: Image?,
     var User: User,
     var Products: List<Product>,
     var Steps: List<RecipeSteps>?,

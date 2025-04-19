@@ -1,15 +1,8 @@
 package com.culinario.mvp.presenters.user
 
-import com.culinario.mvp.models.User
+import com.culinario.mvp.presenters.IPresenter
 
-interface UserRepository {
-    fun addUser(user: User)
-
-    fun commit()
-
-    fun getUserById(id: String): User
-
-    fun getAllUsers(): List<User>
+interface SelfUserPresenter : IPresenter{
 
     fun authenticate(password: String): Boolean
 

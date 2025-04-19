@@ -5,11 +5,11 @@ import com.culinario.mvp.models.User
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.user.UserRepository
 
-class UserPageViewModel (
+class UserView(
     private val userId: String,
     val userRepository: UserRepository,
-    val recipeRepository: RecipeRepository
-) {
+    val recipeRepository: RecipeRepository,
+) : IView {
     fun getUser(): User {
         return userRepository.getUserById(userId)
     }

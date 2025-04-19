@@ -5,9 +5,7 @@ package com.culinario.mvp.models
  * @property Data данные изображения в виде массива байтов.
  */
 
-interface Image {
-    /**
-     * Данные изображения в виде массива байтов.
-     */
-    val Data: ByteArray
-}
+data class Image(
+    override val Id: Int,
+    val Data: ByteArray,
+) : IModel

@@ -19,9 +19,8 @@ import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.presenters.recipe.LocalSaveRecipeRepository
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.recipe.RecipeRepositoryImpl
-import com.culinario.mvp.presenters.user.LocalSaveUserRepository
-import com.culinario.mvp.presenters.user.UserRepository
-import com.culinario.mvp.presenters.user.UserRepositoryImpl
+import com.culinario.mvp.presenters.user.SelfUserPresenter
+import com.culinario.mvp.presenters.user.SelfUserPresenterImpl
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -29,7 +28,7 @@ import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
 import com.culinario.mvp.views.RecipePageViewModel
-import com.culinario.mvp.views.UserPageViewModel
+import com.culinario.mvp.views.UserView
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -45,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CulinarioTheme {
-                SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
+                SavePlaceholderData(SelfUserPresenterImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
 
                 val localUserRepository = LocalSaveUserRepository(LocalContext.current)
 
@@ -70,7 +69,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun initNavController(startDestination: Any, signIn: @Composable (() -> Unit) -> Unit, home: @Composable (NavController) -> Unit, recipeRepository: RecipeRepository, userRepository: UserRepository): NavController {
+    fun initNavController(startDestination: Any, signIn: @Composable (() -> Unit) -> Unit, home: @Composable (NavController) -> Unit, recipeRepository: RecipeRepository, selfUserPresenter: SelfUserPresenter): NavController {
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = startDestination) {
@@ -85,7 +84,7 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
-                RecipePage(RecipePageViewModel(recipeId, recipeRepository, userRepository, LocalContext.current), Modifier, navController)
+                RecipePage(RecipePageViewModel(recipeId, recipeRepository, selfUserPresenter, LocalContext.current), Modifier, navController)
             }
             composable (
                 route = "RecipeCreatePage/{userId}",
@@ -98,7 +97,7 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("userId") { type = NavType.StringType } )
             ) {
                 val userId = it.arguments?.getString("userId")!!
-                UserPage(Modifier, UserPageViewModel(userId, userRepository, recipeRepository), navController)
+                UserPage(Modifier, UserView(userId, selfUserPresenter, recipeRepository), navController)
             }
             composable<Home> {
                 home(navController)

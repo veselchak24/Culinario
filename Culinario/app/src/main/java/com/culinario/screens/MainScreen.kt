@@ -24,15 +24,15 @@ import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.presenters.recipe.RecipeRepository
-import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.presenters.user.SelfUserPresenter
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
-import com.culinario.mvp.views.UserPageViewModel
+import com.culinario.mvp.views.UserView
 
 @Composable
-fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, navController: NavController) {
+fun MainScreen(repository: RecipeRepository, selfUserPresenter: SelfUserPresenter, navController: NavController) {
     var selectedIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
@@ -69,7 +69,7 @@ fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, nav
             modifier = Modifier.padding(innerPadding),
             selectedPageIndex = selectedIndex,
             recipeRepository = repository,
-            userRepository = userRepository,
+            selfUserPresenter = selfUserPresenter,
             navController
         )
     }
@@ -80,19 +80,19 @@ fun ContentScreen (
     modifier: Modifier,
     selectedPageIndex: Int,
     recipeRepository: RecipeRepository,
-    userRepository: UserRepository,
+    selfUserPresenter: SelfUserPresenter,
     navController: NavController
 ) {
     val preferencesManager = PreferencesManager(LocalContext.current)
     val userId = preferencesManager.getData(PREFERENCES_LOCAL_USER_KEY, DEFAULT_USER_ID)
 
-    val userPageViewModel = UserPageViewModel(userId, userRepository, recipeRepository)
+    val userView = UserView(userId, selfUserPresenter, recipeRepository)
 
-    SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
+    SavePlaceholderData(selfUserPresenter, recipeRepository, LocalContext.current)
 
     when (selectedPageIndex) {
         0 -> HomePage()
-        1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
-        2 -> UserPage(modifier, userPageViewModel, navController)
+        1 -> FavoriteRecipesPage(selfUserPresenter, recipeRepository, modifier, navController)
+        2 -> UserPage(modifier, userView, navController)
     }
 }

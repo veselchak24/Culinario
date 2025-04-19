@@ -6,17 +6,16 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import com.culinario.R
 import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.User
 import com.culinario.helpers.imageloader.ImageLoader
 import com.culinario.helpers.imageloader.ResourceImageLoader
 import com.culinario.helpers.imageloader.UriImageLoader
 import com.culinario.mvp.presenters.recipe.RecipeRepository
-import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.presenters.user.SelfUserPresenter
 
 class RecipePageViewModel (
     private val recipeId: String,
     val recipeRepository: RecipeRepository,
-    val userRepository: UserRepository,
+    val selfUserPresenter: com.culinario.mvp.presenters.user.SelfUserPresenter,
     val context: Context
 ) {
     private var imageLoader: ImageLoader
@@ -44,8 +43,8 @@ class RecipePageViewModel (
         return recipeRepository.getRecipeById(recipeId)
     }
 
-    fun getUserOwner(): User {
-        return userRepository.getUserById(getRecipe().userId)
+    fun getUserOwner(): SelfUserPresenter {
+        return selfUserPresenter.getUserById(getRecipe().userId)
     }
 
     fun getBackgroundBitmap(): Bitmap {
