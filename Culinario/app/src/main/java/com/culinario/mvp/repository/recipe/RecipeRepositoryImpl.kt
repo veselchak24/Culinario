@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.repository.recipe
+package com.culinario.mvp.repository.recipe
 
 import com.culinario.R
 import com.culinario.mvp.models.Difficulty
