@@ -33,7 +33,7 @@ public class ProductModel : IModel<Tables.Product>
         Name = product.Name;
         Description = product.Description;
         Nutritional = product.Nutritional;
-        CategoryId = new ProductCategoryModel(product.CategoryId);
+        CategoryId = new ProductCategoryModel(product.Category);
     }
 
     public Tables.Product ToEntity()
@@ -44,7 +44,7 @@ public class ProductModel : IModel<Tables.Product>
             Name = Name,
             Description = Description,
             Nutritional = Nutritional,
-            CategoryId = CategoryId.ToEntity()
+            Category = CategoryId.ToEntity()
         };
     }
 }

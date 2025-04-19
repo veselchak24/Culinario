@@ -30,12 +30,12 @@ public class CommentModel : IModel<Tables.Comment>
     /// <summary>
     /// Количество лайков, полученных комментарием
     /// </summary>
-    public int Likes { get; set; }
+    public uint Likes { get; set; }
 
     /// <summary>
     /// Количество дизлайков, полученных комментарием
     /// </summary>
-    public int Dislikes { get; set; }
+    public uint Dislikes { get; set; }
 
     /// <summary>
     /// Идентификатор комментария, на который является ответом данный комментарий, если таковой имеется
@@ -46,12 +46,12 @@ public class CommentModel : IModel<Tables.Comment>
     {
         Id = comment.Id;
         Text = comment.Text;
-        RecipeId = new RecipeModel(comment.RecipeId);
-        UserId = new UserModel(comment.UserId);
+        RecipeId = new RecipeModel(comment.Recipe);
+        UserId = new UserModel(comment.User);
         TimeCreated = comment.TimeCreated;
         Likes = comment.Likes;
         Dislikes = comment.Dislikes;
-        ReplyCommentId = comment.ReplyCommentId == null ? null : new CommentModel(comment.ReplyCommentId);
+        ReplyCommentId = comment.ReplyComment == null ? null : new CommentModel(comment.ReplyComment);
     }
 
     public Tables.Comment ToEntity()
@@ -60,12 +60,12 @@ public class CommentModel : IModel<Tables.Comment>
         {
             Id = Id,
             Text = Text,
-            RecipeId = RecipeId.ToEntity(),
-            UserId = UserId.ToEntity(),
+            Recipe = RecipeId.ToEntity(),
+            User = UserId.ToEntity(),
             TimeCreated = TimeCreated,
             Likes = Likes,
             Dislikes = Dislikes,
-            ReplyCommentId = ReplyCommentId?.ToEntity()
+            ReplyComment = ReplyCommentId?.ToEntity()
         };
     }
 }

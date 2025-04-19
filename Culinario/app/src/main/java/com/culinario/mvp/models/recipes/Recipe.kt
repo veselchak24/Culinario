@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
  * @param Description Описание рецепта, длина строки не должна превышать 500 символов.
  * @param Category Категория рецепта.
  * @param Image Изображение рецепта.
- * @param UserId Идентификатор пользователя, создавшего рецепт.
+ * @param User Пользователь, создавшего рецепт.
  * @param Products Список продуктов, используемых в рецепте.
  * @param Steps Список шагов приготовления рецепта.
  * @param Likes Количество лайков рецепта.
@@ -25,7 +25,7 @@ class Recipe(
     @Size(max = 500) var Description: String,
     var Category: RecipeCategory,
     var Image: RecipeImage?,
-    var UserId: User,
+    var User: User,
     var Products: List<Product>,
     var Steps: List<RecipeSteps>?,
     var Likes: UInt,

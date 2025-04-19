@@ -9,13 +9,13 @@ import kotlinx.serialization.Serializable
  * @param Name Название продукта.
  * @param Description Описание продукта.
  * @param Nutritional Информация о питательных веществах продукта.
- * @param CategoryId Идентификатор категории продукта.
+ * @param Category Информация о категории продукта.
  */
 @Serializable
 class Product(
     override val Id: Int,
-    val Name: String,
-    @Size(max = 100) val Description: String,
+    @Size(max = 100) val Name: String,
+    @Size(max = 1000) val Description: String,
     val Nutritional: Nutritional,
-    val CategoryId: ProductCategory,
+    val Category: ProductCategory,
 ) : IModel

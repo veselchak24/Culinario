@@ -6,5 +6,5 @@ namespace Culinario_DB.EFCore.Tables;
 [Table("RecipeImage")]
 public class RecipeImage : Image
 {
-    public required Recipe RecipeId { get; set; }
+    public required Recipe Recipe { get; set; }
 }

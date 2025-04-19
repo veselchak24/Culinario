@@ -38,8 +38,7 @@ public class Recipe : ITable
     /// <summary>
     /// Пользователь, добавивший рецепт
     /// </summary>
-    [ForeignKey("UserId")]
-    public required User UserId { get; set; }
+    public required User User { get; set; }
 
     /// <summary>
     /// Список продуктов для рецепта
@@ -54,20 +53,17 @@ public class Recipe : ITable
     /// <summary>
     /// Количество лайков рецепта
     /// </summary>
-    [Range(0, int.MaxValue)]
-    public int Likes { get; set; }
+    public uint Likes { get; set; }
 
     /// <summary>
     /// Количество дизлайков рецепта
     /// </summary>
-    [Range(0, int.MaxValue)]
-    public int Dislikes { get; set; }
+    public uint Dislikes { get; set; }
 
     /// <summary>
     /// Количество просмотров рецепта
     /// </summary>
-    [Range(0, int.MaxValue)]
-    public int Views { get; set; }
+    public uint Views { get; set; }
 
     /// <summary>
     /// Комментарии к рецепту

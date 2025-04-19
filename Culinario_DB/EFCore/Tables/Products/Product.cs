@@ -33,5 +33,5 @@ public class Product : ITable
     /// <summary>
     /// Категория продукта
     /// </summary>
-    public required ProductCategory CategoryId { get; set; }
+    public required ProductCategory Category{ get; set; }
 }

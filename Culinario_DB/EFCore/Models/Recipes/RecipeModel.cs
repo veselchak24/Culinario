@@ -42,17 +42,17 @@ public class RecipeModel : IModel<Tables.Recipe>
     /// <summary>
     /// Количество лайков рецепта
     /// </summary>
-    public int Likes { get; set; }
+    public uint Likes { get; set; }
 
     /// <summary>
     /// Количество дизлайков рецепта
     /// </summary>
-    public int Dislikes { get; set; }
+    public uint Dislikes { get; set; }
 
     /// <summary>
     /// Количество просмотров рецепта
     /// </summary>
-    public int Views { get; set; }
+    public uint Views { get; set; }
 
     /// <summary>
     /// Комментарии к рецепту
@@ -66,7 +66,7 @@ public class RecipeModel : IModel<Tables.Recipe>
         Description = recipe.Description;
         Category = new RecipeCategoryModel(recipe.Category);
         Image = recipe.Image == null ? null : new ImageModel(recipe.Image);
-        UserId = new UserModel(recipe.UserId);
+        UserId = new UserModel(recipe.User);
         Products = recipe.Products.ConvertAll(p => new ProductModel(p));
         Steps = recipe.Steps?.ConvertAll(s => new RecipeStepsModel(s));
         Likes = recipe.Likes;
@@ -84,7 +84,7 @@ public class RecipeModel : IModel<Tables.Recipe>
             Description = Description,
             Category = Category.ToEntity(),
             Image = Image?.ToEntity() as Tables.RecipeImage,
-            UserId = UserId.ToEntity(),
+            User = UserId.ToEntity(),
             Products = Products.ConvertAll(p => p.ToEntity()),
             Steps = Steps?.ConvertAll(s => s.ToEntity()),
             Likes = Likes,

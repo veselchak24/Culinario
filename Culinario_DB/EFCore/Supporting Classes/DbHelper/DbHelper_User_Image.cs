@@ -11,7 +11,7 @@ public partial class DbHelper
             return EntityState.Unchanged;
 
         if (_context.UserImages.Any(image => image.Id == imageModel.Id)
-            || !_context.Users.Any(image => image.Id == imageEntity.UserId.Id))
+            || !_context.Users.Any(image => image.Id == imageEntity.User.Id))
             return EntityState.Unchanged;
 
         var state = _context.UserImages.Add(imageEntity).State;

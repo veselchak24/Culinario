@@ -8,7 +8,7 @@ namespace Culinario_DB.EFCore.Tables;
 public class RecipeSteps : ITable
 {
     [Key] public int Id { get; set; }
-    public required Recipe RecipeId { get; set; }
-    public required string Description { get; set; }
+    public required Recipe Recipe { get; set; }
+    [MaxLength(200)] public required string Description { get; set; }
     public required List<RecipeImage>? Images { get; set; }
 }

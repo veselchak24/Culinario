@@ -19,10 +19,10 @@ import kotlinx.serialization.Serializable
 data class Comment(
     override val Id: Int,
     @Size(max = 5000) var Text: String,
-    @SerialName("RecipeId") val Recipe: Recipe,
-    @SerialName("UserId") val User: User,
+    val Recipe: Recipe,
+    val User: User,
     var TimeCreated: String,
     var Likes: UInt,
     var Dislikes: UInt,
-    @SerialName("ReplyCommentId") val ReplyComment: Comment?,
+    val ReplyComment: Comment?,
 ) : IModel

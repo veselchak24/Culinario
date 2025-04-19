@@ -21,12 +21,12 @@ public class Comment : ITable
     /// <summary>
     /// Идентификатор рецепта, с которым связан комментарий
     /// </summary>
-    public required Recipe RecipeId { get; set; }
+    public required Recipe Recipe { get; set; }
 
     /// <summary>
     /// Идентификатор пользователя, создавшего комментарий
     /// </summary>
-    public required User UserId { get; set; }
+    public required User User { get; set; }
 
     /// <summary>
     /// Временная метка создания комментария
@@ -36,15 +36,15 @@ public class Comment : ITable
     /// <summary>
     /// Количество лайков, полученных комментарием
     /// </summary>
-    public required int Likes { get; set; }
+    public required uint Likes { get; set; }
 
     /// <summary>
     /// Количество дизлайков, полученных комментарием
     /// </summary>
-    public required int Dislikes { get; set; }
+    public required uint Dislikes { get; set; }
 
     /// <summary>
     /// Идентификатор комментария, на который является ответом данный комментарий, если таковой имеется
     /// </summary>
-    public Comment? ReplyCommentId { get; set; }
+    public Comment? ReplyComment { get; set; }
 }

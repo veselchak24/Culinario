@@ -16,15 +16,16 @@ public class User : ITable
     /// <summary>
     /// Имя пользователя
     /// </summary>
-    [MaxLength(21)]
+    [MaxLength(40)]
     [Required]
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
 
     /// <summary>
     /// Email пользователя
     /// </summary>
-    [MaxLength(31)]
-    public string? Email { get; set; }
+    [MaxLength(320)]
+    [Required]
+    public required string Email { get; set; }
 
     /// <summary>
     /// Аватар пользователя

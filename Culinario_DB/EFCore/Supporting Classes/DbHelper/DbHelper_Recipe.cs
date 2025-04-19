@@ -10,7 +10,7 @@ public partial class DbHelper
         var recipe = _context.Recipes
             .Include(recipe => recipe.Category)
             .Include(recipe => recipe.Image)
-            .Include(recipe => recipe.UserId)
+            .Include(recipe => recipe.User)
             .Include(recipe => recipe.Products)
             .Include(recipe => recipe.Steps)
             .Include(recipe => recipe.Comments)

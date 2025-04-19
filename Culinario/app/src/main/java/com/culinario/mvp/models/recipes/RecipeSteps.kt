@@ -1,6 +1,6 @@
 package com.culinario.mvp.models
 
-import kotlinx.serialization.SerialName
+import androidx.annotation.Size
 import kotlinx.serialization.Serializable
 
 /**
@@ -13,7 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecipeSteps(
     override val Id: Int,
-    @SerialName("RecipeId") val Recipe: Recipe,
-    var Description: String,
-    val Images: List<Image>?,
+    val Recipe: Recipe,
+    @Size(max = 200) var Description: String,
+    val Images: List<Image>,
 ) : IModel

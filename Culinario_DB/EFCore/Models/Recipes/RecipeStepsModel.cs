@@ -9,7 +9,7 @@ public class RecipeStepsModel : IModel<Tables.RecipeSteps>
 
     public RecipeStepsModel(Tables.RecipeSteps steps)
     {
-        RecipeId = new RecipeModel(steps.RecipeId);
+        RecipeId = new RecipeModel(steps.Recipe);
         Description = steps.Description;
         Images = steps.Images?.ConvertAll(x => new ImageModel(x));
     }
@@ -19,7 +19,7 @@ public class RecipeStepsModel : IModel<Tables.RecipeSteps>
         return new Tables.RecipeSteps
         {
             Id = Id,
-            RecipeId = RecipeId.ToEntity(),
+            Recipe = RecipeId.ToEntity(),
             Description = Description,
             Images = Images?.ConvertAll(img => (img.ToEntity() as Tables.RecipeImage)!)
         };
