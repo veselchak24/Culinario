@@ -5,6 +5,21 @@ namespace Culinario_DB.EFCore.Supporting_Classes;
 
 public partial class DbHelper
 {
+    public RecipeModel? GetRecipe(int id)
+    {
+        var recipe = _context.Recipes
+            .Include(recipe => recipe.Category)
+            .Include(recipe => recipe.Image)
+            .Include(recipe => recipe.UserId)
+            .Include(recipe => recipe.Products)
+            .Include(recipe => recipe.Steps)
+            .Include(recipe => recipe.Comments)
+            .FirstOrDefault(recipe => recipe.Id == id);
+
+        return recipe != null ? new RecipeModel(recipe): null;
+    }
+
+
     /// <summary>
     /// Добавляет рецепт в базу данных.
     /// Если рецепт добавлен, возвращает EntityState.Added
@@ -49,7 +64,8 @@ public partial class DbHelper
             return addIfNotExist ? AddRecipe(recipeModel, saveChanges: saveChanges) : EntityState.Unchanged;
 
         // Image
-        UpdateObj<Models.ImageModel, Tables.Image>(recipeModel.Image, recipe.Image, AddRecipeImage, UpdateRecipeImage, DeleteRecipeImage);
+        UpdateObj<Models.ImageModel, Tables.Image>(recipeModel.Image, recipe.Image, AddRecipeImage, UpdateRecipeImage,
+            DeleteRecipeImage);
 
         // Steps
         UpdateRangeObj(recipeModel.Steps, recipe.Steps, AddStep, UpdateStep, DeleteStep);
