@@ -55,7 +55,7 @@ fun HomePage() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.baseline_build_circle_24),
+                    painter = painterResource(R.drawable.clock),
                     contentDescription = "",
                     modifier = Modifier
                         .size(150.dp),
