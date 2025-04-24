@@ -1,4 +1,4 @@
-package com.culinario.mvp.models
+package com.culinario.mvp.models.product
 
 class ProductCategory(
     val id: Int,

@@ -10,8 +10,8 @@ import com.culinario.mvp.models.User
 import com.culinario.mvp.models.imageloader.ImageLoader
 import com.culinario.mvp.models.imageloader.ResourceImageLoader
 import com.culinario.mvp.models.imageloader.UriImageLoader
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.repository.recipe.RecipeRepository
 
 class RecipePageViewModel (
     private val recipeId: String,

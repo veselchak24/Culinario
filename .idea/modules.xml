@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Culinario.iml" filepath="$PROJECT_DIR$/.idea/Culinario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Culinario/app/src/androidTest/androidTest.iml" filepath="$PROJECT_DIR$/Culinario/app/src/androidTest/androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Culinario/app/src/main/main.iml" filepath="$PROJECT_DIR$/Culinario/app/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Culinario/app/src/test/test.iml" filepath="$PROJECT_DIR$/Culinario/app/src/test/test.iml" />
     </modules>
   </component>
 </project>

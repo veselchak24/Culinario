@@ -9,6 +9,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Image(
-    override val Id: Int,
+    val Id: Int,
     val Data: ByteArray,
 ) : IModel

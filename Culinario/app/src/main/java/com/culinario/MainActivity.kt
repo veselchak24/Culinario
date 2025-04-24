@@ -1,5 +1,7 @@
 package com.culinario
 
+import RecipeRepository
+import RecipeRepositoryImpl
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,12 +18,10 @@ import androidx.navigation.navArgument
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
-import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
-import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.repository.user.UserRepositoryImpl
-import com.culinario.mvp.repository.recipe.LocalSaveRecipeRepository
-import com.culinario.mvp.repository.recipe.RecipeRepository
-import com.culinario.mvp.repository.recipe.RecipeRepositoryImpl
+import com.culinario.mvp.presenters.recipe.LocalSaveRecipeRepository
+import com.culinario.mvp.presenters.user.LocalSaveUserRepository
+import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.presenters.user.UserRepositoryImpl
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -70,13 +70,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun initNavController(
-        startDestination: Any,
-        signIn: @Composable (() -> Unit) -> Unit,
-        home: @Composable (NavController) -> Unit,
-        recipeRepository: RecipeRepository,
-        userRepository: UserRepository
-    ): NavController {
+    fun initNavController(startDestination: Any, signIn: @Composable (() -> Unit) -> Unit, home: @Composable (NavController) -> Unit, recipeRepository: RecipeRepository, userRepository: UserRepository): NavController {
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = startDestination) {

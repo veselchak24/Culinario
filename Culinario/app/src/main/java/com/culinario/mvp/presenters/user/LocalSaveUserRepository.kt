@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.repository.user
+package com.culinario.mvp.presenters.user
 
 import android.content.Context
 import com.culinario.backend.PROFILE_JSON_FILE_NAME

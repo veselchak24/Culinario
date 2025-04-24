@@ -1,4 +1,4 @@
-package com.culinario.mvp.models
+package com.culinario.mvp.presenters
 
 class UserRepository(
     val id: String = "",
@@ -6,8 +6,6 @@ class UserRepository(
     val email: String = "",
     private var passwordHash: String = ""
 ) {
-    // Основные методы пользователя
-
     fun authenticate(password: String): Boolean {
         TODO("Реализовать проверку пароля")
     }

@@ -1,15 +1,15 @@
 package com.culinario.helpers
 
+import RecipeRepository
 import android.content.Context
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import com.culinario.backend.RECIPE_JSON_FILE_NAME
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
-import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.presenters.user.UserRepositoryImpl
 import com.google.gson.GsonBuilder
 import java.io.File
 
-class SavePlaceholderData (
-    private val userRepository: UserRepository,
+class SavePlaceholderData(
+    private val userRepository: UserRepositoryImpl,
     private val recipeRepository: RecipeRepository,
     val context: Context
 ) {

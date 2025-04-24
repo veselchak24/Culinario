@@ -45,8 +45,8 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
-import com.culinario.viewmodels.RecipePageViewModel
-import com.culinario.viewmodels.UserPageViewModel
+import com.culinario.mvp.views.RecipePageViewModel
+import com.culinario.mvp.views.UserPageViewModel
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
