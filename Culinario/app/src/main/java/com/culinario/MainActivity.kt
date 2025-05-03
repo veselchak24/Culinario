@@ -16,12 +16,11 @@ import androidx.navigation.navArgument
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
-import com.culinario.mvp.models.repository.recipe.LocalSaveRecipeRepository
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
-import com.culinario.mvp.models.repository.recipe.RecipeRepositoryImpl
-import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
-import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+import com.culinario.repository.recipe.LocalSaveRecipeRepository
+import com.culinario.repository.recipe.RecipeRepository
+import com.culinario.repository.recipe.RecipeRepositoryImpl
+import com.culinario.repository.user.LocalSaveUserRepository
+import com.culinario.repository.user.UserRepository
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -45,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CulinarioTheme {
-                SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
+                SavePlaceholderData(RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
 
                 val localUserRepository = LocalSaveUserRepository(LocalContext.current)
 
@@ -96,8 +95,8 @@ class MainActivity : ComponentActivity() {
                 route = "UserPage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType } )
             ) {
-                val userId = it.arguments?.getString("userId")!!
-                UserPage(Modifier, UserPageViewModel(userId, userRepository, recipeRepository), navController)
+                val userId = it.arguments?.getInt("userId")!!.toUInt()
+                UserPage(Modifier, UserPageViewModel(userId), navController)
             }
             composable<Home> {
                 home(navController)

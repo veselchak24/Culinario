@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.mvp.models.User
-import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.repository.user.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -193,16 +193,14 @@ private fun saveUser (
     userRepository: UserRepository,
     context: Context
 ) {
-    val id = Random.nextInt(1000000, 9999999).toString()
+    val id = Random.nextInt(1000000, 9999999)
     val newUser = User (
-        _id = id,
-        _name = nicknameText,
-        _email = emailText,
-        _about = "В разработке",
-        _recipesId = listOf()
+        Id = id,
+        Name = nicknameText,
+        Email = emailText,
     )
 
-    PreferencesManager(context).saveData(PREFERENCES_LOCAL_USER_KEY, id)
+    PreferencesManager(context).saveData(PREFERENCES_LOCAL_USER_KEY, id.toString())
 
     userRepository.addUser(newUser)
     userRepository.commit()
