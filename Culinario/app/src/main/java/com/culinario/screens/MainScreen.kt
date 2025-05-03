@@ -19,16 +19,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.culinario.SignIn
 import com.culinario.backend.DEFAULT_USER_ID
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
+<<<<<<< HEAD
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.user.SelfUserPresenter
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
+<<<<<<< HEAD
 import com.culinario.mvp.views.UserView
 
 @Composable

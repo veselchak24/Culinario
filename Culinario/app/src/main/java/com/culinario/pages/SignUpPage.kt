@@ -34,6 +34,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
+<<<<<<< HEAD
 import com.culinario.mvp.models.UserModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -193,6 +194,7 @@ private fun saveUser (
     context: Context
 ) {
     val id = Random.nextInt(1000000, 9999999).toString()
+<<<<<<< HEAD
     val newUser = UserModel (
         id = id,
         name = nicknameText,

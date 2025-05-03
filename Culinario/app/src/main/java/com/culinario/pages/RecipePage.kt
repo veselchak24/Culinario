@@ -53,6 +53,7 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.mvp.models.Recipe
+<<<<<<< HEAD
 import com.culinario.mvp.models.UserModel
 import com.culinario.mvp.views.RecipePageViewModel
 

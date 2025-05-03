@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
+<<<<<<< HEAD
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.user.SelfUserPresenter
 import com.culinario.mvp.views.RecipePageViewModel

@@ -27,7 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.culinario.R
-import com.culinario.mvp.views.RecipePageViewModel
+import com.culinario.viewmodels.RecipePageViewModel
 
 @Composable
 fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, navController: NavController) {

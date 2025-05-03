@@ -37,6 +37,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,7 +60,6 @@ import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
-import com.culinario.mvp.presenters.recipe.RecipeRepository
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 

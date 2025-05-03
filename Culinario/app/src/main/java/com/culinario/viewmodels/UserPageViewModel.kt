@@ -1,9 +1,9 @@
-package com.culinario.mvp.views
+package com.culinario.viewmodels
 
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
-import com.culinario.mvp.presenters.recipe.RecipeRepository
-import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 
 class UserView(
     private val userId: String,

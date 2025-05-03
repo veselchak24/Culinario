@@ -3,8 +3,8 @@ package com.culinario.helpers
 import android.content.Context
 import com.culinario.backend.PROFILE_JSON_FILE_NAME
 import com.culinario.backend.RECIPE_JSON_FILE_NAME
-import com.culinario.mvp.presenters.recipe.RecipeRepository
-import com.culinario.mvp.presenters.user.UserRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 import com.google.gson.GsonBuilder
 import java.io.File
 

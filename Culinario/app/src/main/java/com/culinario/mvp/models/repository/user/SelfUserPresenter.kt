@@ -1,4 +1,4 @@
-package com.culinario.mvp.presenters.user
+package com.culinario.mvp.models.repository.user
 
 import com.culinario.mvp.presenters.IPresenter
 

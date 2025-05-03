@@ -1,5 +1,6 @@
 package com.culinario
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,7 @@ import androidx.navigation.navArgument
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
+<<<<<<< HEAD
 import com.culinario.mvp.presenters.recipe.LocalSaveRecipeRepository
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.recipe.RecipeRepositoryImpl
@@ -27,6 +29,7 @@ import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
+<<<<<<< HEAD
 import com.culinario.mvp.views.RecipePageViewModel
 import com.culinario.mvp.views.UserView
 import kotlinx.serialization.Serializable

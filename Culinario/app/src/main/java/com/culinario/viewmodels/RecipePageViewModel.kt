@@ -1,4 +1,4 @@
-package com.culinario.mvp.views
+package com.culinario.viewmodels
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,11 +6,20 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import com.culinario.R
 import com.culinario.mvp.models.Recipe
+<<<<<<< HEAD:Culinario/app/src/main/java/com/culinario/mvp/views/RecipePageViewModel.kt
 import com.culinario.helpers.imageloader.ImageLoader
 import com.culinario.helpers.imageloader.ResourceImageLoader
 import com.culinario.helpers.imageloader.UriImageLoader
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.user.SelfUserPresenter
+=======
+import com.culinario.mvp.models.User
+import com.culinario.mvp.models.imageloader.ImageLoader
+import com.culinario.mvp.models.imageloader.ResourceImageLoader
+import com.culinario.mvp.models.imageloader.UriImageLoader
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+>>>>>>> parent of bd419f2 (Refactor structure code):Culinario/app/src/main/java/com/culinario/viewmodels/RecipePageViewModel.kt
 
 class RecipePageViewModel (
     private val recipeId: String,
