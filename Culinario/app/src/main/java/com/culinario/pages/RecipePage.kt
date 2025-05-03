@@ -56,6 +56,10 @@ import com.culinario.mvp.models.Recipe
 <<<<<<< HEAD
 import com.culinario.mvp.models.UserModel
 import com.culinario.mvp.views.RecipePageViewModel
+=======
+import com.culinario.mvp.models.User
+import com.culinario.viewmodels.RecipePageViewModel
+>>>>>>> parent of bd419f2 (Refactor structure code)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

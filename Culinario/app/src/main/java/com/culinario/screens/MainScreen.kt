@@ -27,12 +27,19 @@ import com.culinario.helpers.SavePlaceholderData
 <<<<<<< HEAD
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.user.SelfUserPresenter
+=======
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+>>>>>>> parent of bd419f2 (Refactor structure code)
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 <<<<<<< HEAD
 import com.culinario.mvp.views.UserView
+=======
+import com.culinario.viewmodels.UserPageViewModel
+>>>>>>> parent of bd419f2 (Refactor structure code)
 
 @Composable
 fun MainScreen(repository: RecipeRepository, selfUserPresenter: SelfUserPresenter, navController: NavController) {

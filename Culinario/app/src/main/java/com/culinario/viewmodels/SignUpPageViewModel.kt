@@ -1,4 +1,4 @@
-package com.culinario.mvp.views
+package com.culinario.viewmodels
 
 import com.culinario.mvp.models.User
 

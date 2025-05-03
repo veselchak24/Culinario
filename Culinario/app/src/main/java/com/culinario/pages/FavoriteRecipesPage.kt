@@ -35,6 +35,11 @@ import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.user.SelfUserPresenter
 import com.culinario.mvp.views.RecipePageViewModel
+=======
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.viewmodels.RecipePageViewModel
+>>>>>>> parent of bd419f2 (Refactor structure code)
 
 @Composable
 fun FavoriteRecipesPage(selfUserPresenter: SelfUserPresenter, recipeRepository: RecipeRepository, modifier: Modifier, navController: NavController) {

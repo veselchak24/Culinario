@@ -36,6 +36,10 @@ import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 <<<<<<< HEAD
 import com.culinario.mvp.models.UserModel
+=======
+import com.culinario.mvp.models.User
+import com.culinario.mvp.models.repository.user.UserRepository
+>>>>>>> parent of bd419f2 (Refactor structure code)
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -201,6 +205,14 @@ private fun saveUser (
         email = emailText,
         about = "В разработке",
         recipesId = listOf()
+=======
+    val newUser = User (
+        _id = id,
+        _name = nicknameText,
+        _email = emailText,
+        _about = "В разработке",
+        _recipesId = listOf()
+>>>>>>> parent of bd419f2 (Refactor structure code)
     )
 
     PreferencesManager(context).saveData(PREFERENCES_LOCAL_USER_KEY, id)

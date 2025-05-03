@@ -23,6 +23,14 @@ import com.culinario.mvp.presenters.recipe.RecipeRepository
 import com.culinario.mvp.presenters.recipe.RecipeRepositoryImpl
 import com.culinario.mvp.presenters.user.SelfUserPresenter
 import com.culinario.mvp.presenters.user.SelfUserPresenterImpl
+=======
+import com.culinario.mvp.models.repository.recipe.LocalSaveRecipeRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepositoryImpl
+import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+>>>>>>> parent of bd419f2 (Refactor structure code)
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -32,6 +40,10 @@ import com.culinario.ui.theme.CulinarioTheme
 <<<<<<< HEAD
 import com.culinario.mvp.views.RecipePageViewModel
 import com.culinario.mvp.views.UserView
+=======
+import com.culinario.viewmodels.RecipePageViewModel
+import com.culinario.viewmodels.UserPageViewModel
+>>>>>>> parent of bd419f2 (Refactor structure code)
 import kotlinx.serialization.Serializable
 
 @Serializable

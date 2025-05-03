@@ -21,8 +21,12 @@ import androidx.compose.ui.unit.dp
 <<<<<<< HEAD
 import com.culinario.mvp.presenters.user.SelfUserPresenter
 import com.culinario.mvp.presenters.user.SelfUserPresenterImpl
+=======
 import androidx.navigation.NavController
 import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+>>>>>>> parent of bd419f2 (Refactor structure code)
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 
