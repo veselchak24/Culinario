@@ -1,4 +1,4 @@
-package com.culinario.repository.recipe
+package com.culinario.mvp.models.repository.recipe
 
 import android.content.Context
 import com.culinario.backend.RECIPE_JSON_FILE_NAME

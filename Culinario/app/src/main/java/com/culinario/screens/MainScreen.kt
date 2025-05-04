@@ -19,12 +19,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.culinario.SignIn
 import com.culinario.backend.DEFAULT_USER_ID
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
-import com.culinario.repository.recipe.RecipeRepository
-import com.culinario.repository.user.UserRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
@@ -69,6 +70,7 @@ fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, nav
             modifier = Modifier.padding(innerPadding),
             selectedPageIndex = selectedIndex,
             recipeRepository = repository,
+            userRepository = userRepository,
             navController
         )
     }
@@ -79,14 +81,15 @@ fun ContentScreen (
     modifier: Modifier,
     selectedPageIndex: Int,
     recipeRepository: RecipeRepository,
+    userRepository: UserRepository,
     navController: NavController
 ) {
     val preferencesManager = PreferencesManager(LocalContext.current)
     val userId = preferencesManager.getData(PREFERENCES_LOCAL_USER_KEY, DEFAULT_USER_ID)
 
-    val userPageViewModel = UserPageViewModel(userId, recipeRepository)
+    val userPageViewModel = UserPageViewModel(userId, userRepository, recipeRepository)
 
-    SavePlaceholderData(recipeRepository, LocalContext.current)
+    SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
 
     when (selectedPageIndex) {
         0 -> HomePage()

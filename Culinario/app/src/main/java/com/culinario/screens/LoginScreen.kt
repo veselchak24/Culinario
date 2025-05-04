@@ -14,23 +14,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.culinario.mvp.models.User
-import com.culinario.repository.user.LocalSaveUserRepository
-import com.culinario.repository.user.UserRepository
+import androidx.navigation.NavController
+import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
+import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.models.repository.user.UserRepositoryImpl
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 
 @Composable
 fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
-    var user : User? = null;
-    UserRepository.get(1234u)
-    LocalSaveUserRepository(LocalContext.current).add(user)
+    LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getUserById("85t6ir7f12v"))
 
     Scaffold { innerPadding ->
-        val pagerState = rememberPagerState(
+        val pagerState = rememberPagerState (
             initialPage = 1,
             pageCount = { 2 }
         )
@@ -42,13 +42,13 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
         if (close)
             return@Scaffold
 
-        HorizontalPager(
+        HorizontalPager (
             state = pagerState,
             Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         ) { page ->
-            Box(
+            Box (
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
@@ -57,7 +57,7 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
                 when (page) {
                     0 -> {
                         if (
-                            SignInPage(
+                            SignInPage (
                                 modifier = Modifier
                                     .padding(innerPadding)
                             )
@@ -66,10 +66,9 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
                             close = true
                         }
                     }
-
                     1 -> {
                         if (
-                            SignUpPage(
+                            SignUpPage (
                                 Modifier
                                     .padding(innerPadding),
                                 coroutineScope,
@@ -82,7 +81,6 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
                             close = true
                         }
                     }
-
                     else -> {
                         Text(
                             text = "Presentation page №$page",

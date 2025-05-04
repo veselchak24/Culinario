@@ -2,14 +2,16 @@ package com.culinario.viewmodels
 
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
-import com.culinario.repository.recipe.RecipeRepository
-import com.culinario.repository.user.UserRepository
+import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.mvp.models.repository.user.UserRepository
 
 class UserPageViewModel (
-    private val userId: UInt,
+    private val userId: String,
+    val userRepository: UserRepository,
+    val recipeRepository: RecipeRepository
 ) {
     fun getUser(): User {
-        return UserRepository.get(userId)
+        return userRepository.getUserById(userId)
     }
 
     fun getUserRecipes(): List<Recipe> {
