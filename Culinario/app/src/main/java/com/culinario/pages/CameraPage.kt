@@ -3,9 +3,14 @@ package com.culinario.pages
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,8 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.culinario.R
+import com.culinario.controls.camera.CameraPreview
+import com.culinario.controls.camera.TakePhoto
 
 @Composable
 fun CameraPage(
@@ -52,36 +62,36 @@ fun CameraPage(
             ) {
                 val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
 
-//                CameraPreview(
-//                    lifecycleOwner = lifecycleOwner,
-//                    cameraProviderFuture,
-//                    modifier = Modifier
-//                )
-//
-//                IconButton (
-//                    modifier = Modifier
-//                        .align(Alignment.BottomCenter)
-//                        .padding(50.dp)
-//                        .size(70.dp),
-//                    onClick = {
-//                        takePhoto(
-//                            context = context,
-//                            lifecycleOwner = lifecycleOwner,
-//                            cameraProvider = cameraProviderFuture.get(),
-//                            cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
-//                            onImageCaptured = { bitmap ->
-//                                //TODO("отправка на сервер")
-//                            }
-//                        )
-//                    }
-//                ) {
-//                    Icon(
-//                        painter = painterResource(R.drawable.camera_icon),
-//                        contentDescription = "Camera button",
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                    )
-//                }
+                CameraPreview(
+                    lifecycleOwner = lifecycleOwner,
+                    cameraProviderFuture,
+                    modifier = Modifier
+                )
+
+                IconButton (
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(50.dp)
+                        .size(70.dp),
+                    onClick = {
+                        TakePhoto(
+                            context = context,
+                            lifecycleOwner = lifecycleOwner,
+                            cameraProvider = cameraProviderFuture.get(),
+                            cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
+                            onImageCaptured = { bitmap ->
+                                //TODO("отправка на сервер")
+                            }
+                        )
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.camera_icon),
+                        contentDescription = "Camera button",
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
             }
         } else {
             Text(
