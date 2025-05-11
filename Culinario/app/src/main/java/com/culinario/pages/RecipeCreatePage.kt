@@ -37,7 +37,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -53,6 +52,7 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.helpers.RecipeSaveHelper
+import com.culinario.helpers.loadAndCompressImage
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.OtherInfo
@@ -86,18 +86,12 @@ fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController
     val picturesBitmap = remember { mutableStateOf(listOf<Bitmap>()) }
 
     val recipeTitleImageLauncher = pickVisualResource {
-        val inputSteam = context.contentResolver.openInputStream(it!!)
-
-        titleBitmap.value = BitmapFactory.decodeStream(inputSteam)
-        inputSteam?.close()
+        titleBitmap.value = loadAndCompressImage(context, it)!!
     }
 
     val picturesImageLauncher = pickVisualResource {
-        val inputStream = context.contentResolver.openInputStream(it!!)
-
         val temp = picturesBitmap.value.toMutableList()
-        temp.add(BitmapFactory.decodeStream(inputStream))
-        inputStream?.close()
+        temp.add(loadAndCompressImage(context, it)!!)
 
         picturesBitmap.value = temp.toList()
     }
@@ -211,6 +205,8 @@ fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController
         }
     }
 }
+
+
 
 @Composable
 fun BasicInfoPage (
@@ -362,7 +358,7 @@ private fun OtherImages (
 }
 
 @Composable
-private fun pickVisualResource (
+fun pickVisualResource (
     onUriReceive: (uri: Uri?) -> kotlin.Unit
 ): ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?> {
     return rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->

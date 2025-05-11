@@ -1,119 +1,195 @@
 package com.culinario.pages
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.os.Bundle
-import android.util.Log
-import androidx.activity.ComponentActivity
+import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import coil.compose.AsyncImage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.culinario.R
+import com.culinario.controls.camera.CameraPreview
+import com.culinario.controls.camera.TakePhoto
+import com.culinario.helpers.ImagePicker
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CameraPage() {
-    val context = LocalContext.current
+@Preview(showBackground = true)
+fun CameraPage(
+    modifier: Modifier = Modifier,
+    onImagePicked: (Bitmap) -> Unit = { }
+) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-    val previewView = remember { PreviewView(context) }
-    val scope = rememberCoroutineScope()
-    var photoFile by remember { mutableStateOf<File?>(null) }
-    var serverResponse by remember { mutableStateOf<String?>(null) }
-
-    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-        ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-        return
+    val context = LocalContext.current
+    var hasCamPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        )
     }
 
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-        Log.d("CAMERA", "Photo taken!")
-        val currentTimeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val photoPath = "${context.filesDir}/IMG_$currentTimeStamp.jpg"
-        photoFile = File(photoPath)
-        try {
-            photoFile?.outputStream()?.use { outputStream ->
-                bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 100, outputStream)
+    var isWaitingResponse by remember { mutableStateOf(false) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            hasCamPermission = granted
+        }
+    )
+
+    LaunchedEffect(key1 = true) {
+        launcher.launch(android.Manifest.permission.CAMERA)
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        if (hasCamPermission) {
+            if (isWaitingResponse) {
+                AlertDialog(
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.info_icon),
+                            contentDescription = "Example Icon"
+                        )
+                    },
+                    title = {
+                        Text(text = "Жду..")
+                    },
+                    text = {
+                        Text(
+                            text = "Запаситесь терпением. Придётся подождать ответ сервера..",
+                            textAlign = TextAlign.Center
+                        )
+                    },
+                    onDismissRequest = {
+                        isWaitingResponse = false
+                    },
+                    confirmButton = {},
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                isWaitingResponse = false
+                            }
+                        ) {
+                            Text("Cancel")
+                        }
+                    }
+                )
             }
-            uploadToServer(photoFile!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
-    Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
-        previewView.modifier.align(Alignment.Center)
+            Box (
+                modifier = modifier
+                    .fillMaxSize()
+            ) {
+                val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
+                val cameraSelector = remember { mutableStateOf(CameraSelector.DEFAULT_BACK_CAMERA) }
 
-        Button(onClick = {
-            launcher.launch(null)
-        }, colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray), modifier = Modifier.align(Alignment.BottomCenter)) {
-            Icon(Icons.Default.CameraAlt, contentDescription = "Take Photo", tint = Color.White)
-        }
-    }
+                CameraPreview(
+                    lifecycleOwner = lifecycleOwner,
+                    cameraProviderFuture,
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
 
-    if (photoFile != null && serverResponse.isNullOrEmpty()) {
-        CircularProgressIndicator(color = MaterialTheme.colorScheme.secondary, modifier = Modifier.align(Alignment.Center))
-    }
+                Row (
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(30.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    ImagePicker {
+                        onImagePicked(it)
 
-    if (!serverResponse.isNullOrBlank()) {
-        LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
-            item {
-                Card(modifier = Modifier.fillParentMaxWidth().align(Alignment.CenterHorizontally)) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        AsyncImage(model = photoFile!!, contentDescription = "Uploaded Image")
-                        Text(text = serverResponse!!, style = MaterialTheme.typography.bodyMedium)
+                        isWaitingResponse = true
+                    }
+
+                    Box(
+                       modifier = Modifier
+                           .size(80.dp)
+                           .clip(CircleShape)
+                           .background(MaterialTheme.colorScheme.primary)
+                           .clickable {
+                                TakePhoto(
+                                    context = context,
+                                    lifecycleOwner = lifecycleOwner,
+                                    cameraProvider = cameraProviderFuture.get(),
+                                    cameraSelector = cameraSelector,
+                                    onImageCaptured = { bitmap ->
+                                        onImagePicked(bitmap)
+
+                                        isWaitingResponse = true
+                                    }
+                                )
+                           }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.camera_icon),
+                            contentDescription = "camera icon",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(15.dp),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+
+                    IconButton(
+                        onClick = {
+                            cameraSelector.value = if (cameraSelector.value == CameraSelector.DEFAULT_BACK_CAMERA)
+                                CameraSelector.DEFAULT_FRONT_CAMERA
+                            else
+                                CameraSelector.DEFAULT_BACK_CAMERA
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.cameraswitch_icon),
+                            contentDescription = "camera switch"
+                        )
                     }
                 }
             }
+        } else {
+            Text(
+                text = "Нет разрешения на использование камеры",
+                modifier = Modifier.align(Alignment.Center)
+            )
         }
     }
 }
 
-suspend fun uploadToServer(file: File) {
-    val client = OkHttpClient()
-    val requestBody = MultipartBody.Builder()
-        .setType(MultipartBody.FORM)
-        .addFormDataPart("file", file.name, MultipartBody.Part.createFormData("file", file.name, file.readBytes()))
-        .build()
 
-    val request = Request.Builder()
-        .url("https://server/upload") // Адрес сервера замените на ваш реальный адрес
-        .post(requestBody)
-        .build()
-
-    val response = client.newCall(request).execute()
-    if (response.isSuccessful) {
-        val bodyString = response.body!!.string()
-        println(bodyString)
-    } else {
-        throw Exception(response.message)
-    }
-}
