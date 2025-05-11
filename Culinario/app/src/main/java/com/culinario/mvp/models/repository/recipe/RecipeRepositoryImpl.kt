@@ -219,7 +219,7 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111118",
-            userId = "user4",
+            userId = "Angela",
             name = "Безглютеновые оладьи",
             description = "Пышные оладьи на гречневой муке без глютена",
             recipeImageResources = RecipeImageResources(
@@ -248,7 +248,7 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111119",
-            userId = "user5",
+            userId = "Victor",
             name = "Куриный суп с лапшой",
             description = "Ароматный домашний куриный суп с лапшой и овощами",
             recipeImageResources = RecipeImageResources(
@@ -278,7 +278,7 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111120",
-            userId = "user6",
+            userId = "Anastasia",
             name = "Шоколадные маффины",
             description = "Нежные шоколадные маффины с жидкой серединкой",
             recipeImageResources = RecipeImageResources(
@@ -337,7 +337,7 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111122",
-            userId = "user8",
+            userId = "user8121",
             name = "Рататуй",
             description = "Традиционное французское овощное рагу из баклажанов, кабачков и перцев",
             recipeImageResources = RecipeImageResources(
@@ -511,6 +511,336 @@ class RecipeRepositoryImpl : RecipeRepository {
             recipeType = RecipeType.VEGAN,
             difficulty = Difficulty.MEDIUM,
             otherInfo = OtherInfo(watches = 2300, likes = 2100)
+        ),
+
+        Recipe(
+            id = "11111128",
+            userId = "user104",
+            name = "Тыквенный суп-пюре",
+            description = "Нежный крем-суп из тыквы с имбирем и сливками",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Тыква", 800.0, Unit.GRAMS),
+                Ingredient("Лук", 1.0, Unit.PIECE),
+                Ingredient("Чеснок", 2.0, Unit.PIECE),
+                Ingredient("Имбирь", 20.0, Unit.GRAMS),
+                Ingredient("Сливки", 0.2, Unit.LITERS),
+                Ingredient("Оливковое масло", 30.0, Unit.GRAMS),
+                Ingredient("Соль", null, null),
+                Ingredient("Перец", null, null)
+            ),
+            cookingSpeed = 40,
+            steps = listOf(
+                "Нарежьте тыкву кубиками",
+                "Обжарьте лук, чеснок и имбирь",
+                "Добавьте тыкву и воду, варите 25 минут",
+                "Измельчите блендером в пюре",
+                "Добавьте сливки и прогрейте",
+                "Подавайте с тыквенными семечками"
+            ),
+            recipeType = RecipeType.VEGAN,
+            difficulty = Difficulty.EASY,
+            otherInfo = OtherInfo(watches = 1800, likes = 1700)
+        ),
+
+        Recipe(
+            id = "11111129",
+            userId = "user105",
+            name = "Безглютеновая пицца",
+            description = "Пицца на основе цветной капусты без глютена",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Цветная капуста", 500.0, Unit.GRAMS),
+                Ingredient("Яйца", 2.0, Unit.PIECE),
+                Ingredient("Сыр моцарелла", 200.0, Unit.GRAMS),
+                Ingredient("Томатный соус", 0.1, Unit.LITERS),
+                Ingredient("Оливки", 50.0, Unit.GRAMS),
+                Ingredient("Базилик", 10.0, Unit.GRAMS),
+                Ingredient("Кукурузная мука", 50.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 50,
+            steps = listOf(
+                "Измельчите цветную капусту в блендере",
+                "Смешайте с яйцами и мукой, сформируйте основу",
+                "Выпекайте основу 20 минут при 180°C",
+                "Добавьте соус и начинку, запекайте еще 15 минут",
+                "Украсьте базиликом"
+            ),
+            recipeType = RecipeType.GLUTEN_FREE,
+            difficulty = Difficulty.MEDIUM,
+            otherInfo = OtherInfo(watches = 2700, likes = 2500)
+        ),
+
+        Recipe(
+            id = "11111130",
+            userId = "user107",
+            name = "Овсянный блин",
+            description = "Полезный завтрак из овсянки с начинкой",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Овсяные хлопья", 50.0, Unit.GRAMS),
+                Ingredient("Яйца", 2.0, Unit.PIECE),
+                Ingredient("Молоко", 0.1, Unit.LITERS),
+                Ingredient("Сыр", 50.0, Unit.GRAMS),
+                Ingredient("Помидор", 1.0, Unit.PIECE),
+                Ingredient("Зелень", null, null),
+                Ingredient("Соль", null, null)
+            ),
+            cookingSpeed = 15,
+            steps = listOf(
+                "Смешайте овсянку, яйца и молоко",
+                "Вылейте на сковороду, жарьте 3 минуты",
+                "Переверните, добавьте начинку",
+                "Жарьте еще 2 минуты",
+                "Сверните пополам и подавайте"
+            ),
+            recipeType = RecipeType.QUICK,
+            difficulty = Difficulty.EASY,
+            otherInfo = OtherInfo(watches = 1900, likes = 1800)
+        ),
+
+        Recipe(
+            id = "11111131",
+            userId = "user108",
+            name = "Лосось в медово-горчичном соусе",
+            description = "Нежное филе лосося с хрустящей корочкой",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Филе лосося", 600.0, Unit.GRAMS),
+                Ingredient("Мед", 30.0, Unit.GRAMS),
+                Ingredient("Горчица", 20.0, Unit.GRAMS),
+                Ingredient("Лимон", 1.0, Unit.PIECE),
+                Ingredient("Чеснок", 2.0, Unit.PIECE),
+                Ingredient("Укроп", 10.0, Unit.GRAMS),
+                Ingredient("Оливковое масло", 20.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 25,
+            steps = listOf(
+                "Смешайте мед, горчицу и измельченный чеснок",
+                "Обмажьте лосось соусом",
+                "Запекайте 15 минут при 200°C",
+                "Подавайте с дольками лимона и укропом"
+            ),
+            recipeType = RecipeType.COMPLEX,
+            difficulty = Difficulty.MEDIUM,
+            otherInfo = OtherInfo(watches = 3100, likes = 2900)
+        ),
+
+        Recipe(
+            id = "11111132",
+            userId = "user109",
+            name = "Шоколадный фондан",
+            description = "Десерт с жидкой шоколадной серединкой",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
+                Ingredient("Сливочное масло", 100.0, Unit.GRAMS),
+                Ingredient("Яйца", 4.0, Unit.PIECE),
+                Ingredient("Сахар", 100.0, Unit.GRAMS),
+                Ingredient("Мука", 60.0, Unit.GRAMS),
+                Ingredient("Какао-порошок", 20.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 30,
+            steps = listOf(
+                "Растопите шоколад с маслом",
+                "Взбейте яйца с сахаром",
+                "Смешайте все ингредиенты",
+                "Разлейте по формочкам, выпекайте 10 минут при 200°C",
+                "Подавайте сразу с мороженым"
+            ),
+            recipeType = RecipeType.BAKING,
+            difficulty = Difficulty.HARD,
+            otherInfo = OtherInfo(watches = 3800, likes = 3600)
+        ),
+
+        Recipe(
+            id = "11111133",
+            userId = "user1",
+            name = "Гречка с грибами",
+            description = "Ароматная гречневая каша с лесными грибами",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Гречка", 300.0, Unit.GRAMS),
+                Ingredient("Грибы", 200.0, Unit.GRAMS),
+                Ingredient("Лук", 1.0, Unit.PIECE),
+                Ingredient("Морковь", 1.0, Unit.PIECE),
+                Ingredient("Чеснок", 2.0, Unit.PIECE),
+                Ingredient("Зелень", null, null),
+                Ingredient("Сливочное масло", 30.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 35,
+            steps = listOf(
+                "Обжарьте лук, морковь и грибы",
+                "Добавьте гречку и воду (2:1)",
+                "Варите под крышкой 20 минут",
+                "Добавьте чеснок и масло",
+                "Подавайте с зеленью"
+            ),
+            recipeType = RecipeType.QUICK,
+            difficulty = Difficulty.EASY,
+            otherInfo = OtherInfo(watches = 1500, likes = 1400)
+        ),
+
+        Recipe(
+            id = "11111134",
+            userId = "user1",
+            name = "Крем-суп из шампиньонов",
+            description = "Нежный грибной суп с ароматными травами и сливками",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background",
+                recipePicturesUri = arrayOf(
+                    "@drawable/ic_launcher_background",
+                    "@drawable/ic_launcher_background"
+                )
+            ),
+            ingredients = listOf(
+                Ingredient("Шампиньоны", 500.0, Unit.GRAMS),
+                Ingredient("Лук репчатый", 1.0, Unit.PIECE),
+                Ingredient("Сливки 20%", 0.2, Unit.LITERS),
+                Ingredient("Картофель", 2.0, Unit.PIECE),
+                Ingredient("Чеснок", 2.0, Unit.PIECE),
+                Ingredient("Тимьян", 5.0, Unit.GRAMS),
+                Ingredient("Масло сливочное", 30.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 35,
+            steps = listOf(
+                "Нарежьте грибы и овощи кубиками",
+                "Обжарьте лук и чеснок на сливочном масле до прозрачности",
+                "Добавьте грибы и обжаривайте 5 минут",
+                "Влейте 1 литр воды, добавьте картофель и варите 15 минут",
+                "Измельчите суп блендером, добавьте сливки и тимьян",
+                "Подавайте с гренками"
+            ),
+            recipeType = RecipeType.QUICK,
+            difficulty = Difficulty.MEDIUM,
+            otherInfo = OtherInfo(watches = 4200, likes = 3900)
+        ),
+
+        Recipe(
+            id = "11111135",
+            userId = "Amelia",
+            name = "Лазанья со шпинатом и рикоттой",
+            description = "Вегетарианская лазанья с нежной начинкой из шпината",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Листы лазаньи", 12.0, Unit.PIECE),
+                Ingredient("Шпинат", 400.0, Unit.GRAMS),
+                Ingredient("Сыр рикотта", 250.0, Unit.GRAMS),
+                Ingredient("Сыр пармезан", 100.0, Unit.GRAMS),
+                Ingredient("Чеснок", 3.0, Unit.PIECE),
+                Ingredient("Молоко", 0.5, Unit.LITERS),
+                Ingredient("Мука", 50.0, Unit.GRAMS),
+                Ingredient("Мускатный орех", 2.0, Unit.TEASPOONS)
+            ),
+            cookingSpeed = 75,
+            steps = listOf(
+                "Приготовьте бешамель: обжарьте муку, добавьте молоко и мускатный орех",
+                "Обжарьте шпинат с чесноком",
+                "Смешайте шпинат с рикоттой",
+                "Соберите лазанью, чередуя листы, соус и начинку",
+                "Посыпьте пармезаном и запекайте 40 минут при 180°C"
+            ),
+            recipeType = RecipeType.VEGAN,
+            difficulty = Difficulty.HARD,
+            otherInfo = OtherInfo(watches = 3800, likes = 3500)
+        ),
+
+        Recipe(
+            id = "11111136",
+            userId = "Nasty",
+            name = "Безглютеновые банановые панкейки",
+            description = "Пышные панкейки на миндальной муке с бананом",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Миндальная мука", 200.0, Unit.GRAMS),
+                Ingredient("Бананы", 2.0, Unit.PIECE),
+                Ingredient("Яйца", 3.0, Unit.PIECE),
+                Ingredient("Молоко", 100.0, Unit.GRAMS),
+                Ingredient("Разрыхлитель", 10.0, Unit.GRAMS),
+                Ingredient("Кленовый сироп", 50.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 20,
+            steps = listOf(
+                "Разомните бананы вилкой",
+                "Смешайте все ингредиенты до однородной массы",
+                "Жарьте на среднем огне по 2 минуты с каждой стороны",
+                "Подавайте с кленовым сиропом и свежими ягодами"
+            ),
+            recipeType = RecipeType.GLUTEN_FREE,
+            difficulty = Difficulty.EASY,
+            otherInfo = OtherInfo(watches = 2900, likes = 2700)
+        ),
+
+        Recipe(
+            id = "11111137",
+            userId = "user52345",
+            name = "Куриные грудки в медово-горчичном соусе",
+            description = "Нежные куриные грудки с хрустящей корочкой",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Куриная грудка", 600.0, Unit.GRAMS),
+                Ingredient("Мед", 50.0, Unit.GRAMS),
+                Ingredient("Горчица", 30.0, Unit.GRAMS),
+                Ingredient("Чеснок", 3.0, Unit.PIECE),
+                Ingredient("Лимонный сок", 20.0, Unit.GRAMS),
+                Ingredient("Оливковое масло", 30.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 30,
+            steps = listOf(
+                "Смешайте мед, горчицу, чеснок и лимонный сок",
+                "Замаринуйте курицу в соусе на 1 час",
+                "Обжарьте на сковороде по 5 минут с каждой стороны",
+                "Доведите до готовности в духовке 10 минут при 180°C"
+            ),
+            recipeType = RecipeType.QUICK,
+            difficulty = Difficulty.MEDIUM,
+            otherInfo = OtherInfo(watches = 3700, likes = 3400)
+        ),
+
+        Recipe(
+            id = "11111138",
+            userId = "user6231",
+            name = "Шоколадный мусс",
+            description = "Воздушный шоколадный десерт с насыщенным вкусом",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
+                Ingredient("Сливки 33%", 0.3, Unit.LITERS),
+                Ingredient("Яйца", 3.0, Unit.PIECE),
+                Ingredient("Сахар", 50.0, Unit.GRAMS),
+                Ingredient("Ванильный экстракт", 5.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 45,
+            steps = listOf(
+                "Растопите шоколад на водяной бане",
+                "Взбейте желтки с сахаром и ванилью",
+                "Взбейте сливки до пиков",
+                "Аккуратно соедините все компоненты",
+                "Разложите по креманкам и охладите 4 часа"
+            ),
+            recipeType = RecipeType.BAKING,
+            difficulty = Difficulty.MEDIUM,
+            otherInfo = OtherInfo(watches = 3300, likes = 3100)
         )
     )
 
