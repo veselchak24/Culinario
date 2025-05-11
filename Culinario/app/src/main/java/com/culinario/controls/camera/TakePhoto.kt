@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 
 @SuppressLint("NewApi")
-fun takePhoto(
+fun TakePhoto(
     context: Context,
     lifecycleOwner: LifecycleOwner,
     cameraProvider: ProcessCameraProvider,

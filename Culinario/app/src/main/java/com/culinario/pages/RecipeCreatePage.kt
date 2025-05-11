@@ -54,6 +54,7 @@ import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.helpers.RecipeSaveHelper
+import com.culinario.helpers.decodeSampledBitmapFromFile
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.OtherInfo
@@ -90,12 +91,10 @@ fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController
     val recipeTitleImageLauncher = pickVisualResource {
         val inputSteam = context.contentResolver.openInputStream(it!!)
 
-        //TODO тут заменить на метод декодирования с сжатием
-
         val sourceBitmap = BitmapFactory.decodeStream(inputSteam)
         val byteArrayStream = ByteArrayOutputStream()
 
-        sourceBitmap.compress(CompressFormat.PNG, 10, byteArrayStream)
+        sourceBitmap.compress(CompressFormat.JPEG, 5, byteArrayStream)
 
         val compressedImageByteArray = byteArrayStream.toByteArray()
 

@@ -9,14 +9,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="fully implemented CameraPage methods">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/camera/takePhoto.kt" afterDir="false" />
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/camera/CameraPreview.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/camera/CameraPreview.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/camera/TakePhoto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/camera/TakePhoto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/camera/takePhoto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/camera/TakePhoto.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/CameraPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/CameraPage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/MainScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/MainScreen.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,7 +284,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746974209712</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1746981218668</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1746981218668</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1746981465596</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1746981465596</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -316,6 +329,7 @@
     <MESSAGE value="rollback branch" />
     <MESSAGE value="implemented CameraPage and uses-permissions" />
     <MESSAGE value="fully implemented CameraPage methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="fully implemented CameraPage methods" />
+    <MESSAGE value="fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
   </component>
 </project>
