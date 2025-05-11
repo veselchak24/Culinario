@@ -9,6 +9,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.compose.runtime.MutableState
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 
@@ -17,7 +18,7 @@ fun TakePhoto(
     context: Context,
     lifecycleOwner: LifecycleOwner,
     cameraProvider: ProcessCameraProvider,
-    cameraSelector: CameraSelector,
+    cameraSelector: MutableState<CameraSelector>,
     onImageCaptured: (Bitmap) -> Unit
 ) {
     val imageCapture = ImageCapture.Builder()
@@ -28,7 +29,7 @@ fun TakePhoto(
         cameraProvider.unbindAll()
         cameraProvider.bindToLifecycle(
             lifecycleOwner,
-            cameraSelector,
+            cameraSelector.value,
             imageCapture
         )
 
