@@ -6,6 +6,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -19,13 +21,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.culinario.SignIn
 import com.culinario.backend.DEFAULT_USER_ID
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.pages.CameraPage
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
@@ -41,7 +43,8 @@ fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, nav
     val navItems = arrayOf (
         NavItem("Home", Icons.Default.Home),
         NavItem("Saved", Icons.Default.Favorite),
-        NavItem("Account", Icons.Default.AccountCircle)
+        NavItem("Account", Icons.Default.AccountCircle),
+        NavItem("Camera", Icons.Default.Search)
     )
 
     Scaffold (
@@ -95,5 +98,6 @@ fun ContentScreen (
         0 -> HomePage()
         1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
         2 -> UserPage(modifier, userPageViewModel, navController)
+        3 -> CameraPage(modifier)
     }
 }

@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -60,7 +62,10 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Screens(loginScreen: @Composable (onClick: () -> Unit) -> Unit, homeScreen: @Composable (NavController) -> Unit) {
         initNavController (
-            startDestination = if (PreferencesManager(LocalContext.current).hasKey(PREFERENCES_LOCAL_USER_KEY)) Home else SignIn,
+            startDestination =  if (PreferencesManager(LocalContext.current).hasKey(PREFERENCES_LOCAL_USER_KEY))
+                                    Home
+                                else
+                                    SignIn,
             signIn = loginScreen,
             home = homeScreen,
             LocalSaveRecipeRepository(LocalContext.current),
@@ -73,7 +78,20 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = startDestination) {
-            composable<SignIn> {
+            composable<SignIn> (
+                enterTransition = {
+                    slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+            ) {
                 signIn {
                     navController.navigate(route = Home)
                     navController.clearBackStack<SignIn>()
