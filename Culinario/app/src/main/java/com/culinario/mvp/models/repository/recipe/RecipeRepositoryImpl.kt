@@ -841,6 +841,65 @@ class RecipeRepositoryImpl : RecipeRepository {
             recipeType = RecipeType.BAKING,
             difficulty = Difficulty.MEDIUM,
             otherInfo = OtherInfo(watches = 3300, likes = 3100)
+        ),
+
+        Recipe(
+            id = "11111139",
+            userId = "Mike",
+            name = "Морковный торт",
+            description = "Влажный пряный торт с морковью и грецкими орехами",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Морковь", 300.0, Unit.GRAMS),
+                Ingredient("Мука", 250.0, Unit.GRAMS),
+                Ingredient("Яйца", 3.0, Unit.PIECE),
+                Ingredient("Сахар", 200.0, Unit.GRAMS),
+                Ingredient("Грецкие орехи", 100.0, Unit.GRAMS),
+                Ingredient("Растительное масло", 150.0, Unit.GRAMS),
+                Ingredient("Корица", 10.0, Unit.GRAMS),
+                Ingredient("Сода", 5.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 80,
+            steps = listOf(
+                "Натрите морковь на мелкой терке",
+                "Смешайте сухие ингредиенты",
+                "Добавьте яйца, масло и морковь",
+                "Выпекайте 50 минут при 180°C",
+                "Подавайте со сливочным кремом"
+            ),
+            recipeType = RecipeType.BAKING,
+            difficulty = Difficulty.HARD,
+            otherInfo = OtherInfo(watches = 2700, likes = 2500)
+        ),
+
+        Recipe(
+            id = "11111140",
+            userId = "user6",
+            name = "Шоколадный мусс",
+            description = "Воздушный шоколадный десерт с насыщенным вкусом",
+            recipeImageResources = RecipeImageResources(
+                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+            ),
+            ingredients = listOf(
+                Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
+                Ingredient("Сливки 33%", 0.3, Unit.LITERS),
+                Ingredient("Яйца", 3.0, Unit.PIECE),
+                Ingredient("Сахар", 50.0, Unit.GRAMS),
+                Ingredient("Ванильный экстракт", 5.0, Unit.GRAMS)
+            ),
+            cookingSpeed = 45,
+            steps = listOf(
+                "Растопите шоколад на водяной бане",
+                "Взбейте желтки с сахаром и ванилью",
+                "Взбейте сливки до пиков",
+                "Аккуратно соедините все компоненты",
+                "Разложите по креманкам и охладите 4 часа"
+            ),
+            recipeType = RecipeType.BAKING,
+            difficulty = Difficulty.MEDIUM,
+            otherInfo = OtherInfo(watches = 3300, likes = 3100)
         )
     )
 
