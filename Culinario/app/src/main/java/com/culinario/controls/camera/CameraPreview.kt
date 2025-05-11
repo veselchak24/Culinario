@@ -59,8 +59,5 @@ fun CameraPreview(
             viewFinder
         },
         modifier = modifier
-            .fillMaxSize()
-            .padding(25.dp)
-            .clip(RoundedCornerShape(20.dp))
     )
 }

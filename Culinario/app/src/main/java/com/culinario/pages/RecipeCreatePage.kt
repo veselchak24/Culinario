@@ -3,6 +3,7 @@ package com.culinario.pages
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -62,6 +63,7 @@ import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import kotlin.random.Random
 
 @SuppressLint("ResourceType")
@@ -88,7 +90,16 @@ fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController
     val recipeTitleImageLauncher = pickVisualResource {
         val inputSteam = context.contentResolver.openInputStream(it!!)
 
-        titleBitmap.value = BitmapFactory.decodeStream(inputSteam)
+        //TODO тут заменить на метод декодирования с сжатием
+
+        val sourceBitmap = BitmapFactory.decodeStream(inputSteam)
+        val byteArrayStream = ByteArrayOutputStream()
+
+        sourceBitmap.compress(CompressFormat.PNG, 10, byteArrayStream)
+
+        val compressedImageByteArray = byteArrayStream.toByteArray()
+
+        titleBitmap.value = BitmapFactory.decodeByteArray(compressedImageByteArray, 0, compressedImageByteArray.size)
         inputSteam?.close()
     }
 
@@ -362,7 +373,7 @@ private fun OtherImages (
 }
 
 @Composable
-private fun pickVisualResource (
+fun pickVisualResource (
     onUriReceive: (uri: Uri?) -> kotlin.Unit
 ): ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?> {
     return rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->

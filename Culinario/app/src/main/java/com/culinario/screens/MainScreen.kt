@@ -1,5 +1,6 @@
 package com.culinario.screens
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -98,6 +99,8 @@ fun ContentScreen (
         0 -> HomePage()
         1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
         2 -> UserPage(modifier, userPageViewModel, navController)
-        3 -> CameraPage(modifier)
+        3 -> CameraPage(modifier) { bitmap: Bitmap ->
+
+        }
     }
 }
