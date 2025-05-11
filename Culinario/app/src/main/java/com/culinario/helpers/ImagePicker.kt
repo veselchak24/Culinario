@@ -1,44 +1,38 @@
 package com.culinario.helpers
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import com.culinario.R
 
 @Composable
 fun ImagePicker(
-    context: Context,
     onImagePicked: (Bitmap) -> Unit
 ) {
+    val context = LocalContext.current
     val launcherActivity = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
 
-        val inputSteam = context.contentResolver.openInputStream(uri)
-
-        inputSteam?.close()
-        onImagePicked(BitmapFactory.decodeStream(inputSteam))
+        onImagePicked(loadAndCompressImage(context, uri)!!)
     }
 
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .scrollable (
-                rememberScrollState(),
-                Orientation.Vertical
-            ),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+    IconButton(
+        onClick = {
+            launcherActivity.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
+        }
     ) {
-        launcherActivity.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        Icon(
+            painter = painterResource(R.drawable.image_icon),
+            contentDescription = "camera switch"
+        )
     }
 }

@@ -16,10 +16,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -38,6 +41,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.culinario.R
 import com.culinario.controls.camera.CameraPreview
 import com.culinario.controls.camera.TakePhoto
+import com.culinario.helpers.ImagePicker
 
 @Composable
 @Preview(showBackground = true)
@@ -55,7 +59,8 @@ fun CameraPage(
             ) == PackageManager.PERMISSION_GRANTED
         )
     }
-    var launchImagePicker by remember { mutableStateOf(false) }
+
+    var isWaitingResponse by remember { mutableStateOf(false) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -73,16 +78,38 @@ fun CameraPage(
             .fillMaxSize()
     ) {
         if (hasCamPermission) {
-//           TODO реализовать imagePicker
-//            if (launchImagePicker) {
-//                ImagePicker(
-//                    context
-//                ) {
-//                    onImagePicked(it)
-//
-//                    launchImagePicker = false
-//                }
-//            }
+            if (isWaitingResponse) {
+                AlertDialog(
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.info_icon),
+                            contentDescription = "Example Icon"
+                        )
+                    },
+                    title = {
+                        Text(text = "Жду..")
+                    },
+                    text = {
+                        Text(
+                            text = "Запаситесь терпением. Придётся подождать ответ сервера..",
+                            textAlign = TextAlign.Center
+                        )
+                    },
+                    onDismissRequest = {
+                        isWaitingResponse = false
+                    },
+                    confirmButton = {},
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                isWaitingResponse = false
+                            }
+                        ) {
+                            Text("Cancel")
+                        }
+                    }
+                )
+            }
 
             Box (
                 modifier = modifier
@@ -106,17 +133,11 @@ fun CameraPage(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-//                  TODO реализовать imagePicker
-//                    IconButton(
-//                        onClick = {
-//                            launchImagePicker = true
-//                        }
-//                    ) {
-//                        Icon(
-//                            painter = painterResource(R.drawable.image_icon),
-//                            contentDescription = "camera switch"
-//                        )
-//                    }
+                    ImagePicker {
+                        onImagePicked(it)
+
+                        isWaitingResponse = true
+                    }
 
                     Box(
                        modifier = Modifier
@@ -131,6 +152,8 @@ fun CameraPage(
                                     cameraSelector = cameraSelector,
                                     onImageCaptured = { bitmap ->
                                         onImagePicked(bitmap)
+
+                                        isWaitingResponse = true
                                     }
                                 )
                            }

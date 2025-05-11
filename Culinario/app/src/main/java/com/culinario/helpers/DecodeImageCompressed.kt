@@ -1,17 +1,30 @@
 package com.culinario.helpers
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
+import android.net.Uri
+import java.io.ByteArrayOutputStream
 
-fun decodeSampledBitmapFromFile(filePath: String, reqWidth: Int, reqHeight: Int): Bitmap {
-    val options = BitmapFactory.Options()
-    options.inJustDecodeBounds = true
-    BitmapFactory.decodeFile(filePath, options)
+fun loadAndCompressImage(
+    context: Context,
+    it: Uri?,
+): Bitmap? {
+    val inputSteam = context.contentResolver.openInputStream(it!!)
 
-    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
+    val sourceBitmap = BitmapFactory.decodeStream(inputSteam)
+    val byteArrayStream = ByteArrayOutputStream()
 
-    options.inJustDecodeBounds = false
-    return BitmapFactory.decodeFile(filePath, options)
+    sourceBitmap.compress(CompressFormat.JPEG, 20, byteArrayStream)
+
+    val compressedImageByteArray = byteArrayStream.toByteArray()
+
+    val resultBitmap = BitmapFactory.decodeByteArray(compressedImageByteArray, 0, compressedImageByteArray.size)
+
+    inputSteam?.close()
+
+    return resultBitmap
 }
 
 private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
