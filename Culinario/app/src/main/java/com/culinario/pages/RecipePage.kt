@@ -136,7 +136,7 @@ private fun SheetDragHandler() {
             .height(30.dp)
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Box(
+        Box (
             modifier = Modifier
                 .width(30.dp)
                 .height(4.dp)
