@@ -37,7 +37,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.culinario.R
 import com.culinario.controls.camera.CameraPreview
-import com.culinario.controls.camera.TakePhoto
+import com.culinario.controls.camera.takePhoto
 
 @Composable
 @Preview(showBackground = true)
@@ -124,7 +124,7 @@ fun CameraPage(
                            .clip(CircleShape)
                            .background(MaterialTheme.colorScheme.primary)
                            .clickable {
-                                TakePhoto(
+                                takePhoto(
                                     context = context,
                                     lifecycleOwner = lifecycleOwner,
                                     cameraProvider = cameraProviderFuture.get(),
