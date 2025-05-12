@@ -80,6 +80,8 @@ dependencies {
 
     implementation(platform(libs.androidx.compose.bom.v20241001))
 
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)
 }
