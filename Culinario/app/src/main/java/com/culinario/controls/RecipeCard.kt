@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.viewmodels.RecipePageViewModel
 
@@ -33,7 +34,6 @@ import com.culinario.viewmodels.RecipePageViewModel
 fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, navController: NavController) {
     val recipe = recipePageViewModel.getRecipe()
     val userOwner = recipePageViewModel.getUserOwner()
-    val bitmap = recipePageViewModel.getBackgroundBitmap()
 
     Card (
         colors = CardDefaults.cardColors(
@@ -51,10 +51,10 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
                     navController.navigate("RecipePage/${recipe.id}")
                 }
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .weight(0.7f),
-                bitmap = bitmap.asImageBitmap(),
+                model = recipePageViewModel.getRecipe().recipeImageResources.recipeBackgroundImageUri,
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )

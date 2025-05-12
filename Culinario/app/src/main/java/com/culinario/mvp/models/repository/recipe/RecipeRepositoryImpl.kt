@@ -11,93 +11,13 @@ import com.culinario.mvp.models.Unit
 
 class RecipeRepositoryImpl : RecipeRepository {
     private val recipes = mutableListOf (
-        Recipe (
-            id = "11111111",
-            userId = "WaAWgH3212",
-            name = "Паста с томатным соусом",
-            description = "Вкусная паста с домашним томатным соусом.",
-            recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageResources = R.drawable.recipe_page_bg,
-                recipePicturesResources = arrayOf(
-                    R.drawable.pasta,
-                    R.drawable.pasta2,
-                    R.drawable.pasta3
-                )
-            ),
-            ingredients = listOf (
-                Ingredient(name = "Паста", quantity = 200.0, unit = Unit.GRAMS),
-                Ingredient(name = "Томаты", quantity = 300.0, unit = Unit.GRAMS),
-                Ingredient(name = "Чеснок", quantity = 2.0, unit = Unit.PIECE)
-            ),
-            cookingSpeed = 30,
-            steps = listOf("Сварить пасту", "Приготовить соус", "Смешать пасту с соусом"),
-            recipeType = RecipeType.QUICK,
-            difficulty = Difficulty.EASY,
-            otherInfo = OtherInfo(106, 2)
-        ),
-
-        Recipe(
-            id = "11111112",
-            userId = "WaAWgH3212",
-            name = "Шоколадный торт",
-            description = "Нежный шоколадный торт с кремом.",
-            recipeImageResources = RecipeImageResources (
-                recipeBackgroundImageResources = R.drawable.chocolate_cake_2,
-                recipePicturesResources = arrayOf (
-                    R.drawable.chocolate_cake,
-                    R.drawable.chocolate_cake_2,
-                    R.drawable.chocolate_cake_3
-                )
-            ),
-            ingredients = listOf(
-                Ingredient(name = "Мука", quantity = 250.0, unit = Unit.GRAMS),
-                Ingredient(name = "Шоколад", quantity = 100.0, unit = Unit.GRAMS),
-                Ingredient(name = "Яйца", quantity = 3.0, unit = Unit.PIECE)
-            ),
-            cookingSpeed = 60,
-            steps = listOf("Смешать ингредиенты", "Выпекать в духовке", "Остудить и подать"),
-            recipeType = RecipeType.BAKING,
-            difficulty = Difficulty.MEDIUM,
-            otherInfo = OtherInfo(100, 5)
-        ),
-
-        Recipe(
-            id = "11111113",
-            userId = "user1",
-            name = "Паста Карбонара",
-            description = "Классическая итальянская паста с соусом из яиц, сыра и бекона.",
-            recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background",
-                recipePicturesUri = arrayOf()
-            ),
-            ingredients = listOf(
-                Ingredient("Спагетти", 400.0, Unit.GRAMS),
-                Ingredient("Бекон", 150.0, Unit.GRAMS),
-                Ingredient("Яйца", 3.0, Unit.PIECE),
-                Ingredient("Пармезан", 100.0, Unit.GRAMS),
-                Ingredient("Чеснок", 2.0, Unit.PIECE),
-                Ingredient("Соль", null, null),
-                Ingredient("Чёрный перец", null, null)
-            ),
-            cookingSpeed = 20,
-            steps = listOf(
-                "Отварите спагетти в подсоленной воде до состояния аль денте, согласно инструкции на упаковке.",
-                "Обжарьте бекон с чесноком до хрустящей корочки.",
-                "Взбейте яйца с тёртым пармезаном и чёрным перцем.",
-                "Смешайте горячие спагетти с беконом, затем добавьте яичную смесь, быстро помешивая.",
-                "Подавайте сразу, посыпав дополнительным пармезаном и перцем."
-            ),
-            recipeType = RecipeType.QUICK,
-            difficulty = Difficulty.MEDIUM,
-            otherInfo = OtherInfo(watches = 1500, likes = 1200)
-        ),
         Recipe(
             id = "11111114",
-            userId = "user2",
+            userId = "85t6ir7f12v",
             name = "Веганский салат с киноа",
             description = "Питательный салат с киноа, овощами и лимонной заправкой.",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background",
+                recipeBackgroundImageUri = "https://shop.soyka.ru/upload/iblock/c29/c29d94b01058f9bcb7d45d23df6ca019.jpg",
                 recipePicturesUri = arrayOf()
             ),
             ingredients = listOf(
@@ -125,11 +45,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111115",
-            userId = "user1",
+            userId = "85t6ir7f12v",
             name = "Классические блины",
             description = "Традиционные русские блины на молоке, тонкие и ароматные",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background",
+                recipeBackgroundImageUri = "https://img1.russianfood.com/dycontent/images_upl/112/big_111352.jpg",
                 recipePicturesUri = arrayOf()
             ),
             ingredients = listOf(
@@ -155,11 +75,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111116",
-            userId = "user2",
+            userId = "85t6ir7f12v",
             name = "Веганский салат с нутом",
             description = "Питательный салат с нутом, свежими овощами и лимонной заправкой",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://img1.russianfood.com/dycontent/images_upl/352/big_351595.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Нут вареный", 200.0, Unit.GRAMS),
@@ -185,11 +105,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111117",
-            userId = "user3",
+            userId = "WaAWgH3212",
             name = "Лазанья Болоньезе",
             description = "Классическая итальянская лазанья с мясным соусом",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://barilla.ru/wp-content/uploads/2023/12/lazanja-boloneze-min_11zon.webp"
             ),
             ingredients = listOf(
                 Ingredient("Листы для лазаньи", 12.0, Unit.PIECE),
@@ -219,11 +139,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111118",
-            userId = "Angela",
+            userId = "WaAWgH3212",
             name = "Безглютеновые оладьи",
             description = "Пышные оладьи на гречневой муке без глютена",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://menunedeli.ru/wp-content/uploads/2022/02/Oladi-s-jablokom-bez-gljutena-gotovy_opt-1200x800.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Гречневая мука", 250.0, Unit.GRAMS),
@@ -248,11 +168,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111119",
-            userId = "Victor",
+            userId = "WaAWgH3212",
             name = "Куриный суп с лапшой",
             description = "Ароматный домашний куриный суп с лапшой и овощами",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://petelinka.ru/storage/images/recipe/origin/1595237119_16018.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Курица (грудка)", 400.0, Unit.GRAMS),
@@ -278,11 +198,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111120",
-            userId = "Anastasia",
+            userId = "WaAWgH3212",
             name = "Шоколадные маффины",
             description = "Нежные шоколадные маффины с жидкой серединкой",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://cdn.lifehacker.ru/wp-content/uploads/2024/08/shutterstock_2175542077_1_1722946363_e1722946405760.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Мука", 200.0, Unit.GRAMS),
@@ -307,11 +227,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111121",
-            userId = "user7",
+            userId = "WaAWgH3212",
             name = "Греческий салат",
             description = "Классический греческий салат с фетаксой и оливками",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://s1.eda.ru/StaticContent/Photos/e/fa/efa43ee8776f4b27b7766640557e76a4.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Помидоры", 3.0, Unit.PIECE),
@@ -337,11 +257,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111122",
-            userId = "user8121",
+            userId = "WaAWgH3212",
             name = "Рататуй",
             description = "Традиционное французское овощное рагу из баклажанов, кабачков и перцев",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://www.vsegdavkusno.ru/assets/images/recipes/1421/image_1130/ratatuy.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Баклажан", 1.0, Unit.PIECE),
@@ -367,11 +287,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111123",
-            userId = "user9",
+            userId = "WaAWgH3212",
             name = "Тирамису",
             description = "Итальянский десерт с кофейным вкусом и нежным кремом",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://cookhelp.ru/upload/recipes/tiramisu.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Сыр маскарпоне", 500.0, Unit.GRAMS),
@@ -396,11 +316,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111124",
-            userId = "user10",
+            userId = "85t6ir7f12v",
             name = "Омлет с овощами",
             description = "Пышный омлет с болгарским перцем, помидорами и зеленью",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://kopilka-kulinara.ru/upload/information_system_56/1/7/6/item_1765/item_1765.webp"
             ),
             ingredients = listOf(
                 Ingredient("Яйца", 4.0, Unit.PIECE),
@@ -426,11 +346,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111125",
-            userId = "user101",
+            userId = "85t6ir7f12v",
             name = "Сырники классические",
             description = "Нежные творожные сырники с хрустящей корочкой",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background",
+                recipeBackgroundImageUri = "https://baking-academy.ru/upload/iblock/d58/d58f029b2bd9cf8bd49714d02b29b6a1.jpeg",
                 recipePicturesUri = arrayOf()
             ),
             ingredients = listOf(
@@ -456,11 +376,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111126",
-            userId = "user102",
+            userId = "85t6ir7f12v",
             name = "Куриные крылышки BBQ",
             description = "Хрустящие куриные крылышки в барбекю соусе",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://s1.eda.ru/StaticContent/Photos/120213181523/180606193911/p_O.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Куриные крылья", 1.0, Unit.GRAMS),
@@ -484,11 +404,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111127",
-            userId = "user103",
+            userId = "85t6ir7f12v",
             name = "Веганский бургер",
             description = "Бургер с котлетой из нута и овощами",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://magazine.tabris.ru/wp-content/uploads/2020/09/burger-feat.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Нут вареный", 300.0, Unit.GRAMS),
@@ -515,11 +435,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111128",
-            userId = "user104",
+            userId = "85t6ir7f12v",
             name = "Тыквенный суп-пюре",
             description = "Нежный крем-суп из тыквы с имбирем и сливками",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://resizer.mail.ru/p/2d7c09fc-e8c5-525a-9d43-1355e682070e/AQAF_R621nb9v34-idqT1_Ar6brDWBZhe0QJC5dgHiTziK2QV3jlEh9msIDfAWqBBNlL1uayhSTgei2NjjD5R5YQsPQ.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Тыква", 800.0, Unit.GRAMS),
@@ -547,11 +467,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111129",
-            userId = "user105",
+            userId = "85t6ir7f12v",
             name = "Безглютеновая пицца",
             description = "Пицца на основе цветной капусты без глютена",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://grandkulinar.ru/uploads/posts/2020-03/1583253501_bezglyutenovaya-picca-iz-kukuruznoj-muki.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Цветная капуста", 500.0, Unit.GRAMS),
@@ -577,11 +497,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111130",
-            userId = "user107",
+            userId = "WaAWgH3212",
             name = "Овсянный блин",
             description = "Полезный завтрак из овсянки с начинкой",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://www.makfa.ru/upload/resize_cache/iblock/db7/450_450_1/mxqrmk7sv4qbehoi30l82xti7uw7l80v.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Овсяные хлопья", 50.0, Unit.GRAMS),
@@ -607,11 +527,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111131",
-            userId = "user108",
+            userId = "WaAWgH3212",
             name = "Лосось в медово-горчичном соусе",
             description = "Нежное филе лосося с хрустящей корочкой",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://static.vkusnyblog.com/full/uploads/2014/10/losos-v-medovo-gorchichnom-souse.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Филе лосося", 600.0, Unit.GRAMS),
@@ -636,11 +556,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111132",
-            userId = "user109",
+            userId = "WaAWgH3212",
             name = "Шоколадный фондан",
             description = "Десерт с жидкой шоколадной серединкой",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://eda.ru/images/RecipePhoto/390x390/shokoladnij-fondan_49755_photo_53437.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
@@ -665,11 +585,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111133",
-            userId = "user1",
+            userId = "WaAWgH3212",
             name = "Гречка с грибами",
             description = "Ароматная гречневая каша с лесными грибами",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://cdn.lifehacker.ru/wp-content/uploads/2024/11/103_1732278919.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Гречка", 300.0, Unit.GRAMS),
@@ -695,15 +615,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111134",
-            userId = "user1",
+            userId = "WaAWgH3212",
             name = "Крем-суп из шампиньонов",
             description = "Нежный грибной суп с ароматными травами и сливками",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background",
-                recipePicturesUri = arrayOf(
-                    "@drawable/ic_launcher_background",
-                    "@drawable/ic_launcher_background"
-                )
+                recipeBackgroundImageUri = "https://cdn.lifehacker.ru/wp-content/uploads/2020/04/shutterstock_562737943_1588005524-e1588005568972-scaled.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Шампиньоны", 500.0, Unit.GRAMS),
@@ -730,11 +646,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111135",
-            userId = "Amelia",
+            userId = "85t6ir7f12v",
             name = "Лазанья со шпинатом и рикоттой",
             description = "Вегетарианская лазанья с нежной начинкой из шпината",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://foodmood.ru/upload/iblock/3f0/3f0768727a901225a5246bad8d5f539e.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Листы лазаньи", 12.0, Unit.PIECE),
@@ -761,11 +677,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111136",
-            userId = "Nasty",
+            userId = "85t6ir7f12v",
             name = "Безглютеновые банановые панкейки",
             description = "Пышные панкейки на миндальной муке с бананом",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://menunedeli.ru/wp-content/uploads/2023/04/E651A110-DF7F-44A8-8124-5B526BB1DAC6-933x700.jpeg"
             ),
             ingredients = listOf(
                 Ingredient("Миндальная мука", 200.0, Unit.GRAMS),
@@ -789,11 +705,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111137",
-            userId = "user52345",
+            userId = "85t6ir7f12v",
             name = "Куриные грудки в медово-горчичном соусе",
             description = "Нежные куриные грудки с хрустящей корочкой",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://img.iamcook.ru/2023/upl/recipes/cat/u-cfdce98cff5c8eef490159b1bfabea53.JPG"
             ),
             ingredients = listOf(
                 Ingredient("Куриная грудка", 600.0, Unit.GRAMS),
@@ -817,11 +733,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111138",
-            userId = "user6231",
+            userId = "85t6ir7f12v",
             name = "Шоколадный мусс",
             description = "Воздушный шоколадный десерт с насыщенным вкусом",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://burninghut.ru/wp-content/uploads/2024/09/poleznyj-shokoladnyj-muss.jpg"
             ),
             ingredients = listOf(
                 Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
@@ -845,11 +761,11 @@ class RecipeRepositoryImpl : RecipeRepository {
 
         Recipe(
             id = "11111139",
-            userId = "Mike",
+            userId = "WaAWgH3212",
             name = "Морковный торт",
             description = "Влажный пряный торт с морковью и грецкими орехами",
             recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
+                recipeBackgroundImageUri = "https://eu-images.contentstack.com/v3/assets/bltf51e50af165afed2/blt7a8e91b8961ca7c2/65c47b7f48289b040a1e3800/%D0%BC%D0%BE%D1%80%D0%BA%D0%BE%D0%B2%D0%BD%D1%8B%D0%B9_%D1%82%D0%BE%D1%80%D1%82.jpeg"
             ),
             ingredients = listOf(
                 Ingredient("Морковь", 300.0, Unit.GRAMS),
@@ -872,34 +788,6 @@ class RecipeRepositoryImpl : RecipeRepository {
             recipeType = RecipeType.BAKING,
             difficulty = Difficulty.HARD,
             otherInfo = OtherInfo(watches = 2700, likes = 2500)
-        ),
-
-        Recipe(
-            id = "11111140",
-            userId = "user6",
-            name = "Шоколадный мусс",
-            description = "Воздушный шоколадный десерт с насыщенным вкусом",
-            recipeImageResources = RecipeImageResources(
-                recipeBackgroundImageUri = "@drawable/ic_launcher_background"
-            ),
-            ingredients = listOf(
-                Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
-                Ingredient("Сливки 33%", 0.3, Unit.LITERS),
-                Ingredient("Яйца", 3.0, Unit.PIECE),
-                Ingredient("Сахар", 50.0, Unit.GRAMS),
-                Ingredient("Ванильный экстракт", 5.0, Unit.GRAMS)
-            ),
-            cookingSpeed = 45,
-            steps = listOf(
-                "Растопите шоколад на водяной бане",
-                "Взбейте желтки с сахаром и ванилью",
-                "Взбейте сливки до пиков",
-                "Аккуратно соедините все компоненты",
-                "Разложите по креманкам и охладите 4 часа"
-            ),
-            recipeType = RecipeType.BAKING,
-            difficulty = Difficulty.MEDIUM,
-            otherInfo = OtherInfo(watches = 3300, likes = 3100)
         )
     )
 

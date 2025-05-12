@@ -50,8 +50,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.controls.Header
+import com.culinario.helpers.IsTrue
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
 import com.culinario.viewmodels.RecipePageViewModel
@@ -65,8 +67,7 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
     val recipe = recipePageViewModel.getRecipe()
     val user = recipePageViewModel.getUserOwner()
 
-    val backgroundBitmap = recipePageViewModel.getBackgroundBitmap()
-    val carouselViewBitmaps = recipePageViewModel.getArrayBitmaps()
+    val carouselViewBitmaps = recipePageViewModel.getRecipe().recipeImageResources.recipePicturesUri
 
     BottomSheetScaffold (
         scaffoldState = scaffoldState,
@@ -94,20 +95,24 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
                 ) {
                     Description(recipe)
                     QuickStats(recipe)
-                    ImageCarousel(carouselViewBitmaps)
+
+                    carouselViewBitmaps.isNullOrEmpty().not().IsTrue {
+                        ImageCarousel(carouselViewBitmaps!!)
+                    }
+
                     Ingredients(recipe)
                     Steps(recipe)
                 }
             }
         }
     ) { innerPadding ->
-        BackgroundImageDrawer(backgroundBitmap, innerPadding, modifier, sheetPeekHeight)
+        BackgroundImageDrawer(recipePageViewModel, innerPadding, modifier, sheetPeekHeight)
     }
 }
 
 @Composable
 private fun BackgroundImageDrawer (
-    bitmap: Bitmap,
+    recipePageViewModel: RecipePageViewModel,
     innerPadding: PaddingValues,
     modifier: Modifier,
     sheetPeekHeight: Dp
@@ -116,14 +121,14 @@ private fun BackgroundImageDrawer (
         modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
         verticalArrangement = Arrangement.Center
     ) {
-        Image (
-            bitmap = bitmap.asImageBitmap(),
+        AsyncImage(
+            model = recipePageViewModel.getRecipe().recipeImageResources.recipeBackgroundImageUri,
+            contentDescription = "description",
             modifier = modifier
                 .fillMaxWidth()
                 .height(sheetPeekHeight / 2)
                 .alpha(0.7f),
-            contentScale = ContentScale.Crop,
-            contentDescription = null
+            contentScale = ContentScale.Crop
         )
     }
 }
@@ -213,7 +218,7 @@ private fun QuickStats(recipe: Recipe) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageCarousel(bitmaps: Array<Bitmap>) {
+fun ImageCarousel(bitmaps: Array<String>) {
     val carouselState = rememberCarouselState { bitmaps.size }
 
     Column {
@@ -236,10 +241,10 @@ fun ImageCarousel(bitmaps: Array<Bitmap>) {
                         modifier = Modifier
                             .maskClip(RoundedCornerShape(16.dp))
                     ) {
-                        Image (
+                        AsyncImage(
                             modifier = Modifier
                                 .fillMaxSize(),
-                            bitmap = bitmaps[page].asImageBitmap(),
+                            model = bitmaps[page],
                             contentDescription = "recipe image",
                             contentScale = ContentScale.Crop
                         )

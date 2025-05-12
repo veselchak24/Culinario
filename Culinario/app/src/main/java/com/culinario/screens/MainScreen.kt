@@ -41,10 +41,10 @@ fun MainScreen(repository: RecipeRepository, userRepository: UserRepository, nav
     }
 
     val navItems = arrayOf (
-        NavItem("Home", Icons.Default.Home),
-        NavItem("Saved", Icons.Default.Favorite),
-        NavItem("Account", Icons.Default.AccountCircle),
-        NavItem("Camera", Icons.Default.Search)
+        NavItem("Главная", Icons.Default.Home),
+        NavItem("Любимые", Icons.Default.Favorite),
+        NavItem("Профиль", Icons.Default.AccountCircle),
+        NavItem("Камера", Icons.Default.Search)
     )
 
     Scaffold (
@@ -95,7 +95,7 @@ fun ContentScreen (
     SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
 
     when (selectedPageIndex) {
-        0 -> HomePage()
+        0 -> HomePage(recipeRepository, userRepository, navController)
         1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
         2 -> UserPage(modifier, userPageViewModel, navController)
         3 -> CameraPage(modifier) { bitmap: Bitmap ->
