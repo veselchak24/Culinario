@@ -128,11 +128,14 @@ fun ContentScreen(
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    if (response.body?.string() == "error")
-                        return
-
                     val gson = Gson()
                     val json = gson.fromJson(response.body?.string(), JsonObject::class.java)
+
+                    if(json.keys.first() == "error") {
+                        println("Error: ${json["error"]}")
+                    return
+                    }
+
                     val result = mutableMapOf<String, Int>();
 
                     for (key in json["fruit"]!!.jsonArray) {
