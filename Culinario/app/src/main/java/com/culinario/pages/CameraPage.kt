@@ -10,18 +10,22 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -47,7 +50,9 @@ import com.culinario.helpers.ImagePicker
 @Preview(showBackground = true)
 fun CameraPage(
     modifier: Modifier = Modifier,
-    onImagePicked: (Bitmap) -> Unit = { }
+    onImagePicked: (Bitmap) -> Unit = { },
+    detectedFruits: List<String> = emptyList(), // Добавлено
+    isProcessing: Boolean = false // Добавлено
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -60,7 +65,7 @@ fun CameraPage(
         )
     }
 
-    var isWaitingResponse by remember { mutableStateOf(false) }
+    var isShowingDialog by remember { mutableStateOf(false) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -78,40 +83,38 @@ fun CameraPage(
             .fillMaxSize()
     ) {
         if (hasCamPermission) {
-            if (isWaitingResponse) {
+            if (isShowingDialog) {
                 AlertDialog(
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.info_icon),
-                            contentDescription = "Example Icon"
-                        )
-                    },
-                    title = {
-                        Text(text = "Жду..")
-                    },
+                    onDismissRequest = { /* Не закрывать принудительно */ },
+                    title = { Text("Результат распознавания") },
                     text = {
-                        Text(
-                            text = "Запаситесь терпением. Придётся подождать ответ сервера..",
-                            textAlign = TextAlign.Center
-                        )
-                    },
-                    onDismissRequest = {
-                        isWaitingResponse = false
-                    },
-                    confirmButton = {},
-                    dismissButton = {
-                        TextButton(
-                            onClick = {
-                                isWaitingResponse = false
+                        if (isProcessing) {
+                            CircularProgressIndicator() // 2. Индикатор загрузки
+                        } else {
+                            Column {
+                                if (detectedFruits.isNotEmpty()) {
+                                    Text("Найдено:")
+                                    Spacer(Modifier.height(8.dp))
+                                    detectedFruits.forEach { fruit ->
+                                        Text("• ${fruit.replaceFirstChar { it.uppercase() }}")
+                                    }
+                                } else {
+                                    Text("Не найдено")
+                                }
                             }
+                        }
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = { isShowingDialog = false }
                         ) {
-                            Text("Cancel")
+                            Text("OK")
                         }
                     }
                 )
             }
 
-            Box (
+            Box(
                 modifier = modifier
                     .fillMaxSize()
             ) {
@@ -125,7 +128,7 @@ fun CameraPage(
                         .fillMaxSize()
                 )
 
-                Row (
+                Row(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(30.dp)
@@ -136,15 +139,15 @@ fun CameraPage(
                     ImagePicker {
                         onImagePicked(it)
 
-                        isWaitingResponse = true
+                        isShowingDialog = false
                     }
 
                     Box(
-                       modifier = Modifier
-                           .size(80.dp)
-                           .clip(CircleShape)
-                           .background(MaterialTheme.colorScheme.primary)
-                           .clickable {
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary)
+                            .clickable {
                                 TakePhoto(
                                     context = context,
                                     lifecycleOwner = lifecycleOwner,
@@ -153,10 +156,10 @@ fun CameraPage(
                                     onImageCaptured = { bitmap ->
                                         onImagePicked(bitmap)
 
-                                        isWaitingResponse = true
+                                        isShowingDialog = true
                                     }
                                 )
-                           }
+                            }
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.camera_icon),
@@ -170,10 +173,11 @@ fun CameraPage(
 
                     IconButton(
                         onClick = {
-                            cameraSelector.value = if (cameraSelector.value == CameraSelector.DEFAULT_BACK_CAMERA)
-                                CameraSelector.DEFAULT_FRONT_CAMERA
-                            else
-                                CameraSelector.DEFAULT_BACK_CAMERA
+                            cameraSelector.value =
+                                if (cameraSelector.value == CameraSelector.DEFAULT_BACK_CAMERA)
+                                    CameraSelector.DEFAULT_FRONT_CAMERA
+                                else
+                                    CameraSelector.DEFAULT_BACK_CAMERA
                         }
                     ) {
                         Icon(

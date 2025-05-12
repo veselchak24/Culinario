@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -35,6 +37,7 @@ import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 import com.culinario.viewmodels.UserPageViewModel
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
@@ -106,51 +109,64 @@ fun ContentScreen(
 
     SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
 
+    var detectedFruits by remember { mutableStateOf<List<String>>(emptyList()) }
+    var isProcessing by remember { mutableStateOf(false) }
+
     when (selectedPageIndex) {
         0 -> HomePage(recipeRepository, userRepository, navController)
         1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
         2 -> UserPage(modifier, userPageViewModel, navController)
-        3 -> CameraPage(modifier) { bitmap: Bitmap ->
-            val byteArray = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray)
-            val requestBody =
-                byteArray.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
+        3 -> CameraPage(
+            modifier = modifier,
+            onImagePicked = { bitmap: Bitmap ->
+                isProcessing = true
 
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .url("http://culinarioai.anopka.keenetic.pro/predict/")
-                .post(requestBody)
-                .build()
+                val byteArray = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray)
+                val requestBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart(
+                        "file",
+                        "image.jpg",
+                        byteArray.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
+                    )
+                    .build()
 
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: java.io.IOException) {
-                    println("Error: ${e.message}")
-                }
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url("http://culinarioai.anopka.keenetic.pro/predict/")
+                    .post(requestBody)
+                    .build()
 
-                override fun onResponse(call: Call, response: Response) {
-                    val gson = Gson()
-                    val json = gson.fromJson(response.body?.string(), JsonObject::class.java)
-
-                    if(json.keys.first() == "error") {
-                        println("Error: ${json["error"]}")
-                    return
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: java.io.IOException) {
+                        println("Error: ${e.message}")
                     }
 
-                    val result = mutableMapOf<String, Int>();
+                    override fun onResponse(call: Call, response: Response) {
+                        if (!response.isSuccessful) return
 
-                    for (key in json["fruit"]!!.jsonArray) {
-                        val name = key.jsonPrimitive.content
-                        if (result.containsKey(name))
-                            result[name] = result[name]!! + 1
-                        else
-                            result[name] = 1
-                    }
+                        val responseBody = response.body?.string() ?: return
 
-                    for (kv in result) {
-                        println(kv.key + " : " + kv.value)
+                        // Используем Gson для парсинга в Map
+                        val gson = Gson()
+                        val type = object : TypeToken<Map<String, Any>>() {}.type
+                        val responseMap = gson.fromJson<Map<String, Any>>(responseBody, type)
+
+                        if (responseMap.containsKey("error")) {
+                            println("Error: ${responseMap["error"]}")
+                            isProcessing=false
+                            return
+                        }
+
+                        // Извлекаем список фруктов
+                        detectedFruits = responseMap["result"] as? List<String> ?: emptyList()
+                        isProcessing=false
                     }
-                }
-            })
-        }
+                })
+            },
+            detectedFruits = detectedFruits,
+            isProcessing = isProcessing,
+        )
     }
 }
