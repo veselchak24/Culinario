@@ -160,7 +160,7 @@ fun ContentScreen(
                         }
 
                         // Извлекаем список фруктов
-                        detectedFruits = responseMap["result"] as? List<String> ?: emptyList()
+                        detectedFruits = responseMap["fruit"] as? List<String> ?: emptyList()
                         isProcessing=false
                     }
                 })

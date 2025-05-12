@@ -35,8 +35,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -85,18 +87,33 @@ fun CameraPage(
         if (hasCamPermission) {
             if (isShowingDialog) {
                 AlertDialog(
-                    onDismissRequest = { /* Не закрывать принудительно */ },
-                    title = { Text("Результат распознавания") },
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.info_icon),
+                            contentDescription = "Example Icon"
+                        )
+                    },
+                    title = {
+                        Text(
+                            text = "Результат распознавания",
+                            textAlign = TextAlign.Center
+                        )
+                    },
                     text = {
-                        if (isProcessing) {
-                            CircularProgressIndicator() // 2. Индикатор загрузки
-                        } else {
-                            Column {
+                        Column(
+                            Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            if (isProcessing) {
+                                CircularProgressIndicator()
+                            } else {
                                 if (detectedFruits.isNotEmpty()) {
                                     Text("Найдено:")
+
                                     Spacer(Modifier.height(8.dp))
+
                                     detectedFruits.forEach { fruit ->
-                                        Text("• ${fruit.replaceFirstChar { it.uppercase() }}")
+                                        Text("${fruit.replaceFirstChar { it.uppercase() }}")
                                     }
                                 } else {
                                     Text("Не найдено")
@@ -104,6 +121,7 @@ fun CameraPage(
                             }
                         }
                     },
+                    onDismissRequest = { },
                     confirmButton = {
                         Button(
                             onClick = { isShowingDialog = false }
@@ -128,18 +146,22 @@ fun CameraPage(
                         .fillMaxSize()
                 )
 
-                Row(
+                Box(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(30.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                        .fillMaxWidth()
                 ) {
-                    ImagePicker {
+                    ImagePicker (
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(
+                                start = 40.dp
+                            )
+                    ) {
                         onImagePicked(it)
 
-                        isShowingDialog = false
+                        isShowingDialog = true
                     }
 
                     Box(
@@ -160,6 +182,7 @@ fun CameraPage(
                                     }
                                 )
                             }
+                            .align(Alignment.BottomCenter)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.camera_icon),
@@ -168,21 +191,6 @@ fun CameraPage(
                                 .fillMaxSize()
                                 .padding(15.dp),
                             tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-
-                    IconButton(
-                        onClick = {
-                            cameraSelector.value =
-                                if (cameraSelector.value == CameraSelector.DEFAULT_BACK_CAMERA)
-                                    CameraSelector.DEFAULT_FRONT_CAMERA
-                                else
-                                    CameraSelector.DEFAULT_BACK_CAMERA
-                        }
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.cameraswitch_icon),
-                            contentDescription = "camera switch"
                         )
                     }
                 }
