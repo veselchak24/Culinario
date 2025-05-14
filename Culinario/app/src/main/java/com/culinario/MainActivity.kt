@@ -32,6 +32,8 @@ import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
 import com.culinario.viewmodels.RecipePageViewModel
 import com.culinario.viewmodels.UserPageViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.serialization.Serializable
 
 @Serializable

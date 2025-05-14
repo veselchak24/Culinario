@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 
-
+    id("com.google.gms.google-services")
     kotlin("plugin.serialization") version "2.1.0"
     alias(libs.plugins.compose.compiler)
 }
@@ -68,8 +68,12 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+
     implementation(libs.coil.compose)
-    
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,7 +84,7 @@ dependencies {
 
     implementation(platform(libs.androidx.compose.bom.v20241001))
 
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.okhttp)
 
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)

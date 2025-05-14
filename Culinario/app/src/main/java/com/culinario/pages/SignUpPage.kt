@@ -209,8 +209,6 @@ private fun saveUser (
 }
 
 fun validateUserData(email: String, password: String, repeatPassword: String): Boolean {
-    if (password != repeatPassword) return false
+    return password == repeatPassword
     //if (Regex("[A-Za-z0-9-_.]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,3}").matches(email).not()) return false
-
-    return true
 }
