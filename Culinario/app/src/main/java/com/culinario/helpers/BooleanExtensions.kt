@@ -8,3 +8,9 @@ fun Boolean.IsTrue(action: @Composable () -> Unit) {
         action()
     }
 }
+
+fun Boolean.isTrue(action: () -> Unit) {
+    if (this) {
+        action()
+    }
+}

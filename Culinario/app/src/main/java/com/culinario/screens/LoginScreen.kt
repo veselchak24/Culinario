@@ -14,11 +14,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
 import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.mvp.models.repository.user.UserRepositoryImpl
@@ -56,26 +54,22 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
             ) {
                 when (page) {
                     0 -> {
-                        if (
-                            SignInPage (
-                                modifier = Modifier
-                                    .padding(innerPadding)
-                            )
+                        SignInPage (
+                            modifier = Modifier
+                                .padding(innerPadding)
                         ) {
                             onLogin()
                             close = true
                         }
                     }
                     1 -> {
-                        if (
-                            SignUpPage (
-                                Modifier
-                                    .padding(innerPadding),
-                                coroutineScope,
-                                pagerState,
-                                userRepository,
-                                page - 1
-                            )
+                        SignUpPage (
+                            Modifier
+                                .padding(innerPadding),
+                            coroutineScope,
+                            pagerState,
+                            userRepository,
+                            page - 1
                         ) {
                             onLogin()
                             close = true

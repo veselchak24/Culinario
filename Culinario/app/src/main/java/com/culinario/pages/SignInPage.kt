@@ -13,11 +13,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
+import com.mmk.kmpauth.uihelper.google.GoogleSignInButtonIconOnly
+
 
 @SuppressLint("ComposableNaming")
 @Composable
-fun SignInPage(modifier: Modifier) : Boolean {
+fun SignInPage(
+    modifier: Modifier = Modifier,
+    onSignIn: () -> Unit
+) {
     var isSignIn by remember { mutableStateOf(false) }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier,
@@ -32,12 +42,38 @@ fun SignInPage(modifier: Modifier) : Boolean {
             style = MaterialTheme.typography.titleMedium
         )
 
+        GoogleButtonUiContainerFirebase(
+            onResult = { result ->
+                if (result.isSuccess) {
+                    println(Firebase.auth.currentUser)
+
+                    onSignIn()
+                }
+            },
+            linkAccount = false,
+            filterByAuthorizedAccounts = false
+        ) {
+            GoogleSignInButtonIconOnly(
+                onClick = {
+                    this.onClick()
+                }
+            )
+        }
+
         Button(
-            onClick = { isSignIn = true }
+            onClick = {
+                onSignIn()
+            }
         ) {
             Text("Sign In as guest")
         }
-    }
 
-    return isSignIn
+        Button(
+            onClick = {
+                Firebase.auth.signOut()
+            }
+        ) {
+            Text("Sign Out")
+        }
+    }
 }

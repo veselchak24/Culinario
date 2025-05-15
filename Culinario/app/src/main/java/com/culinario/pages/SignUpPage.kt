@@ -29,13 +29,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
+import com.culinario.helpers.isTrue
 import com.culinario.mvp.models.User
 import com.culinario.mvp.models.repository.user.UserRepository
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -48,8 +52,9 @@ fun SignUpPage (
     coroutineScope: CoroutineScope,
     pagerState: PagerState,
     userRepository: UserRepository,
-    signInPageIndex: Int = 0
-): Boolean {
+    signInPageIndex: Int = 0,
+    onLogin: (User) -> Unit
+) {
     var loginSuccess by remember { mutableStateOf(false) }
 
     var nicknameText by remember { mutableStateOf("") }
@@ -90,7 +95,9 @@ fun SignUpPage (
                     label = {
                         Text("Nick name")
                     },
-                    maxLines = 1
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
 
                 TextField (
@@ -103,7 +110,9 @@ fun SignUpPage (
                     label = {
                         Text("E-mail")
                     },
-                    maxLines = 1
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    )
                 )
             }
 
@@ -122,9 +131,11 @@ fun SignUpPage (
                     label = {
                         Text("Password")
                     },
-                    maxLines = 1,
                     visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    )
                 )
 
                 TextField (
@@ -139,7 +150,10 @@ fun SignUpPage (
                     },
                     maxLines = 1,
                     visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    )
                 )
             }
 
@@ -147,13 +161,20 @@ fun SignUpPage (
                 modifier = Modifier
                     .fillMaxWidth(),
                 onClick = {
-                    val answer = validateUserData(emailText, passwordText, repeatPasswordText)
+                    validateUserData(emailText, passwordText, repeatPasswordText).isTrue {
+                        val auth = Firebase.auth
 
-                    println("$answer: email validate: ${passwordText == repeatPasswordText}")
-                    if (answer.not()) return@Button
+                        auth.createUserWithEmailAndPassword(emailText, passwordText)
+                            .addOnCompleteListener { task ->
+                                task.isComplete.isTrue {
+                                    val user = auth.currentUser
 
-                    saveUser(nicknameText, emailText, userRepository, context)
-                    loginSuccess = true
+                                    println("email: ${user?.email}, id: ${user?.uid}, avatarUrl: ${user?.photoUrl}")
+
+                                    onLogin(saveUser(nicknameText, emailText, userRepository, context))
+                                }
+                            }
+                    }
                 }
             ) {
                 Text("Sign Up")
@@ -183,8 +204,6 @@ fun SignUpPage (
             }
         }
     }
-
-    return loginSuccess
 }
 
 private fun saveUser (
@@ -192,20 +211,22 @@ private fun saveUser (
     emailText: String,
     userRepository: UserRepository,
     context: Context
-) {
+): User {
     val id = Random.nextInt(1000000, 9999999).toString()
     val newUser = User (
-        _id = id,
-        _name = nicknameText,
-        _email = emailText,
-        _about = "В разработке",
-        _recipesId = listOf()
+        id = id,
+        name = nicknameText,
+        email = emailText,
+        about = "В разработке",
+        recipesId = listOf()
     )
 
     PreferencesManager(context).saveData(PREFERENCES_LOCAL_USER_KEY, id)
 
     userRepository.addUser(newUser)
     userRepository.commit()
+
+    return newUser
 }
 
 fun validateUserData(email: String, password: String, repeatPassword: String): Boolean {

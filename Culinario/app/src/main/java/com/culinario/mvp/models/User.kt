@@ -1,44 +1,44 @@
 package com.culinario.mvp.models
 
 data class User(
-    private val _id: String,
-    private var _name: String,
-    private var _email: String? = null,
-    private var _about: String? = null,
-    private var _recipesId: List<String>? = null
+    private val id: String,
+    private var name: String,
+    private var email: String? = null,
+    private var about: String? = null,
+    private var recipesId: List<String>? = null
 ) {
     val Id: String
-        get() = this._id;
+        get() = this.id;
 
     var Name: String
-        get() = this._name;
+        get() = this.name;
         set(value) {
             if (value.isEmpty())
                 throw IllegalArgumentException("Name can't be empty")
 
-            this._name = value
+            this.name = value
         }
 
     var Email: String?
-        get() = this._email;
+        get() = this.email;
         set(value) {
             if (value.isNullOrEmpty() || CheckEmail(value))
                 throw IllegalArgumentException("Invalid email")
 
-            this._email = value
+            this.email = value
         }
 
     var About: String?
-        get() = this._about
+        get() = this.about
         set(value) {
             if (value.isNullOrEmpty())
                 throw IllegalArgumentException("Invalid \"about\"")
 
-            _about = value
+            about = value
         }
 
     val RecipesId: List<String>?
-        get() = _recipesId
+        get() = recipesId
 }
 
 private fun CheckEmail(email: String): Boolean =

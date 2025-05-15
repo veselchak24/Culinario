@@ -6,17 +6,18 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
-import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.SavePlaceholderData
 import com.culinario.mvp.models.repository.recipe.LocalSaveRecipeRepository
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
@@ -34,10 +35,12 @@ import com.culinario.viewmodels.RecipePageViewModel
 import com.culinario.viewmodels.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.mmk.kmpauth.google.GoogleAuthCredentials
+import com.mmk.kmpauth.google.GoogleAuthProvider
 import kotlinx.serialization.Serializable
 
 @Serializable
-object SignIn
+object Registration
 
 @Serializable
 object Home
@@ -46,6 +49,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        GoogleAuthProvider.create(credentials = GoogleAuthCredentials(serverId = getString(R.string.oauth_id)))
 
         setContent {
             CulinarioTheme {
@@ -62,12 +67,15 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun Screens(loginScreen: @Composable (onClick: () -> Unit) -> Unit, homeScreen: @Composable (NavController) -> Unit) {
+    fun Screens(
+        loginScreen: @Composable (onClick: () -> Unit) -> Unit,
+        homeScreen: @Composable (NavController) -> Unit
+    ) {
         initNavController (
-            startDestination =  if (PreferencesManager(LocalContext.current).hasKey(PREFERENCES_LOCAL_USER_KEY))
-                                    Home
+            startDestination =  if (Firebase.auth.currentUser == null)
+                                    Registration
                                 else
-                                    SignIn,
+                                    Home,
             signIn = loginScreen,
             home = homeScreen,
             LocalSaveRecipeRepository(LocalContext.current),
@@ -76,49 +84,46 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun initNavController(startDestination: Any, signIn: @Composable (() -> Unit) -> Unit, home: @Composable (NavController) -> Unit, recipeRepository: RecipeRepository, userRepository: UserRepository): NavController {
+    fun initNavController(
+        startDestination: Any,
+        signIn: @Composable (() -> Unit) -> Unit,
+        home: @Composable (NavController) -> Unit,
+        recipeRepository: RecipeRepository,
+        userRepository: UserRepository
+    ) : NavController {
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = startDestination) {
-            composable<SignIn> (
-                enterTransition = {
-                    slideIntoContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                },
-            ) {
+            composable<Registration> {
                 signIn {
+                    navController.popBackStack()
                     navController.navigate(route = Home)
-                    navController.clearBackStack<SignIn>()
                 }
             }
-            composable (
+
+            composable(
                 route = "RecipePage/{recipeID}",
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
                 RecipePage(RecipePageViewModel(recipeId, recipeRepository, userRepository, LocalContext.current), Modifier, navController)
             }
-            composable (
+
+            composable(
                 route = "RecipeCreatePage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })
             ) {
                 RecipeCreatePage(Modifier, navController, it.arguments?.getString("userId")!!, recipeRepository)
             }
-            composable (
+
+            composable(
                 route = "UserPage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType } )
             ) {
                 val userId = it.arguments?.getString("userId")!!
                 UserPage(Modifier, UserPageViewModel(userId, userRepository, recipeRepository), navController)
             }
+
             composable<Home> {
                 home(navController)
             }
