@@ -70,7 +70,7 @@ class LoginViewModel : ViewModel() {
                         id = firebaseUser.uid,
                         name = firebaseUser.displayName ?: "unknown user",
                         email = firebaseUser.email ?: "null",
-                        imageUrl = firebaseUser.photoUrl
+                        imageUrl = firebaseUser.photoUrl.toString()
                     )
                 )
 

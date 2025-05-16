@@ -121,7 +121,7 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("userId") { type = NavType.StringType } )
             ) {
                 val userId = it.arguments?.getString("userId")!!
-                UserPage(Modifier, UserPageViewModel(userId, userRepository, recipeRepository), navController)
+                UserPage(Modifier, navController)
             }
 
             composable<Home> {

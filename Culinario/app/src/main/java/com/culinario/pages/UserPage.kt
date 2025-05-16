@@ -30,12 +30,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,21 +52,23 @@ import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.Registration
 import com.culinario.controls.Header
-import com.culinario.controls.RecipeCard
-import com.culinario.viewmodels.RecipePageViewModel
-import com.culinario.viewmodels.UserPageViewModel
+import com.culinario.mvp.models.User
+import com.culinario.mvp.models.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.valentinilk.shimmer.shimmer
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UserPage(
     modifier: Modifier = Modifier,
-    userPageViewModel: UserPageViewModel,
     navController: NavController
 ) {
+    val userPageViewModel = UserPageViewModel()
+
     val scrollState = rememberScrollState()
-//    val user = userPageViewModel.getUser()
+    val user = remember { userPageViewModel.getCurrentUser() }
+
 //    val userRecipes = userPageViewModel.getUserRecipes()
 
 //    val likesCount = userPageViewModel.likesCount().toString()
@@ -80,11 +87,11 @@ fun UserPage(
                     .padding(horizontal = 25.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-//                UserHeader(user.Name, user.Email!!)
-//
-//                UserAbout(user.About!!)
+                UserHeader(user.value)
 
-//                UserStats(likesCount, recipeCount, watchCount)
+                UserAbout(user.value)
+
+                UserStats("0", "0", "0")
 //
 //                UserActivity (
 //                    userRecipes.map {
@@ -96,8 +103,7 @@ fun UserPage(
 
                 Button (
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 20.dp),
+                        .fillMaxWidth(),
                     content = {
                         Text(
                             text = "Создать рецепт"
@@ -135,7 +141,7 @@ private fun BackgroundImageDrawer() {
         contentDescription = "userBackground",
         painter = painterResource(R.drawable.user_background_placeholder),
         modifier = Modifier
-            .height(300.dp)
+            .height(250.dp)
             .fillMaxSize()
             .alpha(0.4f)
             .clip(
@@ -151,78 +157,109 @@ private fun BackgroundImageDrawer() {
 }
 
 @Composable
-fun UserHeader(userName: String, userMail: String) {
-
+fun UserHeader(user: User) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(370.dp)
+            .height(320.dp)
     ) {
         Card(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 15.dp
             ),
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .wrapContentHeight(),
+                .align(Alignment.BottomCenter),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
         ) {
-            Column(
+            Box (
                 modifier = Modifier
-                    .padding(top = 75.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .height(140.dp)
             ) {
-                Text(
-                    text = userName,
-                    fontWeight = FontWeight(900),
-                    fontSize = 28.sp
-                )
-
-                Text(
-                    text = userMail,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight(200)
-                )
-
-                Button(
-                    onClick = { },
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 5.dp),
-                    shape = RoundedCornerShape(5.dp)
+                        .align(Alignment.BottomCenter)
+                        .padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
-                    Text(
-                        text = "Подписаться"
-                    )
+                    if (user.name.isEmpty()) {
+                        Box (
+                            modifier = Modifier
+                                .shimmer()
+                                .height(28.dp)
+                                .width(170.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surface)
+                        )
+                    } else {
+                        Text(
+                            text = user.name,
+                            fontWeight = FontWeight(900),
+                            fontSize = 28.sp
+                        )
+                    }
+
+                    if (user.email.isEmpty()) {
+                        Box (
+                            modifier = Modifier
+                                .shimmer()
+                                .height(20.dp)
+                                .width(170.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surface)
+                        )
+                    } else {
+                        Text(
+                            text = user.email,
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight(200)
+                        )
+                    }
                 }
             }
         }
 
         Box(
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 80.dp)
                 .width(130.dp)
                 .height(130.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
-            AsyncImage(
-                model = Firebase.auth.currentUser?.photoUrl ?: Uri.parse("https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-479x512-n8sg74wg.png"),
-                contentDescription = "userAvatar",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp)
-                    .align(Alignment.Center)
-                    .clip(CircleShape)
-            )
+            if (user.imageUrl.isNullOrEmpty()) {
+                AsyncImage(
+                    model = Uri.parse("https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-479x512-n8sg74wg.png"),
+                    contentDescription = "userAvatar",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp)
+                        .align(Alignment.Center)
+                        .clip(CircleShape)
+                )
+            } else {
+                AsyncImage(
+                    model = user.imageUrl,
+                    contentDescription = "userAvatar",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp)
+                        .align(Alignment.Center)
+                        .clip(CircleShape)
+                )
+            }
         }
     }
 }
 
 @Composable
-fun UserAbout(about: String) {
+fun UserAbout(user: User) {
+    if (user.about.isEmpty()) return
+
     Column {
         Header(stringResource(R.string.user_page_header_about))
 
@@ -242,7 +279,7 @@ fun UserAbout(about: String) {
                     .padding(15.dp)
             ) {
                 Text(
-                    text = about,
+                    text = user.about,
                     maxLines = 7
                 )
             }

@@ -115,7 +115,7 @@ fun ContentScreen(
     when (selectedPageIndex) {
         0 -> HomePage(recipeRepository, userRepository, navController)
         1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
-        2 -> UserPage(modifier, userPageViewModel, navController)
+        2 -> UserPage(modifier, navController)
         3 -> CameraPage(
             modifier = modifier,
             onImagePicked = { bitmap: Bitmap ->

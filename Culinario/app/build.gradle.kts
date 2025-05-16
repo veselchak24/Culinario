@@ -84,9 +84,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("io.github.mirzemehdi:kmpauth-google:2.3.1") //Google One Tap Sign-In
-    implementation("io.github.mirzemehdi:kmpauth-firebase:2.3.1") //Integrated Authentications with Firebase
-    implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1") //UiHelper SignIn buttons (AppleSignIn, GoogleSignInButton)
+    implementation(libs.kmpauth.google)
+    implementation(libs.kmpauth.firebase.v231)
+    implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
+    implementation(libs.compose.shimmer)
 
     implementation(platform(libs.androidx.compose.bom.v20241001))
 
