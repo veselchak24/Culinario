@@ -33,7 +33,7 @@ class LocalSaveUserRepository (
 
     override fun getUserById(id: String): User {
         return users.first {
-            it.Id == id
+            it.id == id
         }
     }
 

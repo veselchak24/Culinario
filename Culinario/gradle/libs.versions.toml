@@ -26,6 +26,7 @@ firebaseAuthKtx = "23.2.0"
 googleid = "1.1.1"
 onetapcomposeVersion = "1.0.7"
 playServicesAuth = "21.3.0"
+firebaseFirestoreKtx = "25.1.4"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
@@ -62,6 +63,7 @@ firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx",
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 stevdza-san-onetapcompose = { module = "com.github.stevdza-san:OneTapCompose", version = "2.0.0" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

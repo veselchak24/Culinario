@@ -2,6 +2,7 @@ package com.culinario.pages
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,11 +36,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
 import com.culinario.helpers.PreferencesManager
+import com.culinario.helpers.USER_COLLECTION
 import com.culinario.helpers.isTrue
 import com.culinario.mvp.models.User
 import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.mvp.models.viewmodel.LoginViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -53,155 +58,151 @@ fun SignUpPage (
     pagerState: PagerState,
     userRepository: UserRepository,
     signInPageIndex: Int = 0,
-    onLogin: (User) -> Unit
+    onLogin: () -> Unit
 ) {
-    var loginSuccess by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    val loginViewModel = LoginViewModel()
+    loginViewModel.onException = {
+        Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+    }
 
     var nicknameText by remember { mutableStateOf("") }
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
     var repeatPasswordText by remember { mutableStateOf("") }
 
-    val context = LocalContext.current
-
-    Scaffold (
+    Column(
         modifier = modifier
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(15.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
+        Text(
+            "Регистрация",
+            style = MaterialTheme.typography.displayMedium
+        )
+        Text(
+            text = "Добро пожаловать в Culinario!",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Column (
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(
-                "Sign Up",
-                style = MaterialTheme.typography.displayLarge
-            )
-            Text(
-                text = "Welcome back!\nYou've been gone for so long =(",
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Column (
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                TextField (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = nicknameText,
-                    onValueChange = { newText ->
-                        nicknameText = newText
-                    },
-                    label = {
-                        Text("Nick name")
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
-                    )
-                )
-
-                TextField (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = emailText,
-                    onValueChange = { newText ->
-                        emailText = newText
-                    },
-                    label = {
-                        Text("E-mail")
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
-                    )
-                )
-            }
-
-            Spacer(Modifier.height(10.dp))
-
-            Column (
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                TextField (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = passwordText,
-                    onValueChange = { newText ->
-                        passwordText = newText
-                    },
-                    label = {
-                        Text("Password")
-                    },
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next
-                    )
-                )
-
-                TextField (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    value = repeatPasswordText,
-                    onValueChange = { newText ->
-                        repeatPasswordText = newText
-                    },
-                    label = {
-                        Text("Repeat password")
-                    },
-                    maxLines = 1,
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    )
-                )
-            }
-
-            Button (
+            TextField (
                 modifier = Modifier
                     .fillMaxWidth(),
-                onClick = {
-                    validateUserData(emailText, passwordText, repeatPasswordText).isTrue {
-                        val auth = Firebase.auth
+                value = nicknameText,
+                onValueChange = { newText ->
+                    nicknameText = newText
+                },
+                label = {
+                    Text("Имя")
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                )
+            )
 
-                        auth.createUserWithEmailAndPassword(emailText, passwordText)
-                            .addOnCompleteListener { task ->
-                                task.isComplete.isTrue {
-                                    val user = auth.currentUser
-
-                                    println("email: ${user?.email}, id: ${user?.uid}, avatarUrl: ${user?.photoUrl}")
-
-                                    onLogin(saveUser(nicknameText, emailText, userRepository, context))
-                                }
-                            }
-                    }
-                }
-            ) {
-                Text("Sign Up")
-            }
+            TextField (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = emailText,
+                onValueChange = { newText ->
+                    emailText = newText
+                },
+                label = {
+                    Text("Почта")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                )
+            )
         }
 
-        Box (
-            modifier = Modifier
-                .fillMaxSize()
+        Spacer(Modifier.height(10.dp))
+
+        Column (
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Button (
+            TextField (
                 modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.BottomStart),
-                onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(signInPageIndex)
+                    .fillMaxWidth(),
+                value = passwordText,
+                onValueChange = { newText ->
+                    passwordText = newText
+                },
+                label = {
+                    Text("Пароль")
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next
+                )
+            )
+
+            TextField (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                value = repeatPasswordText,
+                onValueChange = { newText ->
+                    repeatPasswordText = newText
+                },
+                label = {
+                    Text("И снова пароль")
+                },
+                maxLines = 1,
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                )
+            )
+        }
+
+        Button (
+            modifier = Modifier
+                .fillMaxWidth(),
+            onClick = {
+                validateUserData(emailText, passwordText, repeatPasswordText).isTrue {
+                    loginViewModel.signUp(nicknameText, emailText, passwordText) {
+                        Firebase
+                            .firestore
+                            .collection(USER_COLLECTION)
+                            .document(it?.uid ?: "default")
+                            .get()
+                            .addOnCompleteListener { task ->
+                                if (task.isComplete) {
+                                    onLogin()
+                                }
+                            }
+
+                        //TODO запуск страницы редактирование профиля
                     }
                 }
-            ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    "Sign In",
-                    modifier = Modifier
-                )
-                Text("Sign In")
             }
+        ) {
+            Text("Регистрируюсь")
+        }
+
+        Button (
+            modifier = Modifier
+                .wrapContentSize()
+                .align(Alignment.Start),
+            onClick = {
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(signInPageIndex)
+                }
+            }
+        ) {
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                "Назад",
+                modifier = Modifier
+            )
+            Text("Войти")
         }
     }
 }

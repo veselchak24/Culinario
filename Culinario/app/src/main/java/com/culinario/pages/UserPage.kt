@@ -1,6 +1,7 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -42,22 +43,30 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.culinario.R
+import com.culinario.Registration
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
 import com.culinario.viewmodels.RecipePageViewModel
 import com.culinario.viewmodels.UserPageViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
-@Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel, navController: NavController) {
+@Composable
+fun UserPage(
+    modifier: Modifier = Modifier,
+    userPageViewModel: UserPageViewModel,
+    navController: NavController
+) {
     val scrollState = rememberScrollState()
-    val user = userPageViewModel.getUser()
-    val userRecipes = userPageViewModel.getUserRecipes()
+//    val user = userPageViewModel.getUser()
+//    val userRecipes = userPageViewModel.getUserRecipes()
 
-    val likesCount = userPageViewModel.likesCount().toString()
-    val recipeCount = userPageViewModel.recipeCount().toString()
-    val watchCount = userPageViewModel.watchesCount().toString()
+//    val likesCount = userPageViewModel.likesCount().toString()
+//    val recipeCount = userPageViewModel.recipeCount().toString()
+//    val watchCount = userPageViewModel.watchesCount().toString()
 
     Scaffold { _ ->
         Box (
@@ -71,17 +80,31 @@ fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel
                     .padding(horizontal = 25.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                UserHeader(user.Name, user.Email!!)
+//                UserHeader(user.Name, user.Email!!)
+//
+//                UserAbout(user.About!!)
 
-                UserAbout(user.About!!)
+//                UserStats(likesCount, recipeCount, watchCount)
+//
+//                UserActivity (
+//                    userRecipes.map {
+//                        @Composable {
+//                            RecipeCard(RecipePageViewModel(it.id, userPageViewModel.recipeRepository, userPageViewModel.userRepository, LocalContext.current), Modifier.fillMaxWidth(), navController)
+//                        }
+//                    }
+//                )
 
-                UserStats(likesCount, recipeCount, watchCount)
-
-                UserActivity (
-                    userRecipes.map {
-                        @Composable {
-                            RecipeCard(RecipePageViewModel(it.id, userPageViewModel.recipeRepository, userPageViewModel.userRepository, LocalContext.current), Modifier.fillMaxWidth(), navController)
-                        }
+                Button (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
+                    content = {
+                        Text(
+                            text = "Создать рецепт"
+                        )
+                    },
+                    onClick = {
+                        //navController.navigate(route = "RecipeCreatePage/${user.Id}")
                     }
                 )
 
@@ -91,11 +114,14 @@ fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel
                         .padding(bottom = 20.dp),
                     content = {
                         Text(
-                            text = "Create new recipe"
+                            text = "Выйти из аккаунта"
                         )
                     },
                     onClick = {
-                        navController.navigate(route = "RecipeCreatePage/${user.Id}")
+                        Firebase.auth.signOut()
+
+                        navController.popBackStack()
+                        navController.navigate(Registration)
                     }
                 )
             }
@@ -126,6 +152,7 @@ private fun BackgroundImageDrawer() {
 
 @Composable
 fun UserHeader(userName: String, userMail: String) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -166,7 +193,9 @@ fun UserHeader(userName: String, userMail: String) {
                         .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 5.dp),
                     shape = RoundedCornerShape(5.dp)
                 ) {
-                    Text(stringResource(R.string.subscribe_button_text))
+                    Text(
+                        text = "Подписаться"
+                    )
                 }
             }
         }
@@ -179,9 +208,9 @@ fun UserHeader(userName: String, userMail: String) {
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
-            Image(
+            AsyncImage(
+                model = Firebase.auth.currentUser?.photoUrl ?: Uri.parse("https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-479x512-n8sg74wg.png"),
                 contentDescription = "userAvatar",
-                painter = painterResource(R.drawable.user_avatar_placeholder),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(5.dp)

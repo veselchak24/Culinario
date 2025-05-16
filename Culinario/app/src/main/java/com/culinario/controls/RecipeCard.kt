@@ -87,7 +87,7 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
                     )
                     Text(
                         modifier = Modifier.padding(start = 3.dp),
-                        text = userOwner.Name,
+                        text = userOwner.name,
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1

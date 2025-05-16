@@ -9,11 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -33,12 +29,7 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
             pageCount = { 2 }
         )
 
-        var close by remember { mutableStateOf(false) }
-
         val coroutineScope = rememberCoroutineScope()
-
-        if (close)
-            return@Scaffold
 
         HorizontalPager (
             state = pagerState,
@@ -46,6 +37,7 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
                 .padding(innerPadding)
                 .fillMaxSize()
         ) { page ->
+
             Box (
                 modifier = Modifier
                     .fillMaxSize()
@@ -54,12 +46,12 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
             ) {
                 when (page) {
                     0 -> {
+
                         SignInPage (
                             modifier = Modifier
                                 .padding(innerPadding)
                         ) {
                             onLogin()
-                            close = true
                         }
                     }
                     1 -> {
@@ -72,7 +64,6 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
                             page - 1
                         ) {
                             onLogin()
-                            close = true
                         }
                     }
                     else -> {

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "120251541924-9mgmkh1tlj8vebd44poi59jfl5gccbr1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.culinario",
+            "certificate_hash": "3a362b576e9bd2efcabc9c39a98f642e4399d59b"
+          }
+        },
+        {
           "client_id": "120251541924-nj3eo5tmsal4n8tjcdf2pimnnr7cmga8.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -175,7 +175,7 @@ private fun SheetHeader(recipe: Recipe, user: User, navController: NavController
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             BasicUserData(user) {
-                navController.navigate("UserPage/${user.Id}")
+                navController.navigate("UserPage/${user.id}")
             }
         }
     }
@@ -351,7 +351,7 @@ fun BasicUserData(user: User, onClick: () -> Unit) {
             painter = painterResource(R.drawable.user_avatar_placeholder)
         )
         Text (
-            text = user.Name
+            text = user.name
         )
     }
 }
