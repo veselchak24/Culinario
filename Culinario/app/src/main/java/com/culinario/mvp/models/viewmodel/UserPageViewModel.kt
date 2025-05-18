@@ -1,25 +1,30 @@
 package com.culinario.mvp.models.viewmodel
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.culinario.helpers.USER_COLLECTION
 import com.culinario.mvp.models.User
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
-class UserPageViewModel : ViewModel() {
+class UserPageViewModel(
+    private val userId: String,
+    private val context: Context
+) : ViewModel() {
     private val userCollection = Firebase.firestore.collection(USER_COLLECTION)
-    private val auth: FirebaseAuth = Firebase.auth
 
     private var currentUser: MutableState<User> = mutableStateOf(User())
 
-    fun getCurrentUser(): MutableState<User> {
-        auth.currentUser?.let {
+    init {
+        println("userPageViewModel init")
+
+        try {
             userCollection
-                .document(it.uid)
+                .document(userId)
                 .get()
                 .addOnCompleteListener { documentSnapshot ->
                     if (documentSnapshot.isComplete) {
@@ -28,8 +33,13 @@ class UserPageViewModel : ViewModel() {
                         println("Something went wrong")
                     }
                 }
+        } catch (ex: Exception) {
+            Log.e("data", ex.message ?: "exception thrown")
         }
-
-        return currentUser
     }
+
+    val isCurrentUser: Boolean
+        get() = Firebase.auth.currentUser?.uid == userId
+
+    fun getCurrentUser(): MutableState<User> = currentUser
 }

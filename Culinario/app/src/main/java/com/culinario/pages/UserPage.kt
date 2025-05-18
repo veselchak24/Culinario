@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,30 +24,36 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
@@ -62,12 +69,14 @@ import com.valentinilk.shimmer.shimmer
 @Composable
 fun UserPage(
     modifier: Modifier = Modifier,
+    userId: String,
     navController: NavController
 ) {
-    val userPageViewModel = UserPageViewModel()
+    val userPageViewModel = UserPageViewModel(userId, LocalContext.current)
 
     val scrollState = rememberScrollState()
     val user = remember { userPageViewModel.getCurrentUser() }
+    var accountExitDialog by remember { mutableStateOf(false) }
 
 //    val userRecipes = userPageViewModel.getUserRecipes()
 
@@ -101,35 +110,90 @@ fun UserPage(
 //                    }
 //                )
 
-                Button (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    content = {
-                        Text(
-                            text = "Создать рецепт"
-                        )
-                    },
-                    onClick = {
-                        //navController.navigate(route = "RecipeCreatePage/${user.Id}")
-                    }
-                )
+                if (accountExitDialog) {
+                    AlertDialog(
+                        icon = {
+                            Icon(
+                                painter = painterResource(R.drawable.alert),
+                                contentDescription = "Example Icon"
+                            )
+                        },
+                        title = {
+                            Text(
+                                text = "Выход",
+                                textAlign = TextAlign.Center
+                            )
+                        },
+                        text = {
+                            Text(
+                                text = "Вы точно хотите выйти с аккаунта ${user.value.name}?",
+                                textAlign = TextAlign.Center
+                            )
+                        },
+                        onDismissRequest = {
+                            accountExitDialog = false
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    accountExitDialog = false
 
-                Button (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 20.dp),
-                    content = {
-                        Text(
-                            text = "Выйти из аккаунта"
-                        )
-                    },
-                    onClick = {
-                        Firebase.auth.signOut()
+                                    navController.popBackStack()
+                                    navController.navigate(Registration)
 
-                        navController.popBackStack()
-                        navController.navigate(Registration)
+                                    Firebase.auth.signOut()
+                                }
+                            ) {
+                                Text(
+                                    text = "Да"
+                                )
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(
+                                onClick = {
+                                    accountExitDialog = false
+                                }
+                            ) {
+                                Text(
+                                    text = "Нет"
+                                )
+                            }
+                        }
+                    )
+                }
+
+                if (userPageViewModel.isCurrentUser) {
+                    Column {
+                        Button (
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            content = {
+                                Text(
+                                    text = "Создать рецепт"
+                                )
+                            },
+                            onClick = {
+                                navController.navigate(route = "RecipeCreatePage/${user.value.id}")
+                            }
+                        )
+
+                        TextButton (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 20.dp),
+                            content = {
+                                Text(
+                                    text = "Выйти из аккаунта",
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            },
+                            onClick = {
+                                accountExitDialog = true
+                            }
+                        )
                     }
-                )
+                }
             }
         }
     }
@@ -233,7 +297,7 @@ fun UserHeader(user: User) {
         ) {
             if (user.imageUrl.isNullOrEmpty()) {
                 AsyncImage(
-                    model = Uri.parse("https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-479x512-n8sg74wg.png"),
+                    model = Uri.parse(stringResource(R.string.default_avatar_icon_url)),
                     contentDescription = "userAvatar",
                     modifier = Modifier
                         .fillMaxSize()

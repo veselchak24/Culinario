@@ -5,17 +5,20 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,6 +45,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -67,7 +71,12 @@ import kotlin.random.Random
 @SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController, userId: String, recipeRepository: RecipeRepository) {
+fun RecipeCreatePage(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    userId: String,
+    recipeRepository: RecipeRepository
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior (
         rememberTopAppBarState()
     )
@@ -107,100 +116,101 @@ fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController
             TopBar(scrollBehavior)
         }
     ) { padding ->
-        HorizontalPager (
-            state = pagerState,
-            Modifier
-                .padding(padding)
-                .fillMaxSize()
-        ) { page ->
-            when (page) {
-                0 -> {
-                    Box (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 30.dp)
-                    ) {
-                        BasicInfoPage (
-                            recipeName,
-                            recipeDescription
-                        )
-
-                        Button (
+        Column {
+            HorizontalPager (
+                state = pagerState,
+                Modifier
+                    .padding(padding)
+                    .fillMaxWidth()
+                    .fillMaxHeight(.8f)
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        Box (
                             modifier = Modifier
-                                .align(Alignment.BottomEnd),
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(page + 1)
+                                .fillMaxSize()
+                                .padding(horizontal = 30.dp)
+                        ) {
+                            BasicInfoPage (
+                                recipeName,
+                                recipeDescription
+                            )
+                        }
+                    }
+                    1 -> {
+                        Box (
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 30.dp)
+                        ) {
+                            StepsAndIngredientsPage(
+                                ingredients,
+                                steps
+                            )
+                        }
+                    }
+                    2 -> {
+                        Box (
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .wrapContentSize()
+                                .padding(horizontal = 30.dp)
+                        ) {
+                            ImagesPage (
+                                recipeTitleImageLauncher = recipeTitleImageLauncher,
+                                titleBitmap = titleBitmap,
+                                picturesBitmap = picturesBitmap,
+                                picturesImageLauncher = picturesImageLauncher
+                            )
+
+                            Button (
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd),
+                                onClick = {
+                                    saveRecipe (
+                                        recipeName.value,
+                                        recipeDescription.value,
+                                        ingredients.value,
+                                        steps.value,
+                                        userId,
+                                        recipeRepository,
+                                        navController,
+                                        titleBitmap.value,
+                                        picturesBitmap.value,
+                                        context
+                                    )
                                 }
+                            ) {
+                                Text(text = "Create")
                             }
-                        ) {
-                            Text("Next")
                         }
                     }
+                    else -> Box (
+                        Modifier.fillMaxSize()
+                    )
                 }
-                1 -> {
-                    Box (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 30.dp)
-                    ) {
-                        StepsAndIngredientsPage(
-                            ingredients,
-                            steps
-                        )
+            }
 
-                        Button (
-                            modifier = Modifier
-                                .align(Alignment.BottomEnd),
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(page + 1)
-                                }
-                            }
-                        ) {
-                            Text("Next")
-                        }
+            BackHandler {
+                if (pagerState.currentPage > 0) {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
                     }
+                } else {
+                    navController.navigate("UserPage/$userId")
                 }
-                2 -> {
-                    Box (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize()
-                            .padding(horizontal = 30.dp)
-                    ) {
-                        ImagesPage (
-                            recipeTitleImageLauncher = recipeTitleImageLauncher,
-                            titleBitmap = titleBitmap,
-                            picturesBitmap = picturesBitmap,
-                            picturesImageLauncher = picturesImageLauncher
-                        )
+            }
 
-                        Button (
-                            modifier = Modifier
-                                .align(Alignment.BottomEnd),
-                            onClick = {
-                                saveRecipe (
-                                    recipeName.value,
-                                    recipeDescription.value,
-                                    ingredients.value,
-                                    steps.value,
-                                    userId,
-                                    recipeRepository,
-                                    navController,
-                                    titleBitmap.value,
-                                    picturesBitmap.value,
-                                    context
-                                )
-                            }
-                        ) {
-                            Text(text = "Create")
-                        }
+            Button (
+                modifier = Modifier
+                    .align(Alignment.End),
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 }
-                else -> Box (
-                    Modifier.fillMaxSize()
-                )
+            ) {
+                Text("Next")
             }
         }
     }

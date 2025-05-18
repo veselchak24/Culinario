@@ -105,26 +105,7 @@ fun SignInPage(
                 Text("Войти")
             }
 
-            GoogleButtonUiContainerFirebase(
-                onResult = { result ->
-                    if (result.isSuccess) {
-                        loginViewModel.onGoogleAuth(Firebase.auth.currentUser!!) {
-                            onSignIn()
-                        }
-                    }
-                },
-                linkAccount = false,
-                filterByAuthorizedAccounts = false
-            ) {
-                GoogleSignInButton(
-                    onClick = {
-                        this.onClick()
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = "Войти через Google"
-                )
-            }
+
         }
     }
 }

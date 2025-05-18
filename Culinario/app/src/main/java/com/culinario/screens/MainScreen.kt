@@ -36,6 +36,8 @@ import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
 import com.culinario.viewmodels.UserPageViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.json.JsonObject
@@ -115,7 +117,7 @@ fun ContentScreen(
     when (selectedPageIndex) {
         0 -> HomePage(recipeRepository, userRepository, navController)
         1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
-        2 -> UserPage(modifier, navController)
+        2 -> UserPage(modifier, Firebase.auth.currentUser?.uid ?: "", navController)
         3 -> CameraPage(
             modifier = modifier,
             onImagePicked = { bitmap: Bitmap ->

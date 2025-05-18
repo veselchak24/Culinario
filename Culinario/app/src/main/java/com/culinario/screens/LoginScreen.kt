@@ -1,82 +1,223 @@
 package com.culinario.screens
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.culinario.R
 import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.repository.user.UserRepositoryImpl
+import com.culinario.mvp.models.viewmodel.LoginViewModel
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
+import com.culinario.ui.theme.ancizarSerifFontFamily
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
+import com.mmk.kmpauth.uihelper.google.GoogleSignInButton
+import okhttp3.internal.wait
 
 @Composable
 fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
-    LocalSaveUserRepository(LocalContext.current).addUser(UserRepositoryImpl().getUserById("85t6ir7f12v"))
+    val loginAndPasswordLoginSelected = remember { mutableStateOf(false) }
 
     Scaffold { innerPadding ->
-        val pagerState = rememberPagerState (
-            initialPage = 1,
-            pageCount = { 2 }
-        )
+        BackHandler {
+            if (loginAndPasswordLoginSelected.value)
+                loginAndPasswordLoginSelected.value = false
+        }
 
-        val coroutineScope = rememberCoroutineScope()
+        if (loginAndPasswordLoginSelected.value.not()) {
+            MainRegistrationPage(
+                loginAndPasswordLoginSelected
+            ) {
+                onLogin()
+            }
+        } else {
+            LoginAndPasswordRegistrationPage(
+                modifier = Modifier.padding(innerPadding),
+                userRepository
+            ) {
+                onLogin()
+            }
+        }
+    }
+}
 
-        HorizontalPager (
-            state = pagerState,
-            Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) { page ->
+@Preview(showBackground = true)
+@Composable
+private fun MainRegistrationPage(
+    selectionState: MutableState<Boolean> = mutableStateOf(false),
+    onLogin: () -> Unit = { }
+) {
+    val loginViewModel = LoginViewModel()
 
-            Box (
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Box (
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.75f)
+                .clip(RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp))
+        ) {
+            Image(
+                painter = painterResource(R.drawable.login_screen_no_text),
+                contentDescription = "Splash screen background",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(start = 40.dp, end = 40.dp)
-            ) {
-                when (page) {
-                    0 -> {
+            )
 
-                        SignInPage (
-                            modifier = Modifier
-                                .padding(innerPadding)
-                        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .padding(top = 105.dp),
+                fontFamily = ancizarSerifFontFamily,
+                text = "Culinario",
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.W800,
+                fontSize = 85.sp,
+                color = Color.White
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(25.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            Text(
+                text = "Вход",
+                fontWeight = FontWeight.W700,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+
+            GoogleButtonUiContainerFirebase(
+                onResult = { result ->
+                    if (result.isSuccess) {
+                        loginViewModel.onGoogleAuth(Firebase.auth.currentUser!!) {
                             onLogin()
                         }
                     }
-                    1 -> {
-                        SignUpPage (
-                            Modifier
-                                .padding(innerPadding),
-                            coroutineScope,
-                            pagerState,
-                            userRepository,
-                            page - 1
-                        ) {
-                            onLogin()
-                        }
-                    }
-                    else -> {
-                        Text(
-                            text = "Presentation page №$page",
-                            style = MaterialTheme.typography.displayLarge,
-                            modifier = Modifier
-                                .padding(innerPadding)
-                        )
-                    }
-                }
+                },
+                linkAccount = false,
+                filterByAuthorizedAccounts = false
+            ) {
+                GoogleSignInButton(
+                    onClick = {
+                        this.onClick()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = "Войти через Google"
+                )
             }
 
+            TextButton(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    selectionState.value = true
+                }
+            ) {
+                Text(
+                    text = "Войти по логину и паролю"
+                )
+            }
         }
+
+    }
+}
+
+@Composable
+private fun LoginAndPasswordRegistrationPage(
+    modifier: Modifier,
+    userRepository: UserRepository,
+    onLogin: () -> Unit
+) {
+    val pagerState = rememberPagerState(
+        initialPage = 1,
+        pageCount = { 2 }
+    )
+
+    val coroutineScope = rememberCoroutineScope()
+
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier
+            .fillMaxSize()
+    ) { page ->
+
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(start = 40.dp, end = 40.dp)
+        ) {
+            when (page) {
+                0 -> {
+
+                    SignInPage(
+                        modifier = modifier
+                    ) {
+                        onLogin()
+                    }
+                }
+
+                1 -> {
+                    SignUpPage(
+                        modifier,
+                        coroutineScope,
+                        pagerState,
+                        userRepository,
+                        page - 1
+                    ) {
+                        onLogin()
+                    }
+                }
+
+                else -> {
+                    Text(
+                        text = "Presentation page №$page",
+                        style = MaterialTheme.typography.displayLarge,
+                        modifier = modifier
+                    )
+                }
+            }
+        }
+
     }
 }
