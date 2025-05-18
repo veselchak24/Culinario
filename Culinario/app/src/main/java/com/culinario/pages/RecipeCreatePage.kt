@@ -11,7 +11,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -45,7 +44,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -163,26 +161,6 @@ fun RecipeCreatePage(
                                 picturesImageLauncher = picturesImageLauncher
                             )
 
-                            Button (
-                                modifier = Modifier
-                                    .align(Alignment.BottomEnd),
-                                onClick = {
-                                    saveRecipe (
-                                        recipeName.value,
-                                        recipeDescription.value,
-                                        ingredients.value,
-                                        steps.value,
-                                        userId,
-                                        recipeRepository,
-                                        navController,
-                                        titleBitmap.value,
-                                        picturesBitmap.value,
-                                        context
-                                    )
-                                }
-                            ) {
-                                Text(text = "Create")
-                            }
                         }
                     }
                     else -> Box (
@@ -201,16 +179,41 @@ fun RecipeCreatePage(
                 }
             }
 
-            Button (
+            Box(
                 modifier = Modifier
-                    .align(Alignment.End),
-                onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    .align(Alignment.End)
+                    .padding(15.dp)
+            ) {
+                if (pagerState.currentPage == 2) {
+                    Button (
+                        onClick = {
+                            saveRecipe (
+                                recipeName.value,
+                                recipeDescription.value,
+                                ingredients.value,
+                                steps.value,
+                                userId,
+                                recipeRepository,
+                                navController,
+                                titleBitmap.value,
+                                picturesBitmap.value,
+                                context
+                            )
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.create_text))
+                    }
+                } else {
+                    Button (
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
+                        }
+                    ) {
+                        Text(stringResource(R.string.next_step_text))
                     }
                 }
-            ) {
-                Text("Next")
             }
         }
     }
@@ -234,7 +237,7 @@ fun BasicInfoPage (
                 recipeName.value = it
             },
             label = {
-                Text("Recipe name")
+                Text(stringResource(R.string.recipe_name_text))
             },
             maxLines = 1
         )
@@ -247,7 +250,7 @@ fun BasicInfoPage (
                 recipeDescription.value = it
             },
             label = {
-                Text("Recipe description")
+                Text(stringResource(R.string.recipe_desciption_text))
             }
         )
     }
@@ -269,10 +272,10 @@ private fun StepsAndIngredientsPage(
                 ingredients.value = it
             },
             placeholder = {
-                Text("Every ingredient on new line")
+                Text(stringResource(R.string.ingredients_steps_text_field_placeholder_text))
             },
             label = {
-                Text("Ingredients")
+                Text(stringResource(R.string.ingredients_text))
             }
         )
 
@@ -284,10 +287,10 @@ private fun StepsAndIngredientsPage(
                 steps.value = it
             },
             placeholder = {
-                Text("Every step on new line")
+                Text(stringResource(R.string.cooking_steps_text_field_placeholder_text))
             },
             label = {
-                Text("Steps")
+                Text(stringResource(R.string.cooking_steps_text))
             }
         )
     }
@@ -303,7 +306,7 @@ private fun ImagesPage(
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .scrollable (
+            .scrollable(
                 rememberScrollState(),
                 Orientation.Vertical
             ),
@@ -343,7 +346,7 @@ private fun OtherImages (
     picturesImageLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>
 ) {
     Column {
-        Header("Other images")
+        Header(stringResource(R.string.other_images_text))
 
         Column (
             modifier = Modifier
@@ -361,7 +364,7 @@ private fun OtherImages (
         },
         content = {
             Text (
-                text = "Add image"
+                text = stringResource(R.string.add_image_text)
             )
         }
     )
@@ -384,7 +387,7 @@ private fun BackgroundImageDrawer (
     bitmap: MutableState<Bitmap>
 ) {
     Column {
-        Header("Recipe title image")
+        Header(stringResource(R.string.recipe_bg_image_header_text))
         OutlinedCard(
             modifier = Modifier
                 .fillMaxWidth()
