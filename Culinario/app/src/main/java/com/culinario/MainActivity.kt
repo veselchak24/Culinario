@@ -35,6 +35,7 @@ import com.culinario.viewmodels.RecipePageViewModel
 import com.culinario.viewmodels.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
 import kotlinx.serialization.Serializable
@@ -57,6 +58,7 @@ class MainActivity : ComponentActivity() {
                 SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
 
                 val localUserRepository = LocalSaveUserRepository(LocalContext.current)
+                //Firebase.firestore.collection("recipes").document("9369441").set(LocalSaveRecipeRepository(LocalContext.current).getRecipeById("9369441"))
 
                 Screens (
                     loginScreen = { LoginScreen(it,  localUserRepository) },

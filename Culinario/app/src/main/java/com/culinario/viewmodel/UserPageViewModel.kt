@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.viewmodel
+package com.culinario.viewmodel
 
 import android.content.Context
 import android.util.Log

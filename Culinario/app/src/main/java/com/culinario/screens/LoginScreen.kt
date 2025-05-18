@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.viewmodel.LoginViewModel
+import com.culinario.viewmodel.LoginViewModel
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 import com.culinario.ui.theme.ancizarSerifFontFamily

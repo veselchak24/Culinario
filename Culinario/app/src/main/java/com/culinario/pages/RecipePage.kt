@@ -218,7 +218,7 @@ private fun QuickStats(recipe: Recipe) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageCarousel(bitmaps: Array<String>) {
+fun ImageCarousel(bitmaps: List<String>) {
     val carouselState = rememberCarouselState { bitmaps.size }
 
     Column {

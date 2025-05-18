@@ -60,7 +60,7 @@ import com.culinario.R
 import com.culinario.Registration
 import com.culinario.controls.Header
 import com.culinario.mvp.models.User
-import com.culinario.mvp.models.viewmodel.UserPageViewModel
+import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.valentinilk.shimmer.shimmer

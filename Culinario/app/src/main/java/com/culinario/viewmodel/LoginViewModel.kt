@@ -1,4 +1,4 @@
-package com.culinario.mvp.models.viewmodel
+package com.culinario.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.culinario.helpers.USER_COLLECTION

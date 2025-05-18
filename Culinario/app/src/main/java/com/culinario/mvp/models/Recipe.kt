@@ -108,10 +108,10 @@ enum class Difficulty {
 @Serializable
 data class RecipeImageResources (
     var recipeBackgroundImageUri: String? = null,
-    var recipePicturesUri: Array<String>? = null,
+    var recipePicturesUri: List<String>? = null,
 
     var recipeBackgroundImageResources: Int? = null,
-    var recipePicturesResources: Array<Int>? = null
+    var recipePicturesResources: List<Int>? = null
 )
 
 @Serializable

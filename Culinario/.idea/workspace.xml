@@ -9,10 +9,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="much improvements">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="RecipeCreatePage.kt improved">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/imageloader/ResourceImageLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/imageloader/ResourceImageLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/recipe/RecipeRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/recipe/RecipeRepositoryImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -433,7 +437,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747599245310</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="RecipeCreatePage.kt improved">
+      <option name="closed" value="true" />
+      <created>1747599831230</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1747599831230</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -470,7 +482,8 @@
     <MESSAGE value="implemented oAuth and refactor User.kt" />
     <MESSAGE value="Login page improvements" />
     <MESSAGE value="much improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="much improvements" />
+    <MESSAGE value="RecipeCreatePage.kt improved" />
+    <option name="LAST_COMMIT_MESSAGE" value="RecipeCreatePage.kt improved" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

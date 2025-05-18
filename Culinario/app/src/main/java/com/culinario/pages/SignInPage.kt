@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.culinario.mvp.models.viewmodel.LoginViewModel
+import com.culinario.viewmodel.LoginViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase

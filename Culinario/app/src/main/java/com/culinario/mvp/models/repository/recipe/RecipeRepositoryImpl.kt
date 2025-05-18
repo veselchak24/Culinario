@@ -18,7 +18,7 @@ class RecipeRepositoryImpl : RecipeRepository {
             description = "Питательный салат с киноа, овощами и лимонной заправкой.",
             recipeImageResources = RecipeImageResources(
                 recipeBackgroundImageUri = "https://shop.soyka.ru/upload/iblock/c29/c29d94b01058f9bcb7d45d23df6ca019.jpg",
-                recipePicturesUri = arrayOf()
+                recipePicturesUri = listOf()
             ),
             ingredients = listOf(
                 Ingredient("Киноа", 200.0, Unit.GRAMS),
@@ -50,7 +50,7 @@ class RecipeRepositoryImpl : RecipeRepository {
             description = "Традиционные русские блины на молоке, тонкие и ароматные",
             recipeImageResources = RecipeImageResources(
                 recipeBackgroundImageUri = "https://img1.russianfood.com/dycontent/images_upl/112/big_111352.jpg",
-                recipePicturesUri = arrayOf()
+                recipePicturesUri = listOf()
             ),
             ingredients = listOf(
                 Ingredient("Мука", 200.0, Unit.GRAMS),
@@ -351,7 +351,7 @@ class RecipeRepositoryImpl : RecipeRepository {
             description = "Нежные творожные сырники с хрустящей корочкой",
             recipeImageResources = RecipeImageResources(
                 recipeBackgroundImageUri = "https://baking-academy.ru/upload/iblock/d58/d58f029b2bd9cf8bd49714d02b29b6a1.jpeg",
-                recipePicturesUri = arrayOf()
+                recipePicturesUri = listOf()
             ),
             ingredients = listOf(
                 Ingredient("Творог", 500.0, Unit.GRAMS),

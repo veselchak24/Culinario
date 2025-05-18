@@ -40,7 +40,7 @@ import com.culinario.helpers.USER_COLLECTION
 import com.culinario.helpers.isTrue
 import com.culinario.mvp.models.User
 import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.viewmodel.LoginViewModel
+import com.culinario.viewmodel.LoginViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore

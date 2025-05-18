@@ -454,7 +454,7 @@ private fun saveRecipe (
             recipeBackgroundImageUri = saveHelper.saveBitmapToFile(headerImage),
             recipePicturesUri = listImageResources.map {
                 saveHelper.saveBitmapToFile(it)
-            }.toTypedArray()
+            }.toList()
         ),
         ingredients = ingredients
             .split('\n')

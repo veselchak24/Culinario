@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 
 class ResourceImageLoader (
     val imageResourceId: Int? = null,
-    val imageResourcesId: Array<Int>? = null,
+    val imageResourcesId: List<Int>? = null,
     val context: Context
 )  : ImageLoader(context) {
 
