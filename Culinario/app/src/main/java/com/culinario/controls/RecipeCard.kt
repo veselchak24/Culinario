@@ -18,22 +18,45 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
+import com.culinario.mvp.models.User
+import com.culinario.viewmodel.RecipeCardViewModel
 import com.culinario.viewmodels.RecipePageViewModel
 
 @Composable
-fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, navController: NavController) {
-    val recipe = recipePageViewModel.getRecipe()
-    val userOwner = recipePageViewModel.getUserOwner()
+fun RecipeCard(
+    recipeCardViewModel: RecipeCardViewModel,
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
+    val recipe = recipeCardViewModel.recipe.collectAsState()
+    var userOwner by remember { mutableStateOf(User()) }
+
+    var clicked by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        userOwner = recipeCardViewModel.getOwner()
+    }
+
+    LaunchedEffect(clicked) {
+        if (clicked) {
+            onClick()
+        }
+    }
 
     Card (
         colors = CardDefaults.cardColors(
@@ -48,13 +71,13 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
-                    navController.navigate("RecipePage/${recipe.id}")
+                    clicked = true
                 }
         ) {
             AsyncImage(
                 modifier = Modifier
                     .weight(0.7f),
-                model = recipePageViewModel.getRecipe().recipeImageResources.recipeBackgroundImageUri,
+                model = recipe.value.recipeImageResources.recipeBackgroundImageResources,
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )
@@ -66,7 +89,7 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
                     .padding(10.dp)
             ) {
                 Text (
-                    text = recipe.name,
+                    text = recipe.value.name,
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,

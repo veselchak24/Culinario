@@ -4,14 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -29,13 +24,12 @@ import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
+import com.culinario.viewmodel.UserPageViewModel
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
 import com.culinario.viewmodels.RecipePageViewModel
-import com.culinario.viewmodels.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
 import kotlinx.serialization.Serializable
@@ -108,14 +102,26 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
-                RecipePage(RecipePageViewModel(recipeId, recipeRepository, userRepository, LocalContext.current), Modifier, navController)
+
+                RecipePage(
+                    RecipePageViewModel(
+                        recipeId,
+                        recipeRepository,
+                        userRepository,
+                        LocalContext.current
+                    ),
+                    Modifier,
+                    navController
+                )
             }
 
             composable(
                 route = "RecipeCreatePage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })
             ) {
-                RecipeCreatePage(Modifier, navController, it.arguments?.getString("userId")!!, recipeRepository)
+                val userId = it.arguments?.getString("userId")!!
+
+                RecipeCreatePage(Modifier, UserPageViewModel(userId), navController)
             }
 
             composable(
@@ -123,7 +129,8 @@ class MainActivity : ComponentActivity() {
                 arguments = listOf(navArgument("userId") { type = NavType.StringType } )
             ) {
                 val userId = it.arguments?.getString("userId")!!
-                UserPage(Modifier, userId, navController)
+
+                UserPage(Modifier, UserPageViewModel(userId), navController)
             }
 
             composable<Home> {

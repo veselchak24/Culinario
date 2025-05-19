@@ -117,7 +117,7 @@ fun ContentScreen(
     when (selectedPageIndex) {
         0 -> HomePage(recipeRepository, userRepository, navController)
         1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
-        2 -> UserPage(modifier, Firebase.auth.currentUser?.uid ?: "", navController)
+        2 -> UserPage(modifier, com.culinario.viewmodel.UserPageViewModel(Firebase.auth.currentUser?.uid!!), navController)
         3 -> CameraPage(
             modifier = modifier,
             onImagePicked = { bitmap: Bitmap ->

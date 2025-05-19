@@ -21,8 +21,6 @@ class LocalSaveRecipeRepository (
         val listType: Type = TypeToken.getParameterized(MutableList::class.java, Recipe::class.java).type
 
         recipes = Gson().fromJson(file.readText(), listType)
-
-        println(recipes)
     }
 
     override fun addRecipe(recipe: Recipe) {

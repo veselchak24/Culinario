@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,14 +29,16 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,14 +55,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.Registration
 import com.culinario.controls.Header
+import com.culinario.controls.RecipeCard
+import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
+import com.culinario.viewmodel.RecipeCardViewModel
 import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -69,16 +73,19 @@ import com.valentinilk.shimmer.shimmer
 @Composable
 fun UserPage(
     modifier: Modifier = Modifier,
-    userId: String,
+    userPageViewModel: UserPageViewModel,
     navController: NavController
 ) {
-    val userPageViewModel = UserPageViewModel(userId, LocalContext.current)
+    val user = userPageViewModel.user.collectAsState()
+    val userRecipes = remember { mutableStateOf(listOf<Recipe>()) }
 
-    val scrollState = rememberScrollState()
-    val user = remember { userPageViewModel.getCurrentUser() }
     var accountExitDialog by remember { mutableStateOf(false) }
 
-//    val userRecipes = userPageViewModel.getUserRecipes()
+
+    LaunchedEffect(Unit) {
+        val recipesList = userPageViewModel.getUserRecipesAsList()
+        userRecipes.value = recipesList
+    }
 
 //    val likesCount = userPageViewModel.likesCount().toString()
 //    val recipeCount = userPageViewModel.recipeCount().toString()
@@ -87,7 +94,7 @@ fun UserPage(
     Scaffold { _ ->
         Box (
             modifier = modifier
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
         ) {
             BackgroundImageDrawer()
 
@@ -101,14 +108,27 @@ fun UserPage(
                 UserAbout(user.value)
 
                 UserStats("0", "0", "0")
-//
-//                UserActivity (
-//                    userRecipes.map {
-//                        @Composable {
-//                            RecipeCard(RecipePageViewModel(it.id, userPageViewModel.recipeRepository, userPageViewModel.userRepository, LocalContext.current), Modifier.fillMaxWidth(), navController)
-//                        }
-//                    }
-//                )
+
+                println(userRecipes)
+                UserActivity {
+                    Column (
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        for(recipe in userRecipes.value) {
+                            RecipeCard(
+                                RecipeCardViewModel(
+                                    recipe.id,
+                                    LocalContext.current
+                                ),
+                                Modifier.fillMaxWidth()
+                            ) {
+                                navController.navigate("RecipePage/${recipe.id}")
+                            }
+                        }
+                    }
+                }
+
+
 
                 if (accountExitDialog) {
                     AlertDialog(
@@ -376,17 +396,11 @@ fun UserStats(likesCount: String, recipeCount: String, watchCount: String) {
 }
 
 @Composable
-fun UserActivity(composable: List<@Composable () -> Unit>) {
+fun UserActivity(composable: @Composable () -> Unit) {
     Column {
         Header(stringResource(R.string.user_page_header_activity))
 
-        Column (
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            composable.forEach { composable ->
-                composable()
-            }
-        }
+        composable()
     }
 }
 

@@ -33,6 +33,7 @@ import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.viewmodel.RecipeCardViewModel
 import com.culinario.viewmodels.RecipePageViewModel
 
 @Composable
@@ -110,7 +111,15 @@ fun GridOfFavorite(recipes: List<Recipe>, userRepository: UserRepository, recipe
         contentPadding = PaddingValues(10.dp)
     ) {
         items(recipes) { recipe ->
-            RecipeCard(RecipePageViewModel(recipe.id, recipeRepository, userRepository, LocalContext.current), Modifier.padding(5.dp), navController)
+            RecipeCard(
+                RecipeCardViewModel(
+                    recipe.id,
+                    LocalContext.current
+                ),
+                Modifier.padding(5.dp)
+            ) {
+                navController.navigate("RecipePage/${recipe.id}")
+            }
         }
     }
 }

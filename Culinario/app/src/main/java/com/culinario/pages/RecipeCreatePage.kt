@@ -38,10 +38,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -63,6 +66,7 @@ import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
+import com.culinario.viewmodel.UserPageViewModel
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -71,9 +75,8 @@ import kotlin.random.Random
 @Composable
 fun RecipeCreatePage(
     modifier: Modifier = Modifier,
-    navController: NavController,
-    userId: String,
-    recipeRepository: RecipeRepository
+    userPageViewModel: UserPageViewModel,
+    navController: NavController
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior (
         rememberTopAppBarState()
@@ -107,6 +110,24 @@ fun RecipeCreatePage(
         initialPage = 0,
         pageCount = { 3 }
     )
+
+    var navigateBack by remember { mutableStateOf(false) }
+
+    LaunchedEffect(navigateBack) {
+        if (navigateBack) {
+            navController.popBackStack()
+        }
+    }
+
+    BackHandler {
+        if (pagerState.currentPage > 0) {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+            }
+        } else {
+            navigateBack = true
+        }
+    }
 
     Scaffold (
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -169,15 +190,6 @@ fun RecipeCreatePage(
                 }
             }
 
-            BackHandler {
-                if (pagerState.currentPage > 0) {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                    }
-                } else {
-                    navController.navigate("UserPage/$userId")
-                }
-            }
 
             Box(
                 modifier = Modifier
@@ -192,13 +204,13 @@ fun RecipeCreatePage(
                                 recipeDescription.value,
                                 ingredients.value,
                                 steps.value,
-                                userId,
-                                recipeRepository,
-                                navController,
                                 titleBitmap.value,
                                 picturesBitmap.value,
+                                userPageViewModel,
                                 context
                             )
+
+                            navigateBack = true
                         }
                     ) {
                         Text(text = stringResource(R.string.create_text))
@@ -436,18 +448,15 @@ private fun saveRecipe (
     recipeDescription: String,
     ingredients: String,
     steps: String,
-    userId: String,
-    recipeRepository: RecipeRepository,
-    navController: NavController,
     headerImage: Bitmap,
     listImageResources: List<Bitmap>,
+    userPageViewModel: UserPageViewModel,
     context: Context
 ) {
     val saveHelper = RecipeSaveHelper(context)
 
     val recipe = Recipe(
         id = Random.nextInt(1000000, 9999999).toString(),
-        userId = userId,
         name = recipeName,
         description = recipeDescription,
         recipeImageResources = RecipeImageResources (
@@ -467,8 +476,6 @@ private fun saveRecipe (
         otherInfo = OtherInfo(0, 0)
     )
 
-    recipeRepository.addRecipe(recipe)
-    recipeRepository.commit()
 
-    navController.popBackStack()
+    userPageViewModel.addRecipe(recipe)
 }

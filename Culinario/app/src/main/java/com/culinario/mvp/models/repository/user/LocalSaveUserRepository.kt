@@ -19,8 +19,6 @@ class LocalSaveUserRepository (
     init {
         val listType: Type = TypeToken.getParameterized(MutableList::class.java, User::class.java).type
         users = Gson().fromJson(file.readText(),listType)
-
-        println(users)
     }
 
     override fun addUser(user: User) {

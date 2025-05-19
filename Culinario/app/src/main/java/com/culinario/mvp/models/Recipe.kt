@@ -23,17 +23,17 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 class Recipe (
-    val id: String,
-    val userId: String,
-    val name: String,
-    val description: String,
-    val recipeImageResources: RecipeImageResources,
-    val ingredients: List<Ingredient>,
-    val cookingSpeed: Int,
-    val steps: List<String>,
-    val recipeType: RecipeType,
-    val difficulty: Difficulty,
-    var otherInfo: OtherInfo
+    val id: String = "",
+    var userId: String = "",
+    val name: String = "",
+    val description: String = "",
+    val recipeImageResources: RecipeImageResources = RecipeImageResources(),
+    val ingredients: List<Ingredient> = listOf(),
+    val cookingSpeed: Int = 0,
+    val steps: List<String> = listOf(),
+    val recipeType: RecipeType = RecipeType.QUICK,
+    val difficulty: Difficulty = Difficulty.EASY,
+    var otherInfo: OtherInfo = OtherInfo(0, 0)
 ) : IOnSerialize, IOnDeserialize {
 
     override fun onSerialize() {
@@ -44,12 +44,6 @@ class Recipe (
         //TODO("Not yet implemented")
     }
 }
-
-/**
- * Автор рецпта (я так понимаю, мы его скоро заменим на класс User)
- */
-data class Author(val name: String, val email: String? = null)
-
 /**
  * Абстрактный класс ингредиента.
  *
@@ -59,9 +53,9 @@ data class Author(val name: String, val email: String? = null)
  */
 @Serializable
 data class Ingredient (
-    val name: String,
-    val quantity: Double?,
-    val unit: Unit?
+    val name: String = "default ingredient",
+    val quantity: Double? = 0.0,
+    val unit: Unit? = Unit.PIECE
 )
 
 /**
@@ -115,4 +109,7 @@ data class RecipeImageResources (
 )
 
 @Serializable
-data class OtherInfo(val watches: Int, val likes: Int)
+data class OtherInfo(
+    val watches: Int = 0,
+    val likes: Int = 0
+)

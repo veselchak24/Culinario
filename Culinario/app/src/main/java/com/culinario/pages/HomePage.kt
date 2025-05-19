@@ -44,6 +44,7 @@ import com.culinario.controls.RecipeCard
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import com.culinario.mvp.models.repository.user.UserRepository
+import com.culinario.viewmodel.RecipeCardViewModel
 import com.culinario.viewmodels.RecipePageViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -94,7 +95,6 @@ fun HomePage(
                 Header("Все рецепты")
                 AllRecipes(
                     recipeRepository.getAllRecipes(),
-                    userRepository, recipeRepository,
                     Modifier,
                     navController
                 )
@@ -154,8 +154,6 @@ fun TopPageImages(
 @Composable
 fun AllRecipes(
     recipes: List<Recipe>,
-    userRepository: UserRepository,
-    recipeRepository: RecipeRepository,
     modifier: Modifier,
     navController: NavController,
 ) {
@@ -165,17 +163,16 @@ fun AllRecipes(
     ) {
         for (recipe in recipes) {
             RecipeCard(
-                RecipePageViewModel(
+                RecipeCardViewModel(
                     recipe.id,
-                    recipeRepository,
-                    userRepository,
                     LocalContext.current
                 ),
                 Modifier
                     .padding(5.dp)
-                    .fillMaxWidth(),
-                navController
-            )
+                    .fillMaxWidth()
+            ) {
+                navController.navigate("RecipePage/${recipe.id}")
+            }
         }
     }
 }
