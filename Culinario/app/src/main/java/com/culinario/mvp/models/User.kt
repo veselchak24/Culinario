@@ -5,6 +5,7 @@ data class User(
     var name: String = "",
     var email: String = "",
     var about: String = "",
+    var imageUrl: String? = null,
     var recipesId: List<String> = listOf(),
-    var imageUrl: String? = null
+    var likedRecipesId: List<String> = listOf(),
 )

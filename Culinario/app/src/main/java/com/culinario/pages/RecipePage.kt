@@ -1,6 +1,5 @@
 package com.culinario.pages
 
-import android.graphics.Bitmap
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,12 +30,12 @@ import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -53,21 +52,22 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.controls.Header
-import com.culinario.helpers.IsTrue
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
-import com.culinario.viewmodels.RecipePageViewModel
+import com.culinario.viewmodel.RecipePageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Modifier, navController: NavController) {
+fun RecipePage(
+    modifier: Modifier = Modifier,
+    recipePageViewModel: RecipePageViewModel,
+    navController: NavController
+) {
     val sheetPeekHeight = LocalConfiguration.current.screenHeightDp.dp
     val scaffoldState = rememberBottomSheetScaffoldState()
 
-    val recipe = recipePageViewModel.getRecipe()
-    val user = recipePageViewModel.getUserOwner()
-
-    val carouselViewBitmaps = recipePageViewModel.getRecipe().recipeImagesUrl
+    val recipe = recipePageViewModel.recipe.collectAsState()
+    val user = recipePageViewModel.user.collectAsState()
 
     BottomSheetScaffold (
         scaffoldState = scaffoldState,
@@ -84,7 +84,7 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
                     .clipToBounds(),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                SheetHeader(recipe, user, navController)
+                SheetHeader(recipe.value, user.value, navController)
 
                 Column (
                     Modifier
@@ -93,26 +93,26 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
                         .padding(top = 10.dp, bottom = 50.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    Description(recipe)
-                    QuickStats(recipe)
+                    Description(recipe.value)
+                    QuickStats(recipe.value)
 
-                    carouselViewBitmaps.isNullOrEmpty().not().IsTrue {
-                        ImageCarousel(carouselViewBitmaps!!)
+                    if (recipe.value.recipeImagesUrl.isNotEmpty()) {
+                        ImageCarousel(recipe.value.recipeImagesUrl)
                     }
 
-                    Ingredients(recipe)
-                    Steps(recipe)
+                    Ingredients(recipe.value)
+                    Steps(recipe.value)
                 }
             }
         }
     ) { innerPadding ->
-        BackgroundImageDrawer(recipePageViewModel, innerPadding, modifier, sheetPeekHeight)
+        BackgroundImageDrawer(recipe.value.recipeImageBackgroundUrl, innerPadding, modifier, sheetPeekHeight)
     }
 }
 
 @Composable
-private fun BackgroundImageDrawer (
-    recipePageViewModel: RecipePageViewModel,
+private fun BackgroundImageDrawer(
+    imageUrl: String,
     innerPadding: PaddingValues,
     modifier: Modifier,
     sheetPeekHeight: Dp
@@ -122,7 +122,7 @@ private fun BackgroundImageDrawer (
         verticalArrangement = Arrangement.Center
     ) {
         AsyncImage(
-            model = recipePageViewModel.getRecipe().recipeImageBackgroundUrl,
+            model = imageUrl,
             contentDescription = "description",
             modifier = modifier
                 .fillMaxWidth()

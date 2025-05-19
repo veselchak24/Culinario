@@ -1,8 +1,6 @@
 package com.culinario.viewmodel
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.culinario.helpers.RECIPE_COLLECTION
@@ -17,7 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class RecipeCardViewModel(
+class RecipePageViewModel(
     private val recipeId: String
 ) : ViewModel() {
     private val recipeCollection = Firebase.firestore.collection(RECIPE_COLLECTION)
