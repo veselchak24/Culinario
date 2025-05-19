@@ -131,7 +131,7 @@ fun TopPageImages(
                 }
         )  {
             AsyncImage(
-                model = recipes[index].recipeImageResources.recipeBackgroundImageUri,
+                model = recipes[index].recipeImageBackgroundUrl,
                 contentDescription = "bgImage",
                 modifier = Modifier
                     .width(300.dp)

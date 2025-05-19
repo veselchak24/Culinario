@@ -67,7 +67,7 @@ fun RecipePage(recipePageViewModel: RecipePageViewModel, modifier: Modifier = Mo
     val recipe = recipePageViewModel.getRecipe()
     val user = recipePageViewModel.getUserOwner()
 
-    val carouselViewBitmaps = recipePageViewModel.getRecipe().recipeImageResources.recipePicturesUri
+    val carouselViewBitmaps = recipePageViewModel.getRecipe().recipeImagesUrl
 
     BottomSheetScaffold (
         scaffoldState = scaffoldState,
@@ -122,7 +122,7 @@ private fun BackgroundImageDrawer (
         verticalArrangement = Arrangement.Center
     ) {
         AsyncImage(
-            model = recipePageViewModel.getRecipe().recipeImageResources.recipeBackgroundImageUri,
+            model = recipePageViewModel.getRecipe().recipeImageBackgroundUrl,
             contentDescription = "description",
             modifier = modifier
                 .fillMaxWidth()

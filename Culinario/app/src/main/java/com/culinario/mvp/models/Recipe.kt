@@ -1,6 +1,5 @@
 package com.culinario.mvp.models
 
-import android.net.Uri
 import com.culinario.backend.interfaces.IOnDeserialize
 import com.culinario.backend.interfaces.IOnSerialize
 import kotlinx.serialization.Serializable
@@ -12,13 +11,13 @@ import kotlinx.serialization.Serializable
  * @param[userId] id владельца рецепта.
  * @param[name] название рецепта.
  * @param[description] описание рецепта.
- * @param[recipeImageResources] Ресурсы изображений для рецептов.
+ * @param[recipeImageBackgroundUrl] Ссылка на картинку заднего фона рецепта.
+ * @param[recipeImagesUrl] Ссылка на картинки рецепта.
  * @param[ingredients] список ингредиентов.
  * @param[cookingSpeed] скорость приготовления (в минутах)
  * @param[steps] step-by-step приготовление.
  * @param[recipeType] тип рецепта.
  * @param[difficulty] сложность рецепта.
- * @param[otherCharacteristics] другие свойства рецепта.
  * @param[otherInfo] дополнительная информация.
  */
 @Serializable
@@ -27,7 +26,8 @@ class Recipe (
     var userId: String = "",
     val name: String = "",
     val description: String = "",
-    val recipeImageResources: RecipeImageResources = RecipeImageResources(),
+    val recipeImageBackgroundUrl: String = "",
+    val recipeImagesUrl: List<String> = listOf(),
     val ingredients: List<Ingredient> = listOf(),
     val cookingSpeed: Int = 0,
     val steps: List<String> = listOf(),
@@ -94,19 +94,6 @@ enum class RecipeType {
 enum class Difficulty {
     EASY, MEDIUM, HARD
 }
-
-/**
- *@param[recipePicturesResources] временное решение для плейсхолдера
- *@param[recipeBackgroundImageResources] временное решение для плейсхолдера
- */
-@Serializable
-data class RecipeImageResources (
-    var recipeBackgroundImageUri: String? = null,
-    var recipePicturesUri: List<String>? = null,
-
-    var recipeBackgroundImageResources: Int? = null,
-    var recipePicturesResources: List<Int>? = null
-)
 
 @Serializable
 data class OtherInfo(

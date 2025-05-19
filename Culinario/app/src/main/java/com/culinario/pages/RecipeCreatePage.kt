@@ -62,10 +62,8 @@ import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
 import com.culinario.viewmodel.UserPageViewModel
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -459,12 +457,10 @@ private fun saveRecipe (
         id = Random.nextInt(1000000, 9999999).toString(),
         name = recipeName,
         description = recipeDescription,
-        recipeImageResources = RecipeImageResources (
-            recipeBackgroundImageUri = saveHelper.saveBitmapToFile(headerImage),
-            recipePicturesUri = listImageResources.map {
-                saveHelper.saveBitmapToFile(it)
-            }.toList()
-        ),
+        recipeImageBackgroundUrl = saveHelper.saveBitmapToFile(headerImage),
+        recipeImagesUrl = listImageResources.map {
+            saveHelper.saveBitmapToFile(it)
+        }.toList(),
         ingredients = ingredients
             .split('\n')
             .map { x -> Ingredient(x, 1.0, Unit.CUPS) }

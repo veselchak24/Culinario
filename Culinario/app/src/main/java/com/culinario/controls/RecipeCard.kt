@@ -67,7 +67,7 @@ fun RecipeCard(
             AsyncImage(
                 modifier = Modifier
                     .weight(0.7f),
-                model = recipe.value.recipeImageResources.recipeBackgroundImageResources,
+                model = recipe.value.recipeImageBackgroundUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )
@@ -76,7 +76,7 @@ fun RecipeCard(
                 modifier = Modifier
                     .weight(0.3f)
                     .fillMaxSize()
-                    .padding(10.dp)
+                    .padding(15.dp)
             ) {
                 Text (
                     text = recipe.value.name,
