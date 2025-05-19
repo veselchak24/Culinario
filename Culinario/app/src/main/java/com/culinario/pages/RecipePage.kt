@@ -30,7 +30,11 @@ import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -60,17 +64,28 @@ import com.culinario.viewmodel.RecipePageViewModel
 @Composable
 fun RecipePage(
     modifier: Modifier = Modifier,
-    recipePageViewModel: RecipePageViewModel,
+    viewModel: RecipePageViewModel,
     navController: NavController
 ) {
     val sheetPeekHeight = LocalConfiguration.current.screenHeightDp.dp
-    val scaffoldState = rememberBottomSheetScaffoldState()
 
-    val recipe = recipePageViewModel.recipe.collectAsState()
-    val user = recipePageViewModel.user.collectAsState()
+    var recipe by remember { mutableStateOf(viewModel.recipeState.value) }
+    var user by remember { mutableStateOf(viewModel.userState.value) }
+
+    LaunchedEffect(Unit) {
+        viewModel.userState.collect { newState ->
+            user = newState
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.recipeState.collect { newState ->
+            recipe = newState
+        }
+    }
 
     BottomSheetScaffold (
-        scaffoldState = scaffoldState,
+        scaffoldState = rememberBottomSheetScaffoldState(),
         sheetTonalElevation = 10.dp,
         sheetDragHandle = {
             SheetDragHandler()
@@ -84,7 +99,7 @@ fun RecipePage(
                     .clipToBounds(),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                SheetHeader(recipe.value, user.value, navController)
+                SheetHeader(recipe, user, navController)
 
                 Column (
                     Modifier
@@ -93,20 +108,20 @@ fun RecipePage(
                         .padding(top = 10.dp, bottom = 50.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    Description(recipe.value)
-                    QuickStats(recipe.value)
+                    Description(recipe)
+                    QuickStats(recipe)
 
-                    if (recipe.value.recipeImagesUrl.isNotEmpty()) {
-                        ImageCarousel(recipe.value.recipeImagesUrl)
+                    if (recipe.recipeImagesUrl.isNotEmpty()) {
+                        ImageCarousel(recipe.recipeImagesUrl)
                     }
 
-                    Ingredients(recipe.value)
-                    Steps(recipe.value)
+                    Ingredients(recipe)
+                    Steps(recipe)
                 }
             }
         }
     ) { innerPadding ->
-        BackgroundImageDrawer(recipe.value.recipeImageBackgroundUrl, innerPadding, modifier, sheetPeekHeight)
+        BackgroundImageDrawer(recipe.recipeImageBackgroundUrl, innerPadding, modifier, sheetPeekHeight)
     }
 }
 

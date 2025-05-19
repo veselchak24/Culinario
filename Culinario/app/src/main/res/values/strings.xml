@@ -8,7 +8,7 @@
 
     <string name="recipe_create_header">Создание рецептов</string>
 
-    <string name="user_page_header_activity">Activity</string>
+    <string name="user_page_header_activity">Активность</string>
     <string name="user_page_header_stats">Статистика</string>
     <string name="user_page_header_about">О пользователе</string>
     <string name="user_page_header_likes">Лайки</string>

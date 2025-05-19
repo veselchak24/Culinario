@@ -17,7 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,21 +32,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.culinario.R
-import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.viewmodel.LoginViewModel
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
 import com.culinario.ui.theme.ancizarSerifFontFamily
+import com.culinario.viewmodel.LoginViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
 import com.mmk.kmpauth.uihelper.google.GoogleSignInButton
-import okhttp3.internal.wait
 
 @Composable
-fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
+fun LoginScreen(onLogin: () -> Unit) {
     val loginAndPasswordLoginSelected = remember { mutableStateOf(false) }
 
     Scaffold { innerPadding ->
@@ -64,8 +60,7 @@ fun LoginScreen(onLogin: () -> Unit, userRepository: UserRepository) {
             }
         } else {
             LoginAndPasswordRegistrationPage(
-                modifier = Modifier.padding(innerPadding),
-                userRepository
+                modifier = Modifier.padding(innerPadding)
             ) {
                 onLogin()
             }
@@ -167,7 +162,6 @@ private fun MainRegistrationPage(
 @Composable
 private fun LoginAndPasswordRegistrationPage(
     modifier: Modifier,
-    userRepository: UserRepository,
     onLogin: () -> Unit
 ) {
     val pagerState = rememberPagerState(
@@ -203,7 +197,6 @@ private fun LoginAndPasswordRegistrationPage(
                         modifier,
                         coroutineScope,
                         pagerState,
-                        userRepository,
                         page - 1
                     ) {
                         onLogin()

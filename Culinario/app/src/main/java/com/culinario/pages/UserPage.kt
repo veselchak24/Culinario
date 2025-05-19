@@ -19,8 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,9 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,23 +68,23 @@ import com.valentinilk.shimmer.shimmer
 @Composable
 fun UserPage(
     modifier: Modifier = Modifier,
-    userPageViewModel: UserPageViewModel,
+    viewModel: UserPageViewModel,
     navController: NavController
 ) {
-    val user = userPageViewModel.user.collectAsState()
+    var user by remember { mutableStateOf(viewModel.user.value) }
     val userRecipes = remember { mutableStateOf(listOf<Recipe>()) }
 
-    var accountExitDialog by remember { mutableStateOf(false) }
-
-
     LaunchedEffect(Unit) {
-        val recipesList = userPageViewModel.getUserRecipesAsList()
-        userRecipes.value = recipesList
+        viewModel.user.collect { newState ->
+            user = newState
+        }
     }
 
-//    val likesCount = userPageViewModel.likesCount().toString()
-//    val recipeCount = userPageViewModel.recipeCount().toString()
-//    val watchCount = userPageViewModel.watchesCount().toString()
+    LaunchedEffect(Unit) {
+        userRecipes.value = viewModel.getUserRecipesAsList()
+    }
+
+    var accountExitDialog by remember { mutableStateOf(false) }
 
     Scaffold { _ ->
         Box (
@@ -103,32 +98,26 @@ fun UserPage(
                     .padding(horizontal = 25.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                UserHeader(user.value)
+                UserHeader(user)
 
-                UserAbout(user.value)
+                UserAbout(user)
 
                 UserStats("0", "0", "0")
 
-                println(userRecipes)
                 UserActivity {
                     Column (
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         for(recipe in userRecipes.value) {
                             RecipeCard(
-                                RecipeCardViewModel(
-                                    recipe.id,
-                                    LocalContext.current
-                                ),
-                                Modifier.fillMaxWidth()
+                                Modifier.fillMaxWidth(),
+                                RecipeCardViewModel(recipe.id)
                             ) {
                                 navController.navigate("RecipePage/${recipe.id}")
                             }
                         }
                     }
                 }
-
-
 
                 if (accountExitDialog) {
                     AlertDialog(
@@ -146,7 +135,7 @@ fun UserPage(
                         },
                         text = {
                             Text(
-                                text = "Вы точно хотите выйти с аккаунта ${user.value.name}?",
+                                text = "Вы точно хотите выйти с аккаунта?",
                                 textAlign = TextAlign.Center
                             )
                         },
@@ -183,7 +172,7 @@ fun UserPage(
                     )
                 }
 
-                if (userPageViewModel.isCurrentUser) {
+                if (viewModel.isCurrentUser) {
                     Column {
                         Button (
                             modifier = Modifier
@@ -194,7 +183,7 @@ fun UserPage(
                                 )
                             },
                             onClick = {
-                                navController.navigate(route = "RecipeCreatePage/${user.value.id}")
+                                navController.navigate(route = "RecipeCreatePage/${viewModel.userId}")
                             }
                         )
 

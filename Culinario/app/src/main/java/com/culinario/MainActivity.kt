@@ -6,28 +6,20 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.culinario.helpers.SavePlaceholderData
-import com.culinario.mvp.models.repository.recipe.LocalSaveRecipeRepository
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
-import com.culinario.mvp.models.repository.recipe.RecipeRepositoryImpl
-import com.culinario.mvp.models.repository.user.LocalSaveUserRepository
-import com.culinario.mvp.models.repository.user.UserRepository
-import com.culinario.mvp.models.repository.user.UserRepositoryImpl
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
-import com.culinario.viewmodel.UserPageViewModel
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
-import com.culinario.viewmodels.RecipePageViewModel
+import com.culinario.viewmodel.RecipePageViewModel
+import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.mmk.kmpauth.google.GoogleAuthCredentials
@@ -49,14 +41,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CulinarioTheme {
-                SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
-
-                val localUserRepository = LocalSaveUserRepository(LocalContext.current)
-                //Firebase.firestore.collection("recipes").document("9369441").set(LocalSaveRecipeRepository(LocalContext.current).getRecipeById("9369441"))
-
                 Screens (
-                    loginScreen = { LoginScreen(it,  localUserRepository) },
-                    homeScreen = { MainScreen(LocalSaveRecipeRepository(LocalContext.current), localUserRepository, it) }
+                    loginScreen = { LoginScreen(it) },
+                    homeScreen = { MainScreen(it) }
                 )
             }
         }
@@ -73,9 +60,7 @@ class MainActivity : ComponentActivity() {
                                 else
                                     Home,
             signIn = loginScreen,
-            home = homeScreen,
-            LocalSaveRecipeRepository(LocalContext.current),
-            LocalSaveUserRepository(LocalContext.current)
+            home = homeScreen
         )
     }
 
@@ -83,9 +68,7 @@ class MainActivity : ComponentActivity() {
     fun initNavController(
         startDestination: Any,
         signIn: @Composable (() -> Unit) -> Unit,
-        home: @Composable (NavController) -> Unit,
-        recipeRepository: RecipeRepository,
-        userRepository: UserRepository
+        home: @Composable (NavController) -> Unit
     ) : NavController {
         val navController = rememberNavController()
 
@@ -103,16 +86,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
 
-                RecipePage(
-                    RecipePageViewModel(
-                        recipeId,
-                        recipeRepository,
-                        userRepository,
-                        LocalContext.current
-                    ),
-                    Modifier,
-                    navController
-                )
+                RecipePage(Modifier, RecipePageViewModel(recipeId), navController)
             }
 
             composable(

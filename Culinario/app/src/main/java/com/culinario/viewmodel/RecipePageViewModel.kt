@@ -11,7 +11,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -21,21 +20,16 @@ class RecipePageViewModel(
     private val recipeCollection = Firebase.firestore.collection(RECIPE_COLLECTION)
     private val userCollection = Firebase.firestore.collection(USER_COLLECTION)
 
-    private var recipeState: MutableStateFlow<Recipe> = MutableStateFlow(Recipe())
-    var recipe = recipeState.asStateFlow()
-
-    private var userState: MutableStateFlow<User> = MutableStateFlow(User())
-    var user = userState.asStateFlow()
+    var recipeState = MutableStateFlow(Recipe())
+    var userState = MutableStateFlow(User())
 
     init {
-        try {
+        if (recipeState.value.id != recipeId) {
             viewModelScope.launch {
                 recipeState.value = recipeCollection.document(recipeId).get().await().toObject<Recipe>()!!
 
                 userState.value = userCollection.document(recipeState.value.userId).get().await().toObject<User>()!!
             }
-        } catch (exc: Exception) {
-            exceptionHandler(exc)
         }
     }
 

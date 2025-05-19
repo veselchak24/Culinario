@@ -1,7 +1,6 @@
 package com.culinario.screens
 
 import android.graphics.Bitmap
-import okhttp3.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -22,35 +21,30 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.culinario.backend.DEFAULT_USER_ID
-import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
-import com.culinario.helpers.PreferencesManager
-import com.culinario.helpers.SavePlaceholderData
-import com.culinario.mvp.models.repository.recipe.RecipeRepository
-import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.pages.CameraPage
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
-import com.culinario.viewmodels.UserPageViewModel
+import com.culinario.viewmodel.HomePageViewModel
+import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonPrimitive
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import java.io.ByteArrayOutputStream
 
 @Composable
 fun MainScreen(
-    repository: RecipeRepository,
-    userRepository: UserRepository,
     navController: NavController
 ) {
     var selectedIndex by rememberSaveable {
@@ -89,8 +83,6 @@ fun MainScreen(
         ContentScreen(
             modifier = Modifier.padding(innerPadding),
             selectedPageIndex = selectedIndex,
-            recipeRepository = repository,
-            userRepository = userRepository,
             navController
         )
     }
@@ -100,24 +92,15 @@ fun MainScreen(
 fun ContentScreen(
     modifier: Modifier,
     selectedPageIndex: Int,
-    recipeRepository: RecipeRepository,
-    userRepository: UserRepository,
     navController: NavController
 ) {
-    val preferencesManager = PreferencesManager(LocalContext.current)
-    val userId = preferencesManager.getData(PREFERENCES_LOCAL_USER_KEY, DEFAULT_USER_ID)
-
-    val userPageViewModel = UserPageViewModel(userId, userRepository, recipeRepository)
-
-    SavePlaceholderData(userRepository, recipeRepository, LocalContext.current)
-
     var detectedFruits by remember { mutableStateOf<List<String>>(emptyList()) }
     var isProcessing by remember { mutableStateOf(false) }
 
     when (selectedPageIndex) {
-        0 -> HomePage(recipeRepository, userRepository, navController)
-        1 -> FavoriteRecipesPage(userRepository, recipeRepository, modifier, navController)
-        2 -> UserPage(modifier, com.culinario.viewmodel.UserPageViewModel(Firebase.auth.currentUser?.uid!!), navController)
+        0 -> HomePage(HomePageViewModel(), navController)
+        1 -> FavoriteRecipesPage(modifier, navController)
+        2 -> UserPage(modifier, UserPageViewModel(Firebase.auth.currentUser?.uid ?: ""), navController)
         3 -> CameraPage(
             modifier = modifier,
             onImagePicked = { bitmap: Bitmap ->

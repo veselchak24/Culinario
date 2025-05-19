@@ -7,6 +7,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.tasks.await
 
 class LoginViewModel : ViewModel() {
     private val auth = Firebase.auth
@@ -62,17 +63,28 @@ class LoginViewModel : ViewModel() {
 
     fun onGoogleAuth(firebaseUser: FirebaseUser, onSignIn: (FirebaseUser) -> Unit) {
         try {
-            firestore
-                .collection(USER_COLLECTION)
-                .document(firebaseUser.uid)
-                .set(
-                    User(
-                        id = firebaseUser.uid,
-                        name = firebaseUser.displayName ?: "unknown user",
-                        email = firebaseUser.email ?: "null",
-                        imageUrl = firebaseUser.photoUrl.toString()
-                    )
-                )
+            val doc = firestore.collection(USER_COLLECTION).document(firebaseUser.uid)
+
+            doc.get().addOnCompleteListener { task ->
+                if (task.isComplete) {
+                    val document = task.result
+
+                    if (document.exists().not()) {
+                        println("new user")
+
+                        doc.set(
+                            User(
+                                id = firebaseUser.uid,
+                                name = firebaseUser.displayName ?: "unknown user",
+                                email = firebaseUser.email ?: "null",
+                                imageUrl = firebaseUser.photoUrl.toString()
+                            )
+                        )
+                    } else {
+                        println("old user")
+                    }
+                }
+            }
 
             onSignIn(auth.currentUser!!)
         } catch (e: Exception) {

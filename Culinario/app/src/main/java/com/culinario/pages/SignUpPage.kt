@@ -39,12 +39,9 @@ import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.USER_COLLECTION
 import com.culinario.helpers.isTrue
 import com.culinario.mvp.models.User
-import com.culinario.mvp.models.repository.user.UserRepository
 import com.culinario.viewmodel.LoginViewModel
 import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -56,7 +53,6 @@ fun SignUpPage (
     modifier: Modifier,
     coroutineScope: CoroutineScope,
     pagerState: PagerState,
-    userRepository: UserRepository,
     signInPageIndex: Int = 0,
     onLogin: () -> Unit
 ) {
@@ -205,29 +201,6 @@ fun SignUpPage (
             Text("Войти")
         }
     }
-}
-
-private fun saveUser (
-    nicknameText: String,
-    emailText: String,
-    userRepository: UserRepository,
-    context: Context
-): User {
-    val id = Random.nextInt(1000000, 9999999).toString()
-    val newUser = User (
-        id = id,
-        name = nicknameText,
-        email = emailText,
-        about = "В разработке",
-        recipesId = listOf()
-    )
-
-    PreferencesManager(context).saveData(PREFERENCES_LOCAL_USER_KEY, id)
-
-    userRepository.addUser(newUser)
-    userRepository.commit()
-
-    return newUser
 }
 
 fun validateUserData(email: String, password: String, repeatPassword: String): Boolean {

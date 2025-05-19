@@ -1,8 +1,6 @@
 package com.culinario.viewmodel
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.culinario.helpers.RECIPE_COLLECTION
@@ -30,14 +28,12 @@ class RecipeCardViewModel(
     var user = userState.asStateFlow()
 
     init {
-        try {
+        if (recipe.value.id != recipeId) {
             viewModelScope.launch {
                 recipeState.value = recipeCollection.document(recipeId).get().await().toObject<Recipe>()!!
 
                 userState.value = userCollection.document(recipeState.value.userId).get().await().toObject<User>()!!
             }
-        } catch (exc: Exception) {
-            exceptionHandler(exc)
         }
     }
 

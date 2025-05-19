@@ -18,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,15 +32,26 @@ import com.culinario.viewmodel.RecipeCardViewModel
 
 @Composable
 fun RecipeCard(
-    recipeCardViewModel: RecipeCardViewModel,
     modifier: Modifier,
+    viewModel: RecipeCardViewModel,
     onClick: () -> Unit
 ) {
-    val recipe = recipeCardViewModel.recipe.collectAsState()
-    val userOwner = recipeCardViewModel.user.collectAsState()
+    var recipe by remember { mutableStateOf(viewModel.recipe.value) }
+    var owner by remember { mutableStateOf(viewModel.user.value) }
+
+    LaunchedEffect(Unit) {
+        viewModel.recipe.collect { newState ->
+            recipe = newState
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.user.collect { newState ->
+            owner = newState
+        }
+    }
 
     var clicked by remember { mutableStateOf(false) }
-
     LaunchedEffect(clicked) {
         if (clicked) {
             onClick()
@@ -67,7 +77,7 @@ fun RecipeCard(
             AsyncImage(
                 modifier = Modifier
                     .weight(0.7f),
-                model = recipe.value.recipeImageBackgroundUrl,
+                model = recipe.recipeImageBackgroundUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )
@@ -79,7 +89,7 @@ fun RecipeCard(
                     .padding(15.dp)
             ) {
                 Text (
-                    text = recipe.value.name,
+                    text = recipe.name,
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
@@ -91,7 +101,7 @@ fun RecipeCard(
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     AsyncImage(
-                        model = userOwner.value.imageUrl,
+                        model = owner.imageUrl,
                         contentDescription = "author",
                         Modifier
                             .size(20.dp)
@@ -100,7 +110,7 @@ fun RecipeCard(
                     )
                     Text(
                         modifier = Modifier.padding(start = 3.dp),
-                        text = userOwner.value.name,
+                        text = owner.name,
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1
