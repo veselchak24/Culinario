@@ -1,6 +1,5 @@
 package com.culinario.controls
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,14 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.culinario.R
-import com.culinario.mvp.models.User
 import com.culinario.viewmodel.RecipeCardViewModel
-import com.culinario.viewmodels.RecipePageViewModel
 
 @Composable
 fun RecipeCard(
@@ -44,13 +38,9 @@ fun RecipeCard(
     onClick: () -> Unit
 ) {
     val recipe = recipeCardViewModel.recipe.collectAsState()
-    var userOwner by remember { mutableStateOf(User()) }
+    val userOwner = recipeCardViewModel.user.collectAsState()
 
     var clicked by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        userOwner = recipeCardViewModel.getOwner()
-    }
 
     LaunchedEffect(clicked) {
         if (clicked) {
@@ -100,8 +90,8 @@ fun RecipeCard(
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    Image (
-                        painter = painterResource(R.drawable.user_avatar_placeholder),
+                    AsyncImage(
+                        model = userOwner.value.imageUrl,
                         contentDescription = "author",
                         Modifier
                             .size(20.dp)
@@ -110,7 +100,7 @@ fun RecipeCard(
                     )
                     Text(
                         modifier = Modifier.padding(start = 3.dp),
-                        text = userOwner.name,
+                        text = userOwner.value.name,
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1

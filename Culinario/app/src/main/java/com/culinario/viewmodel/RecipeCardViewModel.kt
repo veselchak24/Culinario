@@ -3,15 +3,19 @@ package com.culinario.viewmodel
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.culinario.helpers.RECIPE_COLLECTION
 import com.culinario.helpers.USER_COLLECTION
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class RecipeCardViewModel(
@@ -24,16 +28,16 @@ class RecipeCardViewModel(
     private var recipeState: MutableStateFlow<Recipe> = MutableStateFlow(Recipe())
     var recipe = recipeState.asStateFlow()
 
+    private var userState: MutableStateFlow<User> = MutableStateFlow(User())
+    var user = userState.asStateFlow()
+
     init {
         try {
-            recipeCollection
-                .document(recipeId)
-                .get()
-                .addOnCompleteListener { documentSnapshot ->
-                    if (documentSnapshot.isComplete) {
-                        recipeState.value = documentSnapshot.result.toObject(Recipe::class.java) ?: Recipe()
-                    }
-                }
+            viewModelScope.launch {
+                recipeState.value = recipeCollection.document(recipeId).get().await().toObject<Recipe>()!!
+
+                userState.value = userCollection.document(recipeState.value.userId).get().await().toObject<User>()!!
+            }
         } catch (exc: Exception) {
             exceptionHandler(exc)
         }
