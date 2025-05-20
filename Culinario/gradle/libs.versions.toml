@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.3"
+awsAndroidSdkS3 = "2.72.0"
 cameraCamera2 = "1.3.0"
 cameraLifecycle = "1.3.0"
 coilCompose = "2.0.0-rc01"
@@ -38,6 +39,7 @@ androidx-compose-bom-v20241001 = { module = "androidx.compose:compose-bom", vers
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+aws-android-sdk-s3 = { module = "com.amazonaws:aws-android-sdk-s3", version.ref = "awsAndroidSdkS3" }
 camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraLifecycle" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 compose-shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "composeShimmer" }

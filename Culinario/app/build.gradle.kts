@@ -11,12 +11,19 @@ android {
     namespace = "com.culinario"
     compileSdk = 35
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.culinario"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "YC_ACCESS_KEY", "\"${project.property("YC_ACCESS_KEY")}\"")
+        buildConfigField("String", "YC_SECRET_KEY", "\"${project.property("YC_SECRET_KEY")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -87,6 +94,7 @@ dependencies {
     implementation(libs.kmpauth.google)
     implementation(libs.kmpauth.firebase.v231)
     implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
+    implementation(libs.aws.android.sdk.s3)
     implementation(libs.compose.shimmer)
 
     implementation(platform(libs.androidx.compose.bom.v20241001))
