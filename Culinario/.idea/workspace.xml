@@ -9,13 +9,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="image uploader">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="vk cloud integration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/ImageUploader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/ImageUploader.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCreatePageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCreatePageViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -526,7 +523,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747748103231</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="vk cloud integration">
+      <option name="closed" value="true" />
+      <created>1747771671468</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1747771671468</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -563,7 +568,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Обновлён внешний вид страницы рецепта" />
     <MESSAGE value="Добавлены viewmodel для основных страниц" />
     <MESSAGE value="Мелкие изменения интерфейса" />
     <MESSAGE value="Добавлен загрузчик картинок" />
@@ -588,7 +592,8 @@
     <MESSAGE value="add aws.s3 dependency" />
     <MESSAGE value="change dependency to minio s3 client" />
     <MESSAGE value="image uploader" />
-    <option name="LAST_COMMIT_MESSAGE" value="image uploader" />
+    <MESSAGE value="vk cloud integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="vk cloud integration" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

@@ -66,6 +66,7 @@ import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
 import com.culinario.viewmodel.RecipeCreatePageViewModel
+import com.google.firebase.annotations.concurrent.Background
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -94,9 +95,12 @@ fun RecipeCreatePage(
     val titleBitmap: MutableState<Bitmap> = remember { mutableStateOf(BitmapFactory.decodeStream(context.resources.openRawResource(R.drawable.user_background_placeholder))) }
     val picturesBitmap = remember { mutableStateOf(listOf<Bitmap>()) }
 
+    var backgroundImageUrl by remember { mutableStateOf("") }
+
     val recipeTitleImageLauncher = pickVisualResource {
         coroutineScope.launch {
             viewModel.uploadSampleFile(it!!) { url ->
+                backgroundImageUrl = url
                 Toast.makeText(context, url, Toast.LENGTH_SHORT).show()
             }
         }
@@ -204,15 +208,14 @@ fun RecipeCreatePage(
                 if (pagerState.currentPage == 2) {
                     Button (
                         onClick = {
-                            saveRecipe (
+                            saveRecipe(
                                 recipeName.value,
                                 recipeDescription.value,
                                 ingredients.value,
                                 steps.value,
-                                titleBitmap.value,
-                                picturesBitmap.value,
+                                backgroundImageUrl,
+                                listOf(),
                                 viewModel,
-                                context
                             )
 
                             navigateBack = true
@@ -453,21 +456,18 @@ private fun saveRecipe (
     recipeDescription: String,
     ingredients: String,
     steps: String,
-    headerImage: Bitmap,
-    listImageResources: List<Bitmap>,
-    viewModel: RecipeCreatePageViewModel,
-    context: Context
+    backgroundImageUrl: String,
+    recipeImagesUrl: List<String>,
+    viewModel: RecipeCreatePageViewModel
 ) {
-    val saveHelper = RecipeSaveHelper(context)
+    println(backgroundImageUrl)
 
     val recipe = Recipe(
         id = Random.nextInt(1000000, 9999999).toString(),
         name = recipeName,
         description = recipeDescription,
-        recipeImageBackgroundUrl = saveHelper.saveBitmapToFile(headerImage),
-        recipeImagesUrl = listImageResources.map {
-            saveHelper.saveBitmapToFile(it)
-        }.toList(),
+        recipeImageBackgroundUrl = backgroundImageUrl,
+        recipeImagesUrl = recipeImagesUrl,
         ingredients = ingredients
             .split('\n')
             .map { x -> Ingredient(x, 1.0, Unit.CUPS) }
@@ -478,7 +478,6 @@ private fun saveRecipe (
         difficulty = Difficulty.MEDIUM,
         otherInfo = OtherInfo(0, 0)
     )
-
 
     viewModel.addRecipe(recipe)
 }

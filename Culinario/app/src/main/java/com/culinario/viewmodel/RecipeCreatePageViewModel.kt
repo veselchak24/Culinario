@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import aws.sdk.kotlin.runtime.auth.credentials.StaticCredentialsProvider
 import aws.sdk.kotlin.services.s3.S3Client
+import aws.sdk.kotlin.services.s3.model.ObjectCannedAcl
 import aws.sdk.kotlin.services.s3.model.PutObjectRequest
 import aws.smithy.kotlin.runtime.content.ByteStream
 import aws.smithy.kotlin.runtime.content.fromFile
@@ -78,18 +79,28 @@ class RecipeCreatePageViewModel (
                     endpointUrl = Url.parse("https://hb.vkcloud-storage.ru")
                 }
 
+                val key = "images/img_${System.currentTimeMillis()}.png"
+
                 context.contentResolver.openInputStream(uri).use {
                     val request = PutObjectRequest {
                         this.bucket = "culinario-resources"
-                        this.key = "images/img_${System.currentTimeMillis()}.png"
+                        this.key = key
                         body = ByteStream.fromBytes(it!!.readBytes())
+                        acl = ObjectCannedAcl.PublicRead
                     }
 
                     s3Client.putObject(request)
                 }
+
+                onComplete(getPublicLink(key))
             } catch (e: Exception) {
                 Log.e("exception", "Ошибка: ${e.message}")
             }
         }
     }
+
+    private fun getPublicLink(
+        key: String,
+        bucket: String = "culinario-resources"
+    ) = "https://$bucket.hb.ru-msk.vkcloud-storage.ru/$key"
 }
