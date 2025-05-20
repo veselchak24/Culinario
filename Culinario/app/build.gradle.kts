@@ -22,9 +22,6 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "YC_ACCESS_KEY", "\"${project.property("YC_ACCESS_KEY")}\"")
-        buildConfigField("String", "YC_SECRET_KEY", "\"${project.property("YC_SECRET_KEY")}\"")
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -94,7 +91,10 @@ dependencies {
     implementation(libs.kmpauth.google)
     implementation(libs.kmpauth.firebase.v231)
     implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
-    implementation(libs.aws.android.sdk.s3)
+
+    implementation("io.minio:minio:8.5.6")
+    //implementation(libs.aws.android.sdk.s3)
+
     implementation(libs.compose.shimmer)
 
     implementation(platform(libs.androidx.compose.bom.v20241001))
