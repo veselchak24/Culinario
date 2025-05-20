@@ -358,12 +358,12 @@ fun BasicUserData(user: User, onClick: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(7.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image (
+        AsyncImage(
+            model = user.imageUrl,
+            contentDescription = "user avatar",
             modifier = Modifier
                 .clip(CircleShape)
-                .size(30.dp),
-            contentDescription = "user avatar",
-            painter = painterResource(R.drawable.user_avatar_placeholder)
+                .size(30.dp)
         )
         Text (
             text = user.name

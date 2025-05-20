@@ -1,12 +1,16 @@
 package com.culinario.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.culinario.helpers.USER_COLLECTION
 import com.culinario.mvp.models.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class LoginViewModel : ViewModel() {
@@ -79,14 +83,18 @@ class LoginViewModel : ViewModel() {
                                 email = firebaseUser.email ?: "null",
                                 imageUrl = firebaseUser.photoUrl.toString()
                             )
-                        )
+                        ).addOnCompleteListener { task ->
+                            if (task.isComplete)
+                                onSignIn(auth.currentUser!!)
+                        }
                     } else {
                         println("old user")
+
+                        onSignIn(auth.currentUser!!)
                     }
                 }
             }
 
-            onSignIn(auth.currentUser!!)
         } catch (e: Exception) {
             onException(e)
         }

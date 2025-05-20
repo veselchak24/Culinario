@@ -87,7 +87,7 @@ fun HomePage(
         ) {
             Column {
                 Header("Лучшие рецепты")
-                TopPageImages(recipes.takeLast(4), navController)
+                BestRecipes(recipes, navController)
             }
 
             Column {
@@ -104,13 +104,15 @@ fun HomePage(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopPageImages(
+fun BestRecipes(
     recipes: List<Recipe>,
     navController: NavController
 ) {
+    val selectedRecipes = recipes.take(4)
+
     val carouselState = rememberCarouselState(
         initialItem = 0,
-        itemCount = { recipes.count() }
+        itemCount = { selectedRecipes.count() }
     )
 
     HorizontalMultiBrowseCarousel (
@@ -118,7 +120,6 @@ fun TopPageImages(
         preferredItemWidth = 300.dp,
         itemSpacing = 5.dp
     ) { index ->
-
         Box (
             modifier = Modifier
                 .maskClip(RoundedCornerShape(16.dp))
@@ -126,11 +127,11 @@ fun TopPageImages(
                 .height(200.dp)
                 .fillMaxSize()
                 .clickable {
-                    navController.navigate("RecipePage/${recipes[index].id}")
+                    navController.navigate("RecipePage/${selectedRecipes[index].id}")
                 }
         )  {
             AsyncImage(
-                model = recipes[index].recipeImageBackgroundUrl,
+                model = selectedRecipes[index].recipeImageBackgroundUrl,
                 contentDescription = "bgImage",
                 modifier = Modifier
                     .width(300.dp)
@@ -139,7 +140,7 @@ fun TopPageImages(
             )
 
             Text(
-                text = recipes[index].name,
+                text = selectedRecipes[index].name,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(15.dp)

@@ -9,29 +9,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="refactored RecipePage">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="delete repository code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/RecipeCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/RecipeCard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/SavePlaceholderData.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/recipe/LocalSaveRecipeRepository.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/recipe/RecipeRepository.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/recipe/RecipeRepositoryImpl.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/user/LocalSaveUserRepository.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/user/UserRepository.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/repository/user/UserRepositoryImpl.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/FavoriteRecipesPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/FavoriteRecipesPage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/UserPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/UserPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/LoginScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/MainScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/MainScreen.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/LoginViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/LoginViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCardViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCardViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipePageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipePageViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/UserPageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/UserPageViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -500,7 +482,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747675711759</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="delete repository code">
+      <option name="closed" value="true" />
+      <created>1747682095393</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1747682095393</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -515,7 +505,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Добавлены кликабельные карточки рецептов" />
     <MESSAGE value="Декомпозирована страница рецепта и отрефакторена страница пользователя" />
     <MESSAGE value="Небольшой рефакторинг страницы создания рецепта" />
     <MESSAGE value="Рефакторинг строковых ресурсов и отступов на странице пользователя" />
@@ -540,7 +529,8 @@
     <MESSAGE value="optimized cardViewModel user load" />
     <MESSAGE value="refactored Recipe" />
     <MESSAGE value="refactored RecipePage" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored RecipePage" />
+    <MESSAGE value="delete repository code" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete repository code" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
