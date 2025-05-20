@@ -21,7 +21,6 @@
     <string name="recipe_page_header_steps">Шаги</string>
     <string name="recipe_page_header_pictures">Картинки</string>
 
-    <string name="oauth_id">120251541924-nj3eo5tmsal4n8tjcdf2pimnnr7cmga8.apps.googleusercontent.com</string>
     <string name="default_avatar_icon_url">https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-479x512-n8sg74wg.png</string>
     <string name="recipe_bg_image_header_text">Задний фон страницы рецептов</string>
     <string name="other_images_text">Другие изображения</string>
@@ -34,4 +33,7 @@
     <string name="recipe_desciption_text">Описание рецепта</string>
     <string name="create_text">Создать</string>
     <string name="next_step_text">Следующий шаг</string>
+
+    <string name="oauth_id">120251541924-nj3eo5tmsal4n8tjcdf2pimnnr7cmga8.apps.googleusercontent.com</string>
+  
 </resources>
