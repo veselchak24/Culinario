@@ -9,11 +9,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="delete repository code">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="image uploader">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/LoginViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/LoginViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/ImageUploader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/ImageUploader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +74,7 @@
       <list>
         <option value="Kotlin File" />
         <option value="resourceFile" />
+        <option value="Class" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -96,12 +99,13 @@
     &quot;assignee&quot;: &quot;RePti-LoiD&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/veselchak24/Culinario.git&quot;,
-    &quot;accountId&quot;: &quot;5cded93c-f276-4cd0-8aef-12160cd03e57&quot;
-  }
-}</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/veselchak24/Culinario.git",
+    "accountId": "5cded93c-f276-4cd0-8aef-12160cd03e57"
+  },
+  "editorReviewEnabled": false
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/AppData/Local/Google/AndroidStudio2024.2/device-explorer/samsung SM-S918B/_/data/data/com.culinario/files/profile.json" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -138,7 +142,7 @@
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.16582492&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.google.gct.login2.settings.GoogleLoginApplicationSettingsConfigurableProvider&quot;
   }
 }</component>
   <component name="PsdUISettings">
@@ -490,24 +494,75 @@
       <option name="project" value="LOCAL" />
       <updated>1747682095393</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="refactored">
+      <option name="closed" value="true" />
+      <created>1747737886719</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1747737886719</updated>
+    </task>
+    <task id="LOCAL-00030" summary="add aws.s3 dependency">
+      <option name="closed" value="true" />
+      <created>1747742271578</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1747742271578</updated>
+    </task>
+    <task id="LOCAL-00031" summary="change dependency to minio s3 client">
+      <option name="closed" value="true" />
+      <created>1747744369958</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1747744369958</updated>
+    </task>
+    <task id="LOCAL-00032" summary="image uploader">
+      <option name="closed" value="true" />
+      <created>1747748103231</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1747748103231</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Author.ColumnIdWidth" value="139" />
+                  <entry key="Table.Default.Date.ColumnIdWidth" value="138" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Декомпозирована страница рецепта и отрефакторена страница пользователя" />
-    <MESSAGE value="Небольшой рефакторинг страницы создания рецепта" />
-    <MESSAGE value="Рефакторинг строковых ресурсов и отступов на странице пользователя" />
     <MESSAGE value="Обновлён внешний вид страницы рецепта" />
     <MESSAGE value="Добавлены viewmodel для основных страниц" />
     <MESSAGE value="Мелкие изменения интерфейса" />
@@ -524,13 +579,16 @@
     <MESSAGE value="Login page improvements" />
     <MESSAGE value="much improvements" />
     <MESSAGE value="RecipeCreatePage.kt improved" />
-    <MESSAGE value="refactored" />
     <MESSAGE value="added vm" />
     <MESSAGE value="optimized cardViewModel user load" />
     <MESSAGE value="refactored Recipe" />
     <MESSAGE value="refactored RecipePage" />
     <MESSAGE value="delete repository code" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete repository code" />
+    <MESSAGE value="refactored" />
+    <MESSAGE value="add aws.s3 dependency" />
+    <MESSAGE value="change dependency to minio s3 client" />
+    <MESSAGE value="image uploader" />
+    <option name="LAST_COMMIT_MESSAGE" value="image uploader" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

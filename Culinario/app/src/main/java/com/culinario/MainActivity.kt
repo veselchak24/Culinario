@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -18,6 +19,7 @@ import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
+import com.culinario.viewmodel.RecipeCreatePageViewModel
 import com.culinario.viewmodel.RecipePageViewModel
 import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
@@ -95,7 +97,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 val userId = it.arguments?.getString("userId")!!
 
-                RecipeCreatePage(Modifier, UserPageViewModel(userId), navController)
+                RecipeCreatePage(Modifier, RecipeCreatePageViewModel(userId, LocalContext.current), navController)
             }
 
             composable(

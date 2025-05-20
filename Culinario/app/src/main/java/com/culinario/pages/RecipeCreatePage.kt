@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -64,7 +65,7 @@ import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.Unit
-import com.culinario.viewmodel.UserPageViewModel
+import com.culinario.viewmodel.RecipeCreatePageViewModel
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -73,7 +74,7 @@ import kotlin.random.Random
 @Composable
 fun RecipeCreatePage(
     modifier: Modifier = Modifier,
-    userPageViewModel: UserPageViewModel,
+    viewModel: RecipeCreatePageViewModel,
     navController: NavController
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior (
@@ -94,6 +95,12 @@ fun RecipeCreatePage(
     val picturesBitmap = remember { mutableStateOf(listOf<Bitmap>()) }
 
     val recipeTitleImageLauncher = pickVisualResource {
+        coroutineScope.launch {
+            viewModel.uploadSampleFile(it!!) { url ->
+                Toast.makeText(context, url, Toast.LENGTH_SHORT).show()
+            }
+        }
+
         titleBitmap.value = loadAndCompressImage(context, it)!!
     }
 
@@ -204,7 +211,7 @@ fun RecipeCreatePage(
                                 steps.value,
                                 titleBitmap.value,
                                 picturesBitmap.value,
-                                userPageViewModel,
+                                viewModel,
                                 context
                             )
 
@@ -448,7 +455,7 @@ private fun saveRecipe (
     steps: String,
     headerImage: Bitmap,
     listImageResources: List<Bitmap>,
-    userPageViewModel: UserPageViewModel,
+    viewModel: RecipeCreatePageViewModel,
     context: Context
 ) {
     val saveHelper = RecipeSaveHelper(context)
@@ -473,5 +480,5 @@ private fun saveRecipe (
     )
 
 
-    userPageViewModel.addRecipe(recipe)
+    viewModel.addRecipe(recipe)
 }

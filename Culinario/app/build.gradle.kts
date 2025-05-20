@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -11,13 +13,9 @@ android {
     namespace = "com.culinario"
     compileSdk = 35
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     defaultConfig {
         applicationId = "com.culinario"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -51,6 +49,9 @@ android {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
+        resources.merges.add("META-INF/*")
+        resources.pickFirsts.add("META-INF/*")
+
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -92,8 +93,10 @@ dependencies {
     implementation(libs.kmpauth.firebase.v231)
     implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
 
-    implementation("io.minio:minio:8.5.6")
-    //implementation(libs.aws.android.sdk.s3)
+
+    implementation("aws.sdk.kotlin:s3:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     implementation(libs.compose.shimmer)
 
