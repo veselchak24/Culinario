@@ -35,4 +35,6 @@
     <string name="next_step_text">Следующий шаг</string>
 
     <string name="oauth_id">120251541924-nj3eo5tmsal4n8tjcdf2pimnnr7cmga8.apps.googleusercontent.com</string>
+    <string name="default_avatar_image_url">https://culinario-resources.hb.ru-msk.vkcloud-storage.ru/appResources/unknownUser.jpg</string>
+    <string name="default_background_image_url">https://culinario-resources.hb.ru-msk.vkcloud-storage.ru/appResources/user_background_placeholder.jpg</string>
 </resources>

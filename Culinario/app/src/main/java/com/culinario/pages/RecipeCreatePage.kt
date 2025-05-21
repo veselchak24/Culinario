@@ -1,7 +1,6 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -57,16 +56,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
-import com.culinario.helpers.RecipeSaveHelper
 import com.culinario.helpers.loadAndCompressImage
 import com.culinario.mvp.models.Difficulty
-import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType
-import com.culinario.mvp.models.Unit
 import com.culinario.viewmodel.RecipeCreatePageViewModel
-import com.google.firebase.annotations.concurrent.Background
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -99,7 +94,7 @@ fun RecipeCreatePage(
 
     val recipeTitleImageLauncher = pickVisualResource {
         coroutineScope.launch {
-            viewModel.uploadSampleFile(it!!) { url ->
+            viewModel.uploadImage(it!!) { url ->
                 backgroundImageUrl = url
                 Toast.makeText(context, url, Toast.LENGTH_SHORT).show()
             }
@@ -468,11 +463,6 @@ private fun saveRecipe (
         description = recipeDescription,
         recipeImageBackgroundUrl = backgroundImageUrl,
         recipeImagesUrl = recipeImagesUrl,
-        ingredients = ingredients
-            .split('\n')
-            .map { x -> Ingredient(x, 1.0, Unit.CUPS) }
-            .toList(),
-        steps = steps.split('\n').map { x -> x.trim() },
         recipeType = RecipeType.QUICK,
         cookingSpeed = 100,
         difficulty = Difficulty.MEDIUM,

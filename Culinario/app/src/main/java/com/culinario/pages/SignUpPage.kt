@@ -88,21 +88,6 @@ fun SignUpPage (
             TextField (
                 modifier = Modifier
                     .fillMaxWidth(),
-                value = nicknameText,
-                onValueChange = { newText ->
-                    nicknameText = newText
-                },
-                label = {
-                    Text("Имя")
-                },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                )
-            )
-
-            TextField (
-                modifier = Modifier
-                    .fillMaxWidth(),
                 value = emailText,
                 onValueChange = { newText ->
                     emailText = newText

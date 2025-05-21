@@ -1,19 +1,26 @@
 package com.culinario.pages
 
+import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -24,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -33,11 +41,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.culinario.R
+import com.culinario.mvp.models.User
 import com.culinario.viewmodel.UserCreateViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,12 +59,13 @@ import kotlinx.coroutines.launch
 fun UserCreatePage(
     modifier: Modifier = Modifier,
     viewModel: UserCreateViewModel,
-    onCreate: () -> Unit = { }
+    onCreate: () -> Unit
 ) {
     var user by remember { mutableStateOf(viewModel.userState.value) }
 
     val userName = remember { mutableStateOf("") }
-    val userAvatar = remember { mutableStateOf<String?>(null) }
+    val userAvatarUrl = remember { mutableStateOf<String?>(null) }
+    val userBackgroundUrl = remember { mutableStateOf<String?>(null) }
 
     val userDescription = remember { mutableStateOf("") }
 
@@ -61,11 +75,11 @@ fun UserCreatePage(
         viewModel.userState.collect { newState ->
             user = newState
             userName.value = newState.name
-            userAvatar.value = newState.imageUrl
+            userAvatarUrl.value = newState.imageUrl
         }
     }
 
-    val pagerState = rememberPagerState(initialPage = 0) { 3 }
+    val pagerState = rememberPagerState(initialPage = 0) { 2 }
 
     BackHandler {
         if (pagerState.currentPage > 0) {
@@ -93,14 +107,14 @@ fun UserCreatePage(
                 ) { index ->
                     when(index) {
                         0 -> HelloPage {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(1)
+                                coroutineScope.launch {
+                                    pagerState.animateScrollToPage(1)
+                                }
                             }
+                        1 -> BaseValues(userAvatarUrl, userBackgroundUrl, userName, userDescription, user, viewModel) {
+                            onCreate()
                         }
-                        1 -> BaseValues(userAvatar, userName, userDescription)
-                        else -> Text(
-                            text = "IDk"
-                        )
+                        else -> Text("out of range")
                     }
                 }
             }
@@ -219,25 +233,80 @@ private fun HelloPage(
 @Composable
 private fun BaseValues(
     avatarUrl: MutableState<String?>,
+    backgroundUrl: MutableState<String?>,
     userName: MutableState<String>,
-    description: MutableState<String>
+    userAbout: MutableState<String>,
+    user: User,
+    viewModel: UserCreateViewModel,
+    onCreate: () -> Unit
 ) {
+    val pickAvatar = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+        uri?.let {
+            viewModel.uploadImage(uri) { uploadedUrl ->
+                avatarUrl.value = uploadedUrl
+            }
+        }
+    }
+
+    val pickBackground = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+        uri?.let {
+            viewModel.uploadImage(uri) { uploadedUrl ->
+                backgroundUrl.value = uploadedUrl
+            }
+        }
+    }
+
+    var allFieldsSet by remember { mutableStateOf(false) }
+    var alphaValue by remember { mutableFloatStateOf(0f) }
+
+    val buttonAlphaAnimation by animateFloatAsState(
+        targetValue = alphaValue,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    LaunchedEffect(allFieldsSet) {
+        if (allFieldsSet) {
+            alphaValue = 1f
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(backgroundUrl.value ?: stringResource(R.string.default_background_image_url))
+                .transformations()
+                .build(),
+            contentDescription = "userBackground",
+            modifier = Modifier
+                .clip(RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp))
+                .fillMaxWidth()
+                .alpha(0.4f)
+                .height(200.dp)
+                .clickable {
+                    pickBackground.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                },
+            contentScale = ContentScale.Crop
+        )
+
         Column(
             modifier = Modifier.Companion
                 .align(Alignment.TopCenter)
-                .padding(top = 100.dp),
+                .padding(top = 100.dp)
+                .padding(horizontal = 50.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             AsyncImage(
-                model = avatarUrl.value ?: "https://avatars.githubusercontent.com/u/183899995?s=400&v=4",
+                model = avatarUrl.value ?: stringResource(R.string.default_avatar_image_url),
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(200.dp)
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
+                    .clickable {
+                        pickAvatar.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    },
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop
             )
@@ -246,6 +315,9 @@ private fun BaseValues(
                 value = userName.value,
                 onValueChange = {
                     userName.value = it
+
+                    if (userName.value.isNotEmpty() && userAbout.value.isNotEmpty())
+                        allFieldsSet = true
                 },
                 label = {
                     Text(
@@ -256,23 +328,46 @@ private fun BaseValues(
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 ),
-                modifier = Modifier
-                    .width(300.dp)
+                modifier = Modifier.fillMaxWidth()
             )
 
             TextField(
-                value = description.value,
+                value = userAbout.value,
                 onValueChange = {
-                    description.value = it
+                    userAbout.value = it
+
+                    if (userName.value.isNotEmpty() && userAbout.value.isNotEmpty())
+                        allFieldsSet = true
                 },
                 label = {
                     Text(
                         text = "О себе"
                     )
                 },
-                modifier = Modifier
-                    .width(300.dp)
+                modifier = Modifier.fillMaxWidth()
             )
+
+            if (userAbout.value.isNotEmpty()) {
+                Button(
+                    modifier = Modifier
+                        .alpha(buttonAlphaAnimation)
+                        .fillMaxWidth(),
+                    onClick = {
+                        user.name = userName.value
+                        user.about = userAbout.value
+                        user.imageUrl = avatarUrl.value
+                        user.backgroundImageUrl = backgroundUrl.value
+
+                        viewModel.saveUser(user) {
+                            onCreate()
+                        }
+                    }
+                ) {
+                    Text(
+                        text = "Готово!"
+                    )
+                }
+            }
         }
     }
 }

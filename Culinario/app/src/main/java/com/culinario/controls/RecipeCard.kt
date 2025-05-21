@@ -111,7 +111,8 @@ fun RecipeCard(
                         Modifier
                             .size(20.dp)
                             .align(Alignment.CenterVertically)
-                            .clip(CircleShape)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
                     )
                     Text(
                         modifier = Modifier.padding(start = 3.dp),

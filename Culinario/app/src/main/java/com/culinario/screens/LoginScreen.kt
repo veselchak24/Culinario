@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -69,13 +70,6 @@ fun LoginScreen(onLogin: () -> Unit) {
                 onLogin()
             }
         }
-
-        UserCreatePage(
-            Modifier,
-            UserCreateViewModel("TRcQTLawFWWJatXxxKnnjFWPFpG3")
-        ) {
-
-        }
     }
 }
 
@@ -97,9 +91,9 @@ private fun MainRegistrationPage(
         if (createUserPage) {
             UserCreatePage(
                 Modifier,
-                UserCreateViewModel(newUserId)
+                UserCreateViewModel(newUserId, LocalContext.current)
             ) {
-
+                onLogin()
             }
         }
 

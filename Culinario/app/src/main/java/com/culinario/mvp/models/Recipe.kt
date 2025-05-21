@@ -29,9 +29,10 @@ class Recipe (
     val description: String = "",
     val recipeImageBackgroundUrl: String = "",
     val recipeImagesUrl: List<String> = listOf(),
-    val ingredients: List<Ingredient> = listOf(),
+    val ingredients: List<String> = listOf(),
     val cookingSpeed: Int = 0,
-    val steps: List<String> = listOf(),
+    val recipeDescription: RecipeDescription = RecipeDescription(),
+    val steps: List<DetailedCookingStep> = listOf(),
     val recipeType: RecipeType = RecipeType.QUICK,
     val difficulty: Difficulty = Difficulty.EASY,
     var otherInfo: OtherInfo = OtherInfo(0, 0),
@@ -63,6 +64,12 @@ data class RecipeDescription(
     val cuisineType: String = "",
     val mealType: String = "",
     val tips: List<String> = listOf()
+)
+
+@Serializable
+data class DetailedCookingStep(
+    val imageUrl: String,
+    val description: String
 )
 
 /**

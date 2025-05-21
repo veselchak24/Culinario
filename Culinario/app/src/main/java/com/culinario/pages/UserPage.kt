@@ -1,8 +1,6 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
-import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
@@ -92,7 +90,7 @@ fun UserPage(
             modifier = modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            BackgroundImageDrawer()
+            BackgroundImageDrawer(user)
 
             Column (
                 Modifier
@@ -237,10 +235,10 @@ fun UserPage(
 }
 
 @Composable
-private fun BackgroundImageDrawer() {
-    Image(
+private fun BackgroundImageDrawer(user: User) {
+    AsyncImage(
+        model = user.backgroundImageUrl ?: stringResource(R.string.default_background_image_url),
         contentDescription = "userBackground",
-        painter = painterResource(R.drawable.user_background_placeholder),
         modifier = Modifier
             .height(250.dp)
             .fillMaxSize()
@@ -334,14 +332,15 @@ fun UserHeader(user: User) {
         ) {
             if (user.imageUrl.isNullOrEmpty()) {
                 AsyncImage(
-                    model = Uri.parse(stringResource(R.string.default_avatar_icon_url)),
+                    model = stringResource(R.string.default_avatar_image_url),
                     contentDescription = "userAvatar",
                     modifier = Modifier
                         .shimmer()
                         .fillMaxSize()
                         .padding(5.dp)
                         .align(Alignment.Center)
-                        .clip(CircleShape)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
                 )
             } else {
                 AsyncImage(
@@ -351,7 +350,8 @@ fun UserHeader(user: User) {
                         .fillMaxSize()
                         .padding(5.dp)
                         .align(Alignment.Center)
-                        .clip(CircleShape)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
                 )
             }
         }

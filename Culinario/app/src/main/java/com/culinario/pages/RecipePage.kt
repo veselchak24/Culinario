@@ -283,7 +283,7 @@ private fun Ingredients(recipe: Recipe) {
                     .padding(15.dp)
             ) {
                 recipe.ingredients.forEach { ingredient ->
-                    Text(text = ingredient.name)
+                    Text(text = ingredient)
                 }
             }
         }
@@ -303,7 +303,7 @@ private fun Steps(recipe: Recipe) {
                     .padding(15.dp)
             ) {
                 recipe.steps.forEach { step ->
-                    Text(text = step)
+                    Text(text = step.description)
                 }
             }
         }
@@ -363,7 +363,8 @@ fun BasicUserData(user: User, onClick: () -> Unit) {
             contentDescription = "user avatar",
             modifier = Modifier
                 .clip(CircleShape)
-                .size(30.dp)
+                .size(30.dp),
+            contentScale = ContentScale.Crop
         )
         Text (
             text = user.name
