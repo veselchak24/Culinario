@@ -72,9 +72,31 @@ data class NutritionInfo(
  */
 @Serializable
 data class Ingredient (
+    val id: String = "",
     val name: String = "default ingredient",
+    val imageUrl: String = "",
     val quantity: Double? = 0.0,
-    val unit: Unit? = Unit.PIECE
+    val unit: Unit? = Unit.PIECE,
+    val nutritionInfo: IngredientNutritionInfo = IngredientNutritionInfo(),
+    val isOptional: Boolean = false,
+    val substitutes: List<String> = listOf()
+)
+
+/**
+ * Пищевая ценность ингредиента
+ * @param[calories] калории (ккал)
+ * @param[proteins] белки (г)
+ * @param[fats] жиры (г)
+ * @param[carbohydrates] углеводы (г)
+ * @param[weight] вес порции (г)
+ */
+@Serializable
+data class IngredientNutritionInfo(
+    val calories: Double = 0.0,
+    val proteins: Double = 0.0,
+    val fats: Double = 0.0,
+    val carbohydrates: Double = 0.0,
+    val weight: Double = 0.0
 )
 
 /**
@@ -117,5 +139,7 @@ enum class Difficulty {
 @Serializable
 data class OtherInfo(
     val watches: Int = 0,
-    val likes: Int = 0
+    val likes: Int = 0,
+    val saves: Int = 0,
+    val rating: Double = 0.0
 )
