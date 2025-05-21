@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="added UserCreatePage">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="improve UserCreatePage">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/UserCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/UserCreatePage.kt" afterDir="false" />
     </list>
@@ -21,7 +21,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\delhi\.android\avd\Pixel_8_Pro_API_35.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R5CX533CH5K)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -554,7 +554,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747832462930</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="improve UserCreatePage">
+      <option name="closed" value="true" />
+      <created>1747844948470</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1747844948470</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -591,7 +599,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="rollback branch" />
     <MESSAGE value="implemented CameraPage and uses-permissions" />
     <MESSAGE value="fully implemented CameraPage methods" />
     <MESSAGE value="fixes" />
@@ -616,7 +623,8 @@
     <MESSAGE value="vk cloud integration to firebase" />
     <MESSAGE value="UserPage.kt improved" />
     <MESSAGE value="added UserCreatePage" />
-    <option name="LAST_COMMIT_MESSAGE" value="added UserCreatePage" />
+    <MESSAGE value="improve UserCreatePage" />
+    <option name="LAST_COMMIT_MESSAGE" value="improve UserCreatePage" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
