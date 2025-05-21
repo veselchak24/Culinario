@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
+import com.culinario.controls.ShimmerRecipeCard
 import com.culinario.mvp.models.Recipe
 import com.culinario.viewmodel.HomePageViewModel
 import com.culinario.viewmodel.RecipeCardViewModel
@@ -159,16 +160,26 @@ fun AllRecipes(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .padding(5.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        for (recipe in recipes) {
-            RecipeCard(
-                Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
-                RecipeCardViewModel(recipe.id)
-            ) {
-                navController.navigate("RecipePage/${recipe.id}")
+        if (recipes.isNotEmpty()) {
+            for (recipe in recipes) {
+                RecipeCard(
+                    Modifier
+                        .fillMaxWidth(),
+                    RecipeCardViewModel(recipe.id)
+                ) {
+                    navController.navigate("RecipePage/${recipe.id}")
+                }
+            }
+        } else {
+            for (i in 1..4) {
+                ShimmerRecipeCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
             }
         }
     }

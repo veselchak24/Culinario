@@ -1,8 +1,10 @@
 package com.culinario.controls
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +31,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.culinario.viewmodel.RecipeCardViewModel
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
+import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun RecipeCard(
@@ -119,4 +124,18 @@ fun RecipeCard(
             }
         }
     }
+}
+
+@Composable
+fun ShimmerRecipeCard(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .shimmer()
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .height(250.dp)
+            .width(200.dp)
+    )
 }

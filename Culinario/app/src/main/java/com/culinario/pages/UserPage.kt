@@ -56,6 +56,7 @@ import com.culinario.R
 import com.culinario.Registration
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
+import com.culinario.controls.ShimmerRecipeCard
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
 import com.culinario.viewmodel.RecipeCardViewModel
@@ -102,22 +103,49 @@ fun UserPage(
 
                 UserAbout(user)
 
-                UserStats("0", "0", "0")
+                UserStats(viewModel)
 
-                UserActivity {
-                    Column (
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                if (userRecipes.value.isNotEmpty()) {
+                    UserActivity {
+                        Column (
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            for(recipe in userRecipes.value) {
+                                RecipeCard(
+                                    Modifier.fillMaxWidth(),
+                                    RecipeCardViewModel(recipe.id)
+                                ) {
+                                    navController.navigate("RecipePage/${recipe.id}")
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
-                        for(recipe in userRecipes.value) {
-                            RecipeCard(
-                                Modifier.fillMaxWidth(),
-                                RecipeCardViewModel(recipe.id)
-                            ) {
-                                navController.navigate("RecipePage/${recipe.id}")
+                        Box(
+                            modifier = Modifier
+                                .shimmer()
+                                .clip(RoundedCornerShape(8.dp))
+                                .width(120.dp)
+                                .height(20.dp)
+                                .background(MaterialTheme.colorScheme.surfaceContainer)
+                                .padding(horizontal = 10.dp)
+                        )
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            for(i in 1..3) {
+                                ShimmerRecipeCard(
+                                    modifier = Modifier.fillMaxWidth()
+                                )
                             }
                         }
                     }
                 }
+
 
                 if (accountExitDialog) {
                     AlertDialog(
@@ -309,6 +337,7 @@ fun UserHeader(user: User) {
                     model = Uri.parse(stringResource(R.string.default_avatar_icon_url)),
                     contentDescription = "userAvatar",
                     modifier = Modifier
+                        .shimmer()
                         .fillMaxSize()
                         .padding(5.dp)
                         .align(Alignment.Center)
@@ -361,25 +390,42 @@ fun UserAbout(user: User) {
 }
 
 @Composable
-fun UserStats(likesCount: String, recipeCount: String, watchCount: String) {
+fun UserStats(viewModel: UserPageViewModel) {
+    var recipeCount by remember { mutableStateOf<Int?>(null) }
+
+    LaunchedEffect(Unit) {
+        recipeCount = viewModel.getRecipesCount()
+        println("recipe count handled")
+    }
+
     Column {
         Header(stringResource(R.string.user_page_header_stats))
 
-        Row (
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Stat(
-                header = stringResource(R.string.user_page_header_likes),
-                value = likesCount
-            )
-            Stat(
-                header = stringResource(R.string.user_page_header_recipes_count),
-                value = recipeCount
-            )
-            Stat(
-                header = stringResource(R.string.user_page_header_watches_count),
-                value = watchCount
-            )
+        if (recipeCount != null) {
+            Row (
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Stat(
+                    header = stringResource(R.string.user_page_header_likes),
+                    value = "N/A"
+                )
+                Stat(
+                    header = stringResource(R.string.user_page_header_recipes_count),
+                    value = recipeCount.toString()
+                )
+                Stat(
+                    header = stringResource(R.string.user_page_header_watches_count),
+                    value = "N/A"
+                )
+            }
+        } else {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ShimmerStat()
+                ShimmerStat()
+                ShimmerStat()
+            }
         }
     }
 }
@@ -434,4 +480,17 @@ fun RowScope.Stat(header: String, value: String) {
             )
         }
     }
+}
+
+@Composable
+fun RowScope.ShimmerStat() {
+    Box(
+        modifier = Modifier
+            .shimmer()
+            .weight(1f)
+            .padding(horizontal = 5.dp)
+            .aspectRatio(1f)
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+    )
 }

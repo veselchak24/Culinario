@@ -12,6 +12,7 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -24,6 +25,9 @@ class UserPageViewModel(
 
     private var userState: MutableStateFlow<User> = MutableStateFlow(User())
     val user = userState.asStateFlow()
+
+    private val recipesState = MutableStateFlow(mutableListOf<Recipe>())
+    val recipes = recipesState.asStateFlow()
 
     init {
         if (user.value.id != userId) {
@@ -50,12 +54,13 @@ class UserPageViewModel(
         println(userState.value.recipesId)
 
         val recipes = mutableListOf<Recipe>()
-
         userState.value.recipesId.forEach {
             recipes.add(recipeCollection.document(it).get().await().toObject<Recipe>()!!)
         }
 
-        return recipes
+        recipesState.value = recipes
+
+        return recipesState.value
     }
 
     fun addRecipe(recipe: Recipe) {
@@ -72,5 +77,11 @@ class UserPageViewModel(
                 .document(userState.value.id)
                 .set(userState.value)
         }
+    }
+
+    suspend fun getRecipesCount(): Int {
+        recipesState.first { it.isNotEmpty() }
+
+        return recipesState.value.count { true }
     }
 }

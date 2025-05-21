@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.culinario"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -94,9 +94,9 @@ dependencies {
     implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
 
 
-    implementation("aws.sdk.kotlin:s3:1.0.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation(libs.kotlin.s3)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.compose.shimmer)
 
