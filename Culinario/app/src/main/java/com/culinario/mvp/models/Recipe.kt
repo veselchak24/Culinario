@@ -19,6 +19,7 @@ import kotlinx.serialization.Serializable
  * @param[recipeType] тип рецепта.
  * @param[difficulty] сложность рецепта.
  * @param[otherInfo] дополнительная информация.
+ * @param[nutritionInfo] информация о КБЖУ рецепта.
  */
 @Serializable
 class Recipe (
@@ -33,7 +34,8 @@ class Recipe (
     val steps: List<String> = listOf(),
     val recipeType: RecipeType = RecipeType.QUICK,
     val difficulty: Difficulty = Difficulty.EASY,
-    var otherInfo: OtherInfo = OtherInfo(0, 0)
+    var otherInfo: OtherInfo = OtherInfo(0, 0),
+    val nutritionInfo: NutritionInfo = NutritionInfo()
 ) : IOnSerialize, IOnDeserialize {
 
     override fun onSerialize() {
@@ -44,12 +46,29 @@ class Recipe (
         //TODO("Not yet implemented")
     }
 }
+
+/**
+ * Информация о пищевой ценности (КБЖУ)
+ *
+ * @param[calories] калории (ккал)
+ * @param[proteins] белки (г)
+ * @param[fats] жиры (г)
+ * @param[carbohydrates] углеводы (г)
+ */
+@Serializable
+data class NutritionInfo(
+    val calories: Double = 0.0,
+    val proteins: Double = 0.0,
+    val fats: Double = 0.0,
+    val carbohydrates: Double = 0.0
+)
+
 /**
  * Абстрактный класс ингредиента.
  *
- * @property name Название продукта.
- * @property quantity количество продукта.
- * @property unit единица измерения.
+ * @param[name] Название продукта.
+ * @param[guantify] количество продукта.
+ * @param[unit] единица измерения.
  */
 @Serializable
 data class Ingredient (
