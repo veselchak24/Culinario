@@ -65,7 +65,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun onGoogleAuth(firebaseUser: FirebaseUser, onSignIn: (FirebaseUser) -> Unit) {
+    fun onGoogleAuth(firebaseUser: FirebaseUser, onSignIn: (user: FirebaseUser, newUser: Boolean) -> Unit) {
         try {
             val doc = firestore.collection(USER_COLLECTION).document(firebaseUser.uid)
 
@@ -85,12 +85,12 @@ class LoginViewModel : ViewModel() {
                             )
                         ).addOnCompleteListener { task ->
                             if (task.isComplete)
-                                onSignIn(auth.currentUser!!)
+                                onSignIn(auth.currentUser!!, true)
                         }
                     } else {
                         println("old user")
 
-                        onSignIn(auth.currentUser!!)
+                        onSignIn(auth.currentUser!!, false)
                     }
                 }
             }

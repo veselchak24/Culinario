@@ -18,9 +18,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,8 +37,10 @@ import androidx.compose.ui.unit.sp
 import com.culinario.R
 import com.culinario.pages.SignInPage
 import com.culinario.pages.SignUpPage
+import com.culinario.pages.UserCreatePage
 import com.culinario.ui.theme.ancizarSerifFontFamily
 import com.culinario.viewmodel.LoginViewModel
+import com.culinario.viewmodel.UserCreateViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
@@ -65,6 +69,13 @@ fun LoginScreen(onLogin: () -> Unit) {
                 onLogin()
             }
         }
+
+        UserCreatePage(
+            Modifier,
+            UserCreateViewModel("TRcQTLawFWWJatXxxKnnjFWPFpG3")
+        ) {
+
+        }
     }
 }
 
@@ -76,10 +87,22 @@ private fun MainRegistrationPage(
 ) {
     val loginViewModel = LoginViewModel()
 
+    var createUserPage by remember { mutableStateOf(false) }
+    var newUserId by remember { mutableStateOf("") }
+
     Column (
         modifier = Modifier
             .fillMaxSize()
     ) {
+        if (createUserPage) {
+            UserCreatePage(
+                Modifier,
+                UserCreateViewModel(newUserId)
+            ) {
+
+            }
+        }
+
         Box (
             modifier = Modifier
                 .fillMaxWidth()
@@ -125,8 +148,13 @@ private fun MainRegistrationPage(
             GoogleButtonUiContainerFirebase(
                 onResult = { result ->
                     if (result.isSuccess) {
-                        loginViewModel.onGoogleAuth(Firebase.auth.currentUser!!) {
-                            onLogin()
+                        loginViewModel.onGoogleAuth(Firebase.auth.currentUser!!) { user, isNewUser ->
+                            if (isNewUser) {
+                                createUserPage = true
+                                newUserId = user.uid
+                            } else {
+                                onLogin()
+                            }
                         }
                     }
                 },

@@ -104,8 +104,6 @@ fun SignInPage(
             ) {
                 Text("Войти")
             }
-
-
         }
     }
 }
