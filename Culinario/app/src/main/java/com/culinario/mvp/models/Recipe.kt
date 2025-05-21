@@ -48,6 +48,24 @@ class Recipe (
 }
 
 /**
+ * Детализированное описание рецепта
+ * @param[shortSummary] краткое описание (1-2 предложения)
+ * @param[detailedDescription] полное описание с деталями
+ * @param[originStory] история происхождения рецепта (опционально)
+ * @param[cuisineType] тип кухни (итальянская, азиатская и т.д.)
+ * @param[mealType] тип приема пищи (завтрак, обед и т.д.)
+ */
+@Serializable
+data class RecipeDescription(
+    val shortSummary: String = "",
+    val detailedDescription: String = "",
+    val originStory: String = "",
+    val cuisineType: String = "",
+    val mealType: String = "",
+    val tips: List<String> = listOf()
+)
+
+/**
  * Информация о пищевой ценности (КБЖУ)
  *
  * @param[calories] калории (ккал)
@@ -108,6 +126,12 @@ enum class Unit {
 
     /** Кол-во в граммах. */
     GRAMS,
+
+    /** Кол-во в килограммах. */
+    KILOGRAMS,
+
+    /** Кол-во в миллилитрах. */
+    MILLILITERS,
 
     /** Кол-во в литрах. */
     LITERS,
