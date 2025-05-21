@@ -1,7 +1,9 @@
 package com.culinario.pages
 
+import android.util.EventLogTags.Description
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.TargetedFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -45,7 +48,11 @@ fun UserCreatePage(
     onCreate: () -> Unit = { }
 ) {
     var user by remember { mutableStateOf(viewModel.userState.value) }
-    var userName = remember { mutableStateOf("") }
+
+    val userName = remember { mutableStateOf("") }
+    val userAvatar = remember { mutableStateOf<String?>(null) }
+
+    val userDescription = remember { mutableStateOf("") }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -53,6 +60,7 @@ fun UserCreatePage(
         viewModel.userState.collect { newState ->
             user = newState
             userName.value = newState.name
+            userAvatar.value = newState.imageUrl
         }
     }
 
@@ -87,11 +95,12 @@ fun UserCreatePage(
                 )
             } else {
                 HorizontalPager(
-                    state = pagerState
+                    state = pagerState,
+                    flingBehavior = PagerDefaults.flingBehavior(pagerState)
                 ) { index ->
                     when(index) {
-                        0 -> BaseValues(userName)
-                        1 -> BaseValues(userName)
+                        0 -> BaseValues(userAvatar, userName)
+                        1 -> BaseValues(userAvatar, userName)
                         else -> Text(
                             text = "IDk"
                         )
@@ -103,7 +112,10 @@ fun UserCreatePage(
 }
 
 @Composable
-private fun BaseValues(userName: MutableState<String>) {
+private fun BaseValues(
+    avatarUrl: MutableState<String?>,
+    userName: MutableState<String>
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -115,7 +127,7 @@ private fun BaseValues(userName: MutableState<String>) {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             AsyncImage(
-                model = "https://avatars.githubusercontent.com/u/183899995?s=400&v=4",
+                model = avatarUrl.value ?: "https://avatars.githubusercontent.com/u/183899995?s=400&v=4",
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(200.dp)
@@ -137,4 +149,11 @@ private fun BaseValues(userName: MutableState<String>) {
             )
         }
     }
+}
+
+@Composable
+private fun Description(
+    description: MutableState<String>
+) {
+
 }
