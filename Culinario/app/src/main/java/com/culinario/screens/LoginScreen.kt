@@ -104,24 +104,11 @@ private fun MainRegistrationPage(
                 .clip(RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp))
         ) {
             Image(
-                painter = painterResource(R.drawable.login_screen_no_text),
+                painter = painterResource(R.drawable.loginscreenbg),
                 contentDescription = "Splash screen background",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
-            )
-
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.TopCenter)
-                    .padding(top = 105.dp),
-                fontFamily = ancizarSerifFontFamily,
-                text = "Culinario",
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.W800,
-                fontSize = 85.sp,
-                color = Color.White
             )
         }
 
