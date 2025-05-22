@@ -1,16 +1,13 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,7 +16,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -34,17 +30,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
-import com.culinario.helpers.PreferencesManager
 import com.culinario.helpers.USER_COLLECTION
-import com.culinario.helpers.isTrue
-import com.culinario.mvp.models.User
 import com.culinario.viewmodel.LoginViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 
 @SuppressLint("ComposableNaming")
@@ -147,7 +138,7 @@ fun SignUpPage (
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-                validateUserData(emailText, passwordText, repeatPasswordText).isTrue {
+                if (validateUserData(emailText, passwordText, repeatPasswordText)) {
                     loginViewModel.signUp(nicknameText, emailText, passwordText) {
                         Firebase
                             .firestore

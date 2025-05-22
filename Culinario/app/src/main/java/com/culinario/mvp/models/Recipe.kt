@@ -1,7 +1,5 @@
 package com.culinario.mvp.models
 
-import com.culinario.backend.interfaces.IOnDeserialize
-import com.culinario.backend.interfaces.IOnSerialize
 import kotlinx.serialization.Serializable
 
 /**
@@ -37,16 +35,7 @@ class Recipe (
     val difficulty: Difficulty = Difficulty.EASY,
     var otherInfo: OtherInfo = OtherInfo(0, 0),
     val nutritionInfo: NutritionInfo = NutritionInfo()
-) : IOnSerialize, IOnDeserialize {
-
-    override fun onSerialize() {
-        //TODO("Not yet implemented")
-    }
-
-    override fun onDeserialize() {
-        //TODO("Not yet implemented")
-    }
-}
+)
 
 /**
  * Детализированное описание рецепта
