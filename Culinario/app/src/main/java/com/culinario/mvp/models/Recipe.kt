@@ -1,8 +1,5 @@
 package com.culinario.mvp.models
 
-import android.net.Uri
-import com.culinario.backend.interfaces.IOnDeserialize
-import com.culinario.backend.interfaces.IOnSerialize
 import kotlinx.serialization.Serializable
 
 /**
@@ -12,56 +9,108 @@ import kotlinx.serialization.Serializable
  * @param[userId] id владельца рецепта.
  * @param[name] название рецепта.
  * @param[description] описание рецепта.
- * @param[recipeImageResources] Ресурсы изображений для рецептов.
+ * @param[recipeImageBackgroundUrl] Ссылка на картинку заднего фона рецепта.
+ * @param[recipeImagesUrl] Ссылка на картинки рецепта.
  * @param[ingredients] список ингредиентов.
  * @param[cookingSpeed] скорость приготовления (в минутах)
  * @param[steps] step-by-step приготовление.
  * @param[recipeType] тип рецепта.
  * @param[difficulty] сложность рецепта.
- * @param[otherCharacteristics] другие свойства рецепта.
  * @param[otherInfo] дополнительная информация.
+ * @param[nutritionInfo] информация о КБЖУ рецепта.
  */
 @Serializable
 class Recipe (
-    val id: String,
-    val userId: String,
-    val name: String,
-    val description: String,
-    val recipeImageResources: RecipeImageResources,
-    val ingredients: List<Ingredient>,
-    val cookingSpeed: Int,
-    val steps: List<String>,
-    val recipeType: RecipeType,
-    val difficulty: Difficulty,
-    var otherInfo: OtherInfo
-) : IOnSerialize, IOnDeserialize {
-
-    override fun onSerialize() {
-        //TODO("Not yet implemented")
-    }
-
-    override fun onDeserialize() {
-        //TODO("Not yet implemented")
-    }
-}
+    val id: String = "",
+    var userId: String = "",
+    val name: String = "",
+    val description: String = "",
+    val recipeImageBackgroundUrl: String = "",
+    val recipeImagesUrl: List<String> = listOf(),
+    val ingredients: List<String> = listOf(),
+    val cookingSpeed: Int = 0,
+    val recipeDescription: RecipeDescription = RecipeDescription(),
+    val steps: List<DetailedCookingStep> = listOf(),
+    val recipeType: RecipeType = RecipeType.QUICK,
+    val difficulty: Difficulty = Difficulty.EASY,
+    var otherInfo: OtherInfo = OtherInfo(0, 0),
+    val nutritionInfo: NutritionInfo = NutritionInfo()
+)
 
 /**
- * Автор рецпта (я так понимаю, мы его скоро заменим на класс User)
+ * Детализированное описание рецепта
+ * @param[shortSummary] краткое описание (1-2 предложения)
+ * @param[detailedDescription] полное описание с деталями
+ * @param[originStory] история происхождения рецепта (опционально)
+ * @param[cuisineType] тип кухни (итальянская, азиатская и т.д.)
+ * @param[mealType] тип приема пищи (завтрак, обед и т.д.)
  */
-data class Author(val name: String, val email: String? = null)
+@Serializable
+data class RecipeDescription(
+    val shortSummary: String = "",
+    val detailedDescription: String = "",
+    val originStory: String = "",
+    val cuisineType: String = "",
+    val mealType: String = "",
+    val tips: List<String> = listOf()
+)
+
+@Serializable
+data class DetailedCookingStep(
+    val imageUrl: String,
+    val description: String
+)
+
+/**
+ * Информация о пищевой ценности (КБЖУ)
+ *
+ * @param[calories] калории (ккал)
+ * @param[proteins] белки (г)
+ * @param[fats] жиры (г)
+ * @param[carbohydrates] углеводы (г)
+ */
+@Serializable
+data class NutritionInfo(
+    val calories: Double = 0.0,
+    val proteins: Double = 0.0,
+    val fats: Double = 0.0,
+    val carbohydrates: Double = 0.0
+)
 
 /**
  * Абстрактный класс ингредиента.
  *
- * @property name Название продукта.
- * @property quantity количество продукта.
- * @property unit единица измерения.
+ * @param[name] Название продукта.
+ * @param[guantify] количество продукта.
+ * @param[unit] единица измерения.
  */
 @Serializable
 data class Ingredient (
-    val name: String,
-    val quantity: Double?,
-    val unit: Unit?
+    val id: String = "",
+    val name: String = "default ingredient",
+    val imageUrl: String = "",
+    val quantity: Double? = 0.0,
+    val unit: Unit? = Unit.PIECE,
+    val nutritionInfo: IngredientNutritionInfo = IngredientNutritionInfo(),
+    val isOptional: Boolean = false,
+    val substitutes: List<String> = listOf()
+)
+
+/**
+ * Пищевая ценность ингредиента
+ * @param[calories] калории (ккал)
+ * @param[proteins] белки (г)
+ * @param[fats] жиры (г)
+ * @param[carbohydrates] углеводы (г)
+ * @param[weight] вес порции (г)
+ */
+@Serializable
+data class IngredientNutritionInfo(
+    val calories: Double = 0.0,
+    val proteins: Double = 0.0,
+    val fats: Double = 0.0,
+    val carbohydrates: Double = 0.0,
+    val weight: Double = 0.0
 )
 
 /**
@@ -73,6 +122,12 @@ enum class Unit {
 
     /** Кол-во в граммах. */
     GRAMS,
+
+    /** Кол-во в килограммах. */
+    KILOGRAMS,
+
+    /** Кол-во в миллилитрах. */
+    MILLILITERS,
 
     /** Кол-во в литрах. */
     LITERS,
@@ -101,18 +156,10 @@ enum class Difficulty {
     EASY, MEDIUM, HARD
 }
 
-/**
- *@param[recipePicturesResources] временное решение для плейсхолдера
- *@param[recipeBackgroundImageResources] временное решение для плейсхолдера
- */
 @Serializable
-data class RecipeImageResources (
-    var recipeBackgroundImageUri: String? = null,
-    var recipePicturesUri: Array<String>? = null,
-
-    var recipeBackgroundImageResources: Int? = null,
-    var recipePicturesResources: Array<Int>? = null
+data class OtherInfo(
+    val watches: Int = 0,
+    val likes: Int = 0,
+    val saves: Int = 0,
+    val rating: Double = 0.0
 )
-
-@Serializable
-data class OtherInfo(val watches: Int, val likes: Int)

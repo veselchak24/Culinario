@@ -13,27 +13,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.culinario.backend.PREFERENCES_LOCAL_USER_KEY
-import com.culinario.helpers.PreferencesManager
-import com.culinario.helpers.SavePlaceholderData
-import com.culinario.mvp.presenters.recipe.LocalSaveRecipeRepository
-import com.culinario.mvp.presenters.recipe.RecipeRepository
-import com.culinario.mvp.presenters.recipe.RecipeRepositoryImpl
-import com.culinario.mvp.presenters.user.LocalSaveUserRepository
-import com.culinario.mvp.presenters.user.UserRepository
-import com.culinario.mvp.presenters.user.UserRepositoryImpl
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
 import com.culinario.screens.LoginScreen
 import com.culinario.screens.MainScreen
 import com.culinario.ui.theme.CulinarioTheme
-import com.culinario.mvp.views.RecipePageViewModel
-import com.culinario.mvp.views.UserPageViewModel
+import com.culinario.viewmodel.RecipeCreatePageViewModel
+import com.culinario.viewmodel.RecipePageViewModel
+import com.culinario.viewmodel.UserPageViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.mmk.kmpauth.google.GoogleAuthCredentials
+import com.mmk.kmpauth.google.GoogleAuthProvider
 import kotlinx.serialization.Serializable
 
 @Serializable
-object SignIn
+object Registration
 
 @Serializable
 object Home
@@ -43,63 +39,76 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        GoogleAuthProvider.create(credentials = GoogleAuthCredentials(serverId = getString(R.string.oauth_id)))
+
         setContent {
             CulinarioTheme {
-                SavePlaceholderData(UserRepositoryImpl(), RecipeRepositoryImpl(), LocalContext.current).saveIfFilesNotExists()
-
-                val localUserRepository = LocalSaveUserRepository(LocalContext.current)
-
                 Screens (
-                    loginScreen = { LoginScreen(it,  localUserRepository) },
-                    homeScreen = { MainScreen(LocalSaveRecipeRepository(LocalContext.current), localUserRepository, it) }
+                    loginScreen = { LoginScreen(it) },
+                    homeScreen = { MainScreen(it) }
                 )
             }
         }
-
     }
 
     @Composable
-    fun Screens(loginScreen: @Composable (onClick: () -> Unit) -> Unit, homeScreen: @Composable (NavController) -> Unit) {
+    fun Screens(
+        loginScreen: @Composable (onClick: () -> Unit) -> Unit,
+        homeScreen: @Composable (NavController) -> Unit
+    ) {
         initNavController (
-            startDestination = if (PreferencesManager(LocalContext.current).hasKey(PREFERENCES_LOCAL_USER_KEY)) Home else SignIn,
+            startDestination =  if (Firebase.auth.currentUser == null)
+                                    Registration
+                                else
+                                    Home,
             signIn = loginScreen,
-            home = homeScreen,
-            LocalSaveRecipeRepository(LocalContext.current),
-            LocalSaveUserRepository(LocalContext.current)
+            home = homeScreen
         )
     }
 
     @Composable
-    fun initNavController(startDestination: Any, signIn: @Composable (() -> Unit) -> Unit, home: @Composable (NavController) -> Unit, recipeRepository: RecipeRepository, userRepository: UserRepository): NavController {
+    fun initNavController(
+        startDestination: Any,
+        signIn: @Composable (() -> Unit) -> Unit,
+        home: @Composable (NavController) -> Unit
+    ) : NavController {
         val navController = rememberNavController()
 
         NavHost(navController, startDestination = startDestination) {
-            composable<SignIn> {
+            composable<Registration> {
                 signIn {
+                    navController.popBackStack()
                     navController.navigate(route = Home)
-                    navController.clearBackStack<SignIn>()
                 }
             }
-            composable (
+
+            composable(
                 route = "RecipePage/{recipeID}",
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
-                RecipePage(RecipePageViewModel(recipeId, recipeRepository, userRepository, LocalContext.current), Modifier, navController)
+
+                RecipePage(Modifier, RecipePageViewModel(recipeId), navController)
             }
-            composable (
+
+            composable(
                 route = "RecipeCreatePage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType })
             ) {
-                RecipeCreatePage(Modifier, navController, it.arguments?.getString("userId")!!, recipeRepository)
+                val userId = it.arguments?.getString("userId")!!
+
+                RecipeCreatePage(Modifier, RecipeCreatePageViewModel(userId, LocalContext.current), navController)
             }
-            composable (
+
+            composable(
                 route = "UserPage/{userId}",
                 arguments = listOf(navArgument("userId") { type = NavType.StringType } )
             ) {
                 val userId = it.arguments?.getString("userId")!!
-                UserPage(Modifier, UserPageViewModel(userId, userRepository, recipeRepository), navController)
+
+                UserPage(Modifier, UserPageViewModel(userId), navController)
             }
+
             composable<Home> {
                 home(navController)
             }

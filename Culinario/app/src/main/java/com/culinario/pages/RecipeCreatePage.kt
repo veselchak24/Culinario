@@ -1,10 +1,11 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -16,6 +17,7 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,10 +38,13 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -51,22 +56,23 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.Header
-import com.culinario.helpers.RecipeSaveHelper
+import com.culinario.helpers.loadAndCompressImage
 import com.culinario.mvp.models.Difficulty
-import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
-import com.culinario.mvp.models.RecipeImageResources
 import com.culinario.mvp.models.RecipeType
-import com.culinario.mvp.models.Unit
-import com.culinario.mvp.presenters.recipe.RecipeRepository
+import com.culinario.viewmodel.RecipeCreatePageViewModel
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController, userId: String, recipeRepository: RecipeRepository) {
+fun RecipeCreatePage(
+    modifier: Modifier = Modifier,
+    viewModel: RecipeCreatePageViewModel,
+    navController: NavController
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior (
         rememberTopAppBarState()
     )
@@ -84,19 +90,22 @@ fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController
     val titleBitmap: MutableState<Bitmap> = remember { mutableStateOf(BitmapFactory.decodeStream(context.resources.openRawResource(R.drawable.user_background_placeholder))) }
     val picturesBitmap = remember { mutableStateOf(listOf<Bitmap>()) }
 
-    val recipeTitleImageLauncher = pickVisualResource {
-        val inputSteam = context.contentResolver.openInputStream(it!!)
+    var backgroundImageUrl by remember { mutableStateOf("") }
 
-        titleBitmap.value = BitmapFactory.decodeStream(inputSteam)
-        inputSteam?.close()
+    val recipeTitleImageLauncher = pickVisualResource {
+        coroutineScope.launch {
+            viewModel.uploadImage(it!!) { url ->
+                backgroundImageUrl = url
+                Toast.makeText(context, url, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        titleBitmap.value = loadAndCompressImage(context, it)!!
     }
 
     val picturesImageLauncher = pickVisualResource {
-        val inputStream = context.contentResolver.openInputStream(it!!)
-
         val temp = picturesBitmap.value.toMutableList()
-        temp.add(BitmapFactory.decodeStream(inputStream))
-        inputStream?.close()
+        temp.add(loadAndCompressImage(context, it)!!)
 
         picturesBitmap.value = temp.toList()
     }
@@ -106,110 +115,126 @@ fun RecipeCreatePage(modifier: Modifier = Modifier, navController: NavController
         pageCount = { 3 }
     )
 
+    var navigateBack by remember { mutableStateOf(false) }
+
+    LaunchedEffect(navigateBack) {
+        if (navigateBack) {
+            navController.popBackStack()
+        }
+    }
+
+    BackHandler {
+        if (pagerState.currentPage > 0) {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+            }
+        } else {
+            navigateBack = true
+        }
+    }
+
     Scaffold (
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(scrollBehavior)
         }
     ) { padding ->
-        HorizontalPager (
-            state = pagerState,
-            Modifier
-                .padding(padding)
-                .fillMaxSize()
-        ) { page ->
-            when (page) {
-                0 -> {
-                    Box (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 30.dp)
-                    ) {
-                        BasicInfoPage (
-                            recipeName,
-                            recipeDescription
-                        )
-
-                        Button (
+        Column {
+            HorizontalPager (
+                state = pagerState,
+                Modifier
+                    .padding(padding)
+                    .fillMaxWidth()
+                    .fillMaxHeight(.8f)
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        Box (
                             modifier = Modifier
-                                .align(Alignment.BottomEnd),
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(page + 1)
-                                }
-                            }
+                                .fillMaxSize()
+                                .padding(horizontal = 30.dp)
                         ) {
-                            Text("Next")
+                            BasicInfoPage (
+                                recipeName,
+                                recipeDescription
+                            )
                         }
                     }
-                }
-                1 -> {
-                    Box (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 30.dp)
-                    ) {
-                        StepsAndIngredientsPage(
-                            ingredients,
-                            steps
-                        )
-
-                        Button (
+                    1 -> {
+                        Box (
                             modifier = Modifier
-                                .align(Alignment.BottomEnd),
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(page + 1)
-                                }
-                            }
+                                .fillMaxSize()
+                                .padding(horizontal = 30.dp)
                         ) {
-                            Text("Next")
+                            StepsAndIngredientsPage(
+                                ingredients,
+                                steps
+                            )
                         }
                     }
-                }
-                2 -> {
-                    Box (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .wrapContentSize()
-                            .padding(horizontal = 30.dp)
-                    ) {
-                        ImagesPage (
-                            recipeTitleImageLauncher = recipeTitleImageLauncher,
-                            titleBitmap = titleBitmap,
-                            picturesBitmap = picturesBitmap,
-                            picturesImageLauncher = picturesImageLauncher
-                        )
-
-                        Button (
+                    2 -> {
+                        Box (
                             modifier = Modifier
-                                .align(Alignment.BottomEnd),
-                            onClick = {
-                                saveRecipe (
-                                    recipeName.value,
-                                    recipeDescription.value,
-                                    ingredients.value,
-                                    steps.value,
-                                    userId,
-                                    recipeRepository,
-                                    navController,
-                                    titleBitmap.value,
-                                    picturesBitmap.value,
-                                    context
-                                )
-                            }
+                                .fillMaxSize()
+                                .wrapContentSize()
+                                .padding(horizontal = 30.dp)
                         ) {
-                            Text(text = "Create")
+                            ImagesPage (
+                                recipeTitleImageLauncher = recipeTitleImageLauncher,
+                                titleBitmap = titleBitmap,
+                                picturesBitmap = picturesBitmap,
+                                picturesImageLauncher = picturesImageLauncher
+                            )
+
                         }
                     }
+                    else -> Box (
+                        Modifier.fillMaxSize()
+                    )
                 }
-                else -> Box (
-                    Modifier.fillMaxSize()
-                )
+            }
+
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(15.dp)
+            ) {
+                if (pagerState.currentPage == 2) {
+                    Button (
+                        onClick = {
+                            saveRecipe(
+                                recipeName.value,
+                                recipeDescription.value,
+                                ingredients.value,
+                                steps.value,
+                                backgroundImageUrl,
+                                listOf(),
+                                viewModel,
+                            )
+
+                            navigateBack = true
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.create_text))
+                    }
+                } else {
+                    Button (
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
+                        }
+                    ) {
+                        Text(stringResource(R.string.next_step_text))
+                    }
+                }
             }
         }
     }
 }
+
+
 
 @Composable
 fun BasicInfoPage (
@@ -227,7 +252,7 @@ fun BasicInfoPage (
                 recipeName.value = it
             },
             label = {
-                Text("Recipe name")
+                Text(stringResource(R.string.recipe_name_text))
             },
             maxLines = 1
         )
@@ -240,7 +265,7 @@ fun BasicInfoPage (
                 recipeDescription.value = it
             },
             label = {
-                Text("Recipe description")
+                Text(stringResource(R.string.recipe_desciption_text))
             }
         )
     }
@@ -262,10 +287,10 @@ private fun StepsAndIngredientsPage(
                 ingredients.value = it
             },
             placeholder = {
-                Text("Every ingredient on new line")
+                Text(stringResource(R.string.ingredients_steps_text_field_placeholder_text))
             },
             label = {
-                Text("Ingredients")
+                Text(stringResource(R.string.ingredients_text))
             }
         )
 
@@ -277,10 +302,10 @@ private fun StepsAndIngredientsPage(
                 steps.value = it
             },
             placeholder = {
-                Text("Every step on new line")
+                Text(stringResource(R.string.cooking_steps_text_field_placeholder_text))
             },
             label = {
-                Text("Steps")
+                Text(stringResource(R.string.cooking_steps_text))
             }
         )
     }
@@ -296,7 +321,7 @@ private fun ImagesPage(
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .scrollable (
+            .scrollable(
                 rememberScrollState(),
                 Orientation.Vertical
             ),
@@ -336,7 +361,7 @@ private fun OtherImages (
     picturesImageLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>
 ) {
     Column {
-        Header("Other images")
+        Header(stringResource(R.string.other_images_text))
 
         Column (
             modifier = Modifier
@@ -354,14 +379,14 @@ private fun OtherImages (
         },
         content = {
             Text (
-                text = "Add image"
+                text = stringResource(R.string.add_image_text)
             )
         }
     )
 }
 
 @Composable
-private fun pickVisualResource (
+fun pickVisualResource (
     onUriReceive: (uri: Uri?) -> kotlin.Unit
 ): ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?> {
     return rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -377,7 +402,7 @@ private fun BackgroundImageDrawer (
     bitmap: MutableState<Bitmap>
 ) {
     Column {
-        Header("Recipe title image")
+        Header(stringResource(R.string.recipe_bg_image_header_text))
         OutlinedCard(
             modifier = Modifier
                 .fillMaxWidth()
@@ -426,39 +451,23 @@ private fun saveRecipe (
     recipeDescription: String,
     ingredients: String,
     steps: String,
-    userId: String,
-    recipeRepository: RecipeRepository,
-    navController: NavController,
-    headerImage: Bitmap,
-    listImageResources: List<Bitmap>,
-    context: Context
+    backgroundImageUrl: String,
+    recipeImagesUrl: List<String>,
+    viewModel: RecipeCreatePageViewModel
 ) {
-    val saveHelper = RecipeSaveHelper(context)
+    println(backgroundImageUrl)
 
     val recipe = Recipe(
         id = Random.nextInt(1000000, 9999999).toString(),
-        userId = userId,
         name = recipeName,
         description = recipeDescription,
-        recipeImageResources = RecipeImageResources (
-            recipeBackgroundImageUri = saveHelper.saveBitmapToFile(headerImage),
-            recipePicturesUri = listImageResources.map {
-                saveHelper.saveBitmapToFile(it)
-            }.toTypedArray()
-        ),
-        ingredients = ingredients
-            .split('\n')
-            .map { x -> Ingredient(x, 1.0, Unit.CUPS) }
-            .toList(),
-        steps = steps.split('\n').map { x -> x.trim() },
+        recipeImageBackgroundUrl = backgroundImageUrl,
+        recipeImagesUrl = recipeImagesUrl,
         recipeType = RecipeType.QUICK,
         cookingSpeed = 100,
         difficulty = Difficulty.MEDIUM,
         otherInfo = OtherInfo(0, 0)
     )
 
-    recipeRepository.addRecipe(recipe)
-    recipeRepository.commit()
-
-    navController.popBackStack()
+    viewModel.addRecipe(recipe)
 }

@@ -1,8 +1,10 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 
-
+    id("com.google.gms.google-services")
     kotlin("plugin.serialization") version "2.1.0"
     alias(libs.plugins.compose.compiler)
 }
@@ -13,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.culinario"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -47,6 +49,9 @@ android {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
+        resources.merges.add("META-INF/*")
+        resources.pickFirsts.add("META-INF/*")
+
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -54,7 +59,11 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,11 +72,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.coil.compose)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.googleid)
+    implementation(libs.firebase.firestore.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -77,7 +89,20 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation(libs.kmpauth.google)
+    implementation(libs.kmpauth.firebase.v231)
+    implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
+
+
+    implementation(libs.kotlin.s3)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    implementation(libs.compose.shimmer)
+
     implementation(platform(libs.androidx.compose.bom.v20241001))
+
+    implementation(libs.okhttp)
 
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)

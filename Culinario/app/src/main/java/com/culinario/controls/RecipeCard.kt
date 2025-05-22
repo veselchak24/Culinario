@@ -1,9 +1,10 @@
 package com.culinario.controls
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,22 +19,49 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.culinario.R
-import com.culinario.mvp.views.RecipePageViewModel
+import coil.compose.AsyncImage
+import com.culinario.viewmodel.RecipeCardViewModel
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
+import com.valentinilk.shimmer.shimmer
 
 @Composable
-fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, navController: NavController) {
-    val recipe = recipePageViewModel.getRecipe()
-    val userOwner = recipePageViewModel.getUserOwner()
-    val bitmap = recipePageViewModel.getBackgroundBitmap()
+fun RecipeCard(
+    modifier: Modifier,
+    viewModel: RecipeCardViewModel,
+    onClick: () -> Unit
+) {
+    var recipe by remember { mutableStateOf(viewModel.recipe.value) }
+    var owner by remember { mutableStateOf(viewModel.user.value) }
+
+    LaunchedEffect(Unit) {
+        viewModel.recipe.collect { newState ->
+            recipe = newState
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.user.collect { newState ->
+            owner = newState
+        }
+    }
+
+    var clicked by remember { mutableStateOf(false) }
+    LaunchedEffect(clicked) {
+        if (clicked) {
+            onClick()
+        }
+    }
 
     Card (
         colors = CardDefaults.cardColors(
@@ -48,13 +76,13 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
-                    navController.navigate("RecipePage/${recipe.id}")
+                    clicked = true
                 }
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .weight(0.7f),
-                bitmap = bitmap.asImageBitmap(),
+                model = recipe.recipeImageBackgroundUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )
@@ -63,7 +91,7 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
                 modifier = Modifier
                     .weight(0.3f)
                     .fillMaxSize()
-                    .padding(10.dp)
+                    .padding(15.dp)
             ) {
                 Text (
                     text = recipe.name,
@@ -77,17 +105,18 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    Image (
-                        painter = painterResource(R.drawable.user_avatar_placeholder),
+                    AsyncImage(
+                        model = owner.imageUrl,
                         contentDescription = "author",
                         Modifier
                             .size(20.dp)
                             .align(Alignment.CenterVertically)
-                            .clip(CircleShape)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
                     )
                     Text(
                         modifier = Modifier.padding(start = 3.dp),
-                        text = userOwner.Name,
+                        text = owner.name,
                         color = MaterialTheme.colorScheme.secondary,
                         style = MaterialTheme.typography.titleSmall,
                         maxLines = 1
@@ -96,4 +125,18 @@ fun RecipeCard(recipePageViewModel: RecipePageViewModel, modifier: Modifier, nav
             }
         }
     }
+}
+
+@Composable
+fun ShimmerRecipeCard(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .shimmer()
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .height(250.dp)
+            .width(200.dp)
+    )
 }

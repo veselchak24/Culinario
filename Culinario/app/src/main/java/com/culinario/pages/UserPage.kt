@@ -1,7 +1,6 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
@@ -22,94 +21,226 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.culinario.R
+import com.culinario.Registration
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
-import com.culinario.mvp.views.RecipePageViewModel
-import com.culinario.mvp.views.UserPageViewModel
+import com.culinario.controls.ShimmerRecipeCard
+import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.User
+import com.culinario.viewmodel.RecipeCardViewModel
+import com.culinario.viewmodel.UserPageViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.valentinilk.shimmer.shimmer
 
-@Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun UserPage(modifier: Modifier = Modifier, userPageViewModel: UserPageViewModel, navController: NavController) {
-    val scrollState = rememberScrollState()
-    val user = userPageViewModel.getUser()
-    val userRecipes = userPageViewModel.getUserRecipes()
+@Composable
+fun UserPage(
+    modifier: Modifier = Modifier,
+    viewModel: UserPageViewModel,
+    navController: NavController
+) {
+    var user by remember { mutableStateOf(viewModel.user.value) }
+    val userRecipes = remember { mutableStateOf(listOf<Recipe>()) }
 
-    val likesCount = userPageViewModel.likesCount().toString()
-    val recipeCount = userPageViewModel.recipeCount().toString()
-    val watchCount = userPageViewModel.watchesCount().toString()
+    LaunchedEffect(Unit) {
+        viewModel.user.collect { newState ->
+            user = newState
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        userRecipes.value = viewModel.getUserRecipesAsList()
+    }
+
+    var accountExitDialog by remember { mutableStateOf(false) }
 
     Scaffold { _ ->
         Box (
             modifier = modifier
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
         ) {
-            BackgroundImageDrawer()
+            BackgroundImageDrawer(user)
 
             Column (
                 Modifier
                     .padding(horizontal = 25.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                UserHeader(user.Name, user.Email!!)
+                UserHeader(user)
 
-                UserAbout(user.About!!)
+                UserAbout(user)
 
-                UserStats(likesCount, recipeCount, watchCount)
+                UserStats(viewModel)
 
-                UserActivity (
-                    userRecipes.map {
-                        @Composable {
-                            RecipeCard(RecipePageViewModel(it.id, userPageViewModel.recipeRepository, userPageViewModel.userRepository, LocalContext.current), Modifier.fillMaxWidth(), navController)
+                if (userRecipes.value.isNotEmpty()) {
+                    UserActivity {
+                        Column (
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            for(recipe in userRecipes.value) {
+                                RecipeCard(
+                                    Modifier.fillMaxWidth(),
+                                    RecipeCardViewModel(recipe.id)
+                                ) {
+                                    navController.navigate("RecipePage/${recipe.id}")
+                                }
+                            }
                         }
                     }
-                )
-
-                Button (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 20.dp),
-                    content = {
-                        Text(
-                            text = "Create new recipe"
+                } else {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .shimmer()
+                                .clip(RoundedCornerShape(8.dp))
+                                .width(120.dp)
+                                .height(20.dp)
+                                .background(MaterialTheme.colorScheme.surfaceContainer)
+                                .padding(horizontal = 10.dp)
                         )
-                    },
-                    onClick = {
-                        navController.navigate(route = "RecipeCreatePage/${user.Id}")
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            for(i in 1..3) {
+                                ShimmerRecipeCard(
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        }
                     }
-                )
+                }
+
+
+                if (accountExitDialog) {
+                    AlertDialog(
+                        icon = {
+                            Icon(
+                                painter = painterResource(R.drawable.alert),
+                                contentDescription = "Example Icon"
+                            )
+                        },
+                        title = {
+                            Text(
+                                text = "Выход",
+                                textAlign = TextAlign.Center
+                            )
+                        },
+                        text = {
+                            Text(
+                                text = "Вы точно хотите выйти с аккаунта?",
+                                textAlign = TextAlign.Center
+                            )
+                        },
+                        onDismissRequest = {
+                            accountExitDialog = false
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    accountExitDialog = false
+
+                                    navController.popBackStack()
+                                    navController.navigate(Registration)
+
+                                    Firebase.auth.signOut()
+                                }
+                            ) {
+                                Text(
+                                    text = "Да"
+                                )
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(
+                                onClick = {
+                                    accountExitDialog = false
+                                }
+                            ) {
+                                Text(
+                                    text = "Нет"
+                                )
+                            }
+                        }
+                    )
+                }
+
+                if (viewModel.isCurrentUser) {
+                    Column {
+                        Button (
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            content = {
+                                Text(
+                                    text = "Создать рецепт"
+                                )
+                            },
+                            onClick = {
+                                navController.navigate(route = "RecipeCreatePage/${viewModel.userId}")
+                            }
+                        )
+
+                        TextButton (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 20.dp),
+                            content = {
+                                Text(
+                                    text = "Выйти из аккаунта",
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            },
+                            onClick = {
+                                accountExitDialog = true
+                            }
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun BackgroundImageDrawer() {
-    Image(
+private fun BackgroundImageDrawer(user: User) {
+    AsyncImage(
+        model = user.backgroundImageUrl ?: stringResource(R.string.default_background_image_url),
         contentDescription = "userBackground",
-        painter = painterResource(R.drawable.user_background_placeholder),
         modifier = Modifier
-            .height(300.dp)
+            .height(250.dp)
             .fillMaxSize()
             .alpha(0.4f)
             .clip(
@@ -125,75 +256,112 @@ private fun BackgroundImageDrawer() {
 }
 
 @Composable
-fun UserHeader(userName: String, userMail: String) {
+fun UserHeader(user: User) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(370.dp)
+            .height(320.dp)
     ) {
         Card(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 15.dp
             ),
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .wrapContentHeight(),
+                .align(Alignment.BottomCenter),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
         ) {
-            Column(
+            Box (
                 modifier = Modifier
-                    .padding(top = 75.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .height(140.dp)
             ) {
-                Text(
-                    text = userName,
-                    fontWeight = FontWeight(900),
-                    fontSize = 28.sp
-                )
-
-                Text(
-                    text = userMail,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight(200)
-                )
-
-                Button(
-                    onClick = { },
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 5.dp),
-                    shape = RoundedCornerShape(5.dp)
+                        .align(Alignment.BottomCenter)
+                        .padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
-                    Text(stringResource(R.string.subscribe_button_text))
+                    if (user.name.isEmpty()) {
+                        Box (
+                            modifier = Modifier
+                                .shimmer()
+                                .height(28.dp)
+                                .width(170.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surface)
+                        )
+                    } else {
+                        Text(
+                            text = user.name,
+                            fontWeight = FontWeight(900),
+                            fontSize = 28.sp
+                        )
+                    }
+
+                    if (user.email.isEmpty()) {
+                        Box (
+                            modifier = Modifier
+                                .shimmer()
+                                .height(20.dp)
+                                .width(170.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surface)
+                        )
+                    } else {
+                        Text(
+                            text = user.email,
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight(200)
+                        )
+                    }
                 }
             }
         }
 
         Box(
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 80.dp)
                 .width(130.dp)
                 .height(130.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
-            Image(
-                contentDescription = "userAvatar",
-                painter = painterResource(R.drawable.user_avatar_placeholder),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp)
-                    .align(Alignment.Center)
-                    .clip(CircleShape)
-            )
+            if (user.imageUrl.isNullOrEmpty()) {
+                AsyncImage(
+                    model = stringResource(R.string.default_avatar_image_url),
+                    contentDescription = "userAvatar",
+                    modifier = Modifier
+                        .shimmer()
+                        .fillMaxSize()
+                        .padding(5.dp)
+                        .align(Alignment.Center)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                AsyncImage(
+                    model = user.imageUrl,
+                    contentDescription = "userAvatar",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp)
+                        .align(Alignment.Center)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
     }
 }
 
 @Composable
-fun UserAbout(about: String) {
+fun UserAbout(user: User) {
+    if (user.about.isEmpty()) return
+
     Column {
         Header(stringResource(R.string.user_page_header_about))
 
@@ -213,7 +381,7 @@ fun UserAbout(about: String) {
                     .padding(15.dp)
             ) {
                 Text(
-                    text = about,
+                    text = user.about,
                     maxLines = 7
                 )
             }
@@ -222,41 +390,52 @@ fun UserAbout(about: String) {
 }
 
 @Composable
-fun UserStats(likesCount: String, recipeCount: String, watchCount: String) {
+fun UserStats(viewModel: UserPageViewModel) {
+    var recipeCount by remember { mutableStateOf<Int?>(null) }
+
+    LaunchedEffect(Unit) {
+        recipeCount = viewModel.getRecipesCount()
+        println("recipe count handled")
+    }
+
     Column {
         Header(stringResource(R.string.user_page_header_stats))
 
-        Row (
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Stat(
-                header = stringResource(R.string.user_page_header_likes),
-                value = likesCount
-            )
-            Stat(
-                header = stringResource(R.string.user_page_header_recipes_count),
-                value = recipeCount
-            )
-            Stat(
-                header = stringResource(R.string.user_page_header_watches_count),
-                value = watchCount
-            )
+        if (recipeCount != null) {
+            Row (
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Stat(
+                    header = stringResource(R.string.user_page_header_likes),
+                    value = "N/A"
+                )
+                Stat(
+                    header = stringResource(R.string.user_page_header_recipes_count),
+                    value = recipeCount.toString()
+                )
+                Stat(
+                    header = stringResource(R.string.user_page_header_watches_count),
+                    value = "N/A"
+                )
+            }
+        } else {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                ShimmerStat()
+                ShimmerStat()
+                ShimmerStat()
+            }
         }
     }
 }
 
 @Composable
-fun UserActivity(composable: List<@Composable () -> Unit>) {
+fun UserActivity(composable: @Composable () -> Unit) {
     Column {
         Header(stringResource(R.string.user_page_header_activity))
 
-        Column (
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            composable.forEach { composable ->
-                composable()
-            }
-        }
+        composable()
     }
 }
 
@@ -304,6 +483,14 @@ fun RowScope.Stat(header: String, value: String) {
 }
 
 @Composable
-fun UserPage() {
-    Text("Placeholder")
+fun RowScope.ShimmerStat() {
+    Box(
+        modifier = Modifier
+            .shimmer()
+            .weight(1f)
+            .padding(horizontal = 5.dp)
+            .aspectRatio(1f)
+            .clip(RoundedCornerShape(15.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+    )
 }

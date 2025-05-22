@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "120251541924",
+    "project_id": "culinario-1b68f",
+    "storage_bucket": "culinario-1b68f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120251541924:android:91048ee62197d79c59f931",
+        "android_client_info": {
+          "package_name": "com.culinario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120251541924-9mgmkh1tlj8vebd44poi59jfl5gccbr1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.culinario",
+            "certificate_hash": "3a362b576e9bd2efcabc9c39a98f642e4399d59b"
+          }
+        },
+        {
+          "client_id": "120251541924-nj3eo5tmsal4n8tjcdf2pimnnr7cmga8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCki9Dan5WkC3fR9vkTey139nwFQaGaIU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120251541924-nj3eo5tmsal4n8tjcdf2pimnnr7cmga8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

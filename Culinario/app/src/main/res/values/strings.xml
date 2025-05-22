@@ -4,20 +4,37 @@
     <string name="placeholder_nickname">Seregogy</string>
     <string name="enter_recipe_name_label">Имя рецепта</string>
     <string name="about_ryan_gosling">Ryan Thomas Gosling (born November 12, 1980) is a Canadian actor, director, musician , singer and writer. He is known for his roles in The Notebook, in Half Nelson, The Big Short, La La Land, Blade Runner 2049 and Barbie. For his role in La La Land, he won a Golden Globe Award.</string>
-    <string name="subscribe_button_text">Subscribe</string>
+    <string name="subscribe_button_text">Подписаться</string>
 
-    <string name="recipe_create_header">Create recipe</string>
+    <string name="recipe_create_header">Создание рецептов</string>
 
-    <string name="user_page_header_activity">Activity</string>
-    <string name="user_page_header_stats">Stats</string>
-    <string name="user_page_header_about">About</string>
-    <string name="user_page_header_likes">Likes</string>
-    <string name="user_page_header_recipes_count">Recipes</string>
-    <string name="user_page_header_watches_count">Watches</string>
+    <string name="user_page_header_activity">Активность</string>
+    <string name="user_page_header_stats">Статистика</string>
+    <string name="user_page_header_about">О пользователе</string>
+    <string name="user_page_header_likes">Лайки</string>
+    <string name="user_page_header_recipes_count">Рецепты</string>
+    <string name="user_page_header_watches_count">Просмотры</string>
 
-    <string name="recipe_page_header_description">Description</string>
-    <string name="recipe_page_header_summary">Summary</string>
-    <string name="recipe_page_header_ingredients">Ingredients</string>
-    <string name="recipe_page_header_steps">Steps</string>
-    <string name="recipe_page_header_pictures">Pictures</string>
+    <string name="recipe_page_header_description">Описание</string>
+    <string name="recipe_page_header_summary">Основные</string>
+    <string name="recipe_page_header_ingredients">Ингредиенты</string>
+    <string name="recipe_page_header_steps">Шаги</string>
+    <string name="recipe_page_header_pictures">Картинки</string>
+
+    <string name="default_avatar_icon_url">https://static-00.iconduck.com/assets.00/avatar-default-symbolic-icon-479x512-n8sg74wg.png</string>
+    <string name="recipe_bg_image_header_text">Задний фон страницы рецептов</string>
+    <string name="other_images_text">Другие изображения</string>
+    <string name="add_image_text">Добавить изображение</string>
+    <string name="cooking_steps_text">Шаги приготовления</string>
+    <string name="cooking_steps_text_field_placeholder_text">Каждый шаг на новой строке</string>
+    <string name="ingredients_text">Ингредиенты</string>
+    <string name="ingredients_steps_text_field_placeholder_text">Каждый ингредиент на новой строке</string>
+    <string name="recipe_name_text">Название рецепта</string>
+    <string name="recipe_desciption_text">Описание рецепта</string>
+    <string name="create_text">Создать</string>
+    <string name="next_step_text">Следующий шаг</string>
+
+    <string name="oauth_id">120251541924-nj3eo5tmsal4n8tjcdf2pimnnr7cmga8.apps.googleusercontent.com</string>
+    <string name="default_avatar_image_url">https://culinario-resources.hb.ru-msk.vkcloud-storage.ru/appResources/unknownUser.jpg</string>
+    <string name="default_background_image_url">https://culinario-resources.hb.ru-msk.vkcloud-storage.ru/appResources/user_background_placeholder.jpg</string>
 </resources>
