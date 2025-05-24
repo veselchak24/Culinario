@@ -1,8 +1,12 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +39,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +53,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
@@ -62,6 +68,7 @@ import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.valentinilk.shimmer.shimmer
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -97,7 +104,7 @@ fun UserPage(
                     .padding(horizontal = 25.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                UserHeader(user)
+                UserHeader(viewModel, user)
 
                 UserAbout(user)
 
@@ -256,7 +263,61 @@ private fun BackgroundImagesDrawer(user: User) {
 }
 
 @Composable
-fun UserHeader(user: User) {
+fun UserHeader(
+    viewModel: UserPageViewModel,
+    user: User
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    val imagePicker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uri?.let {
+            coroutineScope.launch {
+                viewModel.loadImage(it)
+            }
+        }
+    }
+
+    var isAvatarDialog by remember { mutableStateOf(false) }
+
+    if (isAvatarDialog) {
+        Dialog(
+            onDismissRequest = {
+                isAvatarDialog = false
+            }
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            ) {
+                AsyncImage(
+                    model = user.imageUrl,
+                    contentDescription = "avatar dialog image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
+                    contentScale = ContentScale.Crop
+                )
+
+                if (viewModel.isCurrentUser) {
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(15.dp),
+                        onClick = {
+                            imagePicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                        }
+                    ) {
+                        Text(
+                            text = "Выбрать новый аватар"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -347,6 +408,9 @@ fun UserHeader(user: User) {
                     model = user.imageUrl,
                     contentDescription = "userAvatar",
                     modifier = Modifier
+                        .clickable {
+                            isAvatarDialog = true
+                        }
                         .fillMaxSize()
                         .padding(5.dp)
                         .align(Alignment.Center)

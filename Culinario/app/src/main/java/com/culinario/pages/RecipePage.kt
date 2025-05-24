@@ -1,6 +1,5 @@
 package com.culinario.pages
 
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,8 +44,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -86,6 +83,7 @@ fun RecipePage(
     LaunchedEffect(Unit) {
         viewModel.watchedRecipe()
         viewModel.recipeState.collect { newState ->
+            println("Recipe update")
             recipe = newState
         }
     }
@@ -228,21 +226,32 @@ private fun SheetHeader(
                 navController.navigate("UserPage/${user.id}")
             }
 
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        viewModel.toggleLike {
-                            isLiked = it
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            viewModel.toggleLike {
+                                isLiked = it
+                            }
                         }
                     }
+                ) {
+                    Row {
+                        Icon(
+                            painter = if (isLiked) painterResource(R.drawable.thumb_up_filled_icon) else painterResource(R.drawable.thumb_up_outlined_icon),
+                            contentDescription = "like button",
+                            modifier = Modifier
+                                .size(22.dp),
+                            tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.thumb_up_outlined_icon),
-                    contentDescription = "like button",
-                    modifier = Modifier
-                        .size(22.dp),
-                    tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+
+                Text(
+                    text = recipe.otherInfo.likes.toString(),
+                    fontWeight = FontWeight.W600
                 )
             }
         }
@@ -274,21 +283,10 @@ private fun QuickStats(
                 icon = R.drawable.weight_icon,
                 text = "${recipe.totalWeight} г."
             )
-        }
 
-        Row(
-            modifier = modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
             IconAndText(
                 icon = R.drawable.watches_icon,
                 text = recipe.otherInfo.watches.toString()
-            )
-
-            IconAndText(
-                icon = R.drawable.thumb_up_outlined_icon,
-                text = recipe.otherInfo.likes.toString()
             )
         }
     }

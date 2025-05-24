@@ -106,7 +106,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 val userId = it.arguments?.getString("userId")!!
 
-                UserPage(Modifier, UserPageViewModel(userId), navController)
+                UserPage(Modifier, UserPageViewModel(userId, LocalContext.current), navController)
             }
 
             composable<Home> {

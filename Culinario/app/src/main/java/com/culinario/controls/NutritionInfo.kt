@@ -5,16 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.culinario.mvp.models.NutritionInfo
 import kotlin.math.roundToInt
 
 @Composable
-fun NutritionInfo(
-    nutritionInfo: NutritionInfo,
-    width: Dp = 70.dp
-) {
+fun NutritionInfo(nutritionInfo: NutritionInfo) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -22,26 +17,22 @@ fun NutritionInfo(
     ) {
         NutritionInfoItem(
             name = "Калории",
-            amount = nutritionInfo.calories.roundToInt(),
-            width = width
+            amount = nutritionInfo.calories.roundToInt()
         )
 
         NutritionInfoItem(
             name = "Белки",
-            amount = nutritionInfo.proteins.roundToInt(),
-            width = width
+            amount = nutritionInfo.proteins.roundToInt()
         )
 
         NutritionInfoItem(
             name = "Жиры",
-            amount = nutritionInfo.fats.roundToInt(),
-            width = width
+            amount = nutritionInfo.fats.roundToInt()
         )
 
         NutritionInfoItem(
             name = "Углеводы",
-            amount = nutritionInfo.carbohydrates.roundToInt(),
-            width = width
+            amount = nutritionInfo.carbohydrates.roundToInt()
         )
     }
 }

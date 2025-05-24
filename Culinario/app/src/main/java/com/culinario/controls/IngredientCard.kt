@@ -79,7 +79,7 @@ fun IngredientCard(
         ) {
             Box(
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(80.dp)
             ) {
                 AsyncImage(
                     model = ingredient!!.imageUrl,
@@ -158,15 +158,12 @@ private fun IngredientDescription(
                         color = if (ingredient.isOptional) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.primary
                     )
 
-//                    Spacer(
-//                        modifier = Modifier
-//                            .height(20.dp)
-//                    )
-//
-//                    NutritionInfo(
-//                        nutritionInfo = ingredient.nutritionInfo,
-//                        width = 60.dp
-//                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(20.dp)
+                    )
+
+                    NutritionInfo(ingredient.nutritionInfo)
                 }
             }
         }

@@ -33,7 +33,10 @@ import com.culinario.mvp.models.Recipe
 import com.culinario.viewmodel.RecipeCardViewModel
 
 @Composable
-fun FavoriteRecipesPage(modifier: Modifier, navController: NavController) {
+fun FavoriteRecipesPage(
+    modifier: Modifier,
+    navController: NavController
+) {
     var searchQuery by remember { mutableStateOf("") }
 
     Scaffold (
@@ -52,6 +55,7 @@ fun FavoriteRecipesPage(modifier: Modifier, navController: NavController) {
     ) { innerPadding ->
         EmptyPage()
 
+        //TODO: сделать viewModel для FavoriteRecipePage
 //        Column(
 //            modifier = Modifier
 //                .padding(innerPadding)

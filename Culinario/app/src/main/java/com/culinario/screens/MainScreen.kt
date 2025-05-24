@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.culinario.pages.CameraPage
 import com.culinario.pages.FavoriteRecipesPage
@@ -100,7 +101,7 @@ fun ContentScreen(
     when (selectedPageIndex) {
         0 -> HomePage(HomePageViewModel(), navController)
         1 -> FavoriteRecipesPage(modifier, navController)
-        2 -> UserPage(modifier, UserPageViewModel(Firebase.auth.currentUser?.uid ?: ""), navController)
+        2 -> UserPage(modifier, UserPageViewModel(Firebase.auth.currentUser?.uid ?: "", LocalContext.current), navController)
         3 -> CameraPage(
             modifier = modifier,
             onImagePicked = { bitmap: Bitmap ->
