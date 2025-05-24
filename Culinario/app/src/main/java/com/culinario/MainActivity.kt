@@ -88,7 +88,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
 
-                RecipePage(Modifier, RecipePageViewModel(recipeId), navController)
+                RecipePage(RecipePageViewModel(recipeId), navController)
             }
 
             composable(

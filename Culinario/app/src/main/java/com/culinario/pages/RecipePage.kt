@@ -1,21 +1,24 @@
 package com.culinario.pages
 
+import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,31 +27,30 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
-import androidx.compose.material3.carousel.rememberCarouselState
+import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,18 +58,21 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.controls.Header
+import com.culinario.controls.IngredientCard
+import com.culinario.controls.NutritionInfo
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
+import com.culinario.viewmodel.IngredientCardViewModel
 import com.culinario.viewmodel.RecipePageViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipePage(
-    modifier: Modifier = Modifier,
     viewModel: RecipePageViewModel,
     navController: NavController
 ) {
-    val sheetPeekHeight = LocalConfiguration.current.screenHeightDp.dp
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     var recipe by remember { mutableStateOf(viewModel.recipeState.value) }
     var user by remember { mutableStateOf(viewModel.userState.value) }
@@ -79,6 +84,7 @@ fun RecipePage(
     }
 
     LaunchedEffect(Unit) {
+        viewModel.watchedRecipe()
         viewModel.recipeState.collect { newState ->
             recipe = newState
         }
@@ -90,7 +96,7 @@ fun RecipePage(
         sheetDragHandle = {
             SheetDragHandler()
         },
-        sheetPeekHeight = sheetPeekHeight / 2 + 150.dp,
+        sheetPeekHeight = screenHeight / 2,
         sheetContent = {
             Column(
                 modifier = Modifier
@@ -99,52 +105,62 @@ fun RecipePage(
                     .clipToBounds(),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                SheetHeader(recipe, user, navController)
+                SheetHeader(viewModel, recipe, user, navController)
 
-                Column (
+                Column(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 25.dp)
                         .padding(top = 10.dp, bottom = 50.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    Description(recipe)
-                    QuickStats(recipe)
+                    NutritionInfo(recipe.nutritionInfo)
 
-                    if (recipe.recipeImagesUrl.isNotEmpty()) {
-                        ImageCarousel(recipe.recipeImagesUrl)
-                    }
+                    Description(recipe)
 
                     Ingredients(recipe)
+
                     Steps(recipe)
+
+                    Commentaries(viewModel)
                 }
             }
         }
-    ) { innerPadding ->
-        BackgroundImageDrawer(recipe.recipeImageBackgroundUrl, innerPadding, modifier, sheetPeekHeight)
+    ) { _ ->
+        BackgroundImagesDrawer(
+            recipe = recipe,
+            screenHeight = screenHeight
+        )
     }
 }
 
+
+
 @Composable
-private fun BackgroundImageDrawer(
-    imageUrl: String,
-    innerPadding: PaddingValues,
-    modifier: Modifier,
-    sheetPeekHeight: Dp
+private fun BackgroundImagesDrawer(
+    recipe: Recipe,
+    screenHeight: Dp
 ) {
-    Column (
-        modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
-        verticalArrangement = Arrangement.Center
-    ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = "description",
-            modifier = modifier
+    val pagerState = rememberPagerState(0) {
+        recipe.recipeImagesUrl.size
+    }
+
+    HorizontalPager(
+        state = pagerState,
+    ) { index ->
+        Box (
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(sheetPeekHeight / 2)
-                .alpha(0.7f),
-            contentScale = ContentScale.Crop
-        )
+                .height(screenHeight / 2 + 50.dp)
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .fillMaxSize(),
+                model = recipe.recipeImagesUrl[index],
+                contentDescription = "recipe image",
+                contentScale = ContentScale.Crop
+            )
+        }
     }
 }
 
@@ -168,13 +184,27 @@ private fun SheetDragHandler() {
 }
 
 @Composable
-private fun SheetHeader(recipe: Recipe, user: User, navController: NavController) {
+private fun SheetHeader(
+    viewModel: RecipePageViewModel,
+    recipe: Recipe,
+    user: User,
+    navController: NavController
+) {
+    val coroutineScope = rememberCoroutineScope()
+    var isLiked by remember { mutableStateOf(viewModel.isRecipeLiked.value) }
+
+    LaunchedEffect(Unit) {
+        viewModel.isRecipeLiked.collect {
+            isLiked = it
+        }
+    }
+
     Column(
         Modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
             .padding(horizontal = 30.dp, vertical = 10.dp),
-        verticalArrangement = Arrangement.spacedBy(5.dp)
+        verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Text(
             text = recipe.name,
@@ -183,21 +213,115 @@ private fun SheetHeader(recipe: Recipe, user: User, navController: NavController
             fontFamily = FontFamily.Default
         )
 
+        QuickStats(
+            modifier = Modifier
+                .padding(horizontal = 5.dp),
+            recipe = recipe
+        )
+
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            verticalAlignment = Alignment.CenterVertically
         ) {
             BasicUserData(user) {
                 navController.navigate("UserPage/${user.id}")
+            }
+
+            IconButton(
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.toggleLike {
+                            isLiked = it
+                        }
+                    }
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.thumb_up_outlined_icon),
+                    contentDescription = "like button",
+                    modifier = Modifier
+                        .size(22.dp),
+                    tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                )
             }
         }
     }
 }
 
 @Composable
+private fun QuickStats(
+    modifier: Modifier = Modifier,
+    recipe: Recipe = Recipe()
+) {
+    Column {
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            IconAndText(
+                icon = R.drawable.clock_icon,
+                text = "${recipe.cookingSpeed} мин."
+            )
+
+            IconAndText(
+                icon = R.drawable.fire_icon,
+                text = recipe.difficulty.toString()
+            )
+
+            IconAndText(
+                icon = R.drawable.weight_icon,
+                text = "${recipe.totalWeight} г."
+            )
+        }
+
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            IconAndText(
+                icon = R.drawable.watches_icon,
+                text = recipe.otherInfo.watches.toString()
+            )
+
+            IconAndText(
+                icon = R.drawable.thumb_up_outlined_icon,
+                text = recipe.otherInfo.likes.toString()
+            )
+        }
+    }
+}
+
+@Composable
+private fun IconAndText(
+    @DrawableRes icon: Int,
+    text: String
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = "clock icon",
+            modifier = Modifier
+                .size(14.dp),
+            tint = MaterialTheme.colorScheme.primary
+        )
+
+        Text(
+            text = text,
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
 private fun Description(recipe: Recipe) {
+    if (recipe.description.isEmpty()) return
+
     Column {
         Header(stringResource(R.string.recipe_page_header_description))
 
@@ -212,79 +336,20 @@ private fun Description(recipe: Recipe) {
 }
 
 @Composable
-private fun QuickStats(recipe: Recipe) {
-    Column {
-        Header(stringResource(R.string.recipe_page_header_summary))
-
-        Card {
-            Column (
-                Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(20.dp)
-            ) {
-                Text(text = "Время приготовления ~${recipe.cookingSpeed}мин", fontWeight = FontWeight.Light)
-                Text(text = "Сложность блюда: ${recipe.difficulty}", fontWeight = FontWeight.Light)
-                Text(text = "Тип блюда: ${recipe.recipeType}", fontWeight = FontWeight.Light)
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ImageCarousel(bitmaps: List<String>) {
-    val carouselState = rememberCarouselState { bitmaps.size }
-
-    Column {
-        Header(stringResource(R.string.recipe_page_header_pictures))
-
-        Box(
-            modifier = Modifier.height(250.dp),
-            contentAlignment = Alignment.Center
-        ) {
-
-            HorizontalMultiBrowseCarousel (
-                state = carouselState,
-                preferredItemWidth = 300.dp,
-                itemSpacing = 10.dp
-            ) { page ->
-                Box (
-                    modifier = Modifier.width(300.dp)
-                ) {
-                    Box (
-                        modifier = Modifier
-                            .maskClip(RoundedCornerShape(16.dp))
-                    ) {
-                        AsyncImage(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            model = bitmaps[page],
-                            contentDescription = "recipe image",
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
 private fun Ingredients(recipe: Recipe) {
+    if (recipe.ingredients.isEmpty()) return
+
     Column {
         Header(stringResource(R.string.recipe_page_header_ingredients))
 
-        Card {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(15.dp)
-            ) {
-                recipe.ingredients.forEach { ingredient ->
-                    Text(text = ingredient)
-                }
+        Row(
+            modifier = Modifier
+                .padding(top = 5.dp)
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            recipe.ingredients.forEach { ingredientId ->
+                IngredientCard(IngredientCardViewModel(ingredientId))
             }
         }
     }
@@ -292,6 +357,8 @@ private fun Ingredients(recipe: Recipe) {
 
 @Composable
 private fun Steps(recipe: Recipe) {
+    if (recipe.steps.isEmpty()) return
+
     Column {
         Header(stringResource(R.string.recipe_page_header_steps))
 
@@ -307,42 +374,6 @@ private fun Steps(recipe: Recipe) {
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun IconAndText(
-    message: String = "",
-    @DrawableRes iconId: Int = R.drawable.round_access_time_24,
-    textSize: Int = 18,
-    iconSize: Int = 18,
-    textStyle: TextStyle = TextStyle(),
-    onTextClick: () -> Unit = { }
-) {
-    Row (
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon (
-            painterResource(iconId),
-            "icon",
-            modifier = Modifier
-                .size(iconSize.dp + 5.dp, iconSize.dp + 5.dp)
-
-        )
-
-        Text(
-            text = message,
-            modifier = Modifier
-                .padding(start = 5.dp)
-                .clip(RoundedCornerShape(5.dp))
-                .clickable {
-                    onTextClick()
-                },
-            textAlign = TextAlign.Center,
-            fontSize = textSize.sp,
-            style = textStyle
-        )
     }
 }
 
@@ -368,6 +399,50 @@ fun BasicUserData(user: User, onClick: () -> Unit) {
         )
         Text (
             text = user.name
+        )
+    }
+}
+
+@Composable
+fun Commentaries(
+    viewModel: RecipePageViewModel
+) {
+    var myCommentary by remember { mutableStateOf("") }
+
+    Column {
+        Header("Комментарии")
+
+        TextField(
+            value = myCommentary,
+            onValueChange = {
+                myCommentary = it
+            },
+            placeholder = {
+                Text(
+                    text = "комментарий.."
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth(),
+            suffix = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                ) {
+                    IconButton(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd),
+                        onClick = {
+                            //TODO: send commentary
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.send_icon),
+                            contentDescription = "send icon"
+                        )
+                    }
+                }
+            }
         )
     }
 }

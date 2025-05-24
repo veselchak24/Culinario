@@ -28,7 +28,9 @@ class Recipe (
     val recipeImageBackgroundUrl: String = "",
     val recipeImagesUrl: List<String> = listOf(),
     val ingredients: List<String> = listOf(),
+    val commentaries: List<String> = listOf(),
     val cookingSpeed: Int = 0,
+    val totalWeight: Int = 0,
     val recipeDescription: RecipeDescription = RecipeDescription(),
     val steps: List<DetailedCookingStep> = listOf(),
     val recipeType: RecipeType = RecipeType.QUICK,
@@ -62,6 +64,25 @@ data class DetailedCookingStep(
 )
 
 /**
+ * Абстрактный класс ингредиента.
+ *
+ * @param[name] Название продукта.
+ * @param[guantify] количество продукта.
+ * @param[unit] единица измерения.
+ */
+@Serializable
+data class Ingredient (
+    val id: String = "",
+    val name: String = "",
+    val imageUrl: String = "",
+    val unit: String = "",
+    val quantity: Double? = 0.0,
+    val nutritionInfo: NutritionInfo = NutritionInfo(),
+    val isOptional: Boolean = true,
+    val substitutes: List<String> = listOf()
+)
+
+/**
  * Информация о пищевой ценности (КБЖУ)
  *
  * @param[calories] калории (ккал)
@@ -77,70 +98,14 @@ data class NutritionInfo(
     val carbohydrates: Double = 0.0
 )
 
-/**
- * Абстрактный класс ингредиента.
- *
- * @param[name] Название продукта.
- * @param[guantify] количество продукта.
- * @param[unit] единица измерения.
- */
-@Serializable
-data class Ingredient (
-    val id: String = "",
-    val name: String = "default ingredient",
-    val imageUrl: String = "",
-    val quantity: Double? = 0.0,
-    val unit: Unit? = Unit.PIECE,
-    val nutritionInfo: IngredientNutritionInfo = IngredientNutritionInfo(),
-    val isOptional: Boolean = false,
-    val substitutes: List<String> = listOf()
+data class Commentary(
+    val id: String,
+    val userId: String,
+    val date: String,
+    val text: String,
+    val likes: Int,
+    val dislikes: Int
 )
-
-/**
- * Пищевая ценность ингредиента
- * @param[calories] калории (ккал)
- * @param[proteins] белки (г)
- * @param[fats] жиры (г)
- * @param[carbohydrates] углеводы (г)
- * @param[weight] вес порции (г)
- */
-@Serializable
-data class IngredientNutritionInfo(
-    val calories: Double = 0.0,
-    val proteins: Double = 0.0,
-    val fats: Double = 0.0,
-    val carbohydrates: Double = 0.0,
-    val weight: Double = 0.0
-)
-
-/**
- * Единица измерения ингредиента
- */
-enum class Unit {
-    /** Кол-во в шт. */
-    PIECE,
-
-    /** Кол-во в граммах. */
-    GRAMS,
-
-    /** Кол-во в килограммах. */
-    KILOGRAMS,
-
-    /** Кол-во в миллилитрах. */
-    MILLILITERS,
-
-    /** Кол-во в литрах. */
-    LITERS,
-
-    /** Кол-во в чайных ложках. */
-    TEASPOONS,
-
-    /** Кол-во в столовых ложках. */
-    TABLESPOONS,
-
-    /** Кол-во в чашках. */
-    CUPS
-}
 
 /**
  * Тип рецепта
@@ -158,8 +123,6 @@ enum class Difficulty {
 
 @Serializable
 data class OtherInfo(
-    val watches: Int = 0,
-    val likes: Int = 0,
-    val saves: Int = 0,
-    val rating: Double = 0.0
+    var watches: Int = 0,
+    var likes: Int = 0
 )

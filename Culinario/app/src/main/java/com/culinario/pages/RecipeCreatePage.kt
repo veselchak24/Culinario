@@ -327,7 +327,7 @@ private fun ImagesPage(
             ),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        BackgroundImageDrawer(recipeTitleImageLauncher, titleBitmap)
+        BackgroundImagesDrawer(recipeTitleImageLauncher, titleBitmap)
 
         OtherImages(picturesBitmap, picturesImageLauncher)
     }
@@ -397,7 +397,7 @@ fun pickVisualResource (
 }
 
 @Composable
-private fun BackgroundImageDrawer (
+private fun BackgroundImagesDrawer (
     launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     bitmap: MutableState<Bitmap>
 ) {

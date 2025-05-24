@@ -83,10 +83,10 @@ fun EmptyPage() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource(R.drawable.baseline_heart_broken_24),
+                painter = painterResource(R.drawable.broken_heart_icon),
                 contentDescription = "",
                 modifier = Modifier
-                    .size(150.dp),
+                    .size(100.dp),
                 tint = MaterialTheme.colorScheme.secondary
             )
 

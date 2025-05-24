@@ -90,7 +90,7 @@ fun UserPage(
             modifier = modifier
                 .verticalScroll(rememberScrollState())
         ) {
-            BackgroundImageDrawer(user)
+            BackgroundImagesDrawer(user)
 
             Column (
                 Modifier
@@ -235,7 +235,7 @@ fun UserPage(
 }
 
 @Composable
-private fun BackgroundImageDrawer(user: User) {
+private fun BackgroundImagesDrawer(user: User) {
     AsyncImage(
         model = user.backgroundImageUrl ?: stringResource(R.string.default_background_image_url),
         contentDescription = "userBackground",
