@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,18 +30,28 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.RecipeCard
-import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.User
+import com.culinario.viewmodel.FavoritePageViewModel
 import com.culinario.viewmodel.RecipeCardViewModel
 
 @Composable
 fun FavoriteRecipesPage(
     modifier: Modifier,
+    viewModel: FavoritePageViewModel,
     navController: NavController
 ) {
+    var likedRecipes by remember { mutableStateOf(listOf<String>()) }
+
+    LaunchedEffect(Unit) {
+        viewModel.currentUser.collect {
+            likedRecipes = it.likedRecipesId
+        }
+    }
+
     var searchQuery by remember { mutableStateOf("") }
 
     Scaffold (
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         topBar = {
             TextField(
                 value = searchQuery,
@@ -53,28 +64,18 @@ fun FavoriteRecipesPage(
             )
         }
     ) { innerPadding ->
-        EmptyPage()
-
-        //TODO: сделать viewModel для FavoriteRecipePage
-//        Column(
-//            modifier = Modifier
-//                .padding(innerPadding)
-//                .fillMaxSize()
-//        ) {
-//            val filteredRecipes = recipes.filter { recipe ->
-//                recipe.name.contains(searchQuery, ignoreCase = true)
-//            }
-//
-//            if (filteredRecipes.isNotEmpty()) {
-//                GridOfFavorite(filteredRecipes, Modifier.padding(top = 8.dp), navController)
-//            } else {
-//                EmptyPage()
-//            }
-//        }
+        if (likedRecipes.isNotEmpty()) {
+            GridOfFavorite(
+                likedRecipes,
+                Modifier.padding(innerPadding),
+                navController
+            )
+        } else {
+            EmptyPage()
+        }
     }
 }
 
-@Preview
 @Composable
 fun EmptyPage() {
     Box(
@@ -104,16 +105,20 @@ fun EmptyPage() {
 }
 
 @Composable
-fun GridOfFavorite(recipes: List<Recipe>, modifier: Modifier, navController: NavController) {
+fun GridOfFavorite(
+    recipesId: List<String>,
+    modifier: Modifier,
+    navController: NavController
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
             .fillMaxWidth(),
         contentPadding = PaddingValues(10.dp)
     ) {
-        items(recipes) { recipe ->
-            RecipeCard(Modifier.padding(5.dp), RecipeCardViewModel(recipe.id)) {
-                navController.navigate("RecipePage/${recipe.id}")
+        items(recipesId) { recipeId ->
+            RecipeCard(Modifier.padding(5.dp), RecipeCardViewModel(recipeId)) {
+                navController.navigate("RecipePage/${recipeId}")
             }
         }
     }

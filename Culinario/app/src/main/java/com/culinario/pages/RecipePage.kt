@@ -2,7 +2,6 @@ package com.culinario.pages
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,8 +18,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
@@ -33,6 +33,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,19 +49,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import aws.smithy.kotlin.runtime.retries.Outcome
 import coil.compose.AsyncImage
 import com.culinario.R
+import com.culinario.controls.CommentaryCard
 import com.culinario.controls.Header
 import com.culinario.controls.IngredientCard
 import com.culinario.controls.NutritionInfo
+import com.culinario.controls.UserPageLinkButton
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
+import com.culinario.viewmodel.CommentaryViewModel
 import com.culinario.viewmodel.IngredientCardViewModel
 import com.culinario.viewmodel.RecipePageViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,7 +128,11 @@ fun RecipePage(
 
                     Steps(recipe)
 
-                    Commentaries(viewModel)
+                    CommentaryField(viewModel)
+
+                    CommentaryList(recipe) {
+                        navController.navigate("UserPage/$it")
+                    }
                 }
             }
         }
@@ -131,8 +143,6 @@ fun RecipePage(
         )
     }
 }
-
-
 
 @Composable
 private fun BackgroundImagesDrawer(
@@ -222,7 +232,7 @@ private fun SheetHeader(
                 .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BasicUserData(user) {
+            UserPageLinkButton(user.name, user.imageUrl ?: stringResource(R.string.default_avatar_image_url)) {
                 navController.navigate("UserPage/${user.id}")
             }
 
@@ -238,15 +248,13 @@ private fun SheetHeader(
                         }
                     }
                 ) {
-                    Row {
-                        Icon(
-                            painter = if (isLiked) painterResource(R.drawable.thumb_up_filled_icon) else painterResource(R.drawable.thumb_up_outlined_icon),
-                            contentDescription = "like button",
-                            modifier = Modifier
-                                .size(22.dp),
-                            tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-                        )
-                    }
+                    Icon(
+                        painter = if (isLiked) painterResource(R.drawable.thumb_up_filled_icon) else painterResource(R.drawable.thumb_up_outlined_icon),
+                        contentDescription = "like button",
+                        modifier = Modifier
+                            .size(22.dp),
+                        tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                    )
                 }
 
                 Text(
@@ -376,46 +384,23 @@ private fun Steps(recipe: Recipe) {
 }
 
 @Composable
-fun BasicUserData(user: User, onClick: () -> Unit) {
-    Row (
-        modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
-            .clickable {
-                onClick()
-            }
-            .padding(5.dp),
-        horizontalArrangement = Arrangement.spacedBy(7.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            model = user.imageUrl,
-            contentDescription = "user avatar",
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(30.dp),
-            contentScale = ContentScale.Crop
-        )
-        Text (
-            text = user.name
-        )
-    }
-}
-
-@Composable
-fun Commentaries(
+fun CommentaryField(
     viewModel: RecipePageViewModel
 ) {
-    var myCommentary by remember { mutableStateOf("") }
-    var coroutineScope = rememberCoroutineScope()
+    val commentaryText = remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+
+    val isFieldEnabled = remember { mutableStateOf(true) }
 
     Column {
         Header("Комментарии")
 
         TextField(
-            value = myCommentary,
+            value = commentaryText.value,
             onValueChange = {
-                myCommentary = it
+                commentaryText.value = it
             },
+            enabled = isFieldEnabled.value,
             placeholder = {
                 Text(
                     text = "комментарий.."
@@ -432,11 +417,7 @@ fun Commentaries(
                         modifier = Modifier
                             .align(Alignment.BottomEnd),
                         onClick = {
-                            coroutineScope.launch {
-                                viewModel.sendCommentary(myCommentary) {
-
-                                }
-                            }
+                            sendCommentary(viewModel, commentaryText, isFieldEnabled, coroutineScope)
                         }
                     ) {
                         Icon(
@@ -447,7 +428,46 @@ fun Commentaries(
                 }
             }
         )
+    }
+}
 
+private fun sendCommentary(
+    viewModel: RecipePageViewModel,
+    commentaryText: MutableState<String>,
+    isFieldEnabled: MutableState<Boolean>,
+    coroutineScope: CoroutineScope,
+    onSent: () -> Unit = { }
+) {
+    if (commentaryText.value.isEmpty()) return
 
+    isFieldEnabled.value = false
+
+    val text = commentaryText.value
+    commentaryText.value = ""
+
+    coroutineScope.launch {
+        viewModel.sendCommentary(text) {
+            isFieldEnabled.value = true
+
+            onSent()
+        }
+    }
+}
+
+@Composable
+fun CommentaryList(
+    recipe: Recipe,
+    onUserClicked: (id: String) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        recipe.commentaries.forEach { commentaryId ->
+            CommentaryCard(CommentaryViewModel(commentaryId)) { userId ->
+                onUserClicked(userId)
+            }
+        }
     }
 }

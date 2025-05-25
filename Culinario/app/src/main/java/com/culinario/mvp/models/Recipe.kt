@@ -100,11 +100,11 @@ data class NutritionInfo(
 )
 
 data class Commentary(
-    val id: String,
-    val userId: String,
-    val date: String,
-    val text: String,
-    val likes: Int
+    val id: String = "",
+    val userId: String = "",
+    val date: String = "",
+    val text: String = "",
+    val likes: Int = 0
 )
 
 /**

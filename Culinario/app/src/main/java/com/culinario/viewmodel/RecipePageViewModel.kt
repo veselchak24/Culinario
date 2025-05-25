@@ -42,8 +42,6 @@ class RecipePageViewModel(
     private var ownerUserState = MutableStateFlow(User())
     val ownerUser = ownerUserState.asStateFlow()
 
-    var commentaries = MutableStateFlow(listOf<Commentary>())
-
     var isRecipeLiked = MutableStateFlow(false)
 
     init {
@@ -52,7 +50,6 @@ class RecipePageViewModel(
             initStates()
 
             isRecipeLiked.value = currentUserState.value.likedRecipesId.contains(recipeId)
-
 
             trackRecipeState()
             trackCurrentUserState()
@@ -131,10 +128,6 @@ class RecipePageViewModel(
                 likes = 0
             )
         ).await()
-
-        currentUserDocument
-            .update("likedCommentariesId", FieldValue.arrayUnion(newCommentary.id))
-            .await()
 
         recipeDocument
             .update("commentaries", FieldValue.arrayUnion(newCommentary.id))

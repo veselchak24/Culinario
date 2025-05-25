@@ -14,6 +14,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -23,11 +24,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.culinario.helpers.sendBitmapToBackend
 import com.culinario.pages.CameraPage
 import com.culinario.pages.FavoriteRecipesPage
 import com.culinario.pages.HomePage
 import com.culinario.pages.UserPage
 import com.culinario.ui.other.NavItem
+import com.culinario.viewmodel.FavoritePageViewModel
 import com.culinario.viewmodel.HomePageViewModel
 import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
@@ -43,6 +46,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 @Composable
 fun MainScreen(
@@ -95,64 +99,26 @@ fun ContentScreen(
     selectedPageIndex: Int,
     navController: NavController
 ) {
-    var detectedFruits by remember { mutableStateOf<List<String>>(emptyList()) }
-    var isProcessing by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    val detectedFruits = remember { mutableStateOf(listOf<String>()) }
+    val isProcessing = remember { mutableStateOf(false) }
+
+    val currentUserId = Firebase.auth.currentUser?.uid ?: ""
 
     when (selectedPageIndex) {
         0 -> HomePage(HomePageViewModel(), navController)
-        1 -> FavoriteRecipesPage(modifier, navController)
-        2 -> UserPage(modifier, UserPageViewModel(Firebase.auth.currentUser?.uid ?: "", LocalContext.current), navController)
+        1 -> FavoriteRecipesPage(modifier, FavoritePageViewModel(), navController)
+        2 -> {
+            UserPage(modifier, UserPageViewModel(currentUserId, context), navController)
+        }
         3 -> CameraPage(
             modifier = modifier,
             onImagePicked = { bitmap: Bitmap ->
-                isProcessing = true
-
-                val byteArray = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray)
-                val requestBody = MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart(
-                        "file",
-                        "image.jpg",
-                        byteArray.toByteArray().toRequestBody("image/jpeg".toMediaTypeOrNull())
-                    )
-                    .build()
-
-                val client = OkHttpClient()
-                val request = Request.Builder()
-                    .url("http://culinarioai.anopka.keenetic.pro/predict/")
-                    .post(requestBody)
-                    .build()
-
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: java.io.IOException) {
-                        println("Error: ${e.message}")
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        if (!response.isSuccessful) return
-
-                        val responseBody = response.body?.string() ?: return
-
-                        // Используем Gson для парсинга в Map
-                        val gson = Gson()
-                        val type = object : TypeToken<Map<String, Any>>() {}.type
-                        val responseMap = gson.fromJson<Map<String, Any>>(responseBody, type)
-
-                        if (responseMap.containsKey("error")) {
-                            println("Error: ${responseMap["error"]}")
-                            isProcessing=false
-                            return
-                        }
-
-                        // Извлекаем список фруктов
-                        detectedFruits = responseMap["fruit"] as? List<String> ?: emptyList()
-                        isProcessing=false
-                    }
-                })
+                sendBitmapToBackend(isProcessing, bitmap, detectedFruits)
             },
-            detectedFruits = detectedFruits,
-            isProcessing = isProcessing,
+            detectedFruits = detectedFruits.value,
+            isProcessing = isProcessing.value
         )
     }
 }
