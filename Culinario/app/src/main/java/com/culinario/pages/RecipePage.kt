@@ -71,18 +71,18 @@ fun RecipePage(
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
-    var recipe by remember { mutableStateOf(viewModel.recipeState.value) }
-    var user by remember { mutableStateOf(viewModel.userState.value) }
+    var recipe by remember { mutableStateOf(viewModel.recipe.value) }
+    var user by remember { mutableStateOf(viewModel.ownerUser.value) }
 
     LaunchedEffect(Unit) {
-        viewModel.userState.collect { newState ->
+        viewModel.ownerUser.collect { newState ->
             user = newState
         }
     }
 
     LaunchedEffect(Unit) {
         viewModel.watchedRecipe()
-        viewModel.recipeState.collect { newState ->
+        viewModel.recipe.collect { newState ->
             println("Recipe update")
             recipe = newState
         }
@@ -406,6 +406,7 @@ fun Commentaries(
     viewModel: RecipePageViewModel
 ) {
     var myCommentary by remember { mutableStateOf("") }
+    var coroutineScope = rememberCoroutineScope()
 
     Column {
         Header("Комментарии")
@@ -431,7 +432,11 @@ fun Commentaries(
                         modifier = Modifier
                             .align(Alignment.BottomEnd),
                         onClick = {
-                            //TODO: send commentary
+                            coroutineScope.launch {
+                                viewModel.sendCommentary(myCommentary) {
+
+                                }
+                            }
                         }
                     ) {
                         Icon(
@@ -442,5 +447,7 @@ fun Commentaries(
                 }
             }
         )
+
+
     }
 }

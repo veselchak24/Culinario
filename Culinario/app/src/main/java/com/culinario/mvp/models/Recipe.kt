@@ -78,6 +78,7 @@ data class Ingredient (
     val unit: String = "",
     val quantity: Double? = 0.0,
     val nutritionInfo: NutritionInfo = NutritionInfo(),
+    @field:JvmField
     val isOptional: Boolean = true,
     val substitutes: List<String> = listOf()
 )
@@ -103,8 +104,7 @@ data class Commentary(
     val userId: String,
     val date: String,
     val text: String,
-    val likes: Int,
-    val dislikes: Int
+    val likes: Int
 )
 
 /**
