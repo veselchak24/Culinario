@@ -80,7 +80,7 @@ data class Ingredient (
     val nutritionInfo: NutritionInfo = NutritionInfo(),
     @field:JvmField
     val isOptional: Boolean = true,
-    val substitutes: List<String> = listOf()
+    val substitutes: List<Ingredient> = listOf()
 )
 
 /**
