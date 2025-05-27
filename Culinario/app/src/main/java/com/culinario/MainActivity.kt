@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
@@ -13,6 +14,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.culinario.helpers.RECIPE_COLLECTION
+import com.culinario.helpers.RecipeRepositoryImpl
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -24,8 +27,10 @@ import com.culinario.viewmodel.RecipePageViewModel
 import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
+import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -47,6 +52,19 @@ class MainActivity : ComponentActivity() {
                     loginScreen = { LoginScreen(it) },
                     homeScreen = { MainScreen(it) }
                 )
+
+                //sendRecipesToDb()
+            }
+        }
+    }
+
+    @Composable
+    private fun sendRecipesToDb() {
+        val recipes = RecipeRepositoryImpl()
+
+        LaunchedEffect(Unit) {
+            for (recipe in recipes.recipes) {
+                Firebase.firestore.collection(RECIPE_COLLECTION).document(recipe.id).set(recipe).await()
             }
         }
     }

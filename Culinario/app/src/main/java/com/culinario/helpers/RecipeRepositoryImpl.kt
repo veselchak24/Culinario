@@ -6,7 +6,7 @@ import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType
 
 class RecipeRepositoryImpl {
-	private val recipes = mutableListOf (
+	val recipes = mutableListOf (
 		Recipe(
 			id = "11111114",
 			userId = "85t6ir7f12v",
