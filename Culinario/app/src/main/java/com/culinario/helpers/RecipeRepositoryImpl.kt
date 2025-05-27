@@ -1,11 +1,72 @@
 package com.culinario.helpers
 
 import com.culinario.mvp.models.Difficulty
+import com.culinario.mvp.models.Ingredient
+import com.culinario.mvp.models.NutritionInfo
 import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.RecipeDescription
 import com.culinario.mvp.models.RecipeType
+import com.culinario.mvp.models.DetailedCookingStep
 
 class RecipeRepositoryImpl {
+	private val ingredients = listOf(
+		Ingredient(
+			id = "ing1",
+			name = "Киноа",
+			imageUrl = "https://example.com/quinoa.jpg",
+			unit = "г",
+			quantity = 200.0,
+			nutritionInfo = NutritionInfo(200.0, 8.0, 4.0, 36.0),
+			isOptional = false
+		),
+		Ingredient(
+			id = "ing2",
+			name = "Огурец",
+			imageUrl = "https://example.com/cucumber.jpg",
+			unit = "шт",
+			quantity = 1.0,
+			nutritionInfo = NutritionInfo(16.0, 0.7, 0.1, 3.6),
+			isOptional = false
+	    ),
+		Ingredient(
+			id = "ing3",
+			name = "Помидор",
+			imageUrl = "https://example.com/tomato.jpg",
+			unit = "шт",
+			quantity = 2.0,
+			nutritionInfo = NutritionInfo(36.0, 1.6, 0.4, 7.8),
+			isOptional = false
+		),
+		Ingredient(
+			id = "ing4",
+			name = "Авокадо",
+			imageUrl = "https://example.com/avocado.jpg",
+			unit = "шт",
+			quantity = 1.0,
+			nutritionInfo = NutritionInfo(234.0, 2.9, 21.4, 12.5),
+			isOptional = true
+		),
+		Ingredient(
+			id = "ing5",
+			name = "Лимонный сок",
+			imageUrl = "https://example.com/lemon-juice.jpg",
+			unit = "мл",
+			quantity = 30.0,
+			nutritionInfo = NutritionInfo(8.0, 0.1, 0.1, 2.5),
+			isOptional = true
+		),
+		Ingredient(
+			id = "ing6",
+			name = "Оливковое масло",
+			imageUrl = "",
+			unit = "мл",
+			quantity = 1.0,
+			nutritionInfo = NutritionInfo(234.0, 2.9, 21.4, 12.5),
+			isOptional = true
+		),
+	)
+
 	val recipes = mutableListOf (
 		Recipe(
 			id = "11111114",
