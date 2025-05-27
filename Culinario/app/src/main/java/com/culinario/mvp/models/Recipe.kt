@@ -102,7 +102,7 @@ data class NutritionInfo(
 data class Commentary(
     val id: String = "",
     val userId: String = "",
-    val date: String = "",
+    val timeStamp: Long = 0,
     val text: String = "",
     val likes: Int = 0
 )

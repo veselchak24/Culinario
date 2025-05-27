@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,10 +27,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.culinario.R
+import com.culinario.helpers.timeSince
 import com.culinario.mvp.models.Commentary
 import com.culinario.mvp.models.User
 import com.culinario.viewmodel.CommentaryViewModel
@@ -66,90 +67,89 @@ fun CommentaryCard(
         }
     }
 
-    Column(
+    Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(5.dp)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(10.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 15.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        Row(
+        AsyncImage(
+            model = ownerUser.imageUrl ?: stringResource(R.string.default_avatar_image_url),
+            contentDescription = "user avatar",
+            contentScale = ContentScale.Crop,
+            alignment = Alignment.Center,
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            MiniUserPageLinkButton(
-                ownerUser.name,
-                ownerUser.imageUrl ?: stringResource(R.string.default_avatar_image_url)
+                .padding(top = 5.dp)
+                .align(Alignment.Top)
+                .size(30.dp)
+                .clip(CircleShape)
+                .clickable {
+                    onUserClicked(ownerUser.id)
+                }
+        )
+
+        Column {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                onUserClicked(ownerUser.id)
+                Text(
+                    text = ownerUser.name,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
+                        .clickable {
+                            onUserClicked(ownerUser.id)
+                        }
+                        .padding(2.dp)
+                )
+
+                Text(
+                    text = timeSince(commentary.timeStamp),
+                    fontWeight = FontWeight.W300,
+                    fontSize = 12.sp
+                )
             }
 
             Text(
-                text = commentary.date,
-                fontWeight = FontWeight.W300,
-                fontSize = 12.sp
-            )
-        }
-
-        Text(
-            text = commentary.text,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 15.dp)
-        )
-
-        IconButton(
-            modifier = Modifier
-                .padding(0.dp),
-            onClick = {
-                coroutineScope.launch {
-                    viewModel.toggleLike {
-                        isLiked = it
-                    }
-                }
-            }
-        ) {
-            Icon(
-                painter = if (isLiked) painterResource(R.drawable.thumb_up_filled_icon) else painterResource(R.drawable.thumb_up_outlined_icon),
-                contentDescription = "like button",
+                text = commentary.text,
                 modifier = Modifier
-                    .size(15.dp),
-                tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                    .padding(horizontal = 2.dp)
+                    .fillMaxWidth()
             )
-        }
-    }
-}
 
-@Composable
-fun MiniUserPageLinkButton(
-    name: String,
-    imageUrl: String,
-    onClick: () -> Unit
-) {
-    Row (
-        modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
-            .clickable {
-                onClick()
+            Row(
+                modifier = Modifier
+                    .align(Alignment.End),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
+            ) {
+                Text(
+                    text = commentary.likes.toString(),
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.W600,
+                    textAlign = TextAlign.Center
+                )
+
+                Icon(
+                    painter = if (isLiked) painterResource(R.drawable.thumb_up_filled_icon) else painterResource(R.drawable.thumb_up_outlined_icon),
+                    tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                    contentDescription = "like button",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable {
+                            coroutineScope.launch {
+                                viewModel.toggleLike {
+                                    isLiked = it
+                                }
+                            }
+                        }
+                        .padding(3.dp)
+                        .size(15.dp)
+                )
             }
-            .padding(5.dp),
-        horizontalArrangement = Arrangement.spacedBy(7.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = "user avatar",
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(20.dp),
-            contentScale = ContentScale.Crop
-        )
-
-        Text (
-            text = name
-        )
+        }
     }
 }

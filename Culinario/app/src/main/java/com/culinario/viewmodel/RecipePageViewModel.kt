@@ -14,12 +14,14 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
+import com.google.type.TimeZone
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class RecipePageViewModel(
@@ -124,7 +126,7 @@ class RecipePageViewModel(
                 id = newCommentary.id,
                 userId = currentUserState.value.id,
                 text = text,
-                date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yy")),
+                timeStamp = System.currentTimeMillis(),
                 likes = 0
             )
         ).await()

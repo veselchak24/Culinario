@@ -61,16 +61,14 @@ fun RecipeCard(
         }
     }
 
-    Card (
+    Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
         ),
         modifier = modifier
-            .height(250.dp)
-            .width(200.dp)
             .clip(RoundedCornerShape(15.dp))
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .clickable {
@@ -79,19 +77,18 @@ fun RecipeCard(
         ) {
             AsyncImage(
                 modifier = Modifier
-                    .weight(0.7f),
+                    .height(170.dp),
                 model = recipe.recipeImageBackgroundUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )
 
-            Column (
+            Column(
                 modifier = Modifier
-                    .weight(0.3f)
                     .fillMaxSize()
                     .padding(15.dp)
             ) {
-                Text (
+                Text(
                     text = recipe.name,
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium,
@@ -100,7 +97,7 @@ fun RecipeCard(
                         .basicMarquee()
                 )
 
-                Row (
+                Row(
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     AsyncImage(
@@ -112,6 +109,7 @@ fun RecipeCard(
                             .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
+
                     Text(
                         modifier = Modifier.padding(start = 3.dp),
                         text = owner.name,
