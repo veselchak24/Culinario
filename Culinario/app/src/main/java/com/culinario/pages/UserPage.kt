@@ -78,16 +78,11 @@ fun UserPage(
     navController: NavController
 ) {
     var user by remember { mutableStateOf(viewModel.user.value) }
-    val userRecipes = remember { mutableStateOf(listOf<Recipe>()) }
 
     LaunchedEffect(Unit) {
         viewModel.user.collect { newState ->
             user = newState
         }
-    }
-
-    LaunchedEffect(Unit) {
-        userRecipes.value = viewModel.getUserRecipesAsList()
     }
 
     var accountExitDialog by remember { mutableStateOf(false) }
@@ -108,24 +103,24 @@ fun UserPage(
 
                 UserAbout(user)
 
-                UserStats(viewModel)
-
-                if (userRecipes.value.isNotEmpty()) {
+                if (user.recipesId.isNotEmpty()) {
                     UserActivity {
                         Column (
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            for(recipe in userRecipes.value) {
+                            for(recipeId in user.recipesId) {
                                 RecipeCard(
                                     Modifier.fillMaxWidth(),
-                                    RecipeCardViewModel(recipe.id)
+                                    RecipeCardViewModel(recipeId)
                                 ) {
-                                    navController.navigate("RecipePage/${recipe.id}")
+                                    navController.navigate("RecipePage/${recipeId}")
                                 }
                             }
                         }
                     }
-                } else {
+                } else if (user.id.isEmpty() && user.recipesId.isEmpty()) {
+                    UserStats(viewModel)
+
                     Column(
                         verticalArrangement = Arrangement.spacedBy(5.dp)
                     ) {

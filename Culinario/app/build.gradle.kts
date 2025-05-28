@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.foundation)
 
     implementation(libs.coil.compose)
     implementation(platform(libs.firebase.bom))

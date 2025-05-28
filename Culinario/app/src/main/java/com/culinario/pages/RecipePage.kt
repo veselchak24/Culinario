@@ -354,8 +354,8 @@ private fun Ingredients(recipe: Recipe) {
                 .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            recipe.ingredients.forEach { ingredientId ->
-                IngredientCard(IngredientCardViewModel(ingredientId))
+            recipe.ingredients.forEach { ingredient ->
+                IngredientCard(ingredient)
             }
         }
     }

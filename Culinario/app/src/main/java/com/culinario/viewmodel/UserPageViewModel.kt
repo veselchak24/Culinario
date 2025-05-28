@@ -52,8 +52,22 @@ class UserPageViewModel(
                             println(error)
                         }
                     }
+
+                collectUserState()
             }
         }
+    }
+
+    private fun collectUserState() {
+        userCollection
+            .document(userId)
+            .addSnapshotListener { task, error ->
+                if (error == null && task != null) {
+                    userState.value = task.toObject<User>() ?: User()
+                } else {
+                    println(error)
+                }
+            }
     }
 
     val isCurrentUser: Boolean

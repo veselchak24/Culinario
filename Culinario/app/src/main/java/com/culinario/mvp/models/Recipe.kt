@@ -27,7 +27,7 @@ class Recipe (
     val description: String = "",
     val recipeImageBackgroundUrl: String = "",
     val recipeImagesUrl: List<String> = listOf(),
-    val ingredients: List<String> = listOf(),
+    val ingredients: List<Ingredient> = listOf(),
     val commentaries: List<String> = listOf(),
     val cookingSpeed: Int = 0,
     val totalWeight: Int = 0,

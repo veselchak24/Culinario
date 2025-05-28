@@ -9,6 +9,7 @@ composeBomVersion = "2024.10.01"
 composeShimmer = "1.3.2"
 firebaseBom = "33.13.0"
 firebaseStorageKtx = "21.0.1"
+foundation = "1.4.0"
 gson = "2.10.1"
 kmpauth = "1.0.0"
 kmpauthGoogle = "2.3.1"
@@ -42,6 +43,7 @@ androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.r
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCamera2" }
 androidx-compose-bom-v20241001 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 auth = { module = "software.amazon.awssdk:auth", version.ref = "auth" }
