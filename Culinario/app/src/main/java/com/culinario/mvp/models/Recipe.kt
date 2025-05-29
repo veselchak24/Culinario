@@ -25,9 +25,8 @@ class Recipe (
     var userId: String = "",
     val name: String = "",
     val description: String = "",
-    val recipeImageBackgroundUrl: String = "",
     val recipeImagesUrl: List<String> = listOf(),
-    val ingredients: List<String> = listOf(),
+    val ingredients: List<Ingredient> = listOf(),
     val commentaries: List<String> = listOf(),
     val cookingSpeed: Int = 0,
     val totalWeight: Int = 0,
@@ -72,10 +71,8 @@ data class DetailedCookingStep(
  */
 @Serializable
 data class Ingredient (
-    val id: String = "",
     val name: String = "",
     val imageUrl: String = "",
-    val unit: String = "",
     val quantity: Double? = 0.0,
     val nutritionInfo: NutritionInfo = NutritionInfo(),
     @field:JvmField
