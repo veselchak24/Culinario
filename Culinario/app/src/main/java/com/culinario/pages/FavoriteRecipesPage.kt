@@ -1,8 +1,8 @@
 package com.culinario.pages
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.culinario.R
@@ -40,11 +39,11 @@ fun FavoriteRecipesPage(
     viewModel: FavoritePageViewModel,
     navController: NavController
 ) {
-    var likedRecipes by remember { mutableStateOf(listOf<String>()) }
+    var user by remember { mutableStateOf(User()) }
 
     LaunchedEffect(Unit) {
         viewModel.currentUser.collect {
-            likedRecipes = it.likedRecipesId
+            user = it
         }
     }
 
@@ -64,9 +63,9 @@ fun FavoriteRecipesPage(
             )
         }
     ) { innerPadding ->
-        if (likedRecipes.isNotEmpty()) {
+        if (user.likedRecipesId.isNotEmpty()) {
             GridOfFavorite(
-                likedRecipes,
+                user.likedRecipesId,
                 Modifier.padding(innerPadding),
                 navController
             )
@@ -113,10 +112,15 @@ fun GridOfFavorite(
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
+            .padding(10.dp)
             .fillMaxWidth(),
-        contentPadding = PaddingValues(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        items(recipesId) { recipeId ->
+        items(
+            items = recipesId,
+            key = { it }
+        ) { recipeId ->
             RecipeCard(Modifier.padding(5.dp), RecipeCardViewModel(recipeId)) {
                 navController.navigate("RecipePage/${recipeId}")
             }

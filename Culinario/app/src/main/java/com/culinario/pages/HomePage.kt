@@ -39,7 +39,6 @@ import coil.compose.AsyncImage
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
 import com.culinario.controls.ShimmerRecipeCard
-import com.culinario.mvp.models.Recipe
 import com.culinario.viewmodel.HomePageViewModel
 import com.culinario.viewmodel.RecipeCardViewModel
 
@@ -50,13 +49,15 @@ fun HomePage(
     viewModel: HomePageViewModel,
     navController: NavController
 ) {
-    var recipes by remember { mutableStateOf(listOf<Recipe>()) }
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    var recipesId by remember { mutableStateOf(listOf<String>()) }
 
     LaunchedEffect(Unit) {
-        recipes = viewModel.getAllRecipes()
+        viewModel.recipesId.collect {
+            recipesId = it
+        }
     }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold (
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -88,13 +89,13 @@ fun HomePage(
         ) {
             Column {
                 Header("Лучшие рецепты")
-                BestRecipes(recipes, navController)
+                BestRecipes(recipesId, navController)
             }
 
             Column {
                 Header("Все рецепты")
                 AllRecipes(
-                    recipes,
+                    recipesId,
                     Modifier,
                     navController
                 )
@@ -106,17 +107,17 @@ fun HomePage(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BestRecipes(
-    recipes: List<Recipe>,
+    recipesId: List<String>,
     navController: NavController
 ) {
-    val selectedRecipes = recipes.take(4)
+    val selectedRecipes = recipesId.take(4)
 
     val carouselState = rememberCarouselState(
         initialItem = 0,
         itemCount = { selectedRecipes.count() }
     )
 
-    HorizontalMultiBrowseCarousel (
+    /*HorizontalMultiBrowseCarousel (
         state = carouselState,
         preferredItemWidth = 300.dp,
         itemSpacing = 5.dp
@@ -149,12 +150,12 @@ fun BestRecipes(
                 color = Color.White
             )
         }
-    }
+    }*/
 }
 
 @Composable
 fun AllRecipes(
-    recipes: List<Recipe>,
+    recipesId: List<String>,
     modifier: Modifier,
     navController: NavController,
 ) {
@@ -164,14 +165,14 @@ fun AllRecipes(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        if (recipes.isNotEmpty()) {
-            for (recipe in recipes) {
+        if (recipesId.isNotEmpty()) {
+            for (recipeId in recipesId) {
                 RecipeCard(
                     Modifier
                         .fillMaxWidth(),
-                    RecipeCardViewModel(recipe.id)
+                    RecipeCardViewModel(recipeId)
                 ) {
-                    navController.navigate("RecipePage/${recipe.id}")
+                    navController.navigate("RecipePage/${recipeId}")
                 }
             }
         } else {

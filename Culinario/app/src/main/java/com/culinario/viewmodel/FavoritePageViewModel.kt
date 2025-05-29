@@ -2,7 +2,6 @@ package com.culinario.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.culinario.helpers.RECIPE_COLLECTION
 import com.culinario.helpers.USER_COLLECTION
 import com.culinario.mvp.models.User
 import com.google.firebase.Firebase
@@ -15,8 +14,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class FavoritePageViewModel : ViewModel() {
-    private val recipeCollection = Firebase.firestore.collection(RECIPE_COLLECTION)
-
     private val currentUserDocument = Firebase.firestore.collection(USER_COLLECTION).document(Firebase.auth.currentUser!!.uid)
 
     private val currentUserState = MutableStateFlow(User())
@@ -25,6 +22,19 @@ class FavoritePageViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             currentUserState.value = currentUserDocument.get().await().toObject<User>() ?: User()
+
+            collectUserState()
         }
+    }
+
+    private fun collectUserState() {
+        currentUserDocument
+            .addSnapshotListener { task, error ->
+                if (error == null && task != null) {
+                    currentUserState.value = task.toObject<User>() ?: User()
+                } else {
+                    println(error)
+                }
+            }
     }
 }
