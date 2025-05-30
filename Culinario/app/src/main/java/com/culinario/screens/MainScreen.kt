@@ -14,7 +14,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -35,25 +34,13 @@ import com.culinario.viewmodel.HomePageViewModel
 import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
-import java.io.ByteArrayOutputStream
-import java.io.IOException
 
 @Composable
 fun MainScreen(
     navController: NavController
 ) {
     var selectedIndex by rememberSaveable {
-        mutableIntStateOf(2)
+        mutableIntStateOf(0)
     }
 
     val navItems = arrayOf(

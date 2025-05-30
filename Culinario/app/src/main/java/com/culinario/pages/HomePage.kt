@@ -3,11 +3,14 @@ package com.culinario.pages
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -21,10 +24,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
 import com.culinario.controls.ShimmerRecipeCard
@@ -78,12 +84,22 @@ fun HomePage(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Column {
-                Header("Лучшие рецепты")
-                //BestRecipes(recipesId, navController)
-            }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Header("Все рецепты")
 
-            Column {
-                Header("Все рецепты")
+                    IconButton(
+                        onClick = {
+                            navController.navigate("QrCodeScannerPage")
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.qr_scanner_icon),
+                            contentDescription = "qr scanner"
+                        )
+                    }
+                }
                 AllRecipes(
                     recipesId,
                     Modifier,

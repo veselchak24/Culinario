@@ -1,6 +1,10 @@
 package com.culinario
 
+import android.net.Uri
 import android.os.Bundle
+import android.os.Message
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,8 +18,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.culinario.helpers.RECIPE_COLLECTION
 import com.culinario.helpers.RecipeRepositoryImpl
+import com.culinario.helpers.QrScanner
+import com.culinario.pages.QrScannerPage
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -43,6 +50,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        intent?.data?.let { uri ->
+            Log.d("DEEP_LINK", "Получена ссылка: $uri")
+        }
 
         GoogleAuthProvider.create(credentials = GoogleAuthCredentials(serverId = getString(R.string.oauth_id)))
         setContent {
@@ -89,6 +100,7 @@ class MainActivity : ComponentActivity() {
         home: @Composable (NavController) -> Unit
     ) : NavController {
         val navController = rememberNavController()
+        val context = LocalContext.current
 
         NavHost(navController, startDestination = startDestination) {
             composable<Registration> {
@@ -97,9 +109,11 @@ class MainActivity : ComponentActivity() {
                     navController.navigate(route = Home)
                 }
             }
-
             composable(
                 route = "RecipePage/{recipeID}",
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "culinario://recipe-page/{recipeID}" }
+                ),
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
@@ -123,6 +137,21 @@ class MainActivity : ComponentActivity() {
                 val userId = it.arguments?.getString("userId")!!
 
                 UserPage(Modifier, UserPageViewModel(userId, LocalContext.current), navController)
+            }
+
+            composable(
+                route = "QrCodeScannerPage"
+            ) {
+                QrScannerPage {
+                    try {
+                        navController.popBackStack()
+                        navController.navigate(deepLink = Uri.parse(it))
+                    } catch (exc: Exception) {
+                        Toast.makeText(context, "что-то пошло не так", Toast.LENGTH_SHORT).show()
+
+                        navController.navigate(Home)
+                    }
+                }
             }
 
             composable<Home> {

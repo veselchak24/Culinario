@@ -1,6 +1,7 @@
 package com.culinario.pages
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,12 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
@@ -43,19 +44,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import aws.smithy.kotlin.runtime.retries.Outcome
 import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.controls.CommentaryCard
@@ -63,10 +64,10 @@ import com.culinario.controls.Header
 import com.culinario.controls.IngredientCard
 import com.culinario.controls.NutritionInfo
 import com.culinario.controls.UserPageLinkButton
+import com.culinario.helpers.generateQRCode
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
 import com.culinario.viewmodel.CommentaryViewModel
-import com.culinario.viewmodel.IngredientCardViewModel
 import com.culinario.viewmodel.RecipePageViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -201,9 +202,57 @@ private fun SheetHeader(
     val coroutineScope = rememberCoroutineScope()
     var isLiked by remember { mutableStateOf(viewModel.isRecipeLiked.value) }
 
+    var isShare by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.isRecipeLiked.collect {
             isLiked = it
+        }
+    }
+
+    if (isShare) {
+        Dialog(
+            onDismissRequest = {
+                isShare = false
+            }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(.9f)
+                    .wrapContentHeight()
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                    .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 30.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                val qrBitmap = generateQRCode("culinario://recipe-page/${recipe.id}")
+
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(15.dp)),
+                    bitmap = qrBitmap.asImageBitmap(),
+                    contentDescription = "share qr code"
+                )
+
+                Text(
+                    text = recipe.name,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.W700,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
+
+                Text(
+                    text = "Отсканируйте qr, чтобы поделиться рецептом",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                )
+            }
         }
     }
 
@@ -260,6 +309,19 @@ private fun SheetHeader(
                 Text(
                     text = recipe.otherInfo.likes.toString(),
                     fontWeight = FontWeight.W600
+                )
+            }
+
+            IconButton(
+                onClick = {
+                    isShare = true
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.share_icon),
+                    contentDescription = "share icon",
+                    modifier = Modifier
+                        .size(18.dp)
                 )
             }
         }

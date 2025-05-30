@@ -9,12 +9,17 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="recipes fix">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="bug fix">
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/IngredientCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/IngredientCard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/RecipeCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/RecipeCard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/RecipeRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/RecipeRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/Header.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/Header.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/MainScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/MainScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,8 +78,8 @@
       <list>
         <option value="resourceFile" />
         <option value="Class" />
-        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -269,14 +274,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1733069576633</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Add user-class">
-      <option name="closed" value="true" />
-      <created>1743093199513</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1743093199513</updated>
     </task>
     <task id="LOCAL-00002" summary="Небольшие изменения">
       <option name="closed" value="true" />
@@ -662,7 +659,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748604519044</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1748627160122</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1748627160123</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -699,7 +704,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactored Recipe" />
     <MESSAGE value="refactored RecipePage" />
     <MESSAGE value="delete repository code" />
     <MESSAGE value="refactored" />
@@ -724,7 +728,8 @@
     <MESSAGE value="some improvements" />
     <MESSAGE value="recipe deletion added" />
     <MESSAGE value="recipes fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="recipes fix" />
+    <MESSAGE value="bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

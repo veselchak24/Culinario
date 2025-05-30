@@ -37,6 +37,7 @@ playServicesAuth = "21.3.0"
 firebaseFirestoreKtx = "25.1.4"
 s3 = "2.20.0"
 s3Version = "1.0.0"
+playServicesMlkitBarcodeScanning = "18.3.1"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
@@ -84,6 +85,7 @@ play-services-auth = { module = "com.google.android.gms:play-services-auth", ver
 s3 = { module = "software.amazon.awssdk:s3", version.ref = "s3" }
 stevdza-san-onetapcompose = { module = "com.github.stevdza-san:OneTapCompose", version = "2.0.0" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+play-services-mlkit-barcode-scanning = { group = "com.google.android.gms", name = "play-services-mlkit-barcode-scanning", version.ref = "playServicesMlkitBarcodeScanning" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
