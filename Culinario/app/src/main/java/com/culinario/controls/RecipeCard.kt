@@ -105,7 +105,7 @@ fun RecipeCard(
             AsyncImage(
                 modifier = Modifier
                     .height(170.dp),
-                model = recipe?.recipeImagesUrl?.first() ?: "",
+                model = recipe?.recipeImagesUrl?.firstOrNull() ?: "",
                 contentScale = ContentScale.Crop,
                 contentDescription = "idk"
             )

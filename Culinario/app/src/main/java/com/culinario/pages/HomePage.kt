@@ -79,7 +79,7 @@ fun HomePage(
         ) {
             Column {
                 Header("Лучшие рецепты")
-                BestRecipes(recipesId, navController)
+                //BestRecipes(recipesId, navController)
             }
 
             Column {

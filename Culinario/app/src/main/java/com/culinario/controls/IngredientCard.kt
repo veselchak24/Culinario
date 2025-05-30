@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -51,7 +52,8 @@ fun IngredientCard(
     ) {
         Box(
             modifier = Modifier
-                .size(80.dp)
+                .width(80.dp)
+                .height(100.dp)
         ) {
             AsyncImage(
                 model = ingredient.imageUrl,
@@ -64,11 +66,11 @@ fun IngredientCard(
         }
 
         Column(
-            modifier = Modifier
-                .padding(horizontal = 5.dp),
+          modifier = Modifier
+              .width(80.dp)
         ) {
             Text(
-                text = ingredient!!.name,
+                text = ingredient.name,
                 modifier = Modifier
                     .basicMarquee()
                     .fillMaxSize(),
@@ -78,7 +80,7 @@ fun IngredientCard(
             )
 
             Text(
-                text = "${ingredient.quantity!!.roundToInt()} ${ingredient.unit}",
+                text = "${ingredient.quantity?.roundToInt() ?: ""} ${ingredient.unit}",
                 lineHeight = 10.sp
             )
         }
@@ -119,7 +121,7 @@ private fun IngredientDescription(
                     )
 
                     Text(
-                        text = "${ingredient.quantity!!.roundToInt()} ${ingredient.unit}",
+                        text = "${ingredient.quantity?.roundToInt() ?: ""} ${ingredient.unit}",
                         lineHeight = 10.sp
                     )
 
