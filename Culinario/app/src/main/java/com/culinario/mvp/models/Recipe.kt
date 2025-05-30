@@ -74,6 +74,7 @@ data class Ingredient (
     val name: String = "",
     val imageUrl: String = "",
     val quantity: Double? = 0.0,
+    val unit: String = "",
     val nutritionInfo: NutritionInfo = NutritionInfo(),
     @field:JvmField
     val isOptional: Boolean = true,

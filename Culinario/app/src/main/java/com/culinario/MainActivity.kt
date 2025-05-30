@@ -16,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.culinario.helpers.RECIPE_COLLECTION
 import com.culinario.helpers.RecipeRepositoryImpl
-import com.culinario.helpers.USER_COLLECTION
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -52,10 +51,6 @@ class MainActivity : ComponentActivity() {
                     loginScreen = { LoginScreen(it) },
                     homeScreen = { MainScreen(it) }
                 )
-
-                LaunchedEffect(Unit) {
-                    println(Firebase.firestore.collection(USER_COLLECTION).get().await().size())
-                }
                 //sendRecipesToDb()
             }
         }

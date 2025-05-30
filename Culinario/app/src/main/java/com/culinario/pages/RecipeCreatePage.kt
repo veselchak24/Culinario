@@ -461,7 +461,6 @@ private fun saveRecipe (
         id = Random.nextInt(1000000, 9999999).toString(),
         name = recipeName,
         description = recipeDescription,
-        recipeImageBackgroundUrl = backgroundImageUrl,
         recipeImagesUrl = recipeImagesUrl,
         recipeType = RecipeType.QUICK,
         cookingSpeed = 100,
