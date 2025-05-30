@@ -10,80 +10,22 @@ import com.culinario.mvp.models.RecipeType
 import com.culinario.mvp.models.DetailedCookingStep
 
 class RecipeRepositoryImpl {
-	private val ingredients = listOf(
-		Ingredient(
-			id = "ing1",
-			name = "Киноа",
-			imageUrl = "https://example.com/quinoa.jpg",
-			unit = "г",
-			quantity = 200.0,
-			nutritionInfo = NutritionInfo(200.0, 8.0, 4.0, 36.0),
-			isOptional = false
-		),
-		Ingredient(
-			id = "ing2",
-			name = "Огурец",
-			imageUrl = "https://example.com/cucumber.jpg",
-			unit = "шт",
-			quantity = 1.0,
-			nutritionInfo = NutritionInfo(16.0, 0.7, 0.1, 3.6),
-			isOptional = false
-	    ),
-		Ingredient(
-			id = "ing3",
-			name = "Помидор",
-			imageUrl = "https://example.com/tomato.jpg",
-			unit = "шт",
-			quantity = 2.0,
-			nutritionInfo = NutritionInfo(36.0, 1.6, 0.4, 7.8),
-			isOptional = false
-		),
-		Ingredient(
-			id = "ing4",
-			name = "Авокадо",
-			imageUrl = "https://example.com/avocado.jpg",
-			unit = "шт",
-			quantity = 1.0,
-			nutritionInfo = NutritionInfo(234.0, 2.9, 21.4, 12.5),
-			isOptional = true
-		),
-		Ingredient(
-			id = "ing5",
-			name = "Лимонный сок",
-			imageUrl = "https://example.com/lemon-juice.jpg",
-			unit = "мл",
-			quantity = 30.0,
-			nutritionInfo = NutritionInfo(8.0, 0.1, 0.1, 2.5),
-			isOptional = true
-		),
-		Ingredient(
-			id = "ing6",
-			name = "Оливковое масло",
-			imageUrl = "",
-			unit = "мл",
-			quantity = 1.0,
-			nutritionInfo = NutritionInfo(234.0, 2.9, 21.4, 12.5),
-			isOptional = true
-		),
-	)
-
 	val recipes = mutableListOf (
 		Recipe(
 			id = "11111114",
 			userId = "85t6ir7f12v",
 			name = "Веганский салат с киноа",
 			description = "Питательный салат с киноа, овощами и лимонной заправкой.",
-			recipeImageBackgroundUrl = "https://shop.soyka.ru/upload/iblock/c29/c29d94b01058f9bcb7d45d23df6ca019.jpg",
-//			ingredients = listOf(
-//				Ingredient("Киноа", 200.0, Unit.GRAMS),
-//				Ingredient("Огурец", 1.0, Unit.PIECE),
-//				Ingredient("Помидор", 2.0, Unit.PIECE),
-//				Ingredient("Авокадо", 1.0, Unit.PIECE),
-//				Ingredient("Лимонный сок", 30.0, Unit.GRAMS),
-//				Ingredient("Оливковое масло", 20.0, Unit.GRAMS),
-//				Ingredient("Соль", null, null),
-//				Ingredient("Петрушка", null, null)
-//			),
+			ingredients = listOf(
+				Ingredient("Киноа", "", 200.0, NutritionInfo(200.0, 8.0, 4.0, 36.0)),
+				Ingredient("Огурец", "", 1.0, NutritionInfo(36.0, 1.6, 0.4, 7.8)),
+				Ingredient("Помидор", "", 2.0, NutritionInfo(234.0, 2.9, 21.4, 12.5)),
+				Ingredient("Авокадо", "", 1.0, NutritionInfo(8.0, 0.1, 0.1, 2.5)),
+				Ingredient("Лимонный сок", "", 30.0, NutritionInfo(29.0, 0.9, 0.1, 3.0)),
+				Ingredient("Оливковое масло", "", 20.0, NutritionInfo(900.0, 0.0, 100.0, 0.0)),
+				Ingredient("Соль", "", null, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Петрушка", "", null, NutritionInfo(49.0, 3.7, 0.4, 7.6))
+			),
 			cookingSpeed = 15,
 //			steps = listOf(
 //				"Отварите киноа согласно инструкции на упаковке.",
@@ -102,15 +44,14 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Классические блины",
 			description = "Традиционные русские блины на молоке, тонкие и ароматные",
-			recipeImageBackgroundUrl = "https://img1.russianfood.com/dycontent/images_upl/112/big_111352.jpg",
-//			ingredients = listOf(
-//				Ingredient("Мука", 200.0, Unit.GRAMS),
-//				Ingredient("Молоко", 500.0, Unit.GRAMS),
-//				Ingredient("Яйца", 2.0, Unit.PIECE),
-//				Ingredient("Сахар", 30.0, Unit.GRAMS),
-//				Ingredient("Соль", 5.0, Unit.GRAMS),
-//				Ingredient("Масло растительное", 30.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Мука", "", 200.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Молоко", "", 500.0, NutritionInfo(60.0, 3.2, 3.6, 4.8)),
+				Ingredient("Яйца", "", 2.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сахар", "", 30.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Соль", "", 5.0, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Масло растительное", "", 30.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 30,
 //			steps = listOf(
 //				"Смешайте яйца с сахаром и солью",
@@ -129,16 +70,15 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Веганский салат с нутом",
 			description = "Питательный салат с нутом, свежими овощами и лимонной заправкой",
-			recipeImageBackgroundUrl = "https://img1.russianfood.com/dycontent/images_upl/352/big_351595.jpg",
-//			ingredients = listOf(
-//				Ingredient("Нут вареный", 200.0, Unit.GRAMS),
-//				Ingredient("Огурец", 1.0, Unit.PIECE),
-//				Ingredient("Помидор", 2.0, Unit.PIECE),
-//				Ingredient("Красный лук", 0.5, Unit.PIECE),
-//				Ingredient("Петрушка", 20.0, Unit.GRAMS),
-//				Ingredient("Лимонный сок", 30.0, Unit.GRAMS),
-//				Ingredient("Оливковое масло", 20.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Нут вареный", "", 200.0, NutritionInfo(164.0, 8.9, 2.6, 27.4)),
+				Ingredient("Огурец", "", 1.0, NutritionInfo(16.0, 0.7, 0.1, 3.6)),
+				Ingredient("Помидор", "", 2.0, NutritionInfo(22.0, 1.1, 0.2, 4.8)),
+				Ingredient("Красный лук", "", 0.5, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Петрушка", "", 20.0, NutritionInfo(36.0, 3.0, 0.8, 6.3)),
+				Ingredient("Лимонный сок", "", 30.0, NutritionInfo(6.0, 0.1, 0.0, 2.0)),
+				Ingredient("Оливковое масло", "", 20.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 15,
 //			steps = listOf(
 //				"Нарежьте овощи кубиками",
@@ -157,20 +97,18 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Лазанья Болоньезе",
 			description = "Классическая итальянская лазанья с мясным соусом",
-			recipeImageBackgroundUrl = "https://barilla.ru/wp-content/uploads/2023/12/lazanja-boloneze-min_11zon.webp",
-//			ingredients = listOf(
-//				Ingredient("Листы для лазаньи", 12.0, Unit.PIECE),
-//				Ingredient("Фарш говяжий", 500.0, Unit.GRAMS),
-//				Ingredient("Лук", 1.0, Unit.PIECE),
-//				Ingredient("Морковь", 1.0, Unit.PIECE),
-//				Ingredient("Чеснок", 2.0, Unit.PIECE),
-//				Ingredient("Томатная паста", 100.0, Unit.GRAMS),
-//				Ingredient("Сыр пармезан", 150.0, Unit.GRAMS),
-//				Ingredient("Сыр моцарелла", 200.0, Unit.GRAMS),
-//				Ingredient("Молоко", 500.0, Unit.GRAMS),
-//				Ingredient("Мука", 50.0, Unit.GRAMS),
-//				Ingredient("Сливочное масло", 50.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Листы для лазаньи", "", 12.0, NutritionInfo(131.0, 5.1, 0.6, 25.0)),
+				Ingredient("Фарш говяжий", "", 500.0, NutritionInfo(250.0, 26.0, 15.0, 0.0)),Ingredient("Лук", "", 1.0, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Морковь", "", 1.0, NutritionInfo(41.0, 0.9, 0.2, 9.6)),
+				Ingredient("Чеснок", "", 2.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Томатная паста", "", 100.0, NutritionInfo(82.0, 4.3, 0.5, 18.9)),
+				Ingredient("Сыр пармезан", "", 150.0, NutritionInfo(392.0, 35.8, 25.8, 3.2)),
+				Ingredient("Сыр моцарелла", "", 200.0, NutritionInfo(280.0, 28.0, 17.0, 3.1)),
+				Ingredient("Молоко", "", 500.0, NutritionInfo(60.0, 3.2, 3.6, 4.8)),
+				Ingredient("Мука", "", 50.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Сливочное масло", "", 50.0, NutritionInfo(717.0, 0.9, 81.1, 0.1))
+			),
 			cookingSpeed = 90,
 //			steps = listOf(
 //				"Приготовьте мясной соус, обжарив овощи и фарш",
@@ -189,15 +127,14 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Безглютеновые оладьи",
 			description = "Пышные оладьи на гречневой муке без глютена",
-			recipeImageBackgroundUrl = "https://menunedeli.ru/wp-content/uploads/2022/02/Oladi-s-jablokom-bez-gljutena-gotovy_opt-1200x800.jpg",
-//			ingredients = listOf(
-//				Ingredient("Гречневая мука", 250.0, Unit.GRAMS),
-//				Ingredient("Кефир", 300.0, Unit.GRAMS),
-//				Ingredient("Яйца", 2.0, Unit.PIECE),
-//				Ingredient("Сода", 5.0, Unit.GRAMS),
-//				Ingredient("Сахар", 30.0, Unit.GRAMS),
-//				Ingredient("Масло растительное", 20.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Гречневая мука", "", 250.0, NutritionInfo(343.0, 13.3, 3.4, 71.5)),
+				Ingredient("Кефир", "", 300.0, NutritionInfo(56.0, 3.4, 2.0, 4.7)),
+				Ingredient("Яйца", "", 2.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сода", "", 5.0, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Сахар", "", 30.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Масло растительное", "", 20.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 25,
 //			steps = listOf(
 //				"Смешайте кефир с яйцами и сахаром",
@@ -216,17 +153,16 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Куриный суп с лапшой",
 			description = "Ароматный домашний куриный суп с лапшой и овощами",
-			recipeImageBackgroundUrl = "https://petelinka.ru/storage/images/recipe/origin/1595237119_16018.jpg",
-//			ingredients = listOf(
-//				Ingredient("Курица (грудка)", 400.0, Unit.GRAMS),
-//				Ingredient("Лапша", 150.0, Unit.GRAMS),
-//				Ingredient("Морковь", 1.0, Unit.PIECE),
-//				Ingredient("Лук", 1.0, Unit.PIECE),
-//				Ingredient("Картофель", 3.0, Unit.PIECE),
-//				Ingredient("Зелень", null, null),
-//				Ingredient("Соль", null, null),
-//				Ingredient("Перец горошком", 5.0, Unit.PIECE)
-//			),
+			ingredients = listOf(
+				Ingredient("Курица (грудка)", "", 400.0, NutritionInfo(165.0, 31.0, 3.6, 0.0)),
+				Ingredient("Лапша", "", 150.0, NutritionInfo(131.0, 5.1, 0.6, 25.0)),
+				Ingredient("Морковь", "", 1.0, NutritionInfo(41.0, 0.9, 0.2, 9.6)),
+				Ingredient("Лук", "", 1.0, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Картофель", "", 3.0, NutritionInfo(77.0, 2.0, 0.1, 17.0)),
+				Ingredient("Зелень", "", null, NutritionInfo(49.0, 3.7, 0.4, 7.6)),
+				Ingredient("Соль", "", null, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Перец горошком", "", 5.0, NutritionInfo(251.0, 10.4, 3.3, 64.8))
+			),
 			cookingSpeed = 40,
 //			steps = listOf(
 //				"Сварите куриный бульон",
@@ -244,16 +180,15 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Шоколадные маффины",
 			description = "Нежные шоколадные маффины с жидкой серединкой",
-			recipeImageBackgroundUrl = "https://cdn.lifehacker.ru/wp-content/uploads/2024/08/shutterstock_2175542077_1_1722946363_e1722946405760.jpg",
-//			ingredients = listOf(
-//				Ingredient("Мука", 200.0, Unit.GRAMS),
-//				Ingredient("Сахар", 150.0, Unit.GRAMS),
-//				Ingredient("Какао-порошок", 50.0, Unit.GRAMS),
-//				Ingredient("Яйца", 2.0, Unit.PIECE),
-//				Ingredient("Сливочное масло", 100.0, Unit.GRAMS),
-//				Ingredient("Шоколад", 100.0, Unit.GRAMS),
-//				Ingredient("Разрыхлитель", 10.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Мука", "", 200.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Сахар", "", 150.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Какао-порошок", "", 50.0, NutritionInfo(228.0, 19.6, 13.7, 57.9)),
+				Ingredient("Яйца", "", 2.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сливочное масло", "", 100.0, NutritionInfo(717.0, 0.9, 81.1, 0.1)),
+				Ingredient("Шоколад", "", 100.0, NutritionInfo(546.0, 4.9, 31.3, 61.2)),
+				Ingredient("Разрыхлитель", "", 10.0, NutritionInfo(0.0, 0.0, 0.0, 0.0))
+			),
 			cookingSpeed = 25,
 //			steps = listOf(
 //				"Растопите масло и шоколад на водяной бане",
@@ -271,17 +206,16 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Греческий салат",
 			description = "Классический греческий салат с фетаксой и оливками",
-			recipeImageBackgroundUrl = "https://s1.eda.ru/StaticContent/Photos/e/fa/efa43ee8776f4b27b7766640557e76a4.jpg",
-//			ingredients = listOf(
-//				Ingredient("Помидоры", 3.0, Unit.PIECE),
-//				Ingredient("Огурец", 1.0, Unit.PIECE),
-//				Ingredient("Лук красный", 0.5, Unit.PIECE),
-//				Ingredient("Сыр фета", 200.0, Unit.GRAMS),
-//				Ingredient("Оливки", 100.0, Unit.GRAMS),
-//				Ingredient("Оливковое масло", 50.0, Unit.GRAMS),
-//				Ingredient("Лимонный сок", 20.0, Unit.GRAMS),
-//				Ingredient("Орегано", null, null)
-//			),
+			ingredients = listOf(
+				Ingredient("Помидоры", "", 3.0, NutritionInfo(22.0, 1.1, 0.2, 4.8)),
+				Ingredient("Огурец", "", 1.0, NutritionInfo(16.0, 0.7, 0.1, 3.6)),
+				Ingredient("Лук красный", "", 0.5, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Сыр фета", "", 200.0, NutritionInfo(264.0, 14.2, 21.3, 4.1)),
+				Ingredient("Оливки", "", 100.0, NutritionInfo(115.0, 0.8, 10.7, 6.3)),
+				Ingredient("Оливковое масло", "", 50.0, NutritionInfo(884.0, 0.0, 100.0, 0.0)),
+				Ingredient("Лимонный сок", "", 20.0, NutritionInfo(6.0, 0.1, 0.0, 2.0)),
+				Ingredient("Орегано", "", null, NutritionInfo(306.0, 11.0, 10.3, 64.4))
+			),
 			cookingSpeed = 15,
 //			steps = listOf(
 //				"Нарежьте овощи крупными кусками",
@@ -299,17 +233,16 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Рататуй",
 			description = "Традиционное французское овощное рагу из баклажанов, кабачков и перцев",
-			recipeImageBackgroundUrl = "https://www.vsegdavkusno.ru/assets/images/recipes/1421/image_1130/ratatuy.jpg",
-//			ingredients = listOf(
-//				Ingredient("Баклажан", 1.0, Unit.PIECE),
-//				Ingredient("Кабачок", 1.0, Unit.PIECE),
-//				Ingredient("Перец болгарский", 2.0, Unit.PIECE),
-//				Ingredient("Помидоры", 4.0, Unit.PIECE),
-//				Ingredient("Лук", 1.0, Unit.PIECE),
-//				Ingredient("Чеснок", 3.0, Unit.PIECE),
-//				Ingredient("Оливковое масло", 50.0, Unit.GRAMS),
-//				Ingredient("Прованские травы", null, null)
-//			),
+			ingredients = listOf(
+				Ingredient("Баклажан", "", 1.0, NutritionInfo(25.0, 1.0, 0.2, 6.0)),
+				Ingredient("Кабачок", "", 1.0, NutritionInfo(17.0, 1.2, 0.3, 3.1)),
+				Ingredient("Перец болгарский", "", 2.0, NutritionInfo(31.0, 1.0, 0.3, 6.0)),
+				Ingredient("Помидоры", "", 4.0, NutritionInfo(22.0, 1.1, 0.2, 4.8)),
+				Ingredient("Лук", "", 1.0, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Чеснок", "", 3.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Оливковое масло", "", 50.0, NutritionInfo(884.0, 0.0, 100.0, 0.0)),
+				Ingredient("Прованские травы", "", null, NutritionInfo(306.0, 11.0, 10.3, 64.4))
+			),
 			cookingSpeed = 60,
 //			steps = listOf(
 //				"Нарежьте овощи кружочками",
@@ -327,15 +260,14 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Тирамису",
 			description = "Итальянский десерт с кофейным вкусом и нежным кремом",
-			recipeImageBackgroundUrl = "https://cookhelp.ru/upload/recipes/tiramisu.jpg",
-//			ingredients = listOf(
-//				Ingredient("Сыр маскарпоне", 500.0, Unit.GRAMS),
-//				Ingredient("Печенье савоярди", 200.0, Unit.GRAMS),
-//				Ingredient("Яйца", 4.0, Unit.PIECE),
-//				Ingredient("Сахар", 100.0, Unit.GRAMS),
-//				Ingredient("Кофе эспрессо", 200.0, Unit.GRAMS),
-//				Ingredient("Какао-порошок", 30.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Сыр маскарпоне", "", 500.0, NutritionInfo(429.0, 7.1, 46.4, 2.6)),
+				Ingredient("Печенье савоярди", "", 200.0, NutritionInfo(386.0, 10.6, 9.1, 66.7)),
+				Ingredient("Яйца", "", 4.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сахар", "", 100.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Кофе эспрессо", "", 200.0, NutritionInfo(1.0, 0.1, 0.0, 0.0)),
+				Ingredient("Какао-порошок", "", 30.0, NutritionInfo(228.0, 19.6, 13.7, 57.9))
+			),
 			cookingSpeed = 90,
 //			steps = listOf(
 //				"Приготовьте кофе и остудите",
@@ -354,16 +286,15 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Омлет с овощами",
 			description = "Пышный омлет с болгарским перцем, помидорами и зеленью",
-			recipeImageBackgroundUrl = "https://kopilka-kulinara.ru/upload/information_system_56/1/7/6/item_1765/item_1765.webp",
-//			ingredients = listOf(
-//				Ingredient("Яйца", 4.0, Unit.PIECE),
-//				Ingredient("Молоко", 50.0, Unit.GRAMS),
-//				Ingredient("Помидор", 1.0, Unit.PIECE),
-//				Ingredient("Перец болгарский", 0.5, Unit.PIECE),
-//				Ingredient("Зелень", null, null),
-//				Ingredient("Соль", null, null),
-//				Ingredient("Масло растительное", 20.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Яйца", "", 4.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Молоко", "", 50.0, NutritionInfo(60.0, 3.2, 3.6, 4.8)),
+				Ingredient("Помидор", "", 1.0, NutritionInfo(22.0, 1.1, 0.2, 4.8)),
+				Ingredient("Перец болгарский", "", 0.5, NutritionInfo(31.0, 1.0, 0.3, 6.0)),
+				Ingredient("Зелень", "", null, NutritionInfo(49.0, 3.7, 0.4, 7.6)),
+				Ingredient("Соль", "", null, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Масло растительное", "", 20.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 15,
 //			steps = listOf(
 //				"Нарежьте овощи мелкими кубиками",
@@ -382,15 +313,14 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Сырники классические",
 			description = "Нежные творожные сырники с хрустящей корочкой",
-			recipeImageBackgroundUrl = "https://baking-academy.ru/upload/iblock/d58/d58f029b2bd9cf8bd49714d02b29b6a1.jpeg",
-//			ingredients = listOf(
-//				Ingredient("Творог", 500.0, Unit.GRAMS),
-//				Ingredient("Яйца", 2.0, Unit.PIECE),
-//				Ingredient("Мука", 100.0, Unit.GRAMS),
-//				Ingredient("Сахар", 50.0, Unit.GRAMS),
-//				Ingredient("Ванильный сахар", 10.0, Unit.GRAMS),
-//				Ingredient("Масло растительное", 50.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Творог", "", 500.0, NutritionInfo(159.0, 17.2, 5.0, 3.4)),
+				Ingredient("Яйца", "", 2.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Мука", "", 100.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Сахар", "", 50.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Ванильный сахар", "", 10.0, NutritionInfo(394.0, 0.0, 0.0, 98.0)),
+				Ingredient("Масло растительное", "", 50.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 25,
 //			steps = listOf(
 //				"Протрите творог через сито",
@@ -409,15 +339,14 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Куриные крылышки BBQ",
 			description = "Хрустящие куриные крылышки в барбекю соусе",
-			recipeImageBackgroundUrl = "https://s1.eda.ru/StaticContent/Photos/120213181523/180606193911/p_O.jpg",
-//			ingredients = listOf(
-//				Ingredient("Куриные крылья", 1.0, Unit.GRAMS),
-//				Ingredient("Соус BBQ", 150.0, Unit.GRAMS),
-//				Ingredient("Чеснок", 3.0, Unit.PIECE),
-//				Ingredient("Паприка", 10.0, Unit.GRAMS),
-//				Ingredient("Соль", 5.0, Unit.GRAMS),
-//				Ingredient("Растительное масло", 30.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Куриные крылья", "", 1.0, NutritionInfo(203.0, 30.5, 8.1, 0.0)),
+				Ingredient("Соус BBQ", "", 150.0, NutritionInfo(172.0, 1.3, 0.6, 41.3)),
+				Ingredient("Чеснок", "", 3.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Паприка", "", 10.0, NutritionInfo(282.0, 14.1, 12.8, 53.9)),
+				Ingredient("Соль", "", 5.0, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Растительное масло", "", 30.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 45,
 //			steps = listOf(
 //				"Замаринуйте крылья в смеси специй и масла на 1 час",
@@ -435,17 +364,16 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Веганский бургер",
 			description = "Бургер с котлетой из нута и овощами",
-			recipeImageBackgroundUrl = "https://magazine.tabris.ru/wp-content/uploads/2020/09/burger-feat.jpg",
-//			ingredients = listOf(
-//				Ingredient("Нут вареный", 300.0, Unit.GRAMS),
-//				Ingredient("Булочки для бургеров", 2.0, Unit.PIECE),
-//				Ingredient("Авокадо", 1.0, Unit.PIECE),
-//				Ingredient("Помидор", 1.0, Unit.PIECE),
-//				Ingredient("Листья салата", 50.0, Unit.GRAMS),
-//				Ingredient("Чеснок", 2.0, Unit.PIECE),
-//				Ingredient("Нутовая мука", 50.0, Unit.GRAMS),
-//				Ingredient("Растительное масло", 20.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Нут вареный", "", 300.0, NutritionInfo(164.0, 8.9, 2.6, 27.4)),
+				Ingredient("Булочки для бургеров", "", 2.0, NutritionInfo(263.0, 9.0, 3.2, 49.0)),
+				Ingredient("Авокадо", "", 1.0, NutritionInfo(160.0, 2.0, 15.0, 9.0)),
+				Ingredient("Помидор", "", 1.0, NutritionInfo(22.0, 1.1, 0.2, 4.8)),
+				Ingredient("Листья салата", "", 50.0, NutritionInfo(15.0, 1.4, 0.2, 2.9)),
+				Ingredient("Чеснок", "", 2.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Нутовая мука", "", 50.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Растительное масло", "", 20.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 35,
 //			steps = listOf(
 //				"Измельчите нут в блендере с чесноком",
@@ -464,17 +392,16 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Тыквенный суп-пюре",
 			description = "Нежный крем-суп из тыквы с имбирем и сливками",
-			recipeImageBackgroundUrl = "https://resizer.mail.ru/p/2d7c09fc-e8c5-525a-9d43-1355e682070e/AQAF_R621nb9v34-idqT1_Ar6brDWBZhe0QJC5dgHiTziK2QV3jlEh9msIDfAWqBBNlL1uayhSTgei2NjjD5R5YQsPQ.jpg",
-//			ingredients = listOf(
-//				Ingredient("Тыква", 800.0, Unit.GRAMS),
-//				Ingredient("Лук", 1.0, Unit.PIECE),
-//				Ingredient("Чеснок", 2.0, Unit.PIECE),
-//				Ingredient("Имбирь", 20.0, Unit.GRAMS),
-//				Ingredient("Сливки", 0.2, Unit.LITERS),
-//				Ingredient("Оливковое масло", 30.0, Unit.GRAMS),
-//				Ingredient("Соль", null, null),
-//				Ingredient("Перец", null, null)
-//			),
+			ingredients = listOf(
+				Ingredient("Тыква", "", 800.0, NutritionInfo(26.0, 1.0, 0.1, 6.5)),
+				Ingredient("Лук", "", 1.0, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Чеснок", "", 2.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Имбирь", "", 20.0, NutritionInfo(80.0, 1.8, 0.8, 17.8)),
+				Ingredient("Сливки", "", 0.2, NutritionInfo(340.0, 2.5, 36.0, 2.8)),
+				Ingredient("Оливковое масло", "", 30.0, NutritionInfo(884.0, 0.0, 100.0, 0.0)),
+				Ingredient("Соль", "", null, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Перец", "", null, NutritionInfo(251.0, 10.4, 3.3, 64.8))
+			),
 			cookingSpeed = 40,
 //			steps = listOf(
 //				"Нарежьте тыкву кубиками",
@@ -494,16 +421,15 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Безглютеновая пицца",
 			description = "Пицца на основе цветной капусты без глютена",
-			recipeImageBackgroundUrl = "https://grandkulinar.ru/uploads/posts/2020-03/1583253501_bezglyutenovaya-picca-iz-kukuruznoj-muki.jpg",
-//			ingredients = listOf(
-//				Ingredient("Цветная капуста", 500.0, Unit.GRAMS),
-//				Ingredient("Яйца", 2.0, Unit.PIECE),
-//				Ingredient("Сыр моцарелла", 200.0, Unit.GRAMS),
-//				Ingredient("Томатный соус", 0.1, Unit.LITERS),
-//				Ingredient("Оливки", 50.0, Unit.GRAMS),
-//				Ingredient("Базилик", 10.0, Unit.GRAMS),
-//				Ingredient("Кукурузная мука", 50.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Цветная капуста", "", 500.0, NutritionInfo(25.0, 2.0, 0.3, 5.0)),
+				Ingredient("Яйца", "", 2.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сыр моцарелла", "", 200.0, NutritionInfo(280.0, 28.0, 17.0, 3.1)),
+				Ingredient("Томатный соус", "", 0.1, NutritionInfo(34.0, 1.7, 0.3, 7.6)),
+				Ingredient("Оливки", "", 50.0, NutritionInfo(115.0, 0.8, 10.7, 6.3)),
+				Ingredient("Базилик", "", 10.0, NutritionInfo(23.0, 3.2, 0.6, 2.7)),
+				Ingredient("Кукурузная мука", "", 50.0, NutritionInfo(364.0, 10.3, 1.0, 76.3))
+			),
 			cookingSpeed = 50,
 //			steps = listOf(
 //				"Измельчите цветную капусту в блендере",
@@ -522,16 +448,15 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Овсянный блин",
 			description = "Полезный завтрак из овсянки с начинкой",
-			recipeImageBackgroundUrl = "https://www.makfa.ru/upload/resize_cache/iblock/db7/450_450_1/mxqrmk7sv4qbehoi30l82xti7uw7l80v.jpg",
-//			ingredients = listOf(
-//				Ingredient("Овсяные хлопья", 50.0, Unit.GRAMS),
-//				Ingredient("Яйца", 2.0, Unit.PIECE),
-//				Ingredient("Молоко", 0.1, Unit.LITERS),
-//				Ingredient("Сыр", 50.0, Unit.GRAMS),
-//				Ingredient("Помидор", 1.0, Unit.PIECE),
-//				Ingredient("Зелень", null, null),
-//				Ingredient("Соль", null, null)
-//			),
+			ingredients = listOf(
+				Ingredient("Овсяные хлопья", "", 50.0, NutritionInfo(389.0, 16.9, 6.9, 66.3)),
+				Ingredient("Яйца", "", 2.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Молоко", "", 0.1, NutritionInfo(60.0, 3.2, 3.6, 4.8)),
+				Ingredient("Сыр", "", 50.0, NutritionInfo(402.0, 25.0, 33.0, 1.3)),
+				Ingredient("Помидор", "", 1.0, NutritionInfo(22.0, 1.1, 0.2, 4.8)),
+				Ingredient("Зелень", "", null, NutritionInfo(49.0, 3.7, 0.4, 7.6)),
+				Ingredient("Соль", "", null, NutritionInfo(0.0, 0.0, 0.0, 0.0))
+			),
 			cookingSpeed = 15,
 //			steps = listOf(
 //				"Смешайте овсянку, яйца и молоко",
@@ -550,23 +475,16 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Лосось в медово-горчичном соусе",
 			description = "Нежное филе лосося с хрустящей корочкой",
-			recipeImageBackgroundUrl = "https://static.vkusnyblog.com/full/uploads/2014/10/losos-v-medovo-gorchichnom-souse.jpg",
-//			ingredients = listOf(
-//				Ingredient("Филе лосося", 600.0, Unit.GRAMS),
-//				Ingredient("Мед", 30.0, Unit.GRAMS),
-//				Ingredient("Горчица", 20.0, Unit.GRAMS),
-//				Ingredient("Лимон", 1.0, Unit.PIECE),
-//				Ingredient("Чеснок", 2.0, Unit.PIECE),
-//				Ingredient("Укроп", 10.0, Unit.GRAMS),
-//				Ingredient("Оливковое масло", 20.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Филе лосося", "", 600.0, NutritionInfo(208.0, 20.4, 13.4, 0.0)),
+				Ingredient("Мед", "", 30.0, NutritionInfo(304.0, 0.3, 0.0, 82.4)),
+				Ingredient("Горчица", "", 20.0, NutritionInfo(66.0, 4.4, 3.7, 5.8)),
+				Ingredient("Лимон", "", 1.0, NutritionInfo(29.0, 1.1, 0.3, 9.3)),
+				Ingredient("Чеснок", "", 2.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Укроп", "", 10.0, NutritionInfo(43.0, 3.5, 1.1, 7.0)),
+				Ingredient("Оливковое масло", "", 20.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 25,
-//			steps = listOf(
-//				"Смешайте мед, горчицу и измельченный чеснок",
-//				"Обмажьте лосось соусом",
-//				"Запекайте 15 минут при 200°C",
-//				"Подавайте с дольками лимона и укропом"
-//			),
 			recipeType = RecipeType.COMPLEX,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 3100, likes = 2900)
@@ -577,15 +495,39 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Шоколадный фондан",
 			description = "Десерт с жидкой шоколадной серединкой",
-			recipeImageBackgroundUrl = "https://eda.ru/images/RecipePhoto/390x390/shokoladnij-fondan_49755_photo_53437.jpg",
-//			ingredients = listOf(
-//				Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
-//				Ingredient("Сливочное масло", 100.0, Unit.GRAMS),
-//				Ingredient("Яйца", 4.0, Unit.PIECE),
-//				Ingredient("Сахар", 100.0, Unit.GRAMS),
-//				Ingredient("Мука", 60.0, Unit.GRAMS),
-//				Ingredient("Какао-порошок", 20.0, Unit.GRAMS)
+			ingredients = listOf(
+				Ingredient("Темный шоколад", "", 200.0, NutritionInfo(546.0, 4.9, 31.3, 61.2)),
+				Ingredient("Сливочное масло", "", 100.0, NutritionInfo(717.0, 0.9, 81.1, 0.1)),
+				Ingredient("Яйца", "", 4.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сахар", "", 100.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Мука", "", 60.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Какао-порошок", "", 20.0, NutritionInfo(228.0, 19.6, 13.7, 57.9))
+			),
+			cookingSpeed = 30,
+//			steps = listOf(
+//				"Смешайте мед, горчицу и измельченный чеснок",
+//				"Обмажьте лосось соусом",
+//				"Запекайте 15 минут при 200°C",
+//				"Подавайте с дольками лимона и укропом"
 //			),
+			recipeType = RecipeType.BAKING,
+			difficulty = Difficulty.HARD,
+			otherInfo = OtherInfo(watches = 3800, likes = 3600)
+		),
+
+		Recipe(
+			id = "11111132",
+			userId = "WaAWgH3212",
+			name = "Шоколадный фондан",
+			description = "Десерт с жидкой шоколадной серединкой",
+			ingredients = listOf(
+				Ingredient("Темный шоколад", "", 200.0, NutritionInfo(546.0, 4.9, 31.3, 61.2)),
+				Ingredient("Сливочное масло", "", 100.0, NutritionInfo(717.0, 0.9, 81.1, 0.1)),
+				Ingredient("Яйца", "", 4.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сахар", "", 100.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Мука", "", 60.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Какао-порошок", "", 20.0, NutritionInfo(228.0, 19.6, 13.7, 57.9))
+			),
 			cookingSpeed = 30,
 //			steps = listOf(
 //				"Растопите шоколад с маслом",
@@ -604,16 +546,15 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Гречка с грибами",
 			description = "Ароматная гречневая каша с лесными грибами",
-			recipeImageBackgroundUrl = "https://cdn.lifehacker.ru/wp-content/uploads/2024/11/103_1732278919.jpg",
-//			ingredients = listOf(
-//				Ingredient("Гречка", 300.0, Unit.GRAMS),
-//				Ingredient("Грибы", 200.0, Unit.GRAMS),
-//				Ingredient("Лук", 1.0, Unit.PIECE),
-//				Ingredient("Морковь", 1.0, Unit.PIECE),
-//				Ingredient("Чеснок", 2.0, Unit.PIECE),
-//				Ingredient("Зелень", null, null),
-//				Ingredient("Сливочное масло", 30.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Гречка", "", 300.0, NutritionInfo(343.0, 13.3, 3.4, 71.5)),
+				Ingredient("Грибы", "", 200.0, NutritionInfo(22.0, 3.1, 0.3, 3.3)),
+				Ingredient("Лук", "", 1.0, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Морковь", "", 1.0, NutritionInfo(41.0, 0.9, 0.2, 9.6)),
+				Ingredient("Чеснок", "", 2.0, NutritionInfo(149.0, 6.4, 0.5, 33.0)),
+				Ingredient("Зелень", "", null, NutritionInfo(49.0, 3.7, 0.4, 7.6)),
+				Ingredient("Сливочное масло", "", 30.0, NutritionInfo(717.0, 0.9, 81.1, 0.1))
+			),
 			cookingSpeed = 35,
 //			steps = listOf(
 //				"Обжарьте лук, морковь и грибы",
@@ -632,16 +573,15 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Крем-суп из шампиньонов",
 			description = "Нежный грибной суп с ароматными травами и сливками",
-			recipeImageBackgroundUrl = "https://cdn.lifehacker.ru/wp-content/uploads/2020/04/shutterstock_562737943_1588005524-e1588005568972-scaled.jpg",
-//			ingredients = listOf(
-//				Ingredient("Шампиньоны", 500.0, Unit.GRAMS),
-//				Ingredient("Лук репчатый", 1.0, Unit.PIECE),
-//				Ingredient("Сливки 20%", 0.2, Unit.LITERS),
-//				Ingredient("Картофель", 2.0, Unit.PIECE),
-//				Ingredient("Чеснок", 2.0, Unit.PIECE),
-//				Ingredient("Тимьян", 5.0, Unit.GRAMS),
-//				Ingredient("Масло сливочное", 30.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Шампиньоны", "", 500.0, NutritionInfo(22.0, 3.1, 0.3, 3.3)),
+				Ingredient("Лук репчатый", "", 1.0, NutritionInfo(40.0, 1.1, 0.1, 9.3)),
+				Ingredient("Сливки 20%", "", 0.2, NutritionInfo(206.0, 2.8, 20.0, 3.7)),
+				Ingredient("Картофель", "", 2.0, NutritionInfo(77.0, 2.0, 0.1, 17.0)),
+				Ingredient("Чеснок", "", 2.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Тимьян", "", 5.0, NutritionInfo(101.0, 5.6, 1.7, 24.5)),
+				Ingredient("Масло сливочное", "", 30.0, NutritionInfo(717.0, 0.9, 81.1, 0.1))
+			),
 			cookingSpeed = 35,
 //			steps = listOf(
 //				"Нарежьте грибы и овощи кубиками",
@@ -661,17 +601,16 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Лазанья со шпинатом и рикоттой",
 			description = "Вегетарианская лазанья с нежной начинкой из шпината",
-			recipeImageBackgroundUrl = "https://foodmood.ru/upload/iblock/3f0/3f0768727a901225a5246bad8d5f539e.jpg",
-//			ingredients = listOf(
-//				Ingredient("Листы лазаньи", 12.0, Unit.PIECE),
-//				Ingredient("Шпинат", 400.0, Unit.GRAMS),
-//				Ingredient("Сыр рикотта", 250.0, Unit.GRAMS),
-//				Ingredient("Сыр пармезан", 100.0, Unit.GRAMS),
-//				Ingredient("Чеснок", 3.0, Unit.PIECE),
-//				Ingredient("Молоко", 0.5, Unit.LITERS),
-//				Ingredient("Мука", 50.0, Unit.GRAMS),
-//				Ingredient("Мускатный орех", 2.0, Unit.TEASPOONS)
-//			),
+			ingredients = listOf(
+				Ingredient("Листы лазаньи", "", 12.0, NutritionInfo(131.0, 5.1, 0.6, 25.0)),
+				Ingredient("Шпинат", "", 400.0, NutritionInfo(23.0, 2.9, 0.4, 3.6)),
+				Ingredient("Сыр рикотта", "", 250.0, NutritionInfo(174.0, 11.3, 13.0, 3.0)),
+				Ingredient("Сыр пармезан", "", 100.0, NutritionInfo(392.0, 35.8, 25.8, 3.2)),
+				Ingredient("Чеснок", "", 3.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Молоко", "", 0.5, NutritionInfo(60.0, 3.2, 3.6, 4.8)),
+				Ingredient("Мука", "", 50.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Мускатный орех", "", 2.0, NutritionInfo(525.0, 5.8, 36.3, 49.3))
+			),
 			cookingSpeed = 75,
 //			steps = listOf(
 //				"Приготовьте бешамель: обжарьте муку, добавьте молоко и мускатный орех",
@@ -690,15 +629,14 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Безглютеновые банановые панкейки",
 			description = "Пышные панкейки на миндальной муке с бананом",
-			recipeImageBackgroundUrl =  "https://menunedeli.ru/wp-content/uploads/2023/04/E651A110-DF7F-44A8-8124-5B526BB1DAC6-933x700.jpeg",
-//			ingredients = listOf(
-//				Ingredient("Миндальная мука", 200.0, Unit.GRAMS),
-//				Ingredient("Бананы", 2.0, Unit.PIECE),
-//				Ingredient("Яйца", 3.0, Unit.PIECE),
-//				Ingredient("Молоко", 100.0, Unit.GRAMS),
-//				Ingredient("Разрыхлитель", 10.0, Unit.GRAMS),
-//				Ingredient("Кленовый сироп", 50.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Миндальная мука", "", 200.0, NutritionInfo(579.0, 21.2, 49.9, 21.6)),
+				Ingredient("Бананы", "", 2.0, NutritionInfo(89.0, 1.1, 0.3, 22.8)),
+				Ingredient("Яйца", "", 3.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Молоко", "", 100.0, NutritionInfo(60.0, 3.2, 3.6, 4.8)),
+				Ingredient("Разрыхлитель", "", 10.0, NutritionInfo(0.0, 0.0, 0.0, 0.0)),
+				Ingredient("Кленовый сироп", "", 50.0, NutritionInfo(260.0, 0.0, 0.0, 67.0))
+			),
 			cookingSpeed = 20,
 //			steps = listOf(
 //				"Разомните бананы вилкой",
@@ -716,15 +654,14 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Куриные грудки в медово-горчичном соусе",
 			description = "Нежные куриные грудки с хрустящей корочкой",
-			recipeImageBackgroundUrl =  "https://img.iamcook.ru/2023/upl/recipes/cat/u-cfdce98cff5c8eef490159b1bfabea53.JPG",
-//			ingredients = listOf(
-//				Ingredient("Куриная грудка", 600.0, Unit.GRAMS),
-//				Ingredient("Мед", 50.0, Unit.GRAMS),
-//				Ingredient("Горчица", 30.0, Unit.GRAMS),
-//				Ingredient("Чеснок", 3.0, Unit.PIECE),
-//				Ingredient("Лимонный сок", 20.0, Unit.GRAMS),
-//				Ingredient("Оливковое масло", 30.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Куриная грудка", "", 600.0, NutritionInfo(165.0, 31.0, 3.6, 0.0)),
+				Ingredient("Мед", "", 50.0, NutritionInfo(304.0, 0.3, 0.0, 82.4)),
+				Ingredient("Горчица", "", 30.0, NutritionInfo(66.0, 4.4, 3.7, 5.8)),
+				Ingredient("Чеснок", "", 3.0, NutritionInfo(149.0, 6.4, 0.5, 33.1)),
+				Ingredient("Лимонный сок", "", 20.0, NutritionInfo(6.0, 0.1, 0.0, 2.0)),
+				Ingredient("Оливковое масло", "", 30.0, NutritionInfo(884.0, 0.0, 100.0, 0.0))
+			),
 			cookingSpeed = 30,
 //			steps = listOf(
 //				"Смешайте мед, горчицу, чеснок и лимонный сок",
@@ -742,14 +679,13 @@ class RecipeRepositoryImpl {
 			userId = "85t6ir7f12v",
 			name = "Шоколадный мусс",
 			description = "Воздушный шоколадный десерт с насыщенным вкусом",
-			recipeImageBackgroundUrl = "https://burninghut.ru/wp-content/uploads/2024/09/poleznyj-shokoladnyj-muss.jpg",
-//			ingredients = listOf(
-//				Ingredient("Темный шоколад", 200.0, Unit.GRAMS),
-//				Ingredient("Сливки 33%", 0.3, Unit.LITERS),
-//				Ingredient("Яйца", 3.0, Unit.PIECE),
-//				Ingredient("Сахар", 50.0, Unit.GRAMS),
-//				Ingredient("Ванильный экстракт", 5.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Темный шоколад", "", 200.0, NutritionInfo(546.0, 4.9, 31.3, 61.2)),
+				Ingredient("Сливки 33%", "", 0.3, NutritionInfo(340.0, 2.5, 36.0, 2.8)),
+				Ingredient("Яйца", "", 3.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сахар", "", 50.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Ванильный экстракт", "", 5.0, NutritionInfo(288.0, 0.1, 0.1, 12.7))
+			),
 			cookingSpeed = 45,
 //			steps = listOf(
 //				"Растопите шоколад на водяной бане",
@@ -768,17 +704,16 @@ class RecipeRepositoryImpl {
 			userId = "WaAWgH3212",
 			name = "Морковный торт",
 			description = "Влажный пряный торт с морковью и грецкими орехами",
-			recipeImageBackgroundUrl = "https://eu-images.contentstack.com/v3/assets/bltf51e50af165afed2/blt7a8e91b8961ca7c2/65c47b7f48289b040a1e3800/%D0%BC%D0%BE%D1%80%D0%BA%D0%BE%D0%B2%D0%BD%D1%8B%D0%B9_%D1%82%D0%BE%D1%80%D1%82.jpeg",
-//			ingredients = listOf(
-//				Ingredient("Морковь", 300.0, Unit.GRAMS),
-//				Ingredient("Мука", 250.0, Unit.GRAMS),
-//				Ingredient("Яйца", 3.0, Unit.PIECE),
-//				Ingredient("Сахар", 200.0, Unit.GRAMS),
-//				Ingredient("Грецкие орехи", 100.0, Unit.GRAMS),
-//				Ingredient("Растительное масло", 150.0, Unit.GRAMS),
-//				Ingredient("Корица", 10.0, Unit.GRAMS),
-//				Ingredient("Сода", 5.0, Unit.GRAMS)
-//			),
+			ingredients = listOf(
+				Ingredient("Морковь", "", 300.0, NutritionInfo(41.0, 0.9, 0.2, 9.6)),
+				Ingredient("Мука", "", 250.0, NutritionInfo(364.0, 10.3, 1.0, 76.3)),
+				Ingredient("Яйца", "", 3.0, NutritionInfo(143.0, 12.6, 9.5, 0.7)),
+				Ingredient("Сахар", "", 200.0, NutritionInfo(387.0, 0.0, 0.0, 100.0)),
+				Ingredient("Грецкие орехи", "", 100.0, NutritionInfo(654.0, 15.2, 65.2, 13.7)),
+				Ingredient("Растительное масло", "", 150.0, NutritionInfo(884.0, 0.0, 100.0, 0.0)),
+				Ingredient("Корица", "", 10.0, NutritionInfo(247.0, 4.0, 1.2, 80.6)),
+				Ingredient("Сода", "", 5.0, NutritionInfo(0.0, 0.0, 0.0, 0.0))
+			),
 			cookingSpeed = 80,
 //			steps = listOf(
 //				"Натрите морковь на мелкой терке",
