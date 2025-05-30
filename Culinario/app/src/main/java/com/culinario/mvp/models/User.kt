@@ -9,5 +9,5 @@ data class User(
     var backgroundImageUrl: String? = null,
     var recipesId: List<String> = listOf(),
     var likedRecipesId: List<String> = listOf(),
-    var likedCommentariesId: List<String> = listOf(),
+    var likedCommentariesId: List<String> = listOf()
 )

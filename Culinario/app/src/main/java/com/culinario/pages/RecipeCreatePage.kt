@@ -68,6 +68,7 @@ import kotlin.random.Random
 @SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Deprecated("old create recipe page")
 fun RecipeCreatePage(
     modifier: Modifier = Modifier,
     viewModel: RecipeCreatePageViewModel,
@@ -193,7 +194,6 @@ fun RecipeCreatePage(
                     )
                 }
             }
-
 
             Box(
                 modifier = Modifier

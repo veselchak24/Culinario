@@ -52,10 +52,10 @@ class MainActivity : ComponentActivity() {
                     loginScreen = { LoginScreen(it) },
                     homeScreen = { MainScreen(it) }
                 )
+
                 LaunchedEffect(Unit) {
                     println(Firebase.firestore.collection(USER_COLLECTION).get().await().size())
                 }
-
                 //sendRecipesToDb()
             }
         }

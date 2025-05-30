@@ -9,24 +9,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="some improvements">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="recipe deletion added">
       <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/RecipeCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/RecipeCard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/FavoriteRecipesPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/FavoriteRecipesPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/User.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/HomePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/UserPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/UserPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/FavoritePageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/FavoritePageViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/HomePageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/HomePageViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCardViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCardViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/UserPageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/UserPageViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignInPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignInPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/LoginScreen.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +145,7 @@
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.16582492",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "com.android.studio.ml.bot.mainConfigurable"
+    "settings.editor.selected.configurable": "com.android.tools.idea.logcat.settings.LogcatApplicationSettingsConfigurableProvider"
   }
 }]]></component>
   <component name="PsdUISettings">
@@ -658,7 +650,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748373999597</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="recipe deletion added">
+      <option name="closed" value="true" />
+      <created>1748462291945</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1748462291945</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -695,7 +695,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added vm" />
     <MESSAGE value="optimized cardViewModel user load" />
     <MESSAGE value="refactored Recipe" />
     <MESSAGE value="refactored RecipePage" />
@@ -720,7 +719,8 @@
     <MESSAGE value="added Commentaries and update FavoriteRecipesPage" />
     <MESSAGE value="prepare to send recipes in database" />
     <MESSAGE value="some improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="some improvements" />
+    <MESSAGE value="recipe deletion added" />
+    <option name="LAST_COMMIT_MESSAGE" value="recipe deletion added" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
