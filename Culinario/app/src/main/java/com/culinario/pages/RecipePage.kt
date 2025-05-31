@@ -1,5 +1,6 @@
 package com.culinario.pages
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +9,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -26,7 +28,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -64,13 +66,14 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
 import com.culinario.controls.CommentaryCard
+import com.culinario.controls.DetailedStepPageCard
 import com.culinario.controls.Header
 import com.culinario.controls.IngredientCard
 import com.culinario.controls.NutritionInfo
 import com.culinario.controls.UserPageLinkButton
+import com.culinario.helpers.asColor
 import com.culinario.helpers.asWord
 import com.culinario.helpers.generateQRCode
-import com.culinario.helpers.asColor
 import com.culinario.mvp.models.DetailedCookingStep
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
@@ -104,88 +107,100 @@ fun RecipePage(
         }
     }
 
-    var isDetailedPageLaunched by remember { mutableStateOf(false) }
+    val isDetailedPageLaunched = remember { mutableStateOf(false) }
 
-    if (isDetailedPageLaunched) {
+    if (isDetailedPageLaunched.value) {
+        println("hellow")
         DetailedStepsPage(recipe.steps) {
-            isDetailedPageLaunched = false
+            isDetailedPageLaunched.value = false
         }
-    }
-
-    BottomSheetScaffold (
-        scaffoldState = rememberBottomSheetScaffoldState(),
-        sheetTonalElevation = 10.dp,
-        sheetDragHandle = {
-            SheetDragHandler()
-        },
-        sheetPeekHeight = screenHeight / 2,
-        sheetContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .clipToBounds(),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                SheetHeader(viewModel, recipe, user, navController)
-
+    } else {
+        BottomSheetScaffold (
+            scaffoldState = rememberBottomSheetScaffoldState(),
+            sheetTonalElevation = 10.dp,
+            sheetDragHandle = {
+                SheetDragHandler()
+            },
+            sheetPeekHeight = screenHeight / 2,
+            sheetContent = {
                 Column(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 25.dp)
-                        .padding(top = 10.dp, bottom = 50.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                        .verticalScroll(rememberScrollState())
+                        .clipToBounds(),
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    NutritionInfo(recipe.nutritionInfo)
+                    SheetHeader(viewModel, recipe, user, navController)
 
-                    Description(recipe)
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 25.dp)
+                            .padding(top = 10.dp, bottom = 50.dp),
+                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                    ) {
+                        NutritionInfo(recipe.nutritionInfo)
 
-                    Ingredients(recipe)
+                        Description(recipe)
 
-                    if (recipe.steps.isNotEmpty()) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(.9f)
-                                .background(
-                                    brush = Brush.horizontalGradient(
-                                        colors = listOf(
-                                            Color(0xFF2AF598), // Мятный
-                                            Color(0xFF08AEEA)  // Голубой
-                                        )
-                                    ),
-                                    shape = RoundedCornerShape(100)
-                                )
-                                .clip(RoundedCornerShape(100))
-                                .clickable {
-                                    isDetailedPageLaunched = true
-                                }
-                                .padding(12.dp)
-                                .align(Alignment.CenterHorizontally),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Row {
-                                Text(
-                                    text = "Начать готовку",
-                                    fontWeight = FontWeight.W700,
-                                    color = MaterialTheme.colorScheme.onPrimary
-                                )
-                            }
+                        Ingredients(recipe)
+
+                        DetailedPageButton(recipe, isDetailedPageLaunched)
+
+                        CommentaryField(viewModel)
+
+                        CommentaryList(recipe) {
+                            navController.navigate("UserPage/$it")
                         }
-                    }
-
-                    CommentaryField(viewModel)
-
-                    CommentaryList(recipe) {
-                        navController.navigate("UserPage/$it")
                     }
                 }
             }
+        ) { _ ->
+            BackgroundImagesDrawer(
+                recipe = recipe,
+                screenHeight = screenHeight
+            )
         }
-    ) { _ ->
-        BackgroundImagesDrawer(
-            recipe = recipe,
-            screenHeight = screenHeight
-        )
+    }
+
+}
+
+@Composable
+private fun ColumnScope.DetailedPageButton(
+    recipe: Recipe,
+    isDetailedPageLaunched: MutableState<Boolean>,
+) {
+    if (recipe.steps.isNotEmpty()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(.9f)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.secondary,
+                            MaterialTheme.colorScheme.primary
+                        ),
+                        start = Offset(100f, 0f),
+                        end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                    ),
+                    shape = RoundedCornerShape(100)
+                )
+                .clip(RoundedCornerShape(100))
+                .clickable {
+                    isDetailedPageLaunched.value = true
+                }
+                .padding(12.dp)
+                .align(Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
+        ) {
+            Row {
+                Text(
+                    text = "Начать готовку",
+                    fontWeight = FontWeight.W700,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
     }
 }
 
@@ -444,7 +459,98 @@ private fun DetailedStepsPage(
     steps: List<DetailedCookingStep>,
     onClose: () -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(0) { steps.size }
 
+    BackHandler {
+        if (pagerState.currentPage > 0) {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+            }
+        } else {
+            onClose()
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .fillMaxSize()
+    ) {
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxHeight(.9f)
+        ) { index ->
+            DetailedStepPageCard(Modifier, steps[index])
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                        }
+                    },
+                    enabled = pagerState.currentPage > 0
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrow_back_icon),
+                        contentDescription = "back arrow",
+                        tint = if (pagerState.currentPage > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainer
+                    )
+                }
+
+                Text(
+                    text = "${pagerState.currentPage + 1} из ${steps.size}",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.W600,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    },
+                    enabled = pagerState.currentPage + 1 < steps.size
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrow_forward_icon),
+                        contentDescription = "forward arrow",
+                        tint = if (pagerState.currentPage + 1 < steps.size) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainer
+                    )
+                }
+            }
+
+            if (pagerState.currentPage == steps.size - 1) {
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd),
+                    onClick = {
+                        onClose()
+                    }
+                ) {
+                    Text(
+                        text = "Готово!"
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable

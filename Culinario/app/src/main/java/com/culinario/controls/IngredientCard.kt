@@ -68,6 +68,7 @@ fun IngredientCard(
         Column(
           modifier = Modifier
               .width(80.dp)
+              .padding(start = 6.dp)
         ) {
             Text(
                 text = ingredient.name,

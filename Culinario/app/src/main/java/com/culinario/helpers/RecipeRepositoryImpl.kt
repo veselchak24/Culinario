@@ -22,12 +22,6 @@ class RecipeRepositoryImpl {
 			ingredients = listOf(
 				Ingredient("Киноа", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrzW8lEB5GaS0mYxBquAxwYV0TL_st3dB_Pw&s", 200.0, "г.", NutritionInfo(200.0, 8.0, 4.0, 36.0)),
 				Ingredient("Огурец", "https://usolie.info/userfiles/picfullsize/image-1739392867_025.jpg", 1.0, "шт.", NutritionInfo(36.0, 1.6, 0.4, 7.8)),
-				Ingredient("Помидор", "https://kuban24.tv/wp-content/uploads/2023/06/photo_2023-06-20_13-18-40.jpg", 2.0, "шт.", NutritionInfo(234.0, 2.9, 21.4, 12.5)),
-				Ingredient("Авокадо", "https://images.unian.net/photos/2020_04/thumb_files/1000_545_1586510267-1627.jpg", 1.0, "шт.", NutritionInfo(8.0, 0.1, 0.1, 2.5)),
-				Ingredient("Лимонный сок", "https://images.gastronom.ru/BI0TG0GHGHlwieEsbbFUtQBti_qllKtfuelUzlmtcS0/pr:product-preview-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzLzJlMGJjNDY0LTgxOWMtNDliMS05ZTk2LTg3ZmM4YmZkYTYyNS5qcGc.webp", 30.0, "мл.", NutritionInfo(29.0, 0.9, 0.1, 3.0)),
-				Ingredient("Оливковое масло", "https://kudri-brovi.ru/wp-content/uploads/2023/08/%D0%BE%D0%BB%D0%B8%D0%B2%D0%BA%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BC%D0%B0%D1%81%D0%BB%D0%BE-%D0%B0%D0%B2%D0%B0.jpg", 20.0, "мл.", NutritionInfo(900.0, 0.0, 100.0, 0.0)),
-				Ingredient("Соль", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVlpSDxpyfPf058KpXAlGqeKlLwNRjwC_DNA&s", null, "по вкусу", NutritionInfo(0.0, 0.0, 0.0, 0.0)),
-				Ingredient("Петрушка", "https://organicmarket.ru/files/images/product/large_image/0/3407/petrushka_63319cb86ef34.jpg", null, "", NutritionInfo(49.0, 3.7, 0.4, 7.6))
 			),
 			cookingSpeed = 15,
 			steps = listOf(
@@ -67,6 +61,12 @@ class RecipeRepositoryImpl {
 					time = 120,
 					description = "Перед подачей украсьте салат веточками петрушки. Можно посыпать кунжутом или тыквенными семечками для дополнительного хруста."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 340.0,
+				proteins = 32.0,
+				fats = 8.0,
+				carbohydrates = 12.0
 			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.EASY,
