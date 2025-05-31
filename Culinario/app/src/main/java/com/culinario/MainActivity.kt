@@ -2,7 +2,6 @@ package com.culinario
 
 import android.net.Uri
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -21,7 +20,6 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.culinario.helpers.RECIPE_COLLECTION
 import com.culinario.helpers.RecipeRepositoryImpl
-import com.culinario.helpers.QrScanner
 import com.culinario.pages.QrScannerPage
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
@@ -34,6 +32,7 @@ import com.culinario.viewmodel.RecipePageViewModel
 import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
@@ -62,6 +61,7 @@ class MainActivity : ComponentActivity() {
                     loginScreen = { LoginScreen(it) },
                     homeScreen = { MainScreen(it) }
                 )
+
                 //sendRecipesToDb()
             }
         }
@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
 
         LaunchedEffect(Unit) {
             for (recipe in recipes.recipes) {
-                Firebase.firestore.collection(RECIPE_COLLECTION).document(recipe.id).set(recipe).await()
+                Firebase.firestore.collection(RECIPE_COLLECTION).document(recipe.id).set(recipe, SetOptions.merge()).await()
             }
         }
     }

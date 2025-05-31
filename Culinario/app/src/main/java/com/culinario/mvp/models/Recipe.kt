@@ -56,10 +56,20 @@ data class RecipeDescription(
     val tips: List<String> = listOf()
 )
 
+/**
+ * Детальное описание шага приготовления
+ *
+ * @param[imageUrl] ссылка на фоновую картинку
+ * @param[title] заголовок текущего шага рецепта
+ * @param[time] время на текущий шаг (сек.)
+ * @param[description] детальное описание текущего шага
+ */
 @Serializable
 data class DetailedCookingStep(
-    val imageUrl: String,
-    val description: String
+    val imageUrl: String = "",
+    val title: String = "",
+    val time: Int = 0,
+    val description: String = ""
 )
 
 /**
@@ -70,7 +80,7 @@ data class DetailedCookingStep(
  * @param[unit] единица измерения.
  */
 @Serializable
-data class Ingredient (
+data class Ingredient(
     val name: String = "",
     val imageUrl: String = "",
     val quantity: Double? = 0.0,

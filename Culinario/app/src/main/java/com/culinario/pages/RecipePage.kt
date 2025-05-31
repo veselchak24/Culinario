@@ -3,6 +3,7 @@ package com.culinario.pages
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,7 +25,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.Card
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,6 +46,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -64,7 +68,10 @@ import com.culinario.controls.Header
 import com.culinario.controls.IngredientCard
 import com.culinario.controls.NutritionInfo
 import com.culinario.controls.UserPageLinkButton
+import com.culinario.helpers.asWord
 import com.culinario.helpers.generateQRCode
+import com.culinario.helpers.asColor
+import com.culinario.mvp.models.DetailedCookingStep
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
 import com.culinario.viewmodel.CommentaryViewModel
@@ -94,6 +101,14 @@ fun RecipePage(
         viewModel.recipe.collect { newState ->
             println("Recipe update")
             recipe = newState
+        }
+    }
+
+    var isDetailedPageLaunched by remember { mutableStateOf(false) }
+
+    if (isDetailedPageLaunched) {
+        DetailedStepsPage(recipe.steps) {
+            isDetailedPageLaunched = false
         }
     }
 
@@ -127,7 +142,36 @@ fun RecipePage(
 
                     Ingredients(recipe)
 
-                    Steps(recipe)
+                    if (recipe.steps.isNotEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth(.9f)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        colors = listOf(
+                                            Color(0xFF2AF598), // Мятный
+                                            Color(0xFF08AEEA)  // Голубой
+                                        )
+                                    ),
+                                    shape = RoundedCornerShape(100)
+                                )
+                                .clip(RoundedCornerShape(100))
+                                .clickable {
+                                    isDetailedPageLaunched = true
+                                }
+                                .padding(12.dp)
+                                .align(Alignment.CenterHorizontally),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row {
+                                Text(
+                                    text = "Начать готовку",
+                                    fontWeight = FontWeight.W700,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+                    }
 
                     CommentaryField(viewModel)
 
@@ -202,7 +246,7 @@ private fun SheetHeader(
     val coroutineScope = rememberCoroutineScope()
     var isLiked by remember { mutableStateOf(viewModel.isRecipeLiked.value) }
 
-    var isShare by remember { mutableStateOf(false) }
+    val isShare = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.isRecipeLiked.collect {
@@ -210,50 +254,8 @@ private fun SheetHeader(
         }
     }
 
-    if (isShare) {
-        Dialog(
-            onDismissRequest = {
-                isShare = false
-            }
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(.9f)
-                    .wrapContentHeight()
-                    .clip(RoundedCornerShape(25.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                    .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 30.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                val qrBitmap = generateQRCode("culinario://recipe-page/${recipe.id}")
-
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(15.dp)),
-                    bitmap = qrBitmap.asImageBitmap(),
-                    contentDescription = "share qr code"
-                )
-
-                Text(
-                    text = recipe.name,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.W700,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-                )
-
-                Text(
-                    text = "Отсканируйте qr, чтобы поделиться рецептом",
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp)
-                )
-            }
-        }
+    if (isShare.value) {
+        ShareDialog(isShare, recipe)
     }
 
     Column(
@@ -314,7 +316,7 @@ private fun SheetHeader(
 
             IconButton(
                 onClick = {
-                    isShare = true
+                    isShare.value = true
                 }
             ) {
                 Icon(
@@ -346,9 +348,21 @@ private fun QuickStats(
 
             IconAndText(
                 icon = R.drawable.fire_icon,
-                text = recipe.difficulty.toString()
+                text = recipe.difficulty.asWord()
             )
 
+            IconAndText(
+                icon = R.drawable.spa_icon,
+                text = recipe.recipeType.asWord(),
+                color = recipe.recipeType.asColor()
+            )
+        }
+
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
             IconAndText(
                 icon = R.drawable.weight_icon,
                 text = "${recipe.totalWeight} г."
@@ -365,7 +379,8 @@ private fun QuickStats(
 @Composable
 private fun IconAndText(
     @DrawableRes icon: Int,
-    text: String
+    text: String,
+    color: Color = MaterialTheme.colorScheme.primary
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -375,8 +390,8 @@ private fun IconAndText(
             painter = painterResource(icon),
             contentDescription = "clock icon",
             modifier = Modifier
-                .size(14.dp),
-            tint = MaterialTheme.colorScheme.primary
+                .size(16.dp),
+            tint = color
         )
 
         Text(
@@ -385,6 +400,7 @@ private fun IconAndText(
         )
     }
 }
+
 
 @Composable
 private fun Description(recipe: Recipe) {
@@ -424,23 +440,59 @@ private fun Ingredients(recipe: Recipe) {
 }
 
 @Composable
-private fun Steps(recipe: Recipe) {
-    if (recipe.steps.isEmpty()) return
+private fun DetailedStepsPage(
+    steps: List<DetailedCookingStep>,
+    onClose: () -> Unit
+) {
 
-    Column {
-        Header(stringResource(R.string.recipe_page_header_steps))
+}
 
-        Card {
-            Column(
+@Composable
+private fun ShareDialog(
+    isShare: MutableState<Boolean>,
+    recipe: Recipe
+) {
+    Dialog(
+        onDismissRequest = {
+            isShare.value = false
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(.9f)
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(25.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            val qrBitmap = generateQRCode("culinario://recipe-page/${recipe.id}")
+
+            Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(15.dp)
-            ) {
-                recipe.steps.forEach { step ->
-                    Text(text = step.description)
-                }
-            }
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(15.dp)),
+                bitmap = qrBitmap.asImageBitmap(),
+                contentDescription = "share qr code"
+            )
+
+            Text(
+                text = recipe.name,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.W700,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 10.dp)
+            )
+
+            Text(
+                text = "Отсканируйте qr, чтобы поделиться рецептом",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+            )
         }
     }
 }
@@ -493,6 +545,24 @@ fun CommentaryField(
     }
 }
 
+@Composable
+fun CommentaryList(
+    recipe: Recipe,
+    onUserClicked: (id: String) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        recipe.commentaries.forEach { commentaryId ->
+            CommentaryCard(CommentaryViewModel(commentaryId)) { userId ->
+                onUserClicked(userId)
+            }
+        }
+    }
+}
+
 private fun sendCommentary(
     viewModel: RecipePageViewModel,
     commentaryText: MutableState<String>,
@@ -512,24 +582,6 @@ private fun sendCommentary(
             isFieldEnabled.value = true
 
             onSent()
-        }
-    }
-}
-
-@Composable
-fun CommentaryList(
-    recipe: Recipe,
-    onUserClicked: (id: String) -> Unit
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(5.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        recipe.commentaries.forEach { commentaryId ->
-            CommentaryCard(CommentaryViewModel(commentaryId)) { userId ->
-                onUserClicked(userId)
-            }
         }
     }
 }

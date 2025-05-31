@@ -1,5 +1,6 @@
 package com.culinario.helpers
 
+import com.culinario.mvp.models.DetailedCookingStep
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.NutritionInfo
@@ -15,8 +16,8 @@ class RecipeRepositoryImpl {
 			name = "Веганский салат с киноа",
 			description = "Питательный салат с киноа, овощами и лимонной заправкой.",
 			recipeImagesUrl = listOf(
-				"https://i.ytimg.com/vi/Tsc0zcQGn7c/maxresdefault.jpg",
-				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRUOXXaBfgY1l28d-5agCrxX1rQv0wgECEMA&s"
+				"https://images.gastronom.ru/FmZZAOzyawm4CWlwitR-prviBXOwD39-VXMlxyAxDug/pr:content-group-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2I4NmRjNTRkLWMyOWMtNGNhNi05MjQ5LTQ1YmFlNDE3ZmUxNy5qcGc.webp",
+				"https://static.1000.menu/img/content-v2/42/f7/38318/salat-s-kinoa-i-avokado_1568554667_1_max.jpg"
 			),
 			ingredients = listOf(
 				Ingredient("Киноа", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrzW8lEB5GaS0mYxBquAxwYV0TL_st3dB_Pw&s", 200.0, "г.", NutritionInfo(200.0, 8.0, 4.0, 36.0)),
@@ -29,13 +30,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Петрушка", "https://organicmarket.ru/files/images/product/large_image/0/3407/petrushka_63319cb86ef34.jpg", null, "", NutritionInfo(49.0, 3.7, 0.4, 7.6))
 			),
 			cookingSpeed = 15,
-//			steps = listOf(
-//				"Отварите киноа согласно инструкции на упаковке.",
-//				"Нарежьте овощи и авокадо кубиками.",
-//				"Смешайте киноа с овощами.",
-//				"Приготовьте заправку из лимонного сока, оливкового масла и соли.",
-//				"Полейте салат заправкой и украсьте петрушкой."
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "https://cdn.viqeo.tv/storage/e3/42/32e8c0fb2746baeb4ce8f5f0b5442778.jpg",
+					title = "Приготовление киноа",
+					time = 900,
+					description = "Тщательно промойте киноа под проточной водой. В кастрюле доведите до кипения 400 мл воды, добавьте киноа и варите на медленном огне 15 минут, пока вся вода не впитается."
+				),
+				DetailedCookingStep(
+					imageUrl = "https://di-so.ru/wp-content/themes/yootheme/cache/03/nutrimun-blog-51-03b9aa9f.jpeg",
+					title = "Нарезка овощей",
+					time = 300,
+					description = "Огурец и помидоры нарежьте кубиками среднего размера. Авокадо очистите от кожуры, удалите косточку и нарежьте ломтиками."
+				),
+				DetailedCookingStep(
+					imageUrl = "https://eda.ru/images/RecipeStep/434x295/pravilnaya-zapravka-dlya-salata-cezar_174035_step_1.jpg",
+					title = "Приготовление заправки",
+					time = 120,
+					description = "В небольшой миске смешайте лимонный сок, оливковое масло, щепотку соли. Взбейте венчиком до однородной эмульсии."
+				),
+				DetailedCookingStep(
+					imageUrl = "https://img.freepik.com/free-photo/mid-shot-chef-mixing-salad-ingredients_23-2148794093.jpg",
+					title = "Смешивание ингредиентов",
+					time = 180,
+					description = "В большой салатнице соедините охлажденную киноа, нарезанные овощи и авокадо. Аккуратно перемешайте."
+				),
+				DetailedCookingStep(
+					imageUrl = "https://img.freepik.com/premium-photo/process-preparing-sauce-salad-kitchen-woman-pouring-sauce-into-glass-bowl-with-salad-ingredients_392895-494680.jpg",
+					title = "Заправка салата",
+					time = 60,
+					description = "Полейте салат приготовленной лимонно-оливковой заправкой. Еще раз аккуратно перемешайте."
+				),
+				DetailedCookingStep(
+					imageUrl = "https://images.gastronom.ru/FmZZAOzyawm4CWlwitR-prviBXOwD39-VXMlxyAxDug/pr:content-group-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2I4NmRjNTRkLWMyOWMtNGNhNi05MjQ5LTQ1YmFlNDE3ZmUxNy5qcGc.webp",
+					title = "Подача",
+					time = 120,
+					description = "Перед подачей украсьте салат веточками петрушки. Можно посыпать кунжутом или тыквенными семечками для дополнительного хруста."
+				)
+			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
