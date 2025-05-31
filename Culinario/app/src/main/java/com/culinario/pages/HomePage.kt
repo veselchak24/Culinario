@@ -1,25 +1,21 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -30,16 +26,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
+import com.culinario.R
 import com.culinario.controls.Header
 import com.culinario.controls.RecipeCard
 import com.culinario.controls.ShimmerRecipeCard
-import com.culinario.mvp.models.Recipe
 import com.culinario.viewmodel.HomePageViewModel
 import com.culinario.viewmodel.RecipeCardViewModel
 
@@ -50,13 +44,16 @@ fun HomePage(
     viewModel: HomePageViewModel,
     navController: NavController
 ) {
-    var recipes by remember { mutableStateOf(listOf<Recipe>()) }
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    var recipesId by remember { mutableStateOf(listOf<String>()) }
 
     LaunchedEffect(Unit) {
-        recipes = viewModel.getAllRecipes()
+        viewModel.recipesId.collect {
+            println("collected recipes, ${it.count()}")
+            recipesId = it
+        }
     }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold (
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -87,14 +84,24 @@ fun HomePage(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Column {
-                Header("Лучшие рецепты")
-                BestRecipes(recipes, navController)
-            }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Header("Все рецепты")
 
-            Column {
-                Header("Все рецепты")
+                    IconButton(
+                        onClick = {
+                            navController.navigate("QrCodeScannerPage")
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.qr_scanner_icon),
+                            contentDescription = "qr scanner"
+                        )
+                    }
+                }
                 AllRecipes(
-                    recipes,
+                    recipesId,
                     Modifier,
                     navController
                 )
@@ -106,17 +113,17 @@ fun HomePage(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BestRecipes(
-    recipes: List<Recipe>,
+    recipesId: List<String>,
     navController: NavController
 ) {
-    val selectedRecipes = recipes.take(4)
+    val selectedRecipes = recipesId.take(4)
 
     val carouselState = rememberCarouselState(
         initialItem = 0,
         itemCount = { selectedRecipes.count() }
     )
 
-    HorizontalMultiBrowseCarousel (
+    /*HorizontalMultiBrowseCarousel (
         state = carouselState,
         preferredItemWidth = 300.dp,
         itemSpacing = 5.dp
@@ -149,12 +156,12 @@ fun BestRecipes(
                 color = Color.White
             )
         }
-    }
+    }*/
 }
 
 @Composable
 fun AllRecipes(
-    recipes: List<Recipe>,
+    recipesId: List<String>,
     modifier: Modifier,
     navController: NavController,
 ) {
@@ -164,14 +171,14 @@ fun AllRecipes(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        if (recipes.isNotEmpty()) {
-            for (recipe in recipes) {
+        if (recipesId.isNotEmpty()) {
+            for (recipeId in recipesId) {
                 RecipeCard(
                     Modifier
                         .fillMaxWidth(),
-                    RecipeCardViewModel(recipe.id)
+                    RecipeCardViewModel(recipeId)
                 ) {
-                    navController.navigate("RecipePage/${recipe.id}")
+                    navController.navigate("RecipePage/${recipeId}")
                 }
             }
         } else {

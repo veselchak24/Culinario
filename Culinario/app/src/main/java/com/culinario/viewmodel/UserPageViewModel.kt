@@ -1,8 +1,11 @@
 package com.culinario.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.culinario.helpers.RECIPE_COLLECTION
+import com.culinario.helpers.StorageUploader
 import com.culinario.helpers.USER_COLLECTION
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
@@ -12,13 +15,13 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class UserPageViewModel(
-    val userId: String
+    val userId: String,
+    private val context: Context
 ) : ViewModel() {
     private val userCollection = Firebase.firestore.collection(USER_COLLECTION)
     private val recipeCollection = Firebase.firestore.collection(RECIPE_COLLECTION)
@@ -29,19 +32,42 @@ class UserPageViewModel(
     private val recipesState = MutableStateFlow(mutableListOf<Recipe>())
     val recipes = recipesState.asStateFlow()
 
+    private val storageUploader = StorageUploader(context)
+
     init {
-        if (user.value.id != userId) {
-            userCollection
-                .document(userId)
-                .get()
-                .addOnCompleteListener { documentSnapshot ->
-                    if (documentSnapshot.isComplete) {
-                        userState.value = documentSnapshot.result.toObject(User::class.java) ?: User()
-                    } else {
-                        println("Something went wrong")
+        viewModelScope.launch {
+            if (user.value.id != userId) {
+                userState.value = userCollection
+                    .document(userId)
+                    .get()
+                    .await()
+                    .toObject<User>() ?: User()
+
+                userCollection
+                    .document(userId)
+                    .addSnapshotListener { task, error ->
+                        if (error == null && task != null) {
+                            userState.value = task.toObject<User>() ?: User()
+                        } else {
+                            println(error)
+                        }
                     }
-                }
+
+                collectUserState()
+            }
         }
+    }
+
+    private fun collectUserState() {
+        userCollection
+            .document(userId)
+            .addSnapshotListener { task, error ->
+                if (error == null && task != null) {
+                    userState.value = task.toObject<User>() ?: User()
+                } else {
+                    println(error)
+                }
+            }
     }
 
     val isCurrentUser: Boolean
@@ -76,6 +102,14 @@ class UserPageViewModel(
             userCollection
                 .document(userState.value.id)
                 .set(userState.value)
+        }
+    }
+
+    suspend fun loadImage(uri: Uri) {
+        storageUploader.uploadImage(uri) {
+            userCollection
+                .document(userId)
+                .update("imageUrl", it)
         }
     }
 

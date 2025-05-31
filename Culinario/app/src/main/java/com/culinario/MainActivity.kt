@@ -1,10 +1,14 @@
 package com.culinario
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
@@ -13,6 +17,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
+import com.culinario.helpers.RECIPE_COLLECTION
+import com.culinario.helpers.RecipeRepositoryImpl
+import com.culinario.pages.QrScannerPage
 import com.culinario.pages.RecipeCreatePage
 import com.culinario.pages.RecipePage
 import com.culinario.pages.UserPage
@@ -24,8 +32,11 @@ import com.culinario.viewmodel.RecipePageViewModel
 import com.culinario.viewmodel.UserPageViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.firestore
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
+import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -39,14 +50,30 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        GoogleAuthProvider.create(credentials = GoogleAuthCredentials(serverId = getString(R.string.oauth_id)))
+        intent?.data?.let { uri ->
+            Log.d("DEEP_LINK", "Получена ссылка: $uri")
+        }
 
+        GoogleAuthProvider.create(credentials = GoogleAuthCredentials(serverId = getString(R.string.oauth_id)))
         setContent {
             CulinarioTheme {
                 Screens (
                     loginScreen = { LoginScreen(it) },
                     homeScreen = { MainScreen(it) }
                 )
+
+                //sendRecipesToDb()
+            }
+        }
+    }
+
+    @Composable
+    private fun sendRecipesToDb() {
+        val recipes = RecipeRepositoryImpl()
+
+        LaunchedEffect(Unit) {
+            for (recipe in recipes.recipes) {
+                Firebase.firestore.collection(RECIPE_COLLECTION).document(recipe.id).set(recipe, SetOptions.merge()).await()
             }
         }
     }
@@ -73,6 +100,7 @@ class MainActivity : ComponentActivity() {
         home: @Composable (NavController) -> Unit
     ) : NavController {
         val navController = rememberNavController()
+        val context = LocalContext.current
 
         NavHost(navController, startDestination = startDestination) {
             composable<Registration> {
@@ -81,14 +109,16 @@ class MainActivity : ComponentActivity() {
                     navController.navigate(route = Home)
                 }
             }
-
             composable(
                 route = "RecipePage/{recipeID}",
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "culinario://recipe-page/{recipeID}" }
+                ),
                 arguments = listOf(navArgument("recipeID") { type = NavType.StringType })
             ) {
                 val recipeId = it.arguments?.getString("recipeID")!!
 
-                RecipePage(Modifier, RecipePageViewModel(recipeId), navController)
+                RecipePage(RecipePageViewModel(recipeId), navController)
             }
 
             composable(
@@ -106,7 +136,22 @@ class MainActivity : ComponentActivity() {
             ) {
                 val userId = it.arguments?.getString("userId")!!
 
-                UserPage(Modifier, UserPageViewModel(userId), navController)
+                UserPage(Modifier, UserPageViewModel(userId, LocalContext.current), navController)
+            }
+
+            composable(
+                route = "QrCodeScannerPage"
+            ) {
+                QrScannerPage {
+                    try {
+                        navController.popBackStack()
+                        navController.navigate(deepLink = Uri.parse(it))
+                    } catch (exc: Exception) {
+                        Toast.makeText(context, "что-то пошло не так", Toast.LENGTH_SHORT).show()
+
+                        navController.navigate(Home)
+                    }
+                }
             }
 
             composable<Home> {

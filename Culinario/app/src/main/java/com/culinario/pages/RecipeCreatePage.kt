@@ -68,6 +68,7 @@ import kotlin.random.Random
 @SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Deprecated("old create recipe page")
 fun RecipeCreatePage(
     modifier: Modifier = Modifier,
     viewModel: RecipeCreatePageViewModel,
@@ -193,7 +194,6 @@ fun RecipeCreatePage(
                     )
                 }
             }
-
 
             Box(
                 modifier = Modifier
@@ -327,7 +327,7 @@ private fun ImagesPage(
             ),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        BackgroundImageDrawer(recipeTitleImageLauncher, titleBitmap)
+        BackgroundImagesDrawer(recipeTitleImageLauncher, titleBitmap)
 
         OtherImages(picturesBitmap, picturesImageLauncher)
     }
@@ -397,7 +397,7 @@ fun pickVisualResource (
 }
 
 @Composable
-private fun BackgroundImageDrawer (
+private fun BackgroundImagesDrawer (
     launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     bitmap: MutableState<Bitmap>
 ) {
@@ -461,7 +461,6 @@ private fun saveRecipe (
         id = Random.nextInt(1000000, 9999999).toString(),
         name = recipeName,
         description = recipeDescription,
-        recipeImageBackgroundUrl = backgroundImageUrl,
         recipeImagesUrl = recipeImagesUrl,
         recipeType = RecipeType.QUICK,
         cookingSpeed = 100,

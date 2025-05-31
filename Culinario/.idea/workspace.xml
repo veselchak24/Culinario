@@ -9,10 +9,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="fix legacy dependencies">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="DetailedStepsPage added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/DetailedStepPageCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/DetailedStepPageCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/IngredientCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/IngredientCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/RecipeRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/RecipeRepositoryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +24,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\delhi\.android\avd\Pixel_8_Pro_API_35.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R5CX533CH5K)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -69,10 +71,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin File" />
         <option value="resourceFile" />
         <option value="Class" />
         <option value="Kotlin Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -132,14 +134,14 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#29 on user-inteface-rollback&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;user-inteface-rollback&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.16582492&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.google.gct.login2.settings.GoogleLoginApplicationSettingsConfigurableProvider&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.android.tools.idea.logcat.settings.LogcatApplicationSettingsConfigurableProvider&quot;
   }
 }</component>
   <component name="PsdUISettings">
@@ -151,6 +153,7 @@
       <recent name="com.culinario" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app\src\main\java\com\culinario\helpers" />
       <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app\src\main\res\font" />
       <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app\src\main" />
       <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app" />
@@ -266,38 +269,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1733069576633</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Add user-class">
-      <option name="closed" value="true" />
-      <created>1743093199513</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1743093199513</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Небольшие изменения">
-      <option name="closed" value="true" />
-      <created>1743109633483</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1743109633483</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Добавлены кликабельные карточки рецептов">
-      <option name="closed" value="true" />
-      <created>1743114215294</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1743114215294</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Декомпозирована страница рецепта и отрефакторена страница пользователя">
-      <option name="closed" value="true" />
-      <created>1743158250996</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1743158250996</updated>
     </task>
     <task id="LOCAL-00005" summary="Небольшой рефакторинг страницы создания рецепта">
       <option name="closed" value="true" />
@@ -595,7 +566,103 @@
       <option name="project" value="LOCAL" />
       <updated>1747921795052</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="fix legacy dependencies">
+      <option name="closed" value="true" />
+      <created>1747922101200</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1747922101200</updated>
+    </task>
+    <task id="LOCAL-00043" summary="large update">
+      <option name="closed" value="true" />
+      <created>1748103166080</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1748103166080</updated>
+    </task>
+    <task id="LOCAL-00044" summary="some fixes">
+      <option name="closed" value="true" />
+      <created>1748190938369</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1748190938369</updated>
+    </task>
+    <task id="LOCAL-00045" summary="added Commentaries and update FavoriteRecipesPage">
+      <option name="closed" value="true" />
+      <created>1748197958416</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1748197958416</updated>
+    </task>
+    <task id="LOCAL-00046" summary="prepare to send recipes in database">
+      <option name="closed" value="true" />
+      <created>1748362077734</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1748362077735</updated>
+    </task>
+    <task id="LOCAL-00047" summary="some improvements">
+      <option name="closed" value="true" />
+      <created>1748373999597</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1748373999597</updated>
+    </task>
+    <task id="LOCAL-00048" summary="recipe deletion added">
+      <option name="closed" value="true" />
+      <created>1748462291945</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1748462291945</updated>
+    </task>
+    <task id="LOCAL-00049" summary="recipes fix">
+      <option name="closed" value="true" />
+      <created>1748604519044</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1748604519044</updated>
+    </task>
+    <task id="LOCAL-00050" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1748627160122</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1748627160123</updated>
+    </task>
+    <task id="LOCAL-00051" summary="added recipe share feature">
+      <option name="closed" value="true" />
+      <created>1748638011543</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1748638011543</updated>
+    </task>
+    <task id="LOCAL-00052" summary="qr scan optimized">
+      <option name="closed" value="true" />
+      <created>1748695980833</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1748695980833</updated>
+    </task>
+    <task id="LOCAL-00053" summary="DetailedStepsPage added">
+      <option name="closed" value="true" />
+      <created>1748701456654</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1748701456654</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -632,17 +699,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="connected firebase service" />
-    <MESSAGE value="implemented oAuth and refactor User.kt" />
-    <MESSAGE value="Login page improvements" />
-    <MESSAGE value="much improvements" />
-    <MESSAGE value="RecipeCreatePage.kt improved" />
-    <MESSAGE value="added vm" />
-    <MESSAGE value="optimized cardViewModel user load" />
-    <MESSAGE value="refactored Recipe" />
-    <MESSAGE value="refactored RecipePage" />
-    <MESSAGE value="delete repository code" />
-    <MESSAGE value="refactored" />
     <MESSAGE value="add aws.s3 dependency" />
     <MESSAGE value="change dependency to minio s3 client" />
     <MESSAGE value="image uploader" />
@@ -657,7 +713,18 @@
     <MESSAGE value="merge branches" />
     <MESSAGE value="delete legacy code" />
     <MESSAGE value="fix legacy dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix legacy dependencies" />
+    <MESSAGE value="large update" />
+    <MESSAGE value="some fixes" />
+    <MESSAGE value="added Commentaries and update FavoriteRecipesPage" />
+    <MESSAGE value="prepare to send recipes in database" />
+    <MESSAGE value="some improvements" />
+    <MESSAGE value="recipe deletion added" />
+    <MESSAGE value="recipes fix" />
+    <MESSAGE value="bug fix" />
+    <MESSAGE value="added recipe share feature" />
+    <MESSAGE value="qr scan optimized" />
+    <MESSAGE value="DetailedStepsPage added" />
+    <option name="LAST_COMMIT_MESSAGE" value="DetailedStepsPage added" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

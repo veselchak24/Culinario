@@ -1,5 +1,6 @@
 package com.culinario.screens
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -43,12 +44,14 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
 import com.mmk.kmpauth.uihelper.google.GoogleSignInButton
+import kotlinx.coroutines.launch
 
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun LoginScreen(onLogin: () -> Unit) {
     val loginAndPasswordLoginSelected = remember { mutableStateOf(false) }
 
-    Scaffold { innerPadding ->
+    Scaffold { _ ->
         BackHandler {
             if (loginAndPasswordLoginSelected.value)
                 loginAndPasswordLoginSelected.value = false
@@ -61,9 +64,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                 onLogin()
             }
         } else {
-            LoginAndPasswordRegistrationPage(
-                modifier = Modifier.padding(innerPadding)
-            ) {
+            LoginAndPasswordRegistrationPage {
                 onLogin()
             }
         }
@@ -167,7 +168,7 @@ private fun MainRegistrationPage(
 
 @Composable
 private fun LoginAndPasswordRegistrationPage(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onLogin: () -> Unit
 ) {
     val pagerState = rememberPagerState(
@@ -182,17 +183,15 @@ private fun LoginAndPasswordRegistrationPage(
         modifier = modifier
             .fillMaxSize()
     ) { page ->
-
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .padding(start = 40.dp, end = 40.dp)
         ) {
             when (page) {
                 0 -> {
-
                     SignInPage(
-                        modifier = modifier
+                        modifier = Modifier
+                            .padding(top = 150.dp)
                     ) {
                         onLogin()
                     }
@@ -200,10 +199,13 @@ private fun LoginAndPasswordRegistrationPage(
 
                 1 -> {
                     SignUpPage(
-                        modifier,
-                        coroutineScope,
-                        pagerState,
-                        page - 1
+                        modifier = Modifier
+                            .padding(top = 150.dp),
+                        onBackToSignIn = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(0)
+                            }
+                        }
                     ) {
                         onLogin()
                     }

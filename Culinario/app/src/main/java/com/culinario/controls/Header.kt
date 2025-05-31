@@ -15,6 +15,6 @@ fun Header(text: String) {
         fontWeight = FontWeight(700),
         fontSize = 18.sp,
         modifier = Modifier
-            .padding(horizontal = 10.dp)
+            .padding(start = 10.dp)
     )
 }

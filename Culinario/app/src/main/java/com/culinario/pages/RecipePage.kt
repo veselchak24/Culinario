@@ -1,150 +1,234 @@
 package com.culinario.pages
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.Card
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
-import androidx.compose.material3.carousel.rememberCarouselState
+import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.culinario.R
+import com.culinario.controls.CommentaryCard
+import com.culinario.controls.DetailedStepPageCard
 import com.culinario.controls.Header
+import com.culinario.controls.IngredientCard
+import com.culinario.controls.NutritionInfo
+import com.culinario.controls.UserPageLinkButton
+import com.culinario.helpers.asColor
+import com.culinario.helpers.asWord
+import com.culinario.helpers.generateQRCode
+import com.culinario.mvp.models.DetailedCookingStep
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
+import com.culinario.viewmodel.CommentaryViewModel
 import com.culinario.viewmodel.RecipePageViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipePage(
-    modifier: Modifier = Modifier,
     viewModel: RecipePageViewModel,
     navController: NavController
 ) {
-    val sheetPeekHeight = LocalConfiguration.current.screenHeightDp.dp
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
-    var recipe by remember { mutableStateOf(viewModel.recipeState.value) }
-    var user by remember { mutableStateOf(viewModel.userState.value) }
+    var recipe by remember { mutableStateOf(viewModel.recipe.value) }
+    var user by remember { mutableStateOf(viewModel.ownerUser.value) }
 
     LaunchedEffect(Unit) {
-        viewModel.userState.collect { newState ->
+        viewModel.ownerUser.collect { newState ->
             user = newState
         }
     }
 
     LaunchedEffect(Unit) {
-        viewModel.recipeState.collect { newState ->
+        viewModel.watchedRecipe()
+        viewModel.recipe.collect { newState ->
+            println("Recipe update")
             recipe = newState
         }
     }
 
-    BottomSheetScaffold (
-        scaffoldState = rememberBottomSheetScaffoldState(),
-        sheetTonalElevation = 10.dp,
-        sheetDragHandle = {
-            SheetDragHandler()
-        },
-        sheetPeekHeight = sheetPeekHeight / 2 + 150.dp,
-        sheetContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .clipToBounds(),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                SheetHeader(recipe, user, navController)
+    val isDetailedPageLaunched = remember { mutableStateOf(false) }
 
-                Column (
-                    Modifier
+    if (isDetailedPageLaunched.value) {
+        println("hellow")
+        DetailedStepsPage(recipe.steps) {
+            isDetailedPageLaunched.value = false
+        }
+    } else {
+        BottomSheetScaffold (
+            scaffoldState = rememberBottomSheetScaffoldState(),
+            sheetTonalElevation = 10.dp,
+            sheetDragHandle = {
+                SheetDragHandler()
+            },
+            sheetPeekHeight = screenHeight / 2,
+            sheetContent = {
+                Column(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 25.dp)
-                        .padding(top = 10.dp, bottom = 50.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                        .verticalScroll(rememberScrollState())
+                        .clipToBounds(),
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    Description(recipe)
-                    QuickStats(recipe)
+                    SheetHeader(viewModel, recipe, user, navController)
 
-                    if (recipe.recipeImagesUrl.isNotEmpty()) {
-                        ImageCarousel(recipe.recipeImagesUrl)
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 25.dp)
+                            .padding(top = 10.dp, bottom = 50.dp),
+                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                    ) {
+                        NutritionInfo(recipe.nutritionInfo)
+
+                        Description(recipe)
+
+                        Ingredients(recipe)
+
+                        DetailedPageButton(recipe, isDetailedPageLaunched)
+
+                        CommentaryField(viewModel)
+
+                        CommentaryList(recipe) {
+                            navController.navigate("UserPage/$it")
+                        }
                     }
-
-                    Ingredients(recipe)
-                    Steps(recipe)
                 }
             }
+        ) { _ ->
+            BackgroundImagesDrawer(
+                recipe = recipe,
+                screenHeight = screenHeight
+            )
         }
-    ) { innerPadding ->
-        BackgroundImageDrawer(recipe.recipeImageBackgroundUrl, innerPadding, modifier, sheetPeekHeight)
+    }
+
+}
+
+@Composable
+private fun ColumnScope.DetailedPageButton(
+    recipe: Recipe,
+    isDetailedPageLaunched: MutableState<Boolean>,
+) {
+    if (recipe.steps.isNotEmpty()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(.9f)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.secondary,
+                            MaterialTheme.colorScheme.primary
+                        ),
+                        start = Offset(100f, 0f),
+                        end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+                    ),
+                    shape = RoundedCornerShape(100)
+                )
+                .clip(RoundedCornerShape(100))
+                .clickable {
+                    isDetailedPageLaunched.value = true
+                }
+                .padding(12.dp)
+                .align(Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
+        ) {
+            Row {
+                Text(
+                    text = "Начать готовку",
+                    fontWeight = FontWeight.W700,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun BackgroundImageDrawer(
-    imageUrl: String,
-    innerPadding: PaddingValues,
-    modifier: Modifier,
-    sheetPeekHeight: Dp
+private fun BackgroundImagesDrawer(
+    recipe: Recipe,
+    screenHeight: Dp
 ) {
-    Column (
-        modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
-        verticalArrangement = Arrangement.Center
-    ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = "description",
-            modifier = modifier
+    val pagerState = rememberPagerState(0) {
+        recipe.recipeImagesUrl.size
+    }
+
+    HorizontalPager(
+        state = pagerState,
+    ) { index ->
+        Box (
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(sheetPeekHeight / 2)
-                .alpha(0.7f),
-            contentScale = ContentScale.Crop
-        )
+                .height(screenHeight / 2 + 50.dp)
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .fillMaxSize(),
+                model = recipe.recipeImagesUrl[index],
+                contentDescription = "recipe image",
+                contentScale = ContentScale.Crop
+            )
+        }
     }
 }
 
@@ -168,13 +252,33 @@ private fun SheetDragHandler() {
 }
 
 @Composable
-private fun SheetHeader(recipe: Recipe, user: User, navController: NavController) {
+private fun SheetHeader(
+    viewModel: RecipePageViewModel,
+    recipe: Recipe,
+    user: User,
+    navController: NavController
+) {
+    val coroutineScope = rememberCoroutineScope()
+    var isLiked by remember { mutableStateOf(viewModel.isRecipeLiked.value) }
+
+    val isShare = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        viewModel.isRecipeLiked.collect {
+            isLiked = it
+        }
+    }
+
+    if (isShare.value) {
+        ShareDialog(isShare, recipe)
+    }
+
     Column(
         Modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
             .padding(horizontal = 30.dp, vertical = 10.dp),
-        verticalArrangement = Arrangement.spacedBy(5.dp)
+        verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Text(
             text = recipe.name,
@@ -183,21 +287,140 @@ private fun SheetHeader(recipe: Recipe, user: User, navController: NavController
             fontFamily = FontFamily.Default
         )
 
+        QuickStats(
+            modifier = Modifier
+                .padding(horizontal = 5.dp),
+            recipe = recipe
+        )
+
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            BasicUserData(user) {
+            UserPageLinkButton(user.name, user.imageUrl ?: stringResource(R.string.default_avatar_image_url)) {
                 navController.navigate("UserPage/${user.id}")
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            viewModel.toggleLike {
+                                isLiked = it
+                            }
+                        }
+                    }
+                ) {
+                    Icon(
+                        painter = if (isLiked) painterResource(R.drawable.thumb_up_filled_icon) else painterResource(R.drawable.thumb_up_outlined_icon),
+                        contentDescription = "like button",
+                        modifier = Modifier
+                            .size(22.dp),
+                        tint = if (isLiked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
+                Text(
+                    text = recipe.otherInfo.likes.toString(),
+                    fontWeight = FontWeight.W600
+                )
+            }
+
+            IconButton(
+                onClick = {
+                    isShare.value = true
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.share_icon),
+                    contentDescription = "share icon",
+                    modifier = Modifier
+                        .size(18.dp)
+                )
             }
         }
     }
 }
 
 @Composable
+private fun QuickStats(
+    modifier: Modifier = Modifier,
+    recipe: Recipe = Recipe()
+) {
+    Column {
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            IconAndText(
+                icon = R.drawable.clock_icon,
+                text = "${recipe.cookingSpeed} мин."
+            )
+
+            IconAndText(
+                icon = R.drawable.fire_icon,
+                text = recipe.difficulty.asWord()
+            )
+
+            IconAndText(
+                icon = R.drawable.spa_icon,
+                text = recipe.recipeType.asWord(),
+                color = recipe.recipeType.asColor()
+            )
+        }
+
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            IconAndText(
+                icon = R.drawable.weight_icon,
+                text = "${recipe.totalWeight} г."
+            )
+
+            IconAndText(
+                icon = R.drawable.watches_icon,
+                text = recipe.otherInfo.watches.toString()
+            )
+        }
+    }
+}
+
+@Composable
+private fun IconAndText(
+    @DrawableRes icon: Int,
+    text: String,
+    color: Color = MaterialTheme.colorScheme.primary
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
+        Icon(
+            painter = painterResource(icon),
+            contentDescription = "clock icon",
+            modifier = Modifier
+                .size(16.dp),
+            tint = color
+        )
+
+        Text(
+            text = text,
+            fontSize = 14.sp
+        )
+    }
+}
+
+
+@Composable
 private fun Description(recipe: Recipe) {
+    if (recipe.description.isEmpty()) return
+
     Column {
         Header(stringResource(R.string.recipe_page_header_description))
 
@@ -212,162 +435,259 @@ private fun Description(recipe: Recipe) {
 }
 
 @Composable
-private fun QuickStats(recipe: Recipe) {
-    Column {
-        Header(stringResource(R.string.recipe_page_header_summary))
+private fun Ingredients(recipe: Recipe) {
+    if (recipe.ingredients.isEmpty()) return
 
-        Card {
-            Column (
-                Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(20.dp)
-            ) {
-                Text(text = "Время приготовления ~${recipe.cookingSpeed}мин", fontWeight = FontWeight.Light)
-                Text(text = "Сложность блюда: ${recipe.difficulty}", fontWeight = FontWeight.Light)
-                Text(text = "Тип блюда: ${recipe.recipeType}", fontWeight = FontWeight.Light)
+    Column {
+        Header(stringResource(R.string.recipe_page_header_ingredients))
+
+        Row(
+            modifier = Modifier
+                .padding(top = 5.dp)
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            recipe.ingredients.forEach { ingredient ->
+                IngredientCard(ingredient)
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageCarousel(bitmaps: List<String>) {
-    val carouselState = rememberCarouselState { bitmaps.size }
+private fun DetailedStepsPage(
+    steps: List<DetailedCookingStep>,
+    onClose: () -> Unit
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(0) { steps.size }
 
-    Column {
-        Header(stringResource(R.string.recipe_page_header_pictures))
+    BackHandler {
+        if (pagerState.currentPage > 0) {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+            }
+        } else {
+            onClose()
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .fillMaxSize()
+    ) {
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxHeight(.9f)
+        ) { index ->
+            DetailedStepPageCard(Modifier, steps[index])
+        }
 
         Box(
-            modifier = Modifier.height(250.dp),
-            contentAlignment = Alignment.Center
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
         ) {
-
-            HorizontalMultiBrowseCarousel (
-                state = carouselState,
-                preferredItemWidth = 300.dp,
-                itemSpacing = 10.dp
-            ) { page ->
-                Box (
-                    modifier = Modifier.width(300.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                        }
+                    },
+                    enabled = pagerState.currentPage > 0
                 ) {
-                    Box (
+                    Icon(
+                        painter = painterResource(R.drawable.arrow_back_icon),
+                        contentDescription = "back arrow",
+                        tint = if (pagerState.currentPage > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainer
+                    )
+                }
+
+                Text(
+                    text = "${pagerState.currentPage + 1} из ${steps.size}",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.W600,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    },
+                    enabled = pagerState.currentPage + 1 < steps.size
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.arrow_forward_icon),
+                        contentDescription = "forward arrow",
+                        tint = if (pagerState.currentPage + 1 < steps.size) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainer
+                    )
+                }
+            }
+
+            if (pagerState.currentPage == steps.size - 1) {
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd),
+                    onClick = {
+                        onClose()
+                    }
+                ) {
+                    Text(
+                        text = "Готово!"
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShareDialog(
+    isShare: MutableState<Boolean>,
+    recipe: Recipe
+) {
+    Dialog(
+        onDismissRequest = {
+            isShare.value = false
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(.9f)
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(25.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            val qrBitmap = generateQRCode("culinario://recipe-page/${recipe.id}")
+
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(15.dp)),
+                bitmap = qrBitmap.asImageBitmap(),
+                contentDescription = "share qr code"
+            )
+
+            Text(
+                text = recipe.name,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.W700,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 10.dp)
+            )
+
+            Text(
+                text = "Отсканируйте qr, чтобы поделиться рецептом",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun CommentaryField(
+    viewModel: RecipePageViewModel
+) {
+    val commentaryText = remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+
+    val isFieldEnabled = remember { mutableStateOf(true) }
+
+    Column {
+        Header("Комментарии")
+
+        TextField(
+            value = commentaryText.value,
+            onValueChange = {
+                commentaryText.value = it
+            },
+            enabled = isFieldEnabled.value,
+            placeholder = {
+                Text(
+                    text = "комментарий.."
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth(),
+            suffix = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                ) {
+                    IconButton(
                         modifier = Modifier
-                            .maskClip(RoundedCornerShape(16.dp))
+                            .align(Alignment.BottomEnd),
+                        onClick = {
+                            sendCommentary(viewModel, commentaryText, isFieldEnabled, coroutineScope)
+                        }
                     ) {
-                        AsyncImage(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            model = bitmaps[page],
-                            contentDescription = "recipe image",
-                            contentScale = ContentScale.Crop
+                        Icon(
+                            painter = painterResource(R.drawable.send_icon),
+                            contentDescription = "send icon"
                         )
                     }
                 }
             }
-        }
+        )
     }
 }
 
 @Composable
-private fun Ingredients(recipe: Recipe) {
-    Column {
-        Header(stringResource(R.string.recipe_page_header_ingredients))
-
-        Card {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(15.dp)
-            ) {
-                recipe.ingredients.forEach { ingredient ->
-                    Text(text = ingredient)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun Steps(recipe: Recipe) {
-    Column {
-        Header(stringResource(R.string.recipe_page_header_steps))
-
-        Card {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(15.dp)
-            ) {
-                recipe.steps.forEach { step ->
-                    Text(text = step.description)
-                }
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun IconAndText(
-    message: String = "",
-    @DrawableRes iconId: Int = R.drawable.round_access_time_24,
-    textSize: Int = 18,
-    iconSize: Int = 18,
-    textStyle: TextStyle = TextStyle(),
-    onTextClick: () -> Unit = { }
+fun CommentaryList(
+    recipe: Recipe,
+    onUserClicked: (id: String) -> Unit
 ) {
-    Row (
-        verticalAlignment = Alignment.CenterVertically
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        Icon (
-            painterResource(iconId),
-            "icon",
-            modifier = Modifier
-                .size(iconSize.dp + 5.dp, iconSize.dp + 5.dp)
-
-        )
-
-        Text(
-            text = message,
-            modifier = Modifier
-                .padding(start = 5.dp)
-                .clip(RoundedCornerShape(5.dp))
-                .clickable {
-                    onTextClick()
-                },
-            textAlign = TextAlign.Center,
-            fontSize = textSize.sp,
-            style = textStyle
-        )
+        recipe.commentaries.forEach { commentaryId ->
+            CommentaryCard(CommentaryViewModel(commentaryId)) { userId ->
+                onUserClicked(userId)
+            }
+        }
     }
 }
 
-@Composable
-fun BasicUserData(user: User, onClick: () -> Unit) {
-    Row (
-        modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
-            .clickable {
-                onClick()
-            }
-            .padding(5.dp),
-        horizontalArrangement = Arrangement.spacedBy(7.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            model = user.imageUrl,
-            contentDescription = "user avatar",
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(30.dp),
-            contentScale = ContentScale.Crop
-        )
-        Text (
-            text = user.name
-        )
+private fun sendCommentary(
+    viewModel: RecipePageViewModel,
+    commentaryText: MutableState<String>,
+    isFieldEnabled: MutableState<Boolean>,
+    coroutineScope: CoroutineScope,
+    onSent: () -> Unit = { }
+) {
+    if (commentaryText.value.isEmpty()) return
+
+    isFieldEnabled.value = false
+
+    val text = commentaryText.value
+    commentaryText.value = ""
+
+    coroutineScope.launch {
+        viewModel.sendCommentary(text) {
+            isFieldEnabled.value = true
+
+            onSent()
+        }
     }
 }

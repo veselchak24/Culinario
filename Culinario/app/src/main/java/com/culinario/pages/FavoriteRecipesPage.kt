@@ -1,8 +1,8 @@
 package com.culinario.pages
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,20 +25,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.culinario.R
 import com.culinario.controls.RecipeCard
-import com.culinario.mvp.models.Recipe
+import com.culinario.mvp.models.User
+import com.culinario.viewmodel.FavoritePageViewModel
 import com.culinario.viewmodel.RecipeCardViewModel
 
 @Composable
-fun FavoriteRecipesPage(modifier: Modifier, navController: NavController) {
+fun FavoriteRecipesPage(
+    modifier: Modifier,
+    viewModel: FavoritePageViewModel,
+    navController: NavController
+) {
+    var user by remember { mutableStateOf(User()) }
+
+    LaunchedEffect(Unit) {
+        viewModel.currentUser.collect {
+            user = it
+        }
+    }
+
     var searchQuery by remember { mutableStateOf("") }
 
     Scaffold (
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         topBar = {
             TextField(
                 value = searchQuery,
@@ -50,27 +63,18 @@ fun FavoriteRecipesPage(modifier: Modifier, navController: NavController) {
             )
         }
     ) { innerPadding ->
-        EmptyPage()
-
-//        Column(
-//            modifier = Modifier
-//                .padding(innerPadding)
-//                .fillMaxSize()
-//        ) {
-//            val filteredRecipes = recipes.filter { recipe ->
-//                recipe.name.contains(searchQuery, ignoreCase = true)
-//            }
-//
-//            if (filteredRecipes.isNotEmpty()) {
-//                GridOfFavorite(filteredRecipes, Modifier.padding(top = 8.dp), navController)
-//            } else {
-//                EmptyPage()
-//            }
-//        }
+        if (user.likedRecipesId.isNotEmpty()) {
+            GridOfFavorite(
+                user.likedRecipesId,
+                Modifier.padding(innerPadding),
+                navController
+            )
+        } else {
+            EmptyPage()
+        }
     }
 }
 
-@Preview
 @Composable
 fun EmptyPage() {
     Box(
@@ -83,10 +87,10 @@ fun EmptyPage() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource(R.drawable.baseline_heart_broken_24),
+                painter = painterResource(R.drawable.broken_heart_icon),
                 contentDescription = "",
                 modifier = Modifier
-                    .size(150.dp),
+                    .size(100.dp),
                 tint = MaterialTheme.colorScheme.secondary
             )
 
@@ -100,16 +104,25 @@ fun EmptyPage() {
 }
 
 @Composable
-fun GridOfFavorite(recipes: List<Recipe>, modifier: Modifier, navController: NavController) {
+fun GridOfFavorite(
+    recipesId: List<String>,
+    modifier: Modifier,
+    navController: NavController
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = modifier
+            .padding(10.dp)
             .fillMaxWidth(),
-        contentPadding = PaddingValues(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        items(recipes) { recipe ->
-            RecipeCard(Modifier.padding(5.dp), RecipeCardViewModel(recipe.id)) {
-                navController.navigate("RecipePage/${recipe.id}")
+        items(
+            items = recipesId,
+            key = { it }
+        ) { recipeId ->
+            RecipeCard(Modifier.padding(5.dp), RecipeCardViewModel(recipeId)) {
+                navController.navigate("RecipePage/${recipeId}")
             }
         }
     }

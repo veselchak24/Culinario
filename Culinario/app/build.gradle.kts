@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.foundation)
 
     implementation(libs.coil.compose)
     implementation(platform(libs.firebase.bom))
@@ -80,6 +81,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.googleid)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.play.services.mlkit.barcode.scanning)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -93,6 +95,12 @@ dependencies {
     implementation(libs.kmpauth.firebase.v231)
     implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
 
+    implementation("com.google.zxing:core:3.5.2")
+
+    implementation("androidx.camera:camera-core:1.3.0")
+    implementation("androidx.camera:camera-camera2:1.3.0")
+    implementation("androidx.camera:camera-lifecycle:1.3.0")
+    implementation("androidx.camera:camera-view:1.3.0")
 
     implementation(libs.kotlin.s3)
     implementation(libs.kotlinx.coroutines.android)
