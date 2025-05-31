@@ -703,12 +703,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Растительное масло", "https://xaviar.ru/uploads/product/100/175/zolotaya-semechka-1_2022-03-14_14-11-17.png", 30.0, "мл.", NutritionInfo(884.0, 0.0, 100.0, 0.0))
 			),
 			cookingSpeed = 45,
-//			steps = listOf(
-//				"Замаринуйте крылья в смеси специй и масла на 1 час",
-//				"Запекайте в духовке при 200°C 30 минут",
-//				"Обмажьте соусом BBQ и запекайте еще 10 минут",
-//				"Подавайте с сельдереем и соусом голубой сыр"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка крылышек",
+					time = 300,
+					description = "Куриные крылышки промойте и тщательно обсушите бумажными полотенцами. Удалите остатки перьев при необходимости."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление маринада",
+					time = 180,
+					description = "В миске смешайте паприку, измельченный чеснок, соль и растительное масло. Добавьте половину соуса BBQ и тщательно перемешайте."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Маринование",
+					time = 600,
+					description = "Обмажьте крылышки маринадом со всех сторон. Накройте пищевой пленкой и оставьте мариноваться в холодильнике минимум на 1 час (лучше на 3-4 часа)."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Запекание",
+					time = 1800,
+					description = "Разогрейте духовку до 200°C. Выложите крылышки на решетку или противень с пергаментом. Запекайте 30 минут, перевернув один раз."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Глазирование",
+					time = 600,
+					description = "Достаньте крылышки, обильно смажьте оставшимся соусом BBQ и запекайте еще 10 минут до образования липкой глазури."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Подавайте горячими, украсив зеленью и дольками лимона. Идеально сочетаются с овощным салатом и свежим хлебом."
+				)
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -913,13 +945,38 @@ class RecipeRepositoryImpl {
 				Ingredient("Соль", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVlpSDxpyfPf058KpXAlGqeKlLwNRjwC_DNA&s", null, "по вкусу", NutritionInfo(0.0, 0.0, 0.0, 0.0))
 			),
 			cookingSpeed = 15,
-//			steps = listOf(
-//				"Смешайте овсянку, яйца и молоко",
-//				"Вылейте на сковороду, жарьте 3 минуты",
-//				"Переверните, добавьте начинку",
-//				"Жарьте еще 2 минуты",
-//				"Сверните пополам и подавайте"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление теста",
+					time = 180,
+					description = "В миске смешайте овсяные хлопья, яйца и молоко. Добавьте щепотку соли. Дайте постоять 2-3 минуты, чтобы хлопья немного набухли."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Жарка блина",
+					time = 180,
+					description = "Вылейте тесто на разогретую сковороду с небольшим количеством масла. Распределите равномерно по всей поверхности. Жарьте на среднем огне 3 минуты."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Добавление начинки",
+					time = 120,
+					description = "На одну половину блина выложите нарезанный помидор, тертый сыр и зелень. Накройте второй половиной."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Завершение приготовления",
+					time = 120,
+					description = "Аккуратно переверните блин и жарьте еще 2 минуты, чтобы сыр внутри расплавился."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Подавайте блин горячим, разрезав пополам. Можно добавить свежие овощи или зелень по вкусу."
+				)
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -943,6 +1000,38 @@ class RecipeRepositoryImpl {
 				Ingredient("Оливковое масло", "https://kudri-brovi.ru/wp-content/uploads/2023/08/%D0%BE%D0%BB%D0%B8%D0%B2%D0%BA%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BC%D0%B0%D1%81%D0%BB%D0%BE-%D0%B0%D0%B2%D0%B0.jpg", 20.0, "гр.", NutritionInfo(884.0, 0.0, 100.0, 0.0))
 			),
 			cookingSpeed = 25,
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка лосося",
+					time = 180,
+					description = "Филе лосося промойте и обсушите бумажными полотенцами. Удалите оставшиеся кости пинцетом. Нарежьте на порционные куски."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление соуса",
+					time = 120,
+					description = "В небольшой миске смешайте мед, горчицу, измельченный чеснок, сок половины лимона и оливковое масло. Тщательно перемешайте до однородности."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Маринование",
+					time = 300,
+					description = "Обмажьте куски лосося приготовленным соусом со всех сторон. Оставьте мариноваться на 10 минут при комнатной температуре."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Запекание",
+					time = 900,
+					description = "Выложите лосось на противень, застеленный пергаментом. Запекайте в предварительно разогретой до 200°C духовке 12-15 минут."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Готового лосося украсьте веточками укропа и дольками лимона. Подавайте с овощами или рисом."
+				)
+			),
 			recipeType = RecipeType.COMPLEX,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -966,12 +1055,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Какао-порошок", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHZaHicO6hi_CkNUKQEC-1D9BiUCXMYNmNWA&s", 20.0, "гр.", NutritionInfo(228.0, 19.6, 13.7, 57.9))
 			),
 			cookingSpeed = 30,
-//			steps = listOf(
-//				"Смешайте мед, горчицу и измельченный чеснок",
-//				"Обмажьте лосось соусом",
-//				"Запекайте 15 минут при 200°C",
-//				"Подавайте с дольками лимона и укропом"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Растапливание шоколада",
+					time = 300,
+					description = "На водяной бане растопите темный шоколад вместе со сливочным маслом, помешивая до получения однородной массы."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Взбивание яиц",
+					time = 240,
+					description = "В отдельной миске взбейте яйца с сахаром до пышной светлой массы."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Соединение ингредиентов",
+					time = 180,
+					description = "Аккуратно соедините растопленный шоколад с яичной смесью, затем добавьте муку и какао-порошок, тщательно перемешайте."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Формирование фонданов",
+					time = 300,
+					description = "Разлейте тесто по смазанным маслом формочкам, заполняя их на 3/4 объема."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Выпекание",
+					time = 600,
+					description = "Выпекайте в разогретой до 180°C духовке 10-12 минут, пока края не затвердеют, а середина останется жидкой."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 120,
+					description = "Дайте фонданам немного остыть, затем аккуратно переверните на тарелки. Подавайте теплыми, посыпав какао-порошком или сахарной пудрой."
+				)
+			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.HARD,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -995,13 +1116,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Сливочное масло", "https://www.mosregfermer.ru/upload/iblock/32a/32a2a99e6ddd6f1d7c205d60539802e1.jpg", 30.0, "гр.", NutritionInfo(717.0, 0.9, 81.1, 0.1))
 			),
 			cookingSpeed = 35,
-//			steps = listOf(
-//				"Обжарьте лук, морковь и грибы",
-//				"Добавьте гречку и воду (2:1)",
-//				"Варите под крышкой 20 минут",
-//				"Добавьте чеснок и масло",
-//				"Подавайте с зеленью"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка грибов",
+					time = 180,
+					description = "Грибы очистите от мусора, промойте и нарежьте ломтиками средней толщины. Если используете лесные грибы, предварительно отварите их 15 минут."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка овощей",
+					time = 240,
+					description = "Лук нарежьте кубиками, морковь натрите на крупной терке. Обжарьте на сливочном масле до мягкости 5 минут, затем добавьте измельченный чеснок."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка грибов",
+					time = 300,
+					description = "Добавьте грибы к овощам, жарьте на среднем огне 7-10 минут, пока грибы не подрумянятся и не уменьшатся в объеме."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Добавление гречки",
+					time = 120,
+					description = "Гречку переберите, промойте и добавьте к грибам и овощам. Перемешайте и прогрейте 1-2 минуты."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Варка каши",
+					time = 1200,
+					description = "Залейте смесь кипятком (в пропорции 1:2), посолите, уменьшите огонь до минимума и варите под крышкой 15-20 минут, пока гречка не впитает всю воду."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Добавьте сливочное масло, перемешайте и дайте настояться 5 минут под крышкой. Подавайте горячей, посыпав свежей зеленью."
+				)
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1025,14 +1177,50 @@ class RecipeRepositoryImpl {
 				Ingredient("Масло сливочное", "https://www.agroinvestor.ru/upload/iblock/e11/e112cf6c8e56b45193c582e57f31204a.jpg", 30.0, "гр.", NutritionInfo(717.0, 0.9, 81.1, 0.1))
 			),
 			cookingSpeed = 35,
-//			steps = listOf(
-//				"Нарежьте грибы и овощи кубиками",
-//				"Обжарьте лук и чеснок на сливочном масле до прозрачности",
-//				"Добавьте грибы и обжаривайте 5 минут",
-//				"Влейте 1 литр воды, добавьте картофель и варите 15 минут",
-//				"Измельчите суп блендером, добавьте сливки и тимьян",
-//				"Подавайте с гренками"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка грибов",
+					time = 240,
+					description = "Шампиньоны очистите, промойте и нарежьте пластинками. Оставьте несколько красивых грибов для украшения."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка лука и чеснока",
+					time = 180,
+					description = "На сливочном масле обжарьте мелко нарезанный лук и чеснок до прозрачности и появления аромата (около 3 минут)."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка грибов",
+					time = 300,
+					description = "Добавьте нарезанные шампиньоны и жарьте 7-10 минут, пока грибы не подрумянятся и не уменьшатся в объеме."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Добавление картофеля",
+					time = 120,
+					description = "Картофель очистите и нарежьте кубиками. Добавьте к грибам, влейте 1 литр воды или бульона, добавьте тимьян."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Варка супа",
+					time = 900,
+					description = "Доведите до кипения, уменьшите огонь и варите 15 минут, пока картофель не станет мягким."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление пюре",
+					time = 180,
+					description = "Измельчите суп блендером до однородной кремовой консистенции. Добавьте сливки, прогрейте 2 минуты, не доводя до кипения."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 120,
+					description = "Подавайте суп горячим, украсив обжаренными целыми шампиньонами, веточками тимьяна и гренками."
+				)
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1057,19 +1245,50 @@ class RecipeRepositoryImpl {
 				Ingredient("Мускатный орех", "https://oreh-dom.ru/image/cache/catalog/demo/tovary/specii/oreh-muskatnyj2-700x700.jpg", 2.0, "шт.", NutritionInfo(525.0, 5.8, 36.3, 49.3))
 			),
 			cookingSpeed = 75,
-//			steps = listOf(
-//				"Приготовьте бешамель: обжарьте муку, добавьте молоко и мускатный орех",
-//				"Обжарьте шпинат с чесноком",
-//				"Смешайте шпинат с рикоттой",
-//				"Соберите лазанью, чередуя листы, соус и начинку",
-//				"Посыпьте пармезаном и запекайте 40 минут при 180°C"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка крылышек",
+					time = 300,
+					description = "Куриные крылышки промойте и тщательно обсушите бумажными полотенцами. Удалите остатки перьев при необходимости."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление маринада",
+					time = 180,
+					description = "В миске смешайте паприку, измельченный чеснок, соль и растительное масло. Добавьте половину соуса BBQ и тщательно перемешайте."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Маринование",
+					time = 600,
+					description = "Обмажьте крылышки маринадом со всех сторон. Накройте пищевой пленкой и оставьте мариноваться в холодильнике минимум на 1 час (лучше на 3-4 часа)."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Запекание",
+					time = 1800,
+					description = "Разогрейте духовку до 200°C. Выложите крылышки на решетку или противень с пергаментом. Запекайте 30 минут, перевернув один раз."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Глазирование",
+					time = 600,
+					description = "Достаньте крылышки, обильно смажьте оставшимся соусом BBQ и запекайте еще 10 минут до образования липкой глазури."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Подавайте горячими, украсив зеленью и дольками лимона. Идеально сочетаются с овощным салатом и свежим хлебом."
+				)
+			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.HARD,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
 		),
 
-		/*Recipe(
+		Recipe(
 			id = "11111136",
 			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
 			name = "Безглютеновые банановые панкейки",
@@ -1083,12 +1302,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Кленовый сироп", "", 50.0, "мл.", NutritionInfo(260.0, 0.0, 0.0, 67.0))
 			),
 			cookingSpeed = 20,
-//			steps = listOf(
-//				"Разомните бананы вилкой",
-//				"Смешайте все ингредиенты до однородной массы",
-//				"Жарьте на среднем огне по 2 минуты с каждой стороны",
-//				"Подавайте с кленовым сиропом и свежими ягодами"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка бананов",
+					time = 120,
+					description = "Очистите бананы и разомните вилкой в пюре в глубокой миске. Оставьте несколько кусочков для украшения."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление теста",
+					time = 180,
+					description = "Добавьте к бананам яйца, молоко и тщательно перемешайте. Всыпьте миндальную муку и разрыхлитель, перемешайте до однородности."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка сковороды",
+					time = 120,
+					description = "Разогрейте антипригарную сковороду на среднем огне. Смажьте минимальным количеством масла или используйте кулинарный спрей."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Жарка панкейков",
+					time = 600,
+					description = "Выливайте тесто небольшими порциями (около 1/4 стакана на панкейк). Жарьте 2-3 минуты до появления пузырьков, затем переверните и жарьте еще 1-2 минуты."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Сборка стопки",
+					time = 120,
+					description = "Готовые панкейки складывайте в стопку, сохраняя их теплыми под крышкой или в духовке при 100°C."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Подавайте с кленовым сиропом, кусочками банана и свежими ягодами. Можно добавить греческий йогурт или орехи."
+				)
+			),
 			recipeType = RecipeType.GLUTEN_FREE,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1108,12 +1359,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Оливковое масло", "https://kudri-brovi.ru/wp-content/uploads/2023/08/%D0%BE%D0%BB%D0%B8%D0%B2%D0%BA%D0%BE%D0%B2%D0%BE%D0%B5-%D0%BC%D0%B0%D1%81%D0%BB%D0%BE-%D0%B0%D0%B2%D0%B0.jpg", 30.0, "гр.", NutritionInfo(884.0, 0.0, 100.0, 0.0))
 			),
 			cookingSpeed = 30,
-//			steps = listOf(
-//				"Смешайте мед, горчицу, чеснок и лимонный сок",
-//				"Замаринуйте курицу в соусе на 1 час",
-//				"Обжарьте на сковороде по 5 минут с каждой стороны",
-//				"Доведите до готовности в духовке 10 минут при 180°C"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка грудки",
+					time = 240,
+					description = "Куриные грудки промойте, обсушите и слегка отбейте через пищевую пленку до равномерной толщины (1,5-2 см). Посолите и поперчите."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление соуса",
+					time = 180,
+					description = "В миске смешайте мед, горчицу, измельченный чеснок, лимонный сок и оливковое масло. Взбейте венчиком до однородной эмульсии."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Маринование",
+					time = 600,
+					description = "Обмажьте куриные грудки соусом со всех сторон. Оставьте мариноваться при комнатной температуре на 15 минут (или в холодильнике 1 час)."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка",
+					time = 300,
+					description = "Разогрейте сковороду с небольшим количеством масла на среднем огне. Обжарьте грудки по 3-4 минуты с каждой стороны до золотистой корочки."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Запекание",
+					time = 600,
+					description = "Переложите грудки в форму для запекания, полейте оставшимся соусом и запекайте в разогретой до 180°C духовке 10 минут."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Подавайте горячими с овощным гарниром или салатом. Полейте соком, образовавшимся при запекании."
+				)
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1132,13 +1415,50 @@ class RecipeRepositoryImpl {
 				Ingredient("Ванильный экстракт", "", 5.0, "гр.", NutritionInfo(288.0, 0.1, 0.1, 12.7))
 			),
 			cookingSpeed = 45,
-//			steps = listOf(
-//				"Растопите шоколад на водяной бане",
-//				"Взбейте желтки с сахаром и ванилью",
-//				"Взбейте сливки до пиков",
-//				"Аккуратно соедините все компоненты",
-//				"Разложите по креманкам и охладите 4 часа"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Растапливание шоколада",
+					time = 300,
+					description = "Шоколад поломайте на кусочки и растопите на водяной бане, постоянно помешивая. Дайте немного остыть."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка яиц",
+					time = 120,
+					description = "Аккуратно отделите желтки от белков. Белки уберите в холодильник до использования."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление яичной смеси",
+					time = 240,
+					description = "Желтки взбейте с сахаром и ванилью до светлой пышной массы. Аккуратно вмешайте растопленный шоколад."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Взбивание сливок",
+					time = 300,
+					description = "Сливки взбейте до устойчивых пиков. Охлажденные белки взбейте отдельно до мягких пиков."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Соединение ингредиентов",
+					time = 180,
+					description = "Аккуратно вмешайте сначала сливки, затем белки в шоколадную массу, сохраняя воздушность."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Охлаждение",
+					time = 2400,
+					description = "Разлейте мусс по креманкам или стаканам. Уберите в холодильник минимум на 4 часа, лучше на ночь."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Перед подачей украсьте тертым шоколадом, ягодами или мятой. Подавайте охлажденным."
+				)
+			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1160,16 +1480,59 @@ class RecipeRepositoryImpl {
 				Ingredient("Сода", "https://s3.coolclever.tech/img/0000000090025352/1000/15916.webp", 5.0, "гр.", NutritionInfo(0.0, 0.0, 0.0, 0.0))
 			),
 			cookingSpeed = 80,
-//			steps = listOf(
-//				"Натрите морковь на мелкой терке",
-//				"Смешайте сухие ингредиенты",
-//				"Добавьте яйца, масло и морковь",
-//				"Выпекайте 50 минут при 180°C",
-//				"Подавайте со сливочным кремом"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка моркови",
+					time = 240,
+					description = "Морковь очистите и натрите на мелкой терке. Грецкие орехи измельчите в крошку, оставив несколько половинок для украшения."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Смешивание сухих ингредиентов",
+					time = 180,
+					description = "В большой миске смешайте муку, сахар, корицу и соду. Добавьте щепотку соли."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление жидкой основы",
+					time = 180,
+					description = "В другой миске взбейте яйца с растительным маслом до однородности."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "",
+					time = 240,
+					description = "Добавьте жидкую смесь к сухим ингредиентам, перемешайте. Введите тертую морковь и орехи, аккуратно перемешайте лопаткой."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка формы",
+					time = 120,
+					description = "Форму для выпечки смажьте маслом и выстелите пергаментом. Вылейте тесто, разровняйте поверхность."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Выпекание",
+					time = 3000,
+					description = "Выпекайте в разогретой до 180°C духовке 50 минут. Проверьте готовность деревянной палочкой - она должна выходить сухой."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Охлаждение",
+					time = 1800,
+					description = "Дайте коржу полностью остыть на решетке перед нанесением крема."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 120,
+					description = "Подавайте торт, украсив орехами и посыпав корицей. Можно разрезать на 2 коржа и промазать кремом."
+				)
+			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.HARD,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
-		)*/
+		)
 	)
 }
