@@ -62,7 +62,7 @@ fun QrScannerPage(
 
                 Box(
                     Modifier
-                        .fillMaxWidth(.7f)
+                        .fillMaxWidth(.6f)
                         .aspectRatio(1f)
                 ) {
                     Box(
