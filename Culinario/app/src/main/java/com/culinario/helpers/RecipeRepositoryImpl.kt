@@ -593,13 +593,38 @@ class RecipeRepositoryImpl {
 				Ingredient("Масло растительное", "https://www.rbc.ua/static/img/b/1/b117cff8_4169_49ec_8076_a7c45b0886d2_650x410.jpg", 20.0, "мл.", NutritionInfo(884.0, 0.0, 100.0, 0.0))
 			),
 			cookingSpeed = 15,
-//			steps = listOf(
-//				"Нарежьте овощи мелкими кубиками",
-//				"Взбейте яйца с молоком и солью",
-//				"Обжарьте овощи 2 минуты, залейте яичной смесью",
-//				"Готовьте на среднем огне под крышкой 5-7 минут",
-//				"Посыпьте зеленью перед подачей"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка овощей",
+					time = 180,
+					description = "Помидор и болгарский перец нарежьте мелкими кубиками. Зелень мелко порубите."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление яичной смеси",
+					time = 120,
+					description = "В миске взбейте яйца с молоком и солью до однородности. Можно добавить немного черного перца по вкусу."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка овощей",
+					time = 120,
+					description = "На разогретой сковороде с маслом обжарьте перец 1 минуту, затем добавьте помидоры и жарьте еще 1 минуту."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление омлета",
+					time = 300,
+					description = "Залейте овощи яичной смесью, убавьте огонь до среднего, накройте крышкой и готовьте 5-7 минут до полного схватывания."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Посыпьте омлет зеленью перед подачей. Можно свернуть омлет пополам или подавать как есть."
+				)
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -623,13 +648,38 @@ class RecipeRepositoryImpl {
 				Ingredient("Масло растительное", "https://www.rbc.ua/static/img/b/1/b117cff8_4169_49ec_8076_a7c45b0886d2_650x410.jpg", 50.0, "мл.", NutritionInfo(884.0, 0.0, 100.0, 0.0))
 			),
 			cookingSpeed = 25,
-//			steps = listOf(
-//				"Протрите творог через сито",
-//				"Смешайте творог с яйцами, сахаром и ванильным сахаром",
-//				"Добавьте муку и замесите тесто",
-//				"Сформируйте сырники и обжарьте на среднем огне до золотистой корочки",
-//				"Подавайте со сметаной или вареньем"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка творога",
+					time = 180,
+					description = "Творог протрите через систо или измельчите блендером для получения однородной массы без комочков."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление теста",
+					time = 300,
+					description = "В миске смешайте творог с яйцами, сахаром и ванильным сахаром. Постепенно добавляйте муку, замешивая тесто. Оно должно быть мягким, но не липнуть к рукам."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Формирование сырников",
+					time = 240,
+					description = "Сформируйте из теста небольшие шарики, затем слегка приплюсните их, чтобы получились круглые лепешки толщиной около 1,5 см."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Жарка сырников",
+					time = 600,
+					description = "Разогрейте сковороду с маслом на среднем огне. Обжаривайте сырники по 3-4 минуты с каждой стороны до золотистой корочки."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Подавайте сырники горячими со сметаной, вареньем, медом или свежими ягодами по вашему вкусу."
+				)
+			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -683,13 +733,38 @@ class RecipeRepositoryImpl {
 				Ingredient("Растительное масло", "https://xaviar.ru/uploads/product/100/175/zolotaya-semechka-1_2022-03-14_14-11-17.png", 20.0, "гр.", NutritionInfo(884.0, 0.0, 100.0, 0.0))
 			),
 			cookingSpeed = 35,
-//			steps = listOf(
-//				"Измельчите нут в блендере с чесноком",
-//				"Сформируйте котлеты, обваляйте в муке",
-//				"Обжарьте котлеты на сковороде 5 минут с каждой стороны",
-//				"Соберите бургер: булочка, котлета, овощи",
-//				"Подавайте с картофелем фри"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление котлетной массы",
+					time = 300,
+					description = "Измельчите нут в блендере или кухонном комбайне до состояния грубой пасты. Добавьте измельченный чеснок, соль и специи по вкусу."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Формирование котлет",
+					time = 240,
+					description = "Добавьте нутовую муку для связки, сформируйте 2 круглые котлеты толщиной около 1,5 см. Обваляйте их в небольшом количестве муки."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка котлет",
+					time = 600,
+					description = "Разогрейте сковороду с маслом на среднем огне. Обжаривайте котлеты по 5 минут с каждой стороны до золотистой корочки."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка овощей",
+					time = 180,
+					description = "Авокадо нарежьте тонкими ломтиками. Помидор нарежьте кружочками. Листья салата промойте и обсушите."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Сборка бургера",
+					time = 180,
+					description = "Подрумяньте булочки на сухой сковороде. На нижнюю половину булочки выложите лист салата, котлету, ломтики авокадо и помидора. Накройте верхней половиной булочки."
+				)
+			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -715,14 +790,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Перец", "https://daoofhealth.ru/upload/iblock/e7b/e7b220b23d6f5e9ed65eee0034fcae25.jpg", null, "по вкусу", NutritionInfo(251.0, 10.4, 3.3, 64.8))
 			),
 			cookingSpeed = 40,
-//			steps = listOf(
-//				"Нарежьте тыкву кубиками",
-//				"Обжарьте лук, чеснок и имбирь",
-//				"Добавьте тыкву и воду, варите 25 минут",
-//				"Измельчите блендером в пюре",
-//				"Добавьте сливки и прогрейте",
-//				"Подавайте с тыквенными семечками"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка тыквы",
+					time = 300,
+					description = "Очистите тыкву от кожуры и семян. Нарежьте мякоть кубиками размером примерно 2-3 см."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Обжарка ароматных овощей",
+					time = 180,
+					description = "На оливковом масле обжарьте мелко нарезанный лук, чеснок и тертый имбирь до мягкости и появления аромата (около 3 минут)."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление основы",
+					time = 120,
+					description = "Добавьте нарезанную тыкву к обжаренным овощам, залейте водой так, чтобы она полностью покрывала тыкву. Доведите до кипения."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Варка супа",
+					time = 1500,
+					description = "Уменьшите огонь и варите суп 25 минут, пока тыква не станет полностью мягкой."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление пюре",
+					time = 180,
+					description = "Измельчите суп блендером до однородного состояния. Добавьте сливки, соль и перец по вкусу, прогрейте еще 2 минуты."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подача",
+					time = 60,
+					description = "Подавайте суп горячим, украсив тыквенными семечками, каплей сливок и веточкой зелени."
+				)
+			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -747,13 +852,44 @@ class RecipeRepositoryImpl {
 				Ingredient("Кукурузная мука", "https://www.moi-hleb.ru/image/catalog/Blog/kukuruznaia-muka-polza-y-prymenenye.jpg", 50.0, "гр.", NutritionInfo(364.0, 10.3, 1.0, 76.3))
 			),
 			cookingSpeed = 50,
-//			steps = listOf(
-//				"Измельчите цветную капусту в блендере",
-//				"Смешайте с яйцами и мукой, сформируйте основу",
-//				"Выпекайте основу 20 минут при 180°C",
-//				"Добавьте соус и начинку, запекайте еще 15 минут",
-//				"Украсьте базиликом"
-//			),
+			steps = listOf(
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Подготовка основы",
+					time = 300,
+					description = "Разберите цветную капусту на соцветия и измельчите в блендере или кухонном комбайне до состояния мелкой крошки."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Приготовление теста",
+					time = 240,
+					description = "Смешайте цветную капусту с яйцами и кукурузной мукой. Добавьте соль и специи по вкусу. Замесите однородное тесто."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Формирование основы",
+					time = 180,
+					description = "Выложите тесто на пергамент, сформируйте круглую основу для пиццы толщиной около 0,5 см."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Выпекание основы",
+					time = 1200,
+					description = "Выпекайте основу в предварительно разогретой до 180°C духовке 20 минут до золотистого цвета."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Добавление начинки",
+					time = 300,
+					description = "На готовую основу нанесите томатный соус, посыпьте тертой моцареллой, добавьте оливки и другие начинки по желанию."
+				),
+				DetailedCookingStep(
+					imageUrl = "",
+					title = "Завершающее запекание",
+					time = 900,
+					description = "Верните пиццу в духовку еще на 15 минут, пока сыр не расплавится и не подрумянится. Украсьте свежим базиликом перед подачей."
+				)
+			),
 			recipeType = RecipeType.GLUTEN_FREE,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
