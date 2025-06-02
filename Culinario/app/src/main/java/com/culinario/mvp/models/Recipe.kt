@@ -20,22 +20,22 @@ import kotlinx.serialization.Serializable
  * @param[nutritionInfo] информация о КБЖУ рецепта.
  */
 @Serializable
-class Recipe (
-    val id: String = "",
+data class Recipe (
+    var id: String = "",
     var userId: String = "",
-    val name: String = "",
-    val description: String = "",
-    val recipeImagesUrl: List<String> = listOf(),
-    val ingredients: List<Ingredient> = listOf(),
-    val commentaries: List<String> = listOf(),
-    val cookingSpeed: Int = 0,
-    val totalWeight: Int = 0,
-    val recipeDescription: RecipeDescription = RecipeDescription(),
-    val steps: List<DetailedCookingStep> = listOf(),
-    val recipeType: RecipeType = RecipeType.QUICK,
-    val difficulty: Difficulty = Difficulty.EASY,
+    var name: String = "",
+    var description: String = "",
+    var recipeImagesUrl: List<String> = listOf(),
+    var ingredients: List<Ingredient> = listOf(),
+    var commentaries: List<String> = listOf(),
+    var cookingSpeed: Int = 0,
+    var totalWeight: Int = 0,
+    var recipeDescription: RecipeDescription = RecipeDescription(),
+    var steps: List<DetailedCookingStep> = listOf(),
+    var recipeType: RecipeType = RecipeType.QUICK,
+    var difficulty: Difficulty = Difficulty.EASY,
     var otherInfo: OtherInfo = OtherInfo(0, 0),
-    val nutritionInfo: NutritionInfo = NutritionInfo()
+    var nutritionInfo: NutritionInfo = NutritionInfo()
 )
 
 /**
@@ -66,17 +66,17 @@ data class RecipeDescription(
  */
 @Serializable
 data class DetailedCookingStep(
-    val imageUrl: String = "",
-    val title: String = "",
-    val time: Int = 0,
-    val description: String = ""
+    var imageUrl: String = "",
+    var title: String = "",
+    var time: Int = 0,
+    var description: String = ""
 )
 
 /**
  * Абстрактный класс ингредиента.
  *
  * @param[name] Название продукта.
- * @param[guantify] количество продукта.
+ * @param[quantity] количество продукта.
  * @param[unit] единица измерения.
  */
 @Serializable

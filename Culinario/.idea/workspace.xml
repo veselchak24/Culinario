@@ -9,12 +9,17 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="DetailedStepsPage added">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="release">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/DetailedStepPageCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/DetailedStepPageCard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/IngredientCard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/controls/IngredientCard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/RecipeRepositoryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/helpers/RecipeRepositoryImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipePage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/mvp/models/Recipe.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignInPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignInPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/SignUpPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/LoginScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/screens/LoginScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCreatePageViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/viewmodel/RecipeCreatePageViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +83,12 @@
       </list>
     </option>
   </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="C:\Users\delhi\AndroidKeyStore.jks" />
+    <option name="KEY_ALIAS" value="key0" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+    <option name="BUILD_TARGET_KEY" value="apk" />
+  </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
@@ -125,6 +136,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Android App.Default.executor&quot;: &quot;Run&quot;,
+    &quot;ApkExportedModule&quot;: &quot;Culinario.app&quot;,
+    &quot;ExportApk.ApkPathForCulinario.app&quot;: &quot;C:\\Users\\delhi\\Desktop\\Culinario\\Culinario\\app&quot;,
     &quot;Gradle.Culinario:app [testDebugUnitTest].executor&quot;: &quot;Run&quot;,
     &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;DRAWABLE&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -142,6 +155,11 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.16582492&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.android.tools.idea.logcat.settings.LogcatApplicationSettingsConfigurableProvider&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ExportApk.BuildVariants&quot;: [
+      &quot;release&quot;
+    ]
   }
 }</component>
   <component name="PsdUISettings">
@@ -153,11 +171,11 @@
       <recent name="com.culinario" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app\src\main\java\com\culinario\controls" />
       <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app\src\main\java\com\culinario\helpers" />
       <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app\src\main\res\font" />
       <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app\src\main" />
       <recent name="C:\Users\delhi\Desktop\Culinario\Culinario\app" />
-      <recent name="C:\Users\delhi\Desktop\Culinario\Culinario" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.culinario.mvp.models.repository.recipe" />
@@ -269,22 +287,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1733069576633</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Небольшой рефакторинг страницы создания рецепта">
-      <option name="closed" value="true" />
-      <created>1743160308162</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1743160308162</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Рефакторинг строковых ресурсов и отступов на странице пользователя">
-      <option name="closed" value="true" />
-      <created>1743160969318</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1743160969318</updated>
     </task>
     <task id="LOCAL-00007" summary="Обновлён внешний вид страницы рецепта">
       <option name="closed" value="true" />
@@ -662,7 +664,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748701456654</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="DetailedStepsPage implemented">
+      <option name="closed" value="true" />
+      <created>1748706953008</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1748706953008</updated>
+    </task>
+    <task id="LOCAL-00055" summary="release">
+      <option name="closed" value="true" />
+      <created>1748770954392</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1748770954392</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -699,8 +717,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add aws.s3 dependency" />
-    <MESSAGE value="change dependency to minio s3 client" />
     <MESSAGE value="image uploader" />
     <MESSAGE value="vk cloud integration" />
     <MESSAGE value="vk cloud integration to firebase" />
@@ -724,7 +740,9 @@
     <MESSAGE value="added recipe share feature" />
     <MESSAGE value="qr scan optimized" />
     <MESSAGE value="DetailedStepsPage added" />
-    <option name="LAST_COMMIT_MESSAGE" value="DetailedStepsPage added" />
+    <MESSAGE value="DetailedStepsPage implemented" />
+    <MESSAGE value="release" />
+    <option name="LAST_COMMIT_MESSAGE" value="release" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

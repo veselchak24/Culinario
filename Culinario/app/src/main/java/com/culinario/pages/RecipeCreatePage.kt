@@ -1,63 +1,89 @@
 package com.culinario.pages
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityOptionsCompat
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.culinario.R
-import com.culinario.controls.Header
-import com.culinario.helpers.loadAndCompressImage
+import com.culinario.controls.DetailedCookingStepCreateCard
+import com.culinario.controls.DetailedStepPageCard
+import com.culinario.controls.EnumButton
+import com.culinario.controls.IngredientCreateCard
+import com.culinario.helpers.NutritionInfoEditItem
+import com.culinario.helpers.StorageUploader
+import com.culinario.helpers.asWord
+import com.culinario.mvp.models.NutritionInfo
+import com.culinario.mvp.models.DetailedCookingStep
 import com.culinario.mvp.models.Difficulty
+import com.culinario.mvp.models.Ingredient
 import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType
@@ -74,49 +100,41 @@ fun RecipeCreatePage(
     viewModel: RecipeCreatePageViewModel,
     navController: NavController
 ) {
+    val context = LocalContext.current
+
+    val storageUploader by lazy { StorageUploader(context) }
+
+    val name = remember { mutableStateOf("") }
+    val description = remember { mutableStateOf("") }
+    val totalWeight = remember { mutableIntStateOf(0) }
+    val cookingSpeed = remember { mutableIntStateOf(0) }
+    val recipeType = remember { mutableStateOf(RecipeType.QUICK) }
+    val difficulty = remember { mutableStateOf(Difficulty.EASY) }
+    val nutritionInfo = remember { mutableStateOf(NutritionInfo()) }
+
+    val ingredients = SnapshotStateList<Ingredient>()
+
+    val detailedSteps = SnapshotStateList<DetailedCookingStep>()
+
+    val recipeImagesUrl = SnapshotStateList<String>()
+
+    val coroutineScope = rememberCoroutineScope()
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior (
         rememberTopAppBarState()
     )
 
-    val coroutineScope = rememberCoroutineScope()
-
-    val context = LocalContext.current
-
-    val recipeName = remember { mutableStateOf("") }
-    val recipeDescription = remember { mutableStateOf("") }
-
-    val ingredients = remember { mutableStateOf("") }
-    val steps = remember { mutableStateOf("") }
-
-    val titleBitmap: MutableState<Bitmap> = remember { mutableStateOf(BitmapFactory.decodeStream(context.resources.openRawResource(R.drawable.user_background_placeholder))) }
-    val picturesBitmap = remember { mutableStateOf(listOf<Bitmap>()) }
-
-    var backgroundImageUrl by remember { mutableStateOf("") }
-
-    val recipeTitleImageLauncher = pickVisualResource {
-        coroutineScope.launch {
-            viewModel.uploadImage(it!!) { url ->
-                backgroundImageUrl = url
-                Toast.makeText(context, url, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        titleBitmap.value = loadAndCompressImage(context, it)!!
-    }
-
-    val picturesImageLauncher = pickVisualResource {
-        val temp = picturesBitmap.value.toMutableList()
-        temp.add(loadAndCompressImage(context, it)!!)
-
-        picturesBitmap.value = temp.toList()
-    }
+    val pageModifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 30.dp)
 
     val pagerState = rememberPagerState (
         initialPage = 0,
-        pageCount = { 3 }
+        pageCount = { 4 }
     )
 
     var navigateBack by remember { mutableStateOf(false) }
+    var recipeLoading by remember { mutableStateOf(false) }
 
     LaunchedEffect(navigateBack) {
         if (navigateBack) {
@@ -136,61 +154,47 @@ fun RecipeCreatePage(
 
     Scaffold (
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopBar(scrollBehavior)
-        }
+        topBar = { TopBar() }
     ) { padding ->
         Column {
-            HorizontalPager (
+            HorizontalPager(
                 state = pagerState,
                 Modifier
                     .padding(padding)
                     .fillMaxWidth()
-                    .fillMaxHeight(.8f)
-            ) { page ->
-                when (page) {
-                    0 -> {
-                        Box (
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 30.dp)
-                        ) {
-                            BasicInfoPage (
-                                recipeName,
-                                recipeDescription
-                            )
+                    .fillMaxHeight(.85f),
+                beyondViewportPageCount = 4
+            ) {
+                when (it) {
+                    0 -> BasicInfoCreatePage(
+                        pageModifier,
+                        name,
+                        description,
+                        difficulty,
+                        recipeType,
+                        totalWeight,
+                        cookingSpeed,
+                        nutritionInfo,
+                        onDone = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(1)
+                            }
                         }
-                    }
-                    1 -> {
-                        Box (
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 30.dp)
-                        ) {
-                            StepsAndIngredientsPage(
-                                ingredients,
-                                steps
-                            )
-                        }
-                    }
-                    2 -> {
-                        Box (
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .wrapContentSize()
-                                .padding(horizontal = 30.dp)
-                        ) {
-                            ImagesPage (
-                                recipeTitleImageLauncher = recipeTitleImageLauncher,
-                                titleBitmap = titleBitmap,
-                                picturesBitmap = picturesBitmap,
-                                picturesImageLauncher = picturesImageLauncher
-                            )
-
-                        }
-                    }
-                    else -> Box (
-                        Modifier.fillMaxSize()
+                    )
+                    1 -> IngredientCreatePage(
+                        pageModifier,
+                        ingredients,
+                        storageUploader
+                    )
+                    2 -> DetailedStepCreatePage(
+                        pageModifier,
+                        detailedSteps,
+                        storageUploader
+                    )
+                    3 -> ImagesPage(
+                        pageModifier,
+                        recipeImagesUrl,
+                        storageUploader
                     )
                 }
             }
@@ -200,21 +204,34 @@ fun RecipeCreatePage(
                     .align(Alignment.End)
                     .padding(15.dp)
             ) {
-                if (pagerState.currentPage == 2) {
+                if (pagerState.currentPage == 3) {
                     Button (
                         onClick = {
-                            saveRecipe(
-                                recipeName.value,
-                                recipeDescription.value,
-                                ingredients.value,
-                                steps.value,
-                                backgroundImageUrl,
-                                listOf(),
-                                viewModel,
-                            )
+                            viewModel.updateRecipe {
+                                Recipe(
+                                    name = name.value,
+                                    description = description.value,
+                                    recipeImagesUrl = recipeImagesUrl,
+                                    commentaries = listOf(),
+                                    cookingSpeed = cookingSpeed.intValue,
+                                    ingredients = ingredients,
+                                    totalWeight = totalWeight.intValue,
+                                    steps = detailedSteps,
+                                    recipeType = recipeType.value,
+                                    difficulty = difficulty.value,
+                                    otherInfo = OtherInfo(),
+                                    nutritionInfo = nutritionInfo.value
+                                )
+                            }
 
-                            navigateBack = true
-                        }
+                            recipeLoading = true
+
+                            viewModel.uploadRecipe {
+                                recipeLoading = false
+                                navigateBack = true
+                            }
+                        },
+                        enabled = !recipeLoading
                     ) {
                         Text(text = stringResource(R.string.create_text))
                     }
@@ -234,92 +251,261 @@ fun RecipeCreatePage(
     }
 }
 
-
-
 @Composable
-fun BasicInfoPage (
-    recipeName: MutableState<String>,
-    recipeDescription: MutableState<String>
+fun BasicInfoCreatePage(
+    modifier: Modifier = Modifier,
+    name: MutableState<String>,
+    description: MutableState<String>,
+    difficulty: MutableState<Difficulty>,
+    recipeType: MutableState<RecipeType>,
+    totalWeight: MutableState<Int>,
+    cookingSpeed: MutableState<Int>,
+    nutritionInfo: MutableState<NutritionInfo>,
+    onDone: () -> Unit
 ) {
+    val calories = remember { mutableIntStateOf(0) }
+    val proteins = remember { mutableIntStateOf(0) }
+    val fats = remember { mutableIntStateOf(0) }
+    val carbohydrates = remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(calories, proteins, fats, carbohydrates) {
+        nutritionInfo.value = NutritionInfo(
+            calories.intValue.toDouble(),
+            proteins.intValue.toDouble(),
+            fats.intValue.toDouble(),
+            carbohydrates.intValue.toDouble()
+        )
+    }
+
     Column (
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         TextField (
             modifier = Modifier
                 .fillMaxWidth(),
-            value = recipeName.value,
+            value = name.value,
             onValueChange = {
-                recipeName.value = it
+                name.value = it
+
             },
             label = {
                 Text(stringResource(R.string.recipe_name_text))
             },
-            maxLines = 1
+            maxLines = 1,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next
+            )
         )
 
         TextField (
             modifier = Modifier
                 .fillMaxWidth(),
-            value = recipeDescription.value,
+            value = description.value,
             onValueChange = {
-                recipeDescription.value = it
+                description.value = it
             },
             label = {
                 Text(stringResource(R.string.recipe_desciption_text))
             }
         )
+
+        Spacer(Modifier.height(5.dp))
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+        ) {
+            EnumButton(
+                modifier = Modifier
+                    .weight(1f),
+                enum = difficulty.value,
+                label = "Сложность рецепта",
+                enumConverter = {
+                    it.asWord()
+                }
+            ) {
+                difficulty.value = it
+            }
+
+            EnumButton(
+                modifier = Modifier
+                    .weight(1f),
+                enum = recipeType.value,
+                label = "Тип рецепта",
+                enumConverter = {
+                    it.asWord()
+                }
+            ) {
+                recipeType.value = it
+            }
+        }
+
+        Spacer(Modifier.height(5.dp))
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = if (totalWeight.value == 0) "" else totalWeight.value.toString(),
+            onValueChange = {
+                totalWeight.value = it.toIntOrNull() ?: 0
+            },
+            label = {
+                Text("Общий вес продукта")
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.NumberPassword,
+                imeAction = ImeAction.Next
+            )
+        )
+
+        Spacer(Modifier.height(5.dp))
+
+        NutritionInfoEditItem(
+            calories = calories,
+            proteins = proteins,
+            fats = fats,
+            carbohydrates = carbohydrates,
+        )
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = if (cookingSpeed.value == 0) "" else cookingSpeed.value.toString(),
+            onValueChange = {
+                cookingSpeed.value = it.toIntOrNull() ?: 0
+            },
+            label = {
+                Text("Скорость приготовления (сек.)")
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.NumberPassword,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onDone()
+                }
+            )
+        )
     }
 }
 
 @Composable
-private fun StepsAndIngredientsPage(
-    ingredients: MutableState<String>,
-    steps: MutableState<String>
+private fun IngredientCreatePage(
+    modifier: Modifier = Modifier,
+    ingredients: SnapshotStateList<Ingredient>,
+    storageUploader: StorageUploader
 ) {
-    Column (
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
     ) {
-        TextField (
-            modifier = Modifier
-                .fillMaxWidth(),
-            value = ingredients.value,
-            onValueChange = {
-                ingredients.value = it
-            },
-            placeholder = {
-                Text(stringResource(R.string.ingredients_steps_text_field_placeholder_text))
-            },
-            label = {
-                Text(stringResource(R.string.ingredients_text))
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            itemsIndexed(
+                items = ingredients,
+                key = { index, ingredient -> ingredient.hashCode() + index }
+            ) { index, ingredient ->
+                IngredientCreateCard(
+                    ingredient = ingredient,
+                    storageUploader = storageUploader,
+                    onDelete = {
+                        ingredients.remove(ingredient)
+                    }
+                ) {
+                    ingredients[index] = it
+                    println(ingredients[index])
+                }
             }
-        )
+        }
 
-        TextField (
+        Spacer(Modifier.height(5.dp))
+
+        Button(
+            onClick = {
+                ingredients.add(Ingredient("Ингредиент"))
+            },
             modifier = Modifier
-                .fillMaxWidth(),
-            value = steps.value,
-            onValueChange = {
-                steps.value = it
-            },
-            placeholder = {
-                Text(stringResource(R.string.cooking_steps_text_field_placeholder_text))
-            },
-            label = {
-                Text(stringResource(R.string.cooking_steps_text))
-            }
-        )
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = "Добавить ингредиент"
+            )
+        }
     }
 }
 
+@Composable
+private fun DetailedStepCreatePage(
+    modifier: Modifier = Modifier,
+    steps: SnapshotStateList<DetailedCookingStep>,
+    storageUploader: StorageUploader
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            itemsIndexed(
+                items = steps,
+                key = { index, step -> step.hashCode() + index }
+            ) { index, step ->
+                DetailedCookingStepCreateCard(
+                    step = step,
+                    storageUploader = storageUploader,
+                    onDelete = {
+                        steps.remove(step)
+                    }
+                ) {
+                    steps[index] = it
+                    println(steps[index])
+                }
+            }
+        }
+
+        Spacer(Modifier.height(5.dp))
+
+        Button(
+            onClick = {
+                steps.add(DetailedCookingStep(title = "Новый шаг"))
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = "Добавить шаг приготовления"
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ImagesPage(
-    recipeTitleImageLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
-    titleBitmap: MutableState<Bitmap>,
-    picturesBitmap: MutableState<List<Bitmap>>,
-    picturesImageLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>
+    modifier: Modifier = Modifier,
+    recipeImagesUrl: SnapshotStateList<String>,
+    storageUploader: StorageUploader
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val haptics = LocalHapticFeedback.current
+
+    val imagePicker = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) {
+        it.forEach { uri ->
+            coroutineScope.launch {
+                storageUploader.uploadImage(uri) { loadImageUrl ->
+                    recipeImagesUrl.add(loadImageUrl)
+                }
+            }
+        }
+    }
+
     Column (
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .scrollable(
                 rememberScrollState(),
@@ -327,17 +513,84 @@ private fun ImagesPage(
             ),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        BackgroundImagesDrawer(recipeTitleImageLauncher, titleBitmap)
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(150.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            items(
+                items = recipeImagesUrl,
+                key = { it.hashCode() }
+            ) { url ->
+                var isOpen by rememberSaveable { mutableStateOf(false) }
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                ) {
+                    AsyncImage(
+                        model = url,
+                        contentDescription = "picked image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .combinedClickable(
+                                onClick = { },
+                                onLongClick = {
+                                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    isOpen = true
+                                },
+                                onLongClickLabel = "Открытие контекстного меню"
+                            )
+                    )
 
-        OtherImages(picturesBitmap, picturesImageLauncher)
+                    DropdownMenu(
+                        expanded = isOpen,
+                        onDismissRequest = {
+                            isOpen = false
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            trailingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Корзина"
+                                )
+                            },
+                            text = {
+                                Text(
+                                    text = "Удалить"
+                                )
+                            },
+                            onClick = {
+                                recipeImagesUrl.remove(url)
+                            }
+                        )
+                    }
+                }
+            }
+        }
+
+        Button(
+            onClick = {
+                imagePicker.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = "Выбать картинки"
+            )
+        }
     }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun TopBar (
-    scrollBehavior: TopAppBarScrollBehavior
-) {
+private fun TopBar() {
     LargeTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -350,123 +603,6 @@ private fun TopBar (
                 style = MaterialTheme.typography.headlineLarge,
                 maxLines = 1
             )
-        },
-        scrollBehavior = scrollBehavior
-    )
-}
-
-@Composable
-private fun OtherImages (
-    picturesBitmap: MutableState<List<Bitmap>>,
-    picturesImageLauncher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>
-) {
-    Column {
-        Header(stringResource(R.string.other_images_text))
-
-        Column (
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            for (bitmap in picturesBitmap.value)
-                ImageDrawer(bitmap)
-        }
-    }
-
-    Button (
-        onClick = {
-            picturesImageLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        },
-        content = {
-            Text (
-                text = stringResource(R.string.add_image_text)
-            )
         }
     )
-}
-
-@Composable
-fun pickVisualResource (
-    onUriReceive: (uri: Uri?) -> kotlin.Unit
-): ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?> {
-    return rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri == null) return@rememberLauncherForActivityResult
-
-        onUriReceive(uri)
-    }
-}
-
-@Composable
-private fun BackgroundImagesDrawer (
-    launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
-    bitmap: MutableState<Bitmap>
-) {
-    Column {
-        Header(stringResource(R.string.recipe_bg_image_header_text))
-        OutlinedCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-        ) {
-            Box (
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable {
-                        launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                    }
-            ) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    bitmap = bitmap.value.asImageBitmap(),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = ""
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ImageDrawer (
-    bitmap: Bitmap
-) {
-    OutlinedCard (
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-    ) {
-        Image(
-            modifier = Modifier
-                .fillMaxSize(),
-            bitmap = bitmap.asImageBitmap(),
-            contentScale = ContentScale.Crop,
-            contentDescription = ""
-        )
-    }
-}
-
-private fun saveRecipe (
-    recipeName: String,
-    recipeDescription: String,
-    ingredients: String,
-    steps: String,
-    backgroundImageUrl: String,
-    recipeImagesUrl: List<String>,
-    viewModel: RecipeCreatePageViewModel
-) {
-    println(backgroundImageUrl)
-
-    val recipe = Recipe(
-        id = Random.nextInt(1000000, 9999999).toString(),
-        name = recipeName,
-        description = recipeDescription,
-        recipeImagesUrl = recipeImagesUrl,
-        recipeType = RecipeType.QUICK,
-        cookingSpeed = 100,
-        difficulty = Difficulty.MEDIUM,
-        otherInfo = OtherInfo(0, 0)
-    )
-
-    viewModel.addRecipe(recipe)
 }
