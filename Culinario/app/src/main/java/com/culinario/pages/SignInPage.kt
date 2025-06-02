@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -41,10 +42,14 @@ fun SignInPage(
     ) {
         Text(
             "Вход",
+            modifier = Modifier
+                .padding(horizontal = 20.dp),
             style = MaterialTheme.typography.displayMedium
         )
         Text(
             text = "Привет снова!\nНужно срочно узнать рецепт пасты (●'◡'●)",
+            modifier = Modifier
+                .padding(horizontal = 20.dp),
             style = MaterialTheme.typography.titleMedium
         )
 
@@ -59,7 +64,8 @@ fun SignInPage(
                 )
             },
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -77,7 +83,8 @@ fun SignInPage(
                 )
             },
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
@@ -94,6 +101,7 @@ fun SignInPage(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
             ) {
                 Text("Войти")
             }

@@ -1,5 +1,7 @@
 package com.culinario.helpers
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.culinario.mvp.models.DetailedCookingStep
 import com.culinario.mvp.models.Difficulty
 import com.culinario.mvp.models.Ingredient
@@ -7,12 +9,16 @@ import com.culinario.mvp.models.NutritionInfo
 import com.culinario.mvp.models.OtherInfo
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.RecipeType
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.tasks.await
 
 class RecipeRepositoryImpl {
 	val recipes = mutableListOf (
 		Recipe(
 			id = "11111114",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Веганский салат с киноа",
 			description = "Питательный салат с киноа, овощами и лимонной заправкой.",
 			recipeImagesUrl = listOf(
@@ -81,7 +87,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111115",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Классические блины",
 			recipeImagesUrl = listOf(
 				"https://povarenok.by/uploads/images/recepty/big/klassicheskiy-recept-blinov.jpg",
@@ -130,7 +136,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111116",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Веганский салат с нутом",
 			description = "Питательный салат с нутом, свежими овощами и лимонной заправкой",
 			recipeImagesUrl = listOf(
@@ -186,7 +192,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111117",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Лазанья Болоньезе",
 			description = "Классическая итальянская лазанья с мясным соусом",
 			recipeImagesUrl = listOf(
@@ -245,7 +251,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111118",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Безглютеновые оладьи",
 			description = "Пышные оладьи на гречневой муке без глютена",
 			recipeImagesUrl = listOf(
@@ -294,7 +300,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111119",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Куриный суп с лапшой",
 			description = "Ароматный домашний куриный суп с лапшой и овощами",
 			recipeImagesUrl = listOf(
@@ -351,7 +357,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111120",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Шоколадные маффины",
 			description = "Нежные шоколадные маффины с жидкой серединкой",
 			recipeImagesUrl = listOf(
@@ -407,7 +413,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111121",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Греческий салат",
 			description = "Классический греческий салат с фетаксой и оливками",
 			recipeImagesUrl = listOf(
@@ -464,7 +470,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111122",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Рататуй",
 			description = "Традиционное французское овощное рагу из баклажанов, кабачков и перцев",
 			recipeImagesUrl = listOf(
@@ -521,7 +527,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111123",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Тирамису",
 			description = "Итальянский десерт с кофейным вкусом и нежным кремом",
 			recipeImagesUrl = listOf(
@@ -576,7 +582,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111124",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Омлет с овощами",
 			description = "Пышный омлет с болгарским перцем, помидорами и зеленью",
 			recipeImagesUrl = listOf(
@@ -632,7 +638,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111125",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Сырники классические",
 			description = "Нежные творожные сырники с хрустящей корочкой",
 			recipeImagesUrl = listOf(
@@ -687,7 +693,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111126",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Куриные крылышки BBQ",
 			description = "Хрустящие куриные крылышки в барбекю соусе",
 			recipeImagesUrl = listOf(
@@ -748,7 +754,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111127",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Веганский бургер",
 			description = "Бургер с котлетой из нута и овощами",
 			recipeImagesUrl = listOf(
@@ -804,7 +810,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111128",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Тыквенный суп-пюре",
 			description = "Нежный крем-суп из тыквы с имбирем и сливками",
 			recipeImagesUrl = listOf(
@@ -867,7 +873,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111129",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Безглютеновая пицца",
 			description = "Пицца на основе цветной капусты без глютена",
 			recipeImagesUrl = listOf(
@@ -929,7 +935,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111130",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Овсянный блин",
 			description = "Полезный завтрак из овсянки с начинкой",
 			recipeImagesUrl = listOf(
@@ -984,7 +990,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111131",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Лосось в медово-горчичном соусе",
 			description = "Нежное филе лосося с хрустящей корочкой",
 			recipeImagesUrl = listOf(
@@ -1039,7 +1045,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111132",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Шоколадный фондан",
 			description = "Десерт с жидкой шоколадной серединкой",
 			recipeImagesUrl = listOf(
@@ -1100,7 +1106,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111133",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Гречка с грибами",
 			description = "Ароматная гречневая каша с лесными грибами",
 			recipeImagesUrl = listOf(
@@ -1161,7 +1167,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111134",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Крем-суп из шампиньонов",
 			description = "Нежный грибной суп с ароматными травами и сливками",
 			recipeImagesUrl = listOf(
@@ -1228,7 +1234,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111135",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Лазанья со шпинатом и рикоттой",
 			description = "Вегетарианская лазанья с нежной начинкой из шпината",
 			recipeImagesUrl = listOf(
@@ -1290,7 +1296,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111136",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Безглютеновые банановые панкейки",
 			description = "Пышные панкейки на миндальной муке с бананом",
 			ingredients = listOf(
@@ -1347,7 +1353,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111137",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Куриные грудки в медово-горчичном соусе",
 			description = "Нежные куриные грудки с хрустящей корочкой",
 			ingredients = listOf(
@@ -1404,7 +1410,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111138",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Шоколадный мусс",
 			description = "Воздушный шоколадный десерт с насыщенным вкусом",
 			ingredients = listOf(
@@ -1466,7 +1472,7 @@ class RecipeRepositoryImpl {
 
 		Recipe(
 			id = "11111139",
-			userId = "EOmncsE5uZMsGl8HEJ1NYcmcQTw1",
+			userId = "E5ZlpLTKquNxREkoOM8dZyEzk0i1",
 			name = "Морковный торт",
 			description = "Влажный пряный торт с морковью и грецкими орехами",
 			ingredients = listOf(
@@ -1535,4 +1541,15 @@ class RecipeRepositoryImpl {
 			otherInfo = OtherInfo(watches = 0, likes = 0)
 		)
 	)
+
+	@Composable
+	fun sendRecipesToDb() {
+		val recipes = RecipeRepositoryImpl()
+
+		LaunchedEffect(Unit) {
+			for (recipe in recipes.recipes) {
+				Firebase.firestore.collection(RECIPE_COLLECTION).document(recipe.id).set(recipe, SetOptions.merge()).await()
+			}
+		}
+	}
 }

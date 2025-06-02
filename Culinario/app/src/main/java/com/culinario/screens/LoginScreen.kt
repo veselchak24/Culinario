@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,12 +44,16 @@ import com.culinario.viewmodel.UserCreateViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
+import com.mmk.kmpauth.google.GoogleAuthCredentials
+import com.mmk.kmpauth.google.GoogleAuthProvider
 import com.mmk.kmpauth.uihelper.google.GoogleSignInButton
 import kotlinx.coroutines.launch
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun LoginScreen(onLogin: () -> Unit) {
+    GoogleAuthProvider.create(credentials = GoogleAuthCredentials(serverId = stringResource(R.string.oauth_id)))
+
     val loginAndPasswordLoginSelected = remember { mutableStateOf(false) }
 
     Scaffold { _ ->

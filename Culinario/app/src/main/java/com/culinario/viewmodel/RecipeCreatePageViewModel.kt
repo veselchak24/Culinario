@@ -11,19 +11,26 @@ import com.culinario.helpers.USER_COLLECTION
 import com.culinario.mvp.models.Recipe
 import com.culinario.mvp.models.User
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.lang.reflect.Field
 
 class RecipeCreatePageViewModel (
-    private val userId: String,
-    private val context: Context
-) : ViewModel(){
+    userId: String,
+    context: Context
+) : ViewModel() {
+    private val recipeState = MutableStateFlow(Recipe())
+    val recipe = recipeState.asStateFlow()
+
     private val userCollection = Firebase.firestore.collection(USER_COLLECTION)
     private val recipeCollection = Firebase.firestore.collection(RECIPE_COLLECTION)
 
     private var userState: MutableStateFlow<User> = MutableStateFlow(User())
-
     private var uploader: StorageUploader = StorageUploader(context)
 
     init {
@@ -41,19 +48,29 @@ class RecipeCreatePageViewModel (
         }
     }
 
-    fun addRecipe(recipe: Recipe) {
+    fun updateRecipe(update: (Recipe) -> Recipe) {
+        recipeState.update {
+            println(it.name)
+            update(recipeState.value)
+        }
+    }
+
+    fun uploadRecipe(onSuccess: () -> Unit) {
         viewModelScope.launch {
-            recipe.userId = userState.value.id
+            val recipeDocument = recipeCollection.document()
+            val userDocument = userCollection.document(userState.value.id)
 
-            recipeCollection
-                .document(recipe.id)
-                .set(recipe)
+            val batch = Firebase.firestore.batch()
 
-            userState.value.recipesId += recipe.id
+            batch.set(recipeDocument, recipe.value)
+            batch.update(recipeDocument, "id", recipeDocument.id)
+            batch.update(recipeDocument, "userId", userDocument.id)
 
-            userCollection
-                .document(userState.value.id)
-                .set(userState.value)
+            batch.update(userDocument, "recipesId", FieldValue.arrayUnion(recipeDocument.id))
+
+            batch.commit().addOnSuccessListener {
+                onSuccess()
+            }
         }
     }
 

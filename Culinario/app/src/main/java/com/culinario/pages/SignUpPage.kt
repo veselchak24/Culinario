@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -77,15 +78,21 @@ fun SignUpPage (
         ) {
             Text(
                 "Регистрация",
+                modifier = Modifier
+                    .padding(horizontal = 20.dp),
                 style = MaterialTheme.typography.displayMedium
             )
             Text(
                 text = "Добро пожаловать в Culinario!",
+                modifier = Modifier
+                    .padding(horizontal = 20.dp),
                 style = MaterialTheme.typography.titleMedium
             )
 
             Column (
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier
+                    .padding(horizontal = 20.dp),
             ) {
                 TextField (
                     modifier = Modifier
@@ -107,7 +114,9 @@ fun SignUpPage (
             Spacer(Modifier.height(10.dp))
 
             Column (
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
             ) {
                 TextField (
                     modifier = Modifier
@@ -147,7 +156,8 @@ fun SignUpPage (
 
             Button (
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 onClick = {
                     if (validateUserData(emailText, passwordText, repeatPasswordText)) {
                         loginViewModel.signUp("", emailText, passwordText) {
@@ -188,7 +198,8 @@ fun SignUpPage (
             Button (
                 modifier = Modifier
                     .wrapContentSize()
-                    .align(Alignment.Start),
+                    .align(Alignment.Start)
+                    .padding(horizontal = 20.dp),
                 onClick = {
                     onBackToSignIn()
                 }
