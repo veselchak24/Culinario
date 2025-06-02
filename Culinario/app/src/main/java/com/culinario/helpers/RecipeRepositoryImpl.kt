@@ -129,6 +129,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте блины горячими с вареньем, сметаной, медом или свежими ягодами по вашему вкусу."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 1200.0,
+				proteins = 45.0,
+				fats = 35.0,
+				carbohydrates = 180.0
+			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -184,6 +190,12 @@ class RecipeRepositoryImpl {
 					time = 60,
 					description = "Подавайте салат сразу после приготовления, украсив веточками свежей петрушки и дольками лимона."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 450.0,
+				proteins = 25.0,
+				fats = 15.0,
+				carbohydrates = 55.0
 			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.EASY,
@@ -244,6 +256,12 @@ class RecipeRepositoryImpl {
 					description = "Дайте лазанье настояться 10 минут перед нарезкой. Подавайте горячей, украсив веточками свежего базилика."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 1800.0,
+				proteins = 120.0,
+				fats = 90.0,
+				carbohydrates = 120.0
+			),
 			recipeType = RecipeType.COMPLEX,
 			difficulty = Difficulty.HARD,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -292,6 +310,12 @@ class RecipeRepositoryImpl {
 					time = 120,
 					description = "Подавайте оладьи горячими с медом, свежими ягодами или сметаной по вашему вкусу."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 900.0,
+				proteins = 35.0,
+				fats = 25.0,
+				carbohydrates = 130.0
 			),
 			recipeType = RecipeType.GLUTEN_FREE,
 			difficulty = Difficulty.MEDIUM,
@@ -350,6 +374,12 @@ class RecipeRepositoryImpl {
 					description = "Перед подачей добавьте в суп мелко нарезанную зелень. Подавайте горячим с черным хлебом."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 600.0,
+				proteins = 50.0,
+				fats = 15.0,
+				carbohydrates = 70.0
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -405,6 +435,12 @@ class RecipeRepositoryImpl {
 					time = 900,
 					description = "Выпекайте в предварительно разогретой до 180°C духовке 15 минут. Маффины должны немного подняться, но остаться влажными внутри."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 600.0,
+				proteins = 50.0,
+				fats = 15.0,
+				carbohydrates = 70.0
 			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.MEDIUM,
@@ -463,6 +499,12 @@ class RecipeRepositoryImpl {
 					description = "Полейте салат заправкой, аккуратно перемешайте. Подавайте сразу, украсив веточками свежего орегано."
 				),
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 1500.0,
+				proteins = 30.0,
+				fats = 80.0,
+				carbohydrates = 180.0
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -520,6 +562,12 @@ class RecipeRepositoryImpl {
 					description = "Накройте форму фольгой и запекайте в предварительно разогретой до 190°C духовке 45 минут. Затем снимите фольгу и запекайте еще 15 минут."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 500.0,
+				proteins = 25.0,
+				fats = 35.0,
+				carbohydrates = 20.0
+			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -574,6 +622,12 @@ class RecipeRepositoryImpl {
 					time = 120,
 					description = "Посыпьте поверхность какао-порошком через сито. Накройте пищевой пленкой и уберите в холодильник минимум на 6 часов, лучше на ночь."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 350.0,
+				proteins = 10.0,
+				fats = 20.0,
+				carbohydrates = 40.0
 			),
 			recipeType = RecipeType.COMPLEX,
 			difficulty = Difficulty.HARD,
@@ -630,6 +684,12 @@ class RecipeRepositoryImpl {
 					time = 60,
 					description = "Посыпьте омлет зеленью перед подачей. Можно свернуть омлет пополам или подавать как есть."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 400.0,
+				proteins = 30.0,
+				fats = 25.0,
+				carbohydrates = 15.0
 			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
