@@ -746,6 +746,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте сырники горячими со сметаной, вареньем, медом или свежими ягодами по вашему вкусу."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 1000.0,
+				proteins = 70.0,
+				fats = 50.0,
+				carbohydrates = 80.0
+			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -807,6 +813,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте горячими, украсив зеленью и дольками лимона. Идеально сочетаются с овощным салатом и свежим хлебом."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 1200.0,
+				proteins = 90.0,
+				fats = 80.0,
+				carbohydrates = 50.0
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -862,6 +874,12 @@ class RecipeRepositoryImpl {
 					time = 180,
 					description = "Подрумяньте булочки на сухой сковороде. На нижнюю половину булочки выложите лист салата, котлету, ломтики авокадо и помидора. Накройте верхней половиной булочки."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 700.0,
+				proteins = 35.0,
+				fats = 25.0,
+				carbohydrates = 80.0
 			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.MEDIUM,
@@ -926,6 +944,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте суп горячим, украсив тыквенными семечками, каплей сливок и веточкой зелени."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 400.0,
+				proteins = 10.0,
+				fats = 25.0,
+				carbohydrates = 35.0
+			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -988,6 +1012,12 @@ class RecipeRepositoryImpl {
 					description = "Верните пиццу в духовку еще на 15 минут, пока сыр не расплавится и не подрумянится. Украсьте свежим базиликом перед подачей."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 800.0,
+				proteins = 40.0,
+				fats = 35.0,
+				carbohydrates = 80.0
+			),
 			recipeType = RecipeType.GLUTEN_FREE,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1043,6 +1073,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте блин горячим, разрезав пополам. Можно добавить свежие овощи или зелень по вкусу."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 500.0,
+				proteins = 30.0,
+				fats = 25.0,
+				carbohydrates = 45.0
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1097,6 +1133,12 @@ class RecipeRepositoryImpl {
 					time = 60,
 					description = "Готового лосося украсьте веточками укропа и дольками лимона. Подавайте с овощами или рисом."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 700.0,
+				proteins = 60.0,
+				fats = 45.0,
+				carbohydrates = 15.0
 			),
 			recipeType = RecipeType.COMPLEX,
 			difficulty = Difficulty.MEDIUM,
@@ -1159,6 +1201,12 @@ class RecipeRepositoryImpl {
 					description = "Дайте фонданам немного остыть, затем аккуратно переверните на тарелки. Подавайте теплыми, посыпав какао-порошком или сахарной пудрой."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 1200.0,
+				proteins = 25.0,
+				fats = 70.0,
+				carbohydrates = 150.0
+			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.HARD,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1219,6 +1267,12 @@ class RecipeRepositoryImpl {
 					time = 60,
 					description = "Добавьте сливочное масло, перемешайте и дайте настояться 5 минут под крышкой. Подавайте горячей, посыпав свежей зеленью."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 600.0,
+				proteins = 25.0,
+				fats = 20.0,
+				carbohydrates = 80.0
 			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.EASY,
@@ -1287,6 +1341,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте суп горячим, украсив обжаренными целыми шампиньонами, веточками тимьяна и гренками."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 450.0,
+				proteins = 15.0,
+				fats = 30.0,
+				carbohydrates = 30.0
+			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.MEDIUM,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1349,6 +1409,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте горячими, украсив зеленью и дольками лимона. Идеально сочетаются с овощным салатом и свежим хлебом."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 1000.0,
+				proteins = 60.0,
+				fats = 50.0,
+				carbohydrates = 80.0
+			),
 			recipeType = RecipeType.VEGAN,
 			difficulty = Difficulty.HARD,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1406,6 +1472,12 @@ class RecipeRepositoryImpl {
 					description = "Подавайте с кленовым сиропом, кусочками банана и свежими ягодами. Можно добавить греческий йогурт или орехи."
 				)
 			),
+			nutritionInfo = NutritionInfo(
+				calories = 800.0,
+				proteins = 25.0,
+				fats = 50.0,
+				carbohydrates = 70.0
+			),
 			recipeType = RecipeType.GLUTEN_FREE,
 			difficulty = Difficulty.EASY,
 			otherInfo = OtherInfo(watches = 0, likes = 0)
@@ -1462,6 +1534,12 @@ class RecipeRepositoryImpl {
 					time = 60,
 					description = "Подавайте горячими с овощным гарниром или салатом. Полейте соком, образовавшимся при запекании."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 700.0,
+				proteins = 80.0,
+				fats = 35.0,
+				carbohydrates = 20.0
 			),
 			recipeType = RecipeType.QUICK,
 			difficulty = Difficulty.MEDIUM,
@@ -1524,6 +1602,12 @@ class RecipeRepositoryImpl {
 					time = 60,
 					description = "Перед подачей украсьте тертым шоколадом, ягодами или мятой. Подавайте охлажденным."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 1000.0,
+				proteins = 20.0,
+				fats = 70.0,
+				carbohydrates = 90.0
 			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.MEDIUM,
@@ -1595,6 +1679,12 @@ class RecipeRepositoryImpl {
 					time = 120,
 					description = "Подавайте торт, украсив орехами и посыпав корицей. Можно разрезать на 2 коржа и промазать кремом."
 				)
+			),
+			nutritionInfo = NutritionInfo(
+				calories = 2000.0,
+				proteins = 40.0,
+				fats = 100.0,
+				carbohydrates = 250.0
 			),
 			recipeType = RecipeType.BAKING,
 			difficulty = Difficulty.HARD,
