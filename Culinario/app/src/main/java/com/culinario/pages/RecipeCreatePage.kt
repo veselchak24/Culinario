@@ -375,7 +375,7 @@ fun BasicInfoCreatePage(
                 cookingSpeed.value = it.toIntOrNull() ?: 0
             },
             label = {
-                Text("Скорость приготовления (сек.)")
+                Text("Скорость приготовления (мин.)")
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.NumberPassword,
