@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="RecipeCreatePage fully implemented">
+    <list default="true" id="866250f3-915a-4f5b-8ae4-d10f9301bc82" name="Changes" comment="TextField label fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/culinario/pages/RecipeCreatePage.kt" afterDir="false" />
     </list>
@@ -289,14 +289,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1733069576633</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Добавлены viewmodel для основных страниц">
-      <option name="closed" value="true" />
-      <created>1743244862181</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1743244862181</updated>
     </task>
     <task id="LOCAL-00009" summary="Мелкие изменения интерфейса">
       <option name="closed" value="true" />
@@ -682,7 +674,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748866944771</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="TextField label fix">
+      <option name="closed" value="true" />
+      <created>1748949322975</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1748949322976</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -719,7 +719,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="vk cloud integration" />
     <MESSAGE value="vk cloud integration to firebase" />
     <MESSAGE value="UserPage.kt improved" />
     <MESSAGE value="added UserCreatePage" />
@@ -744,7 +743,8 @@
     <MESSAGE value="DetailedStepsPage implemented" />
     <MESSAGE value="release" />
     <MESSAGE value="RecipeCreatePage fully implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="RecipeCreatePage fully implemented" />
+    <MESSAGE value="TextField label fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="TextField label fix" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
